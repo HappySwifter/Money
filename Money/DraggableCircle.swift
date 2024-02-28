@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct DraggableCircle: View {
-    @Binding var viewModel: DraggableCircleViewModel
-    @Binding var position: String
+    var viewModel: DraggableCircleViewModel
     
     @State var offset = CGSize.zero
     @GestureState private var isTapped = false
@@ -20,11 +19,15 @@ struct DraggableCircle: View {
     var body: some View {
         ZStack {
             Circle()
-                .foregroundColor(viewModel.highlighted ? hoverColor : baseColor)
+                .stroke(.white, lineWidth: 3)
+                .fill(viewModel.highlighted ? hoverColor : baseColor)
                 .frame(width: 60, height: 60)
+
             VStack {
                 Text(viewModel.name)
-                Text(position)
+                Text(prettify(location: viewModel.origin.wrappedValue.origin))
+                    .font(.caption2)
+
             }
             .foregroundStyle(Color.white)
         }
@@ -32,6 +35,15 @@ struct DraggableCircle: View {
         .offset(offset)
         .gesture(drag)
         .zIndex(viewModel.isMoving ? 1 : -1)
+        .getOrigin(
+        
+            Binding(
+                get: { return viewModel.origin.wrappedValue },
+                set: { (newValue) in return viewModel.origin = .constant(newValue) }
+            )
+            
+        )
+        .padding()
     }
     
     
@@ -54,6 +66,11 @@ struct DraggableCircle: View {
                 viewModel.isMoving = false
             }
     }
+    
+    func prettify(location: CGPoint?) -> String {
+        guard let location = location else { return "" }
+        return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
+    }
 }
 
 @Observable
@@ -62,6 +79,8 @@ class DraggableCircleViewModel {
     var highlighted = false
     var isMoving = false
     var location = CGPoint.zero
+
+    var origin: Binding<CGRect> = .constant(CGRect.zero)
     
     init(name: String) {
         self.name = name
@@ -71,9 +90,8 @@ class DraggableCircleViewModel {
 #Preview {
     HStack {
         ForEach(0..<4) { _ in
-            DraggableCircle(
-                viewModel: .constant(DraggableCircleViewModel(name: "bank")),
-                position: .constant("0, 0")
+            DraggableCircle(viewModel:
+                DraggableCircleViewModel(name: "bank")
             )
             .padding()
         }

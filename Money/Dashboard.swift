@@ -10,50 +10,29 @@ import SwiftUI
 
 
 struct Dashboard: View {
+    @State var viewModel: DashboardViewModel
     @State var offset = CGSize.zero
     @State private var location: CGPoint = .zero
     @State private var isDragging = false
-    
     @GestureState private var isTapped = false
-    
-    @State private var frames = [CGRect]()
-    
-    @State var accounts = [
-        DraggableCircleViewModel(name: "cash"),
-        DraggableCircleViewModel(name: "bank"),
-        DraggableCircleViewModel(name: "card"),
-        DraggableCircleViewModel(name: "crypto")
-    ]
     
     var body: some View {
         VStack {
-            HStack {
-                ForEach(Array(zip(accounts.indices, accounts)), id: \.0) { index, account in
-                    DraggableCircle(
-                        viewModel: .constant(account),
-                        position: prettify(location: frames[safe: index]?.origin)
-                    )
-                    .overlay(
-                        GeometryReader { geo in
-                            let frame = geo.frame(in: .named("screen"))
-                            Color.clear
-                                .task(id: frame) {
-                                    frames.insert((frame), at: 0)
-                                    frames.sort { $0.minX < $1.minX }
-                                    print(frames)
-                                }
-                        }
-                    )
-                    .padding()
-                }
-            }
             PlusButton(location: $location)
             .scaleEffect(isTapped ? 1.5 : 1.3)
             .offset(offset)
             .gesture(drag)
+            .zIndex(1)
+            Spacer()
+            
+            HStack {
+                ForEach(Array(zip(viewModel.accounts.indices, viewModel.accounts)), id: \.0) { index, account in
+                    DraggableCircle(viewModel: account)
+                }
+            }
+
         }
         .coordinateSpace(name: "screen")
-        .background(.gray.opacity(0.05))
     }
     
     var drag: some Gesture {
@@ -78,40 +57,45 @@ struct Dashboard: View {
     
     
     private func resetHight() {
-        for i in 0..<accounts.count {
-            accounts[i].highlighted = false
+        for i in 0..<viewModel.accounts.count {
+            viewModel.accounts[i].highlighted = false
         }
     }
     
     func check(offset: CGPoint) {
         let rect = CGRect(origin: offset, size: CGSize(width: 50, height: 50))
-        for (index, frame) in frames.enumerated() {
-            if rect.intersects(frame) {
-                if accounts[index].highlighted == false {
+        for (index, account) in viewModel.accounts.enumerated() {
+            if rect.intersects(account.origin.wrappedValue) {
+                if viewModel.accounts[index].highlighted == false {
                     resetHight()
-                    accounts[index].highlighted = true
+                    viewModel.accounts[index].highlighted = true
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
             } else {
-                accounts[index].highlighted = false
+                viewModel.accounts[index].highlighted = false
             }
         }
     }
     
-    func prettify(location: CGPoint?) -> Binding<String> {
-        guard let location = location else { return .constant("") }
-        return .constant("\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))")
+    func prettify(location: CGPoint?) -> String {
+        guard let location = location else { return "" }
+        return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
+    }
+}
+
+@Observable
+class DashboardViewModel {
+    var accounts: [DraggableCircleViewModel]
+    
+    init(accounts: [DraggableCircleViewModel]) {
+        self.accounts = accounts
     }
 }
 
 
 #Preview {
-    Dashboard()
+    Dashboard(viewModel: DashboardViewModel(accounts: MockData.draggableCircleViewModels))
 }
-
-
-
-//                .gesture(LongPressGesture().onChanged { _ in self.isTapped.toggle()})
 
 extension Collection {
     subscript (safe index: Index) -> Element? {

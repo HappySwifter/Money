@@ -19,6 +19,8 @@
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
 		ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */; };
+		ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */; };
+		ACD4C9492B8F73970087F632 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9482B8F73970087F632 /* MockData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircle.swift; sourceTree = "<group>"; };
+		ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationModifier.swift; sourceTree = "<group>"; };
+		ACD4C9482B8F73970087F632 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,8 +113,10 @@
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				ACD4C93E2B8F09F00087F632 /* Dashboard.swift */,
 				ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */,
+				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
 				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
 				AC4080B72B8E34AB004D7575 /* ContentView.swift */,
+				ACD4C9482B8F73970087F632 /* MockData.swift */,
 				AC4080B92B8E34AB004D7575 /* Item.swift */,
 				ACD4C9402B8F2A950087F632 /* test.swift */,
 				AC4080BB2B8E34AD004D7575 /* Assets.xcassets */,
@@ -280,6 +286,8 @@
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
+				ACD4C9492B8F73970087F632 /* MockData.swift in Sources */,
+				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,

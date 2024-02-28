@@ -25,7 +25,7 @@ struct MoneyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Dashboard()
+            Dashboard(viewModel: DashboardViewModel(accounts: MockData.draggableCircleViewModels))
         }
         .modelContainer(sharedModelContainer)
     }
