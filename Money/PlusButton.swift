@@ -8,18 +8,44 @@
 import SwiftUI
 
 struct PlusButton: View {
-    @Binding var location: CGPoint
+    @Binding var plusButtonState: PlusButtonState
+    
+    @State private var offset = CGSize.zero
+    @State private var isDragging = false
+    @GestureState private var isTapped = false
     
     var body: some View {
         VStack {
-            Text(prettify(location: location))
+//            Text(prettify(location: location))
             Image(systemName: "plus")
                 .font(.system(size: 35))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(Color.green)
+                .background(Color.purple)
                 .clipShape(Circle())
         }
+        .scaleEffect(isTapped ? 1.5 : 1.0)
+        .offset(offset)
+        .gesture(drag)
+    }
+    
+    var drag: some Gesture {
+        DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
+            .updating($isTapped) { _, isTapped, _ in
+                isTapped = true
+            }
+            .onChanged { value in
+                plusButtonState = .moving(location: value.location)
+                offset = value.translation
+                if offset == CGSize.zero {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            }
+            .onEnded { value in
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                offset = .zero
+                plusButtonState = .idle
+            }
     }
     
     func prettify(location: CGPoint?) -> String {
@@ -30,5 +56,5 @@ struct PlusButton: View {
 }
 
 #Preview {
-    PlusButton(location: .constant(.zero))
+    PlusButton(plusButtonState: .constant(.idle))
 }

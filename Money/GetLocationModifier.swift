@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 extension View {
-    func getOrigin(_ origin: Binding<CGRect>) -> some View {
+    func getRect(_ origin: Binding<CGRect>) -> some View {
         modifier(GetOriginModifier(origin: origin))
     }
 }
@@ -22,7 +22,7 @@ struct GetOriginModifier: ViewModifier {
                 GeometryReader { proxy in
                     let frame = proxy.frame(in: .named("screen"))
                     Color.clear
-                        .task(id: proxy.frame(in: .named("screen"))) {
+                        .task(id: frame) {
                             $origin.wrappedValue = frame
                         }
                 }
