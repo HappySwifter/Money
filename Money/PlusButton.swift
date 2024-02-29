@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlusButton: View {
-    @Binding var plusButtonState: PlusButtonState
+    @Binding var plusButtonState: DraggableState
     
     @State private var offset = CGSize.zero
     @State private var isDragging = false

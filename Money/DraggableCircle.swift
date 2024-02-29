@@ -9,9 +9,8 @@ import SwiftUI
 
 struct DraggableCircle: View {
     var viewModel: DraggableCircleViewModel
-    @State var offset = CGSize.zero
     @GestureState private var isTapped = false
-        
+    
     var body: some View {
         ZStack {
             Circle()
@@ -19,24 +18,25 @@ struct DraggableCircle: View {
                 .fill(
                     viewModel.highlighted ?
                     viewModel.type.highColor :
-                    viewModel.type.color
+                        viewModel.type.color
                 )
-//            VStack {
-                Text(viewModel.name)
-//                Text(prettify(location: viewModel.origin.wrappedValue.origin))
-//                    .font(.caption2)
-
-//            }
-            .foregroundStyle(Color.white)
+            //            VStack {
+            Text(viewModel.name)
+                .font(.caption2)
+            //                Text(prettify(location: viewModel.origin.wrappedValue.origin))
+            //                    .font(.caption2)
+            
+            //            }
+                .foregroundStyle(Color.white)
         }
         .scaleEffect((isTapped || viewModel.highlighted) ? 1.2 : 1.0)
-        .offset(offset)
+        .offset(viewModel.offset)
         .gesture(drag)
-        .zIndex(viewModel.isMoving ? 100 : 0)
+//        .zIndex(viewModel.draggableState == .moving(location: <#T##CGPoint#>) ? 100 : 0)
         .getRect(
             Binding(
-                get: { return viewModel.origin.wrappedValue },
-                set: { (newValue) in return viewModel.origin = .constant(newValue) }
+                get: { return viewModel.rect.wrappedValue },
+                set: { (newValue) in return viewModel.rect = .constant(newValue) }
             )
         )
         .padding(5)
@@ -48,17 +48,16 @@ struct DraggableCircle: View {
                 isTapped = true
             }
             .onChanged { value in
-                viewModel.location = value.location
-                offset = value.translation
-                if offset == CGSize.zero {
+                viewModel.draggableState = .moving(location: value.location)
+                viewModel.offset = value.translation
+                if viewModel.offset == CGSize.zero {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
-                viewModel.isMoving = true
             }
             .onEnded { value in
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                offset = .zero
-                viewModel.isMoving = false
+                viewModel.offset = .zero
+                viewModel.draggableState = .idle
             }
     }
     
@@ -69,19 +68,23 @@ struct DraggableCircle: View {
 }
 
 @Observable
-class DraggableCircleViewModel {    
+class DraggableCircleViewModel {
     let name: String
     let type : CircleType
     var highlighted = false
-    var isMoving: Bool
-    var location = CGPoint.zero
-
-    var origin: Binding<CGRect> = .constant(CGRect.zero)
+    var offset = CGSize.zero
+    var rect: Binding<CGRect> = .constant(CGRect.zero)
+    var locationHandler: ((DraggableState) -> ())?
     
-    init(name: String, isMoving: Bool = false, type : CircleType) {
+    var draggableState = DraggableState.idle {
+        didSet {
+            locationHandler?(draggableState)
+        }
+    }
+    
+    init(name: String, type : CircleType) {
         self.name = name
         self.type = type
-        self.isMoving = isMoving
     }
 }
 
@@ -110,9 +113,8 @@ enum CircleType {
 
 #Preview {
     LazyVGrid(columns: MockData.columns, content: {
-        ForEach(Array(zip(MockData.accounts.indices, MockData.accounts)), id: \.0) { index, account in
+        ForEach(Array(zip(MockData.data.indices, MockData.data)), id: \.0) { index, account in
             DraggableCircle(viewModel: account)
-                .zIndex(account.isMoving ? 1 : -1)
         }
     })
 }

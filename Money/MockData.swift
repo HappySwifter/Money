@@ -9,14 +9,11 @@ import Foundation
 import SwiftUI
 
 struct MockData {
-    static let accounts = [
+    static let data = [
         DraggableCircleViewModel(name: "cash", type: .account),
         DraggableCircleViewModel(name: "bank", type: .account),
         DraggableCircleViewModel(name: "card", type: .account),
-        DraggableCircleViewModel(name: "some5",type: .account)
-    ]
-    
-    static let expenses = [
+        DraggableCircleViewModel(name: "some5",type: .account),
         DraggableCircleViewModel(name: "food", type: .expense),
         DraggableCircleViewModel(name: "car", type: .expense),
         DraggableCircleViewModel(name: "relax1", type: .expense),
