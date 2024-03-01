@@ -27,6 +27,11 @@ struct Dashboard: View {
     
     var body: some View {
         VStack {
+            HStack {
+                Spacer()
+                PlusButton(viewModel: viewModel.plusButton)
+            }
+            .zIndex(100)
             LazyVGrid(columns: columns, content: {
                 Section {
                     ForEach(viewModel.accounts, id: \.item) { acc in
@@ -37,6 +42,9 @@ struct Dashboard: View {
                         Text("Accounts")
                         Text("$124.420")
                         Spacer()
+                    }
+                    if viewModel.showDropableLocations {
+                        DropableView(highlighted: .constant(true))
                     }
                 } footer: {
                     Divider()
@@ -53,14 +61,13 @@ struct Dashboard: View {
                         Text("$123")
                         Spacer()
                     }
+                    if viewModel.showDropableLocations {
+                        DropableView(highlighted: .constant(false))
+                    }
                 }
                 .zIndex(-1)
             })
             Spacer()
-            HStack {
-                Spacer()
-                PlusButton(viewModel: viewModel.plusButton)
-            }
         }
         .sheet(isPresented:
                 Binding(
@@ -72,7 +79,6 @@ struct Dashboard: View {
         .coordinateSpace(name: "screen")
         .padding()
     }
-    
 }
 
 @Observable
@@ -82,6 +88,7 @@ class DashboardViewModel {
     var expenses: [DraggableCircleViewModel]
     var plusButton: DraggableCircleViewModel
     var sheetPresended = false
+    var showDropableLocations = false
     
     private var movingItemSize = CGSize(width: 1, height: 1)
     
@@ -97,6 +104,7 @@ class DashboardViewModel {
     }
     
     private func handle(movingItem: CircleItem, state: CircleState) {
+        
         switch state {
         case .released(let location):
             resetHight()
@@ -105,9 +113,18 @@ class DashboardViewModel {
                                   location: location) {
                 sheetPresended = true
             }
+            withAnimation(.smooth(duration: 0.3)) {
+                showDropableLocations = false
+            }
+            
         case .pressed:
             sheetPresended = true
         case .moving(let location, let offset):
+            if movingItem.type == .plusButton {
+                withAnimation(.smooth(duration: 0.3)) {
+                    showDropableLocations = true
+                }
+            }
             if offset == .zero { showImpact() }
             if movingItem.type.isMovable {
                 highlighted(location: location, movingItem: movingItem)
@@ -121,7 +138,7 @@ class DashboardViewModel {
         for (index, datum) in data.enumerated() {
             if rect.intersects(datum.initialRect.wrappedValue) {
                 if datum.item != movingItem &&
-                canTrigger(movingItem: movingItem, standingItem: datum.item) &&
+                    canTrigger(movingItem: movingItem, stillItem: datum.item) &&
                     data.filter({ $0.highlighted }).isEmpty {
                     data[index].highlighted = true
                     showImpact()
@@ -132,8 +149,9 @@ class DashboardViewModel {
         }
     }
     
-    private func canTrigger(movingItem: CircleItem, standingItem: CircleItem) -> Bool {
-        if movingItem.type == .plusButton && standingItem.type == .expense {
+    private func canTrigger(movingItem: CircleItem, stillItem: CircleItem) -> Bool {
+        if movingItem.type == .plusButton && stillItem.type == .expense ||
+            movingItem.type == .expense {
             return false
         } else {
             return true
@@ -144,7 +162,7 @@ class DashboardViewModel {
         let rect = CGRect(origin: location, size: movingItemSize)
         let intersectedModel = data
             .filter { rect.intersects($0.initialRect.wrappedValue) }
-            .filter { canTrigger(movingItem: movingItem, standingItem: $0.item) }
+            .filter { canTrigger(movingItem: movingItem, stillItem: $0.item) }
             .first
         if let interspectedModel = intersectedModel,
            interspectedModel.item != movingItem {

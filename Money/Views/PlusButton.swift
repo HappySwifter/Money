@@ -36,7 +36,9 @@ struct PlusButton: View {
                 if value.translation.width == 0 && value.translation.height == 0 {
                     viewModel.state = .pressed
                 } else {
-                    viewModel.state = .released(location: value.location)
+                    withAnimation(.bouncy(duration: 0.5)) {
+                        viewModel.state = .released(location: value.location)
+                    }
                 }
             }
     }
