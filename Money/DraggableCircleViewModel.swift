@@ -14,7 +14,6 @@ class DraggableCircleViewModel {
     var highlighted = false
     var initialRect: Binding<CGRect> = .constant(CGRect.zero)
     var locationHandler: ((CircleItem, CircleState) -> ())?
-    
     var state = CircleState.released(location: .zero) {
         didSet {
             locationHandler?(item, state)

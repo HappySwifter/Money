@@ -42,6 +42,7 @@ struct Dashboard: View {
                     Divider()
                         .padding(.vertical)
                 }
+                .zIndex(1)
                 Section {
                     ForEach(viewModel.expenses, id: \.item) { exp in
                         DraggableCircle(viewModel: exp)
@@ -53,6 +54,7 @@ struct Dashboard: View {
                         Spacer()
                     }
                 }
+                .zIndex(-1)
             })
             Spacer()
             HStack {

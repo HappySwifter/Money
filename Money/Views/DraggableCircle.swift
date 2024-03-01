@@ -27,9 +27,9 @@ struct DraggableCircle: View {
             .foregroundStyle(Color.white)
         }
         .scaleEffect(viewModel.state.shouldShowTouch ||
-                      viewModel.highlighted ?
+                     viewModel.highlighted ?
                      1.2 : 1.0)
-        .offset(viewModel.item.type.isMovable ? 
+        .offset(viewModel.item.type.isMovable ?
                 viewModel.state.offset :
                 .zero)
         .gesture(drag)

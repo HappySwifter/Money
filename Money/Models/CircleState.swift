@@ -11,7 +11,6 @@ enum CircleState: Equatable {
     case released(location: CGPoint)
     case pressed
     case moving(location: CGPoint, offset: CGSize)
-//    case covered
     
     var shouldShowTouch: Bool {
         switch self {
