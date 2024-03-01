@@ -32,12 +32,20 @@ struct DraggableCircle: View {
         .offset(viewModel.item.type.isMovable ?
                 viewModel.state.offset :
                 .zero)
-        .gesture(drag)
+        .gesture(viewModel.item.type.isMovable ? drag : nil)
+        .gesture(!viewModel.item.type.isMovable ? tap : nil)
         .getRect()
         .padding(5)
         .onPreferenceChange(OriginKey.self, perform: { value in
             viewModel.initialRect = value
         })
+    }
+    
+    var tap: some Gesture {
+        TapGesture().onEnded {
+            viewModel.state = .pressed
+            showImpact()
+        }
     }
     
     var drag: some Gesture {

@@ -26,49 +26,53 @@ struct Dashboard: View {
     }
     
     var body: some View {
-        //        ScrollView {
         VStack {
             HStack {
                 Spacer()
                 PlusButton(viewModel: viewModel.plusButton)
             }
             .zIndex(100)
-            LazyVGrid(columns: columns, content: {
-                Section {
+            
+//            VStack {
+                HStack {
+                    Text("Accounts")
+                    Text("$124.420")
+                    Spacer()
+                }
+                if viewModel.showDropableLocations {
+                    DropableView(highlighted: .constant(true))
+                }
+                HStack {
                     ForEach(viewModel.accounts, id: \.item) { acc in
                         DraggableCircle(viewModel: acc)
                     }
-                } header: {
-                    HStack {
-                        Text("Accounts")
-                        Text("$124.420")
-                        Spacer()
-                    }
-                    if viewModel.showDropableLocations {
-                        DropableView(highlighted: .constant(true))
-                    }
-                } footer: {
-                    Divider()
-                        .padding(.vertical)
                 }
                 .zIndex(1)
-                Section {
-                    ForEach(viewModel.expenses, id: \.item) { exp in
-                        DraggableCircle(viewModel: exp)
+                Divider()
+                    .padding(.vertical)
+//            }
+            
+            ScrollView {
+                LazyVGrid(columns: columns, content: {
+                    Section {
+                        ForEach(viewModel.expenses, id: \.item) { exp in
+                            DraggableCircle(viewModel: exp)
+                        }
+                    } header: {
+                        HStack {
+                            Text("This month")
+                            Text("$123")
+                            Spacer()
+                        }
+                        if viewModel.showDropableLocations {
+                            DropableView(highlighted: .constant(false))
+                        }
                     }
-                } header: {
-                    HStack {
-                        Text("This month")
-                        Text("$123")
-                        Spacer()
-                    }
-                    if viewModel.showDropableLocations {
-                        DropableView(highlighted: .constant(false))
-                    }
-                }
-                .zIndex(-1)
-            })
-            Spacer()
+                    .zIndex(-1)
+                })
+            }
+
+//            Spacer()
         }
         .sheet(isPresented:
                 Binding(
@@ -184,9 +188,6 @@ class DashboardViewModel {
         }
     }
     
-    private func showImpact() {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    }
     
     private func resetHight() {
         for i in 0..<data.count {
