@@ -33,47 +33,48 @@ struct Dashboard: View {
             }
             .zIndex(100)
             
-//            VStack {
+            
+            if viewModel.showDropableLocations {
+                DropableView(highlighted: .constant(true), type: .account)
+            } else {
                 HStack {
                     Text("Accounts")
                     Text("$124.420")
                     Spacer()
                 }
-                if viewModel.showDropableLocations {
-                    DropableView(highlighted: .constant(true))
+            }
+            
+            HStack {
+                ForEach(viewModel.accounts, id: \.item) { acc in
+                    DraggableCircle(viewModel: acc)
                 }
+            }
+            .zIndex(1)
+            
+            Divider()
+                .padding(.vertical)
+            
+            if viewModel.showDropableLocations {
+                DropableView(highlighted: .constant(false), type: .category)
+            } else {
                 HStack {
-                    ForEach(viewModel.accounts, id: \.item) { acc in
-                        DraggableCircle(viewModel: acc)
-                    }
+                    Text("This month")
+                    Text("-$123")
+                    Spacer()
                 }
-                .zIndex(1)
-                Divider()
-                    .padding(.vertical)
-//            }
+            }
             
             ScrollView {
                 LazyVGrid(columns: columns, content: {
-                    Section {
-                        ForEach(viewModel.expenses, id: \.item) { exp in
-                            DraggableCircle(viewModel: exp)
-                        }
-                    } header: {
-                        HStack {
-                            Text("This month")
-                            Text("$123")
-                            Spacer()
-                        }
-                        if viewModel.showDropableLocations {
-                            DropableView(highlighted: .constant(false))
-                        }
+                    ForEach(viewModel.expenses, id: \.item) { exp in
+                        DraggableCircle(viewModel: exp)
                     }
                     .zIndex(-1)
                 })
             }
-
-//            Spacer()
         }
+        .coordinateSpace(name: "screen")
+        .padding()
         .sheet(isPresented:
                 Binding(
                     get: { return viewModel.sheetPresended },
@@ -85,10 +86,7 @@ struct Dashboard: View {
                         viewModel.newAmount = val
                     }))
                 })
-        .coordinateSpace(name: "screen")
-        .padding()
     }
-    //    }
 }
 
 @Observable
@@ -108,7 +106,7 @@ class DashboardViewModel {
     init(data: [DraggableCircleViewModel]) {
         self.data = data
         self.accounts = data.filter { $0.item.type == .account }
-        self.expenses = data.filter { $0.item.type == .expense }
+        self.expenses = data.filter { $0.item.type == .category }
         self.plusButton = data.filter { $0.item.type == .plusButton }.first!
         
         for datum in data {
@@ -166,8 +164,8 @@ class DashboardViewModel {
     }
     
     private func canTrigger(movingItem: CircleItem, stillItem: CircleItem) -> Bool {
-        if movingItem.type == .plusButton && stillItem.type == .expense ||
-            movingItem.type == .expense {
+        if movingItem.type == .plusButton && stillItem.type == .category ||
+            movingItem.type == .category {
             return false
         } else {
             return true

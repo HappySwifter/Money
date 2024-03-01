@@ -10,14 +10,25 @@ import SwiftUI
 
 enum CircleType: Codable {
     case account
-    case expense
+    case category
     case plusButton
+    
+    var description: String {
+        switch self {
+        case .account:
+            return "account"
+        case .category:
+            return "category"
+        case .plusButton:
+            return ""
+        }
+    }
     
     var isMovable: Bool {
         switch self {
         case .account, .plusButton:
             return true
-        case .expense:
+        case .category:
             return false
         }
     }
@@ -26,7 +37,7 @@ enum CircleType: Codable {
         switch self {
         case .account:
             return .green
-        case .expense:
+        case .category:
             return .red
         case .plusButton:
             return .purple
