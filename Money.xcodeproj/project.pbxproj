@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EDE2B918644006A3A8C /* CircleType.swift */; };
+		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
+		AC031EE32B91892B006A3A8C /* Circlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* Circlable.swift */; };
+		AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE42B918A11006A3A8C /* DragGesture.swift */; };
+		AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
 		AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B92B8E34AB004D7575 /* Item.swift */; };
@@ -41,6 +46,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC031EDE2B918644006A3A8C /* CircleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleType.swift; sourceTree = "<group>"; };
+		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
+		AC031EE22B91892B006A3A8C /* Circlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circlable.swift; sourceTree = "<group>"; };
+		AC031EE42B918A11006A3A8C /* DragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGesture.swift; sourceTree = "<group>"; };
+		AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleViewModel.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
 		AC4080B72B8E34AB004D7575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -87,6 +97,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC031EDD2B91863B006A3A8C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AC031EDE2B918644006A3A8C /* CircleType.swift */,
+				AC031EE02B918684006A3A8C /* CircleItem.swift */,
+				AC031EE22B91892B006A3A8C /* Circlable.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AC031EE82B9190A6006A3A8C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ACD4C93E2B8F09F00087F632 /* Dashboard.swift */,
+				ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */,
+				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AC4080A92B8E34AB004D7575 = {
 			isa = PBXGroup;
 			children = (
@@ -110,11 +140,12 @@
 		AC4080B42B8E34AB004D7575 /* Money */ = {
 			isa = PBXGroup;
 			children = (
-				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
-				ACD4C93E2B8F09F00087F632 /* Dashboard.swift */,
-				ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */,
-				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
+				AC031EDD2B91863B006A3A8C /* Models */,
+				AC031EE82B9190A6006A3A8C /* Views */,
+				AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */,
+				AC031EE42B918A11006A3A8C /* DragGesture.swift */,
 				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
+				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				AC4080B72B8E34AB004D7575 /* ContentView.swift */,
 				ACD4C9482B8F73970087F632 /* MockData.swift */,
 				AC4080B92B8E34AB004D7575 /* Item.swift */,
@@ -285,12 +316,17 @@
 				ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
+				AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
 				ACD4C9492B8F73970087F632 /* MockData.swift in Sources */,
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
+				AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
+				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
+				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
+				AC031EE32B91892B006A3A8C /* Circlable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

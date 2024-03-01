@@ -22,3 +22,9 @@ struct ContentView2: View {
 #Preview {
     ContentView2()
 }
+
+
+func prettify(location: CGPoint?) -> String {
+    guard let location = location else { return "" }
+    return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
+}

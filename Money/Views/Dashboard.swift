@@ -8,15 +8,15 @@
 import Foundation
 import SwiftUI
 
-enum DraggableState: Equatable {
+enum CircleState: Equatable {
     case idle
+    case pressed
     case moving(location: CGPoint)
 }
 
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var viewModel: DashboardViewModel
-    @State private var plusButtonState = DraggableState.idle
     
     var columns: [GridItem] {
         let count: Int
@@ -35,7 +35,7 @@ struct Dashboard: View {
         VStack {
             LazyVGrid(columns: columns, content: {
                 Section {
-                    ForEach(viewModel.accounts, id: \.name) { acc in
+                    ForEach(viewModel.accounts, id: \.item) { acc in
                         DraggableCircle(viewModel: acc)
                     }
                 } header: {
@@ -49,7 +49,7 @@ struct Dashboard: View {
                         .padding(.vertical)
                 }
                 Section {
-                    ForEach(viewModel.expenses, id: \.name) { exp in
+                    ForEach(viewModel.expenses, id: \.item) { exp in
                         DraggableCircle(viewModel: exp)
                     }
                 } header: {
@@ -61,19 +61,17 @@ struct Dashboard: View {
                 }
             })
             Spacer()
-                        HStack {
+            HStack {
                 Spacer()
-                PlusButton(plusButtonState: $plusButtonState)
-                //            .zIndex(1)
+                PlusButton(viewModel: viewModel.plusButton)
             }
         }
-        .onChange(of: plusButtonState, { oldValue, newValue in
-            switch newValue {
-            case .idle:
-                viewModel.resetHight()
-            case .moving(let location):
-                viewModel.check(offset: location)
-            }
+        .sheet(isPresented: 
+                Binding(
+                    get: { return viewModel.sheetPresended },
+                    set: { (newValue) in return viewModel.sheetPresended = newValue }
+                ), content: {
+            Text("!!!!")
         })
         .coordinateSpace(name: "screen")
         .padding()
@@ -86,29 +84,37 @@ class DashboardViewModel {
     var data: [DraggableCircleViewModel]
     var accounts: [DraggableCircleViewModel]
     var expenses: [DraggableCircleViewModel]
-    
+    var plusButton: DraggableCircleViewModel
+    var sheetPresended = false
+        
     init(data: [DraggableCircleViewModel]) {
         self.data = data
-        self.accounts = data.filter { $0.type == .account }
-        self.expenses = data.filter { $0.type == .expense }
+        self.accounts = data.filter { $0.item.type == .account }
+        self.expenses = data.filter { $0.item.type == .expense }
+        self.plusButton = data.filter { $0.item.type == .plusButton }.first!
         
         for datum in data {
-            datum.locationHandler = { [weak self] state in
-                switch state {
-                case .idle:
-                    self?.resetHight()
-                case .moving(let location):
-                    self?.check(offset: location)
-                }
-            }
+            datum.locationHandler = handleCircle(state:id:)
         }
     }
     
-    func check(offset: CGPoint) {
+    func handleCircle(state: CircleState, id: UUID) {
+        switch state {
+        case .idle:
+            resetHight()
+        case .pressed:
+            sheetPresended = true
+        case .moving(let location):
+            check(offset: location, circleId: id)
+        }
+    }
+    
+    func check(offset: CGPoint, circleId: UUID) {
         let rect = CGRect(origin: offset, size: CGSize(width: 20, height: 20))
         
         for (index, datum) in data.enumerated() {
-            if rect.intersects(datum.rect.wrappedValue) {
+            if rect.intersects(datum.rect.wrappedValue) &&
+                datum.item.id != circleId {
                 if data.filter({ $0.highlighted }).isEmpty {
                     data[index].highlighted = true
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
