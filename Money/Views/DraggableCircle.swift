@@ -30,7 +30,7 @@ struct DraggableCircle: View {
         .getRect(
             Binding(
                 get: { return viewModel.rect.wrappedValue },
-                set: { (newValue) in return viewModel.rect.wrappedValue = newValue }
+                set: { val in return viewModel.rect = .constant(val) }
             )
         )
         .padding(5)

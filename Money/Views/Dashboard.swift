@@ -94,27 +94,27 @@ class DashboardViewModel {
         self.plusButton = data.filter { $0.item.type == .plusButton }.first!
         
         for datum in data {
-            datum.locationHandler = handleCircle(state:id:)
+            datum.locationHandler = handleCircle(state:movingItem:)
         }
     }
     
-    func handleCircle(state: CircleState, id: UUID) {
+    private func handleCircle(state: CircleState, movingItem: CircleItem) {
         switch state {
         case .idle:
             resetHight()
         case .pressed:
             sheetPresended = true
         case .moving(let location):
-            check(offset: location, circleId: id)
+            check(offset: location, movingItem: movingItem)
         }
     }
     
-    func check(offset: CGPoint, circleId: UUID) {
+    private func check(offset: CGPoint, movingItem: CircleItem) {
         let rect = CGRect(origin: offset, size: CGSize(width: 20, height: 20))
         
         for (index, datum) in data.enumerated() {
             if rect.intersects(datum.rect.wrappedValue) &&
-                datum.item.id != circleId {
+                datum.item.id != movingItem.id {
                 if data.filter({ $0.highlighted }).isEmpty {
                     data[index].highlighted = true
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -125,7 +125,7 @@ class DashboardViewModel {
         }
     }
     
-    func resetHight() {
+    private func resetHight() {
         for i in 0..<data.count {
             data[i].highlighted = false
         }
