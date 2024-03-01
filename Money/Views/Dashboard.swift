@@ -62,13 +62,13 @@ struct Dashboard: View {
                 PlusButton(viewModel: viewModel.plusButton)
             }
         }
-        .sheet(isPresented: 
+        .sheet(isPresented:
                 Binding(
                     get: { return viewModel.sheetPresended },
                     set: { (newValue) in return viewModel.sheetPresended = newValue }
                 ), content: {
-            Text("!!!!")
-        })
+                    Text("!!!!")
+                })
         .coordinateSpace(name: "screen")
         .padding()
     }
@@ -82,7 +82,7 @@ class DashboardViewModel {
     var expenses: [DraggableCircleViewModel]
     var plusButton: DraggableCircleViewModel
     var sheetPresended = false
-        
+    
     private var movingItemSize = CGSize(width: 1, height: 1)
     
     init(data: [DraggableCircleViewModel]) {
@@ -109,7 +109,9 @@ class DashboardViewModel {
             sheetPresended = true
         case .moving(let location, let offset):
             if offset == .zero { showImpact() }
-            highlighted(location: location, movingItem: movingItem)
+            if movingItem.type.isMovable {
+                highlighted(location: location, movingItem: movingItem)
+            }
         }
     }
     
@@ -117,9 +119,10 @@ class DashboardViewModel {
         let rect = CGRect(origin: location, size: movingItemSize)
         
         for (index, datum) in data.enumerated() {
-            if rect.intersects(datum.initialRect.wrappedValue) &&
-                datum.item != movingItem {
-                if data.filter({ $0.highlighted }).isEmpty {
+            if rect.intersects(datum.initialRect.wrappedValue) {
+                if datum.item != movingItem &&
+                canTrigger(movingItem: movingItem, standingItem: datum.item) &&
+                    data.filter({ $0.highlighted }).isEmpty {
                     data[index].highlighted = true
                     showImpact()
                 }
@@ -129,8 +132,21 @@ class DashboardViewModel {
         }
     }
     
+    private func canTrigger(movingItem: CircleItem, standingItem: CircleItem) -> Bool {
+        if movingItem.type == .plusButton && standingItem.type == .expense {
+            return false
+        } else {
+            return true
+        }
+    }
+    
     private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> Bool {
-        if let interspectedModel = getInterspectedModel(for: location),
+        let rect = CGRect(origin: location, size: movingItemSize)
+        let intersectedModel = data
+            .filter { rect.intersects($0.initialRect.wrappedValue) }
+            .filter { canTrigger(movingItem: movingItem, standingItem: $0.item) }
+            .first
+        if let interspectedModel = intersectedModel,
            interspectedModel.item != movingItem {
             return true
         } else {
@@ -138,19 +154,6 @@ class DashboardViewModel {
         }
     }
     
-    private func getInterspectedModel(for location: CGPoint) -> DraggableCircleViewModel? {
-        let rect = CGRect(origin: location, size: movingItemSize)
-        
-        for (index, datum) in data.enumerated() {
-            if rect.intersects(datum.initialRect.wrappedValue) {
-                return datum
-            } else {
-                continue
-            }
-        }
-        return nil
-    }
-        
     private func showImpact() {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
