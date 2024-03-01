@@ -13,7 +13,7 @@ struct PlusButton: View {
     var body: some View {
         VStack {
             Image(systemName: "plus")
-                .font(.system(size: 35))
+                .font(.system(size: 30))
                 .foregroundColor(.white)
                 .padding(15)
                 .background(Color.purple)

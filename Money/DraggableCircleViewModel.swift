@@ -12,7 +12,7 @@ import SwiftUI
 class DraggableCircleViewModel {
     let item: CircleItem
     var highlighted = false
-    var initialRect: Binding<CGRect> = .constant(CGRect.zero)
+    var initialRect = CGRect.zero
     var locationHandler: ((CircleItem, CircleState) -> ())?
     var state = CircleState.released(location: .zero) {
         didSet {

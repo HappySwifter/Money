@@ -27,6 +27,7 @@
 		ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */; };
 		ACD4C9492B8F73970087F632 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9482B8F73970087F632 /* MockData.swift */; };
 		ACF62B002B91E61A002CB75D /* DropableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* DropableView.swift */; };
+		ACF62B022B91EB09002CB75D /* SendMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* SendMoneyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationModifier.swift; sourceTree = "<group>"; };
 		ACD4C9482B8F73970087F632 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		ACF62AFF2B91E61A002CB75D /* DropableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropableView.swift; sourceTree = "<group>"; };
+		ACF62B012B91EB09002CB75D /* SendMoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMoneyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */,
 				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
 				ACF62AFF2B91E61A002CB75D /* DropableView.swift */,
+				ACF62B012B91EB09002CB75D /* SendMoneyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
+				ACF62B022B91EB09002CB75D /* SendMoneyView.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,

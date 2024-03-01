@@ -26,6 +26,7 @@ struct Dashboard: View {
     }
     
     var body: some View {
+        //        ScrollView {
         VStack {
             HStack {
                 Spacer()
@@ -74,11 +75,16 @@ struct Dashboard: View {
                     get: { return viewModel.sheetPresended },
                     set: { (newValue) in return viewModel.sheetPresended = newValue }
                 ), content: {
-                    Text("!!!!")
+                    SendMoneyView(amount: Binding(get: {
+                        viewModel.newAmount
+                    }, set: { val, _ in
+                        viewModel.newAmount = val
+                    }))
                 })
         .coordinateSpace(name: "screen")
         .padding()
     }
+    //    }
 }
 
 @Observable
@@ -89,8 +95,11 @@ class DashboardViewModel {
     var plusButton: DraggableCircleViewModel
     var sheetPresended = false
     var showDropableLocations = false
+    var newAmount = ""
     
-    private var movingItemSize = CGSize(width: 1, height: 1)
+    private let movingItemSize = CGSize(width: 1, height: 1)
+    private let plusButtonOffsetThreshold = 20.0
+    private let animation = Animation.smooth(duration: 0.3)
     
     init(data: [DraggableCircleViewModel]) {
         self.data = data
@@ -109,26 +118,29 @@ class DashboardViewModel {
         case .released(let location):
             resetHight()
             showImpact()
-            if shouldPresentSheet(movingItem: movingItem,
-                                  location: location) {
+            if shouldPresentSheet(movingItem: movingItem, location: location) {
                 sheetPresended = true
             }
-            withAnimation(.smooth(duration: 0.3)) {
-                showDropableLocations = false
-            }
-            
+            updateDropableLocations(plusButtonOffset: .zero)
         case .pressed:
             sheetPresended = true
         case .moving(let location, let offset):
-            if movingItem.type == .plusButton {
-                withAnimation(.smooth(duration: 0.3)) {
-                    showDropableLocations = true
-                }
-            }
             if offset == .zero { showImpact() }
+            
+            if movingItem.type == .plusButton {
+                updateDropableLocations(plusButtonOffset: offset)
+            }
             if movingItem.type.isMovable {
                 highlighted(location: location, movingItem: movingItem)
             }
+        }
+    }
+    
+    private func updateDropableLocations(plusButtonOffset: CGSize) {
+        withAnimation(animation) {
+            showDropableLocations =
+            abs(plusButtonOffset.width) > plusButtonOffsetThreshold ||
+            abs(plusButtonOffset.height) > plusButtonOffsetThreshold
         }
     }
     
@@ -136,7 +148,7 @@ class DashboardViewModel {
         let rect = CGRect(origin: location, size: movingItemSize)
         
         for (index, datum) in data.enumerated() {
-            if rect.intersects(datum.initialRect.wrappedValue) {
+            if rect.intersects(datum.initialRect) {
                 if datum.item != movingItem &&
                     canTrigger(movingItem: movingItem, stillItem: datum.item) &&
                     data.filter({ $0.highlighted }).isEmpty {
@@ -161,7 +173,7 @@ class DashboardViewModel {
     private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> Bool {
         let rect = CGRect(origin: location, size: movingItemSize)
         let intersectedModel = data
-            .filter { rect.intersects($0.initialRect.wrappedValue) }
+            .filter { rect.intersects($0.initialRect) }
             .filter { canTrigger(movingItem: movingItem, stillItem: $0.item) }
             .first
         if let interspectedModel = intersectedModel,

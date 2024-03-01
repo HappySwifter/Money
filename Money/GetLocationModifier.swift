@@ -9,23 +9,39 @@ import Foundation
 import SwiftUI
 
 extension View {
-    func getRect(_ origin: Binding<CGRect>) -> some View {
-        modifier(GetOriginModifier(origin: origin))
+    func getRect() -> some View {
+        modifier(GetOriginModifier())
     }
 }
 
 struct GetOriginModifier: ViewModifier {
-    @Binding var origin: CGRect
+//    @Binding var origin: CGRect
+//    func body(content: Content) -> some View {
+//        content
+//            .background(
+//                GeometryReader { proxy in
+//                    let frame = proxy.frame(in: .named("screen"))
+//                    Color.clear
+//                        .task(id: frame) {
+//                            $origin.wrappedValue = frame
+//                        }
+//                }
+//            )
+//    }
     func body(content: Content) -> some View {
         content
-            .background(
+            .overlay(
                 GeometryReader { proxy in
-                    let frame = proxy.frame(in: .named("screen"))
                     Color.clear
-                        .task(id: frame) {
-                            $origin.wrappedValue = frame
-                        }
+                        .preference(key: OriginKey.self, value: proxy.frame(in: .named("screen")))
                 }
             )
     }
+}
+
+struct OriginKey: PreferenceKey {
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
+    }
+    static var defaultValue: CGRect = .zero
 }

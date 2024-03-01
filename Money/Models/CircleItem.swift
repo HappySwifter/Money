@@ -6,17 +6,20 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct CircleItem: Codable, Identifiable, Hashable {
     let id: UUID
     let name: String
     let icon: String
     let type: CircleType
+    let color: String
     
-    init(id: UUID = UUID(), name: String, icon: String = "", type: CircleType) {
+    init(id: UUID = UUID(), name: String, icon: String = "", type: CircleType, color: String = "blue") {
         self.id = id
         self.name = name
         self.icon = icon
         self.type = type
+        self.color = color
     }
 }
