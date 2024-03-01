@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EDE2B918644006A3A8C /* CircleType.swift */; };
 		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
-		AC031EE32B91892B006A3A8C /* Circlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* Circlable.swift */; };
+		AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* CircleState.swift */; };
 		AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE42B918A11006A3A8C /* DragGesture.swift */; };
 		AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
@@ -48,7 +48,7 @@
 /* Begin PBXFileReference section */
 		AC031EDE2B918644006A3A8C /* CircleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleType.swift; sourceTree = "<group>"; };
 		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
-		AC031EE22B91892B006A3A8C /* Circlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circlable.swift; sourceTree = "<group>"; };
+		AC031EE22B91892B006A3A8C /* CircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleState.swift; sourceTree = "<group>"; };
 		AC031EE42B918A11006A3A8C /* DragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGesture.swift; sourceTree = "<group>"; };
 		AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleViewModel.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +102,7 @@
 			children = (
 				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
-				AC031EE22B91892B006A3A8C /* Circlable.swift */,
+				AC031EE22B91892B006A3A8C /* CircleState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,7 +326,7 @@
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
-				AC031EE32B91892B006A3A8C /* Circlable.swift in Sources */,
+				AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

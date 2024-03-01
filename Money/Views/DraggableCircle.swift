@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DraggableCircle: View {
     var viewModel: DraggableCircleViewModel
-    @GestureState private var isTapped = false
     
     var body: some View {
         ZStack {
@@ -20,17 +19,24 @@ struct DraggableCircle: View {
                     viewModel.item.type.highColor :
                         viewModel.item.type.color
                 )
-            Text(viewModel.item.name)
-                .font(.caption2)
-                .foregroundStyle(Color.white)
+            VStack {
+                Text(viewModel.item.name)
+                    .font(.caption2)
+                Text(prettify(location: viewModel.state.location))
+            }
+            .foregroundStyle(Color.white)
         }
-        .scaleEffect((isTapped || viewModel.highlighted) ? 1.2 : 1.0)
-        .offset(viewModel.offset)
+        .scaleEffect(viewModel.state.shouldShowTouch ||
+                      viewModel.highlighted ?
+                     1.2 : 1.0)
+        .offset(viewModel.item.type.isMovable ? 
+                viewModel.state.offset :
+                .zero)
         .gesture(drag)
         .getRect(
             Binding(
-                get: { return viewModel.rect.wrappedValue },
-                set: { val in return viewModel.rect = .constant(val) }
+                get: { return viewModel.initialRect.wrappedValue },
+                set: { val in return viewModel.initialRect = .constant(val) }
             )
         )
         .padding(5)
@@ -38,23 +44,15 @@ struct DraggableCircle: View {
     
     var drag: some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
-            .updating($isTapped) { _, isTapped, _ in
-                isTapped = true
-            }
             .onChanged { value in
-                viewModel.draggableState = .moving(location: value.location)
-                viewModel.offset = value.translation
-                if viewModel.offset == CGSize.zero {
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }
+                viewModel.state = .moving(location: value.location,
+                                          offset: value.translation)
             }
             .onEnded { value in
                 if value.translation.width == 0 && value.translation.height == 0 {
-                    viewModel.draggableState = .pressed
+                    viewModel.state = .pressed
                 } else {
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    viewModel.offset = .zero
-                    viewModel.draggableState = .idle
+                    viewModel.state = .released(location: value.location)
                 }
             }
     }

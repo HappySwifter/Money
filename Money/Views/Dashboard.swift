@@ -8,12 +8,6 @@
 import Foundation
 import SwiftUI
 
-enum CircleState: Equatable {
-    case idle
-    case pressed
-    case moving(location: CGPoint)
-}
-
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var viewModel: DashboardViewModel
@@ -87,6 +81,8 @@ class DashboardViewModel {
     var plusButton: DraggableCircleViewModel
     var sheetPresended = false
         
+    private var movingItemSize = CGSize(width: 1, height: 1)
+    
     init(data: [DraggableCircleViewModel]) {
         self.data = data
         self.accounts = data.filter { $0.item.type == .account }
@@ -94,35 +90,67 @@ class DashboardViewModel {
         self.plusButton = data.filter { $0.item.type == .plusButton }.first!
         
         for datum in data {
-            datum.locationHandler = handleCircle(state:movingItem:)
+            datum.locationHandler = handle(movingItem:state:)
         }
     }
     
-    private func handleCircle(state: CircleState, movingItem: CircleItem) {
+    private func handle(movingItem: CircleItem, state: CircleState) {
         switch state {
-        case .idle:
+        case .released(let location):
             resetHight()
+            showImpact()
+            if shouldPresentSheet(movingItem: movingItem,
+                                  location: location) {
+                sheetPresended = true
+            }
         case .pressed:
             sheetPresended = true
-        case .moving(let location):
-            check(offset: location, movingItem: movingItem)
+        case .moving(let location, let offset):
+            if offset == .zero { showImpact() }
+            highlighted(location: location, movingItem: movingItem)
         }
     }
     
-    private func check(offset: CGPoint, movingItem: CircleItem) {
-        let rect = CGRect(origin: offset, size: CGSize(width: 20, height: 20))
+    private func highlighted(location: CGPoint, movingItem: CircleItem) {
+        let rect = CGRect(origin: location, size: movingItemSize)
         
         for (index, datum) in data.enumerated() {
-            if rect.intersects(datum.rect.wrappedValue) &&
-                datum.item.id != movingItem.id {
+            if rect.intersects(datum.initialRect.wrappedValue) &&
+                datum.item != movingItem {
                 if data.filter({ $0.highlighted }).isEmpty {
                     data[index].highlighted = true
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    showImpact()
                 }
             } else {
                 data[index].highlighted = false
             }
         }
+    }
+    
+    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> Bool {
+        if let interspectedModel = getInterspectedModel(for: location),
+           interspectedModel.item != movingItem {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    private func getInterspectedModel(for location: CGPoint) -> DraggableCircleViewModel? {
+        let rect = CGRect(origin: location, size: movingItemSize)
+        
+        for (index, datum) in data.enumerated() {
+            if rect.intersects(datum.initialRect.wrappedValue) {
+                return datum
+            } else {
+                continue
+            }
+        }
+        return nil
+    }
+        
+    private func showImpact() {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
     
     private func resetHight() {

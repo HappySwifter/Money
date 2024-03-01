@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PlusButton: View {
     var viewModel: DraggableCircleViewModel
-    @GestureState private var isTapped = false
     
     var body: some View {
         VStack {
@@ -20,31 +19,24 @@ struct PlusButton: View {
                 .background(Color.purple)
                 .clipShape(Circle())
         }
-        .scaleEffect(isTapped ? 1.5 : 1.0)
-        .offset(viewModel.offset)
+        .scaleEffect(viewModel.state.shouldShowTouch ||
+                     viewModel.highlighted ?
+                     1.2 : 1.0)
+        .offset(viewModel.state.offset)
         .gesture(drag)
     }
     
-    
     var drag: some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
-            .updating($isTapped) { _, isTapped, _ in
-                isTapped = true
-            }
             .onChanged { value in
-                viewModel.draggableState = .moving(location: value.location)
-                viewModel.offset = value.translation
-                if viewModel.offset == CGSize.zero {
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }
+                viewModel.state = .moving(location: value.location,
+                                                   offset: value.translation)
             }
             .onEnded { value in
                 if value.translation.width == 0 && value.translation.height == 0 {
-                    viewModel.draggableState = .pressed
+                    viewModel.state = .pressed
                 } else {
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    viewModel.offset = .zero
-                    viewModel.draggableState = .idle
+                    viewModel.state = .released(location: value.location)
                 }
             }
     }

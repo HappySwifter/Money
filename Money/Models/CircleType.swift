@@ -13,6 +13,15 @@ enum CircleType: Codable {
     case expense
     case plusButton
     
+    var isMovable: Bool {
+        switch self {
+        case .account, .plusButton:
+            return true
+        case .expense:
+            return false
+        }
+    }
+    
     var color: Color {
         switch self {
         case .account:

@@ -12,13 +12,12 @@ import SwiftUI
 class DraggableCircleViewModel {
     let item: CircleItem
     var highlighted = false
-    var offset = CGSize.zero
-    var rect: Binding<CGRect> = .constant(CGRect.zero)
-    var locationHandler: ((CircleState, CircleItem) -> ())?
+    var initialRect: Binding<CGRect> = .constant(CGRect.zero)
+    var locationHandler: ((CircleItem, CircleState) -> ())?
     
-    var draggableState = CircleState.idle {
+    var state = CircleState.released(location: .zero) {
         didSet {
-            locationHandler?(draggableState, item)
+            locationHandler?(item, state)
         }
     }
     
