@@ -9,21 +9,43 @@ import SwiftUI
 
 struct SendMoneyView: View {
     @Binding var amount: String
-//    enum FocusField: Hashable {
-//      case field
-//    }
-//    @FocusState private var focusedField: FocusField?
+    @Binding var isPresented: Bool
+    
+    enum FocusField: Hashable {
+      case field
+    }
+    @FocusState private var focusedField: FocusField?
     
     
     var body: some View {
-        TextField("How much?", text: $amount)
-//            .focused($focusedField, equals: .field)
-//            .onAppear {
-//              self.focusedField = .field
-//          }
+        VStack {
+            HStack {
+                Spacer()
+                Button(action: {
+                    isPresented = false
+                }, label: {
+                    Text("Done")
+                        .padding(10)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                })
+
+            }
+            DecimalPadView(resultString: $amount)
+        }
+        .padding()
+        .focused($focusedField, equals: .field)
+        .onAppear {
+          self.focusedField = .field
+        }
+        .presentationCornerRadius(30)
+        .presentationDetents([.height(380)])
+        
     }
 }
 
 #Preview {
-    SendMoneyView(amount: .constant(""))
+    SendMoneyView(amount: .constant(""), isPresented: .constant(true))
 }

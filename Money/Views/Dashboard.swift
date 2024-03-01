@@ -75,17 +75,14 @@ struct Dashboard: View {
         }
         .coordinateSpace(name: "screen")
         .padding()
-        .sheet(isPresented:
-                Binding(
-                    get: { return viewModel.sheetPresended },
-                    set: { (newValue) in return viewModel.sheetPresended = newValue }
-                ), content: {
-                    SendMoneyView(amount: Binding(get: {
-                        viewModel.newAmount
-                    }, set: { val, _ in
-                        viewModel.newAmount = val
-                    }))
-                })
+        .sheet(isPresented: viewModel.sheetBinding,
+               content: {
+            SendMoneyView(amount: Binding(get: {
+                viewModel.newAmount
+            }, set: { val, _ in
+                viewModel.newAmount = val
+            }), isPresented: viewModel.sheetBinding)
+        })
     }
 }
 
@@ -98,6 +95,14 @@ class DashboardViewModel {
     var sheetPresended = false
     var showDropableLocations = false
     var newAmount = ""
+    
+    var sheetBinding: Binding<Bool> {
+        Binding(
+            get: { return self.sheetPresended },
+            set: { (newValue) in return self.sheetPresended = newValue }
+        )
+    }
+    
     
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
