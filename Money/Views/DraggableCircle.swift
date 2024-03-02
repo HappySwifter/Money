@@ -30,13 +30,11 @@ struct DraggableCircle: View {
         .scaleEffect(viewModel.state.shouldShowTouch ||
                      viewModel.highlighted ?
                      1.2 : 1.0)
-        .offset(viewModel.item.type.isMovable ?
-                viewModel.state.offset :
-                .zero)
+        .offset(viewModel.state.offset)
+        .padding(5)
         .gesture(viewModel.item.type.isMovable ? drag : nil)
         .gesture(!viewModel.item.type.isMovable ? tap : nil)
         .getRect()
-        .padding(5)
         .onPreferenceChange(OriginKey.self, perform: { value in
             viewModel.initialRect = value
         })

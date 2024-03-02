@@ -12,14 +12,16 @@ enum CircleType: Codable {
     case account
     case category
     case plusButton
+    case addAccount
+    case addCategory
     
-    var description: String {
+    var addDescription: String {
         switch self {
-        case .account:
-            return "account"
-        case .category:
-            return "category"
-        case .plusButton:
+        case .addAccount:
+            return "Add account"
+        case .addCategory:
+            return "Add category"
+        case .plusButton, .account, .category:
             return ""
         }
     }
@@ -28,7 +30,7 @@ enum CircleType: Codable {
         switch self {
         case .account, .plusButton:
             return true
-        case .category:
+        case .category, .addAccount, .addCategory:
             return false
         }
     }
@@ -41,10 +43,20 @@ enum CircleType: Codable {
             return .red
         case .plusButton:
             return .purple
+        case .addAccount, .addCategory:
+            return .gray
         }
     }
     
     var highColor: Color {
         return color.opacity(0.3)
+    }
+    
+    func canTrigger(stillItem: CircleItem) -> Bool {
+        if self == .plusButton && stillItem.type == .category {
+            return false
+        } else {
+            return true
+        }
     }
 }

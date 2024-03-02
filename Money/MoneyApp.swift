@@ -13,6 +13,7 @@ struct MoneyApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
+            CircleItem.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +26,8 @@ struct MoneyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Dashboard(viewModel: DashboardViewModel(data: MockData.data))
+//            ContentView3()
+            Dashboard(viewModel: DashboardViewModel())
         }
         .modelContainer(sharedModelContainer)
     }

@@ -7,10 +7,12 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var viewModel: DashboardViewModel
+    @Query(sort: \CircleItem.date) private var items: [CircleItem]
     
     var columns: [GridItem] {
         let count: Int
@@ -22,7 +24,7 @@ struct Dashboard: View {
         default:
             count = 0
         }
-        return Array(repeating: .init(.flexible(minimum: 60, maximum: 150)), count: count)
+        return Array(repeating: .init(.flexible(minimum: 60, maximum: 100)), count: count)
     }
     
     var body: some View {
@@ -35,7 +37,7 @@ struct Dashboard: View {
             
             
             if viewModel.showDropableLocations {
-                DropableView(highlighted: .constant(true), type: .account)
+                DropableView(viewModel: viewModel.addAccountButton)
             } else {
                 HStack {
                     Text("Accounts")
@@ -55,7 +57,7 @@ struct Dashboard: View {
                 .padding(.vertical)
             
             if viewModel.showDropableLocations {
-                DropableView(highlighted: .constant(false), type: .category)
+                DropableView(viewModel: viewModel.addCategoryButton)
             } else {
                 HStack {
                     Text("This month")
@@ -65,8 +67,8 @@ struct Dashboard: View {
             }
             
             ScrollView {
-                LazyVGrid(columns: columns, content: {
-                    ForEach(viewModel.expenses, id: \.item) { exp in
+                LazyVGrid(columns: columns, alignment: .leading, content: {
+                    ForEach(viewModel.categories, id: \.item) { exp in
                         DraggableCircle(viewModel: exp)
                     }
                     .zIndex(-1)
@@ -75,48 +77,66 @@ struct Dashboard: View {
         }
         .coordinateSpace(name: "screen")
         .padding()
-        .sheet(isPresented: viewModel.sheetBinding,
-               content: {
-            SendMoneyView(amount: Binding(get: {
-                viewModel.newAmount
-            }, set: { val, _ in
-                viewModel.newAmount = val
-            }), isPresented: viewModel.sheetBinding)
-        })
+        .onAppear {
+            viewModel.setModels(from: items)
+        }
+        .onChange(of: items) { _, _ in
+            viewModel.setModels(from: items)
+        }
+        .sheet(isPresented: viewModel.sheetBinding) { ActionSheetView(
+            isPresented: viewModel.sheetBinding,
+            presentingType: viewModel.presentingType)
+        }
     }
 }
 
 @Observable
 class DashboardViewModel {
-    var data: [DraggableCircleViewModel]
-    var accounts: [DraggableCircleViewModel]
-    var expenses: [DraggableCircleViewModel]
-    var plusButton: DraggableCircleViewModel
-    var sheetPresended = false
+    private var allModels = [DraggableCircleViewModel]()
+    var accounts = [DraggableCircleViewModel]()
+    var categories = [DraggableCircleViewModel]()
+    
+    let plusButton = DraggableCircleViewModel(
+        item: CircleItem(name: "", type: .plusButton))
+    let addAccountButton = DraggableCircleViewModel(
+        item: CircleItem(name: "", type: .addAccount))
+    let addCategoryButton = DraggableCircleViewModel(
+        item: CircleItem(name: "", type: .addCategory))
+    
     var showDropableLocations = false
-    var newAmount = "0"
+    var presentingType = PresentingType.none
     
     var sheetBinding: Binding<Bool> {
         Binding(
-            get: { return self.sheetPresended },
-            set: { (newValue) in return self.sheetPresended = newValue }
+            get: { return self.presentingType != .none },
+            set: { (newValue) in return self.presentingType = .none }
         )
     }
-    
-    
+//    @ObservationIgnored
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
     private let animation = Animation.smooth(duration: 0.3)
     
-    init(data: [DraggableCircleViewModel]) {
-        self.data = data
-        self.accounts = data.filter { $0.item.type == .account }
-        self.expenses = data.filter { $0.item.type == .category }
-        self.plusButton = data.filter { $0.item.type == .plusButton }.first!
-        
-        for datum in data {
+    init() {
+        update()
+    }
+
+    func update() {
+        self.allModels = accounts + categories + [plusButton, addAccountButton, addCategoryButton]
+        for datum in allModels {
             datum.locationHandler = handle(movingItem:state:)
         }
+    }
+    
+    func setModels(from items: [CircleItem]) {
+        accounts = items
+            .filter { $0.type == .account }
+            .prefix(4)
+            .map { DraggableCircleViewModel(item: $0) }
+        categories = items
+            .filter { $0.type == .category }
+            .map { DraggableCircleViewModel(item: $0) }
+        update()
     }
     
     private func handle(movingItem: CircleItem, state: CircleState) {
@@ -125,21 +145,31 @@ class DashboardViewModel {
         case .released(let location):
             resetHight()
             showImpact()
-            if shouldPresentSheet(movingItem: movingItem, location: location) {
-                sheetPresended = true
+            if let destination = shouldPresentSheet(movingItem: movingItem, location: location) {
+                if destination.type == .addAccount {
+                    presentingType = .addAccount
+                } else if destination.type == .addCategory {
+                    presentingType = .addCategory
+                } else {
+                    presentingType = .transfer(source: movingItem,
+                                               destination: destination)
+                }
             }
             updateDropableLocations(plusButtonOffset: .zero)
         case .pressed:
-            sheetPresended = true
+            if movingItem.type == .plusButton {
+                presentingType = .transfer(source: nil,
+                                           destination: nil)
+            } else {
+                presentingType = .details(item: movingItem)
+            }
         case .moving(let location, let offset):
             if offset == .zero { showImpact() }
             
             if movingItem.type == .plusButton {
                 updateDropableLocations(plusButtonOffset: offset)
             }
-            if movingItem.type.isMovable {
-                highlighted(location: location, movingItem: movingItem)
-            }
+            highlighted(location: location, movingItem: movingItem)
         }
     }
     
@@ -154,58 +184,39 @@ class DashboardViewModel {
     private func highlighted(location: CGPoint, movingItem: CircleItem) {
         let rect = CGRect(origin: location, size: movingItemSize)
         
-        for (index, datum) in data.enumerated() {
+        for (index, datum) in allModels.enumerated() {
             if rect.intersects(datum.initialRect) {
                 if datum.item != movingItem &&
-                    canTrigger(movingItem: movingItem, stillItem: datum.item) &&
-                    data.filter({ $0.highlighted }).isEmpty {
-                    data[index].highlighted = true
+                    movingItem.type.canTrigger(stillItem: datum.item) &&
+                    allModels.filter({ $0.highlighted }).isEmpty {
+                    allModels[index].highlight()
                     showImpact()
                 }
             } else {
-                data[index].highlighted = false
+                allModels[index].resetHighlight()
             }
         }
     }
     
-    private func canTrigger(movingItem: CircleItem, stillItem: CircleItem) -> Bool {
-        if movingItem.type == .plusButton && stillItem.type == .category ||
-            movingItem.type == .category {
-            return false
-        } else {
-            return true
-        }
-    }
-    
-    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> Bool {
+    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
         let rect = CGRect(origin: location, size: movingItemSize)
-        let intersectedModel = data
+        let intersectedModel = allModels
             .filter { rect.intersects($0.initialRect) }
-            .filter { canTrigger(movingItem: movingItem, stillItem: $0.item) }
+            .filter { movingItem.type.canTrigger(stillItem: $0.item) }
             .first
         if let interspectedModel = intersectedModel,
            interspectedModel.item != movingItem {
-            return true
+            return interspectedModel.item
         } else {
-            return false
+            return nil
         }
     }
-    
     
     private func resetHight() {
-        for i in 0..<data.count {
-            data[i].highlighted = false
-        }
+        allModels.forEach { $0.resetHighlight() }
     }
 }
-
 
 #Preview {
-    Dashboard(viewModel: DashboardViewModel(data: MockData.data))
-}
-
-extension Collection {
-    subscript (safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
+    Dashboard(viewModel: DashboardViewModel())
 }

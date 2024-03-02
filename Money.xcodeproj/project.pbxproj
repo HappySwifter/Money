@@ -22,6 +22,12 @@
 		AC4080D72B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */; };
 		ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */; };
 		ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF312B930DAB00403538 /* CalculatorButton.swift */; };
+		ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF332B9319A900403538 /* PresentingType.swift */; };
+		ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF382B932FB800403538 /* NewAccountView.swift */; };
+		ACA3AF442B933A2A00403538 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = ACA3AF432B933A2A00403538 /* MCEmojiPicker */; };
+		ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF452B933DAA00403538 /* EnterAmountView.swift */; };
+		ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */; };
+		ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF492B93515600403538 /* NewCategoryView.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
@@ -29,7 +35,7 @@
 		ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */; };
 		ACD4C9492B8F73970087F632 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9482B8F73970087F632 /* MockData.swift */; };
 		ACF62B002B91E61A002CB75D /* DropableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* DropableView.swift */; };
-		ACF62B022B91EB09002CB75D /* SendMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* SendMoneyView.swift */; };
+		ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* ActionSheetView.swift */; };
 		ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +77,11 @@
 		AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonView.swift; sourceTree = "<group>"; };
 		ACA3AF312B930DAB00403538 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
+		ACA3AF332B9319A900403538 /* PresentingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingType.swift; sourceTree = "<group>"; };
+		ACA3AF382B932FB800403538 /* NewAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountView.swift; sourceTree = "<group>"; };
+		ACA3AF452B933DAA00403538 /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
+		ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonStyle.swift; sourceTree = "<group>"; };
+		ACA3AF492B93515600403538 /* NewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryView.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
@@ -78,7 +89,7 @@
 		ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationModifier.swift; sourceTree = "<group>"; };
 		ACD4C9482B8F73970087F632 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		ACF62AFF2B91E61A002CB75D /* DropableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropableView.swift; sourceTree = "<group>"; };
-		ACF62B012B91EB09002CB75D /* SendMoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMoneyView.swift; sourceTree = "<group>"; };
+		ACF62B012B91EB09002CB75D /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA3AF442B933A2A00403538 /* MCEmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,10 +122,11 @@
 		AC031EDD2B91863B006A3A8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
+				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				AC031EE22B91892B006A3A8C /* CircleState.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
+				ACA3AF332B9319A900403538 /* PresentingType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -125,7 +138,8 @@
 				ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */,
 				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
 				ACF62AFF2B91E61A002CB75D /* DropableView.swift */,
-				ACF62B012B91EB09002CB75D /* SendMoneyView.swift */,
+				ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */,
+				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
 				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
 			);
@@ -198,6 +212,17 @@
 			path = MoneyUITests;
 			sourceTree = "<group>";
 		};
+		ACA3AF352B932F9100403538 /* Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
+				ACA3AF382B932FB800403538 /* NewAccountView.swift */,
+				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
+				ACA3AF452B933DAA00403538 /* EnterAmountView.swift */,
+			);
+			path = Sheets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -214,6 +239,9 @@
 			dependencies = (
 			);
 			name = Money;
+			packageProductDependencies = (
+				ACA3AF432B933A2A00403538 /* MCEmojiPicker */,
+			);
 			productName = Money;
 			productReference = AC4080B22B8E34AB004D7575 /* Money.app */;
 			productType = "com.apple.product-type.application";
@@ -286,6 +314,9 @@
 				Base,
 			);
 			mainGroup = AC4080A92B8E34AB004D7575;
+			packageReferences = (
+				ACA3AF422B933A2A00403538 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
+			);
 			productRefGroup = AC4080B32B8E34AB004D7575 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -328,23 +359,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
 				AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */,
+				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
 				ACD4C9492B8F73970087F632 /* MockData.swift in Sources */,
 				ACF62B002B91E61A002CB75D /* DropableView.swift in Sources */,
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
+				ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */,
 				AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */,
+				ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */,
 				ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */,
 				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
-				ACF62B022B91EB09002CB75D /* SendMoneyView.swift in Sources */,
+				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
+				ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
 				AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */,
 			);
@@ -709,6 +745,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ACA3AF422B933A2A00403538 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker?tab=readme-ov-file#feedback-generator-style";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ACA3AF432B933A2A00403538 /* MCEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACA3AF422B933A2A00403538 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
+			productName = MCEmojiPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AC4080AA2B8E34AB004D7575 /* Project object */;
 }
