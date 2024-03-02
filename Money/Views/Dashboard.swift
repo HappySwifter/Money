@@ -7,10 +7,12 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var viewModel: DashboardViewModel
+    @Query(sort: \CircleItem.date) private var items: [CircleItem]
     
     var columns: [GridItem] {
         let count: Int
@@ -22,7 +24,7 @@ struct Dashboard: View {
         default:
             count = 0
         }
-        return Array(repeating: .init(.flexible(minimum: 60, maximum: 150)), count: count)
+        return Array(repeating: .init(.flexible(minimum: 60, maximum: 100)), count: count)
     }
     
     var body: some View {
@@ -65,8 +67,8 @@ struct Dashboard: View {
             }
             
             ScrollView {
-                LazyVGrid(columns: columns, content: {
-                    ForEach(viewModel.expenses, id: \.item) { exp in
+                LazyVGrid(columns: columns, alignment: .leading, content: {
+                    ForEach(viewModel.categories, id: \.item) { exp in
                         DraggableCircle(viewModel: exp)
                     }
                     .zIndex(-1)
@@ -75,25 +77,24 @@ struct Dashboard: View {
         }
         .coordinateSpace(name: "screen")
         .padding()
-        .sheet(isPresented: viewModel.sheetBinding,
-               content: {
-            SendMoneyView(
-//                amount: Binding(get: {
-//                viewModel.newAmount
-//            }, set: { val, _ in
-//                viewModel.newAmount = val
-//            }),
-                isPresented: viewModel.sheetBinding,
-                presentingType: viewModel.presentingType)
-        })
+        .onAppear {
+            viewModel.setModels(from: items)
+        }
+        .onChange(of: items) { _, _ in
+            viewModel.setModels(from: items)
+        }
+        .sheet(isPresented: viewModel.sheetBinding) { ActionSheetView(
+            isPresented: viewModel.sheetBinding,
+            presentingType: viewModel.presentingType)
+        }
     }
 }
 
 @Observable
 class DashboardViewModel {
-    let allModels: [DraggableCircleViewModel]
-    let accounts: [DraggableCircleViewModel]
-    let expenses: [DraggableCircleViewModel]
+    private var allModels = [DraggableCircleViewModel]()
+    var accounts = [DraggableCircleViewModel]()
+    var categories = [DraggableCircleViewModel]()
     
     let plusButton = DraggableCircleViewModel(
         item: CircleItem(name: "", type: .plusButton))
@@ -104,26 +105,38 @@ class DashboardViewModel {
     
     var showDropableLocations = false
     var presentingType = PresentingType.none
-        
+    
     var sheetBinding: Binding<Bool> {
         Binding(
             get: { return self.presentingType != .none },
             set: { (newValue) in return self.presentingType = .none }
         )
     }
-
+//    @ObservationIgnored
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
     private let animation = Animation.smooth(duration: 0.3)
     
-    init(data: [DraggableCircleViewModel]) {
-        self.allModels = data + [plusButton, addAccountButton, addCategoryButton]
-        self.accounts = data.filter { $0.item.type == .account }
-        self.expenses = data.filter { $0.item.type == .category }
-        
+    init() {
+        update()
+    }
+
+    func update() {
+        self.allModels = accounts + categories + [plusButton, addAccountButton, addCategoryButton]
         for datum in allModels {
             datum.locationHandler = handle(movingItem:state:)
         }
+    }
+    
+    func setModels(from items: [CircleItem]) {
+        accounts = items
+            .filter { $0.type == .account }
+            .prefix(4)
+            .map { DraggableCircleViewModel(item: $0) }
+        categories = items
+            .filter { $0.type == .category }
+            .map { DraggableCircleViewModel(item: $0) }
+        update()
     }
     
     private func handle(movingItem: CircleItem, state: CircleState) {
@@ -135,8 +148,8 @@ class DashboardViewModel {
             if let destination = shouldPresentSheet(movingItem: movingItem, location: location) {
                 if destination.type == .addAccount {
                     presentingType = .addAccount
-                } else if destination.type == .addAccount {
-                    presentingType = .addAccount
+                } else if destination.type == .addCategory {
+                    presentingType = .addCategory
                 } else {
                     presentingType = .transfer(source: movingItem,
                                                destination: destination)
@@ -205,5 +218,5 @@ class DashboardViewModel {
 }
 
 #Preview {
-    Dashboard(viewModel: DashboardViewModel(data: MockData.data))
+    Dashboard(viewModel: DashboardViewModel())
 }

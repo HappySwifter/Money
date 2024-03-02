@@ -12,13 +12,15 @@ import SwiftData
 @Model
 final class CircleItem {
     let id: UUID
+    let date: Date
     let name: String
     let icon: String
     let type: CircleType
     let color: String
     
-    init(id: UUID = UUID(), name: String, icon: String = "", type: CircleType, color: String = "blue") {
+    init(id: UUID = UUID(), date: Date = Date(), name: String, icon: String = "", type: CircleType, color: String = "blue") {
         self.id = id
+        self.date = date
         self.name = name
         self.icon = icon
         self.type = type

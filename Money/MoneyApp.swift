@@ -26,7 +26,8 @@ struct MoneyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Dashboard(viewModel: DashboardViewModel(data: MockData.data))
+//            ContentView3()
+            Dashboard(viewModel: DashboardViewModel())
         }
         .modelContainer(sharedModelContainer)
     }
