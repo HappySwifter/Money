@@ -38,15 +38,15 @@ enum StillCircleState {
             return circleType.color
             
         case (.disabled, .account):
-            return circleType.color.opacity(0.3)
+            return circleType.color.opacity(0.1)
         case (.disabled, .category):
-            return circleType.color.opacity(0.3)
+            return circleType.color.opacity(0.1)
         case (.disabled, .plusButton):
-            return circleType.color.opacity(0.3)
+            return circleType.color.opacity(0.1)
         case (.disabled, .addAccount):
-            return circleType.color.opacity(0.3)
+            return circleType.color.opacity(0.1)
         case (.disabled, .addCategory):
-            return circleType.color.opacity(0.3)
+            return circleType.color.opacity(0.1)
         }
     }
 }

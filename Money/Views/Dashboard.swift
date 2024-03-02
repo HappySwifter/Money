@@ -141,15 +141,21 @@ class DashboardViewModel {
     
     private func handle(movingItem: CircleItem, state: DraggableCircleState) {
         if movingItem.type == .plusButton {
-            handlePlusButton(movement: state.offset)
+            withAnimation(animation) {
+                showDropableLocations = isPlusButtonMovedAway(movement: state.offset)
+            }
         }
-        setFocused(location: state.location, movingItem: movingItem)
-        updatePresentingType(state: state, movingItem: movingItem)
+        updateStillCircleState(location: state.location,
+                               offset: state.offset,
+                               movingItem: movingItem)
+        
+        updatePresentingType(state: state,
+                             movingItem: movingItem)
         
         switch state {
-        case .moving(let location, let offset):
+        case .moving(_, let offset):
             if offset == .zero { showImpact() }
-        case .released(let location):
+        case .released(_):
             resetFocus()
             showImpact()
         case .pressed:
@@ -183,33 +189,51 @@ class DashboardViewModel {
         }
     }
     
-    private func handlePlusButton(movement offset: CGSize) {
-        withAnimation(animation) {
-            if abs(offset.width) > plusButtonOffsetThreshold ||
-                abs (offset.height) > plusButtonOffsetThreshold {
-                showDropableLocations = true
-                categories.forEach { $0.setDisabled() }
-            } else {
-                showDropableLocations = false
-                categories.forEach { $0.setNormal() }
+    private func isPlusButtonMovedAway(movement offset: CGSize) -> Bool {
+        return abs(offset.width) > plusButtonOffsetThreshold ||
+        abs (offset.height) > plusButtonOffsetThreshold
+    }
+    
+    private func updateStillCircleState(location: CGPoint,
+                                        offset: CGSize,
+                                        movingItem: CircleItem) {
+        let rect = CGRect(origin: location, size: movingItemSize)
+                
+        for stillItemModel in allModels {
+            withAnimation(animation) {
+                if movingItem.type == .plusButton && stillItemModel.item.type == .category {
+                    if isPlusButtonMovedAway(movement: offset) {
+                        stillItemModel.setDisabled()
+                    } else {
+                        stillItemModel.setNormal()
+                    }
+                } else {
+                    if let focused = shouldSetFocus(rect: rect,
+                                                    movingItem: movingItem,
+                                                    stillItem: stillItemModel) {
+                        if focused {
+                            stillItemModel.setFocus()
+                            showImpact()
+                        } else {
+                            stillItemModel.setNormal()
+                        }
+                    }
+                }
             }
         }
     }
     
-    private func setFocused(location: CGPoint, movingItem: CircleItem) {
-        let rect = CGRect(origin: location, size: movingItemSize)
-        
-        for (index, datum) in allModels.enumerated() {
-            if rect.intersects(datum.initialRect) {
-                if datum.item != movingItem &&
-                    movingItem.type.canTrigger(stillItem: datum.item) &&
-                    allModels.filter({ $0.stillState == .focused }).isEmpty {
-                    allModels[index].setFocus()
-                    showImpact()
-                }
+    private func shouldSetFocus(rect: CGRect, movingItem: CircleItem, stillItem: DraggableCircleViewModel) -> Bool? {
+        if rect.intersects(stillItem.initialRect) {
+            if stillItem.item != movingItem &&
+                movingItem.type.canTrigger(stillItem: stillItem.item) &&
+                allModels.filter({ $0.stillState == .focused }).isEmpty {
+                return true
             } else {
-                allModels[index].setNormal()
+                return nil
             }
+        } else {
+            return false
         }
     }
     
