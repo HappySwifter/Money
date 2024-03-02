@@ -7,76 +7,63 @@
 
 import SwiftUI
 
-enum CalculatorButtons: String, CaseIterable {
-    case but7 = "7"
-    case but8 = "8"
-    case but9 = "9"
-    case plus = "+"
-    case but4 = "4"
-    case but5 = "5"
-    case but6 = "6"
-    case minus = "-"
-    case but1 = "1"
-    case but2 = "2"
-    case but3 = "3"
-    case equal = "="
-    case comma = ","
-    case but0 = "0"
-    case remove = "\u{232b}"
+struct CalculatorView: View {
+    let viewModel: CalculatorViewModel
+    @Binding var resultString: String
     
-    var backgroundColor: Color {
-        switch self {
-        case .plus, .minus, .equal:
-            return .orange
-        default:
-            return .gray.opacity(0.8)
+    var body: some View {
+        LazyVGrid(columns: viewModel.columns, spacing: 0, content: {
+            ForEach(viewModel.buttons, id: \.self) { button in
+                Button {
+                    handlePress(on: button)
+                } label: {
+                    CalculatorButtonView(size: viewModel.buttonSize, button: button)
+                }
+            }
+        })
+        .clipShape(RoundedRectangle(cornerRadius: 10.0))
+        .frame(maxWidth: viewModel.buttonSize.width * Double(viewModel.buttonsInColumn))
+    }
+    
+    private func handlePress(on button: CalculatorButton) {
+        switch button {
+        case .but1, .but2, .but3, .but4, .but5, .but6, .but7, .but8, .but9:
+            resultString.append(button.rawValue)
+        case .plus:
+            break
+        case .minus:
+            break
+        case .equal:
+            break
+        case .comma:
+            if !resultString.contains(",") {
+                resultString.append(button.rawValue)
+            }
+        case .but0:
+            resultString.append(button.rawValue)
+        case .remove:
+            resultString = String(resultString.dropLast())
         }
     }
 }
 
-struct CalculatorView: View {
+class CalculatorViewModel {
+    let buttons: [CalculatorButton]
+    let buttonsInColumn: Int
+    let columns: [GridItem]
+    let buttonSize = CGSize(width: 80, height: 50)
     
-    @Binding var resultString: String
-    let digits = CalculatorButtons.allCases
-    let columns: [GridItem] = Array(repeating: GridItem(.fixed(60), spacing: 0), count: 4)
-    
-    var body: some View {
-        VStack {
-            LazyVGrid(columns: columns, spacing: 0, content: {
-                Section {
-                    Group {
-                        ForEach(digits, id: \.self) { number in
-                            Button(action: {
-                                if !(number.rawValue == "," && resultString.contains(",")) {
-                                    resultString.append(number.rawValue)
-                                }
-                                
-                            }, label: {
-                                CalculatorButtonView(button: number)
-                            })
-                        }
-                    }
-                } header: {
-                    HStack {
-                        TextField("Enter amount", text: $resultString)
-                            .font(.title)
-                            .disabled(true)
-                            .multilineTextAlignment(.trailing)
-                        
-                        
-                    }
-                    .padding(.vertical)
-                }
-            })
-            .clipShape(RoundedRectangle(cornerRadius: 15.0))
-            .frame(width: 220)
-            
-        }
+    init(showCalculator: Bool) {
+        self.buttons = CalculatorButton.allCases.filter { showCalculator ? true : !$0.isCalcButton }
+        self.buttonsInColumn = showCalculator ? 4 : 3
+        self.columns = Array(repeating: GridItem(.fixed(buttonSize.width), spacing: 0), count: self.buttonsInColumn)
     }
+    
     
 }
 
 #Preview {
     @State var res = "324560"
-    return CalculatorView(resultString: $res)
+    return CalculatorView(viewModel: CalculatorViewModel(showCalculator: false), resultString: .constant("0"))
+        .background(Color.red.opacity(0.3))
 }

@@ -32,3 +32,5 @@ func prettify(location: CGPoint?) -> String {
 func showImpact() {
     UIImpactFeedbackGenerator(style: .light).impactOccurred()
 }
+
+

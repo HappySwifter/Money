@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct CalculatorButtonView: View {
-    @State var button: CalculatorButtons
+    let size: CGSize
+    @State var button: CalculatorButton
+    
     var body: some View {
         Text(button.rawValue)
-            .frame(width: 40, height: 40, alignment: .center)
-            .padding(10)
             .font(.title)
             .foregroundColor(.white)
+            .frame(width: size.width, height: size.height)
             .background(button.backgroundColor)
             .border(Color.black, width: 0.5)
     }
 }
 
 #Preview {
-    CalculatorButtonView(button: .but0)
+    CalculatorButtonView(size: CGSize(width: 80, height: 60), button: .but0)
 }

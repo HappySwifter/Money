@@ -11,35 +11,33 @@ struct SendMoneyView: View {
     @Binding var amount: String
     @Binding var isPresented: Bool
     
-    enum FocusField: Hashable {
-      case field
-    }
-    @FocusState private var focusedField: FocusField?
-    
-    
     var body: some View {
         VStack {
             HStack {
                 Spacer()
+                HStack {
+                    TextField("Enter amount", text: $amount)
+                        .font(.title)
+                        .disabled(true)
+                        .multilineTextAlignment(.trailing)
+                }
+                .padding(.trailing)
                 Button(action: {
                     isPresented = false
                 }, label: {
                     Text("Done")
-                        .padding(10)
+                        .padding(15)
                         .font(.headline)
                         .foregroundColor(.white)
                         .background(Color.blue)
                         .cornerRadius(10)
                 })
-
             }
-            CalculatorView(resultString: $amount)
+            .padding(.bottom)
+            CalculatorView(viewModel: CalculatorViewModel(showCalculator: false), resultString: $amount)
+            Spacer()
         }
         .padding()
-        .focused($focusedField, equals: .field)
-        .onAppear {
-          self.focusedField = .field
-        }
         .presentationCornerRadius(30)
         .presentationDetents([.height(380)])
         

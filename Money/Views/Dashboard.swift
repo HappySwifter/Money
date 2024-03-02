@@ -94,7 +94,7 @@ class DashboardViewModel {
     var plusButton: DraggableCircleViewModel
     var sheetPresended = false
     var showDropableLocations = false
-    var newAmount = ""
+    var newAmount = "0"
     
     var sheetBinding: Binding<Bool> {
         Binding(
