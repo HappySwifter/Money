@@ -14,10 +14,10 @@ struct DropableView: View {
         HStack {
             Text("Add \(viewModel.item.type.addDescription)")
             Image(systemName: "plus")
-                .font(.system(size: viewModel.highlighted ? 25 : 15))
+                .font(.system(size: viewModel.stillState == .focused ? 25 : 15))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(Color.gray.opacity(viewModel.highlighted ? 0.6 : 0.4))
+                .background(Color.gray.opacity(viewModel.stillState == .focused ? 0.6 : 0.4))
                 .clipShape(Circle())
                 .getRect()
             Spacer()

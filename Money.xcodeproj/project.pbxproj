@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EDE2B918644006A3A8C /* CircleType.swift */; };
 		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
-		AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* CircleState.swift */; };
+		AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */; };
 		AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE42B918A11006A3A8C /* DragGesture.swift */; };
 		AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
@@ -28,6 +28,8 @@
 		ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF452B933DAA00403538 /* EnterAmountView.swift */; };
 		ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */; };
 		ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF492B93515600403538 /* NewCategoryView.swift */; };
+		ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */; };
+		ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
@@ -59,7 +61,7 @@
 /* Begin PBXFileReference section */
 		AC031EDE2B918644006A3A8C /* CircleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleType.swift; sourceTree = "<group>"; };
 		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
-		AC031EE22B91892B006A3A8C /* CircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleState.swift; sourceTree = "<group>"; };
+		AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleState.swift; sourceTree = "<group>"; };
 		AC031EE42B918A11006A3A8C /* DragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGesture.swift; sourceTree = "<group>"; };
 		AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleViewModel.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +84,8 @@
 		ACA3AF452B933DAA00403538 /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
 		ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonStyle.swift; sourceTree = "<group>"; };
 		ACA3AF492B93515600403538 /* NewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryView.swift; sourceTree = "<group>"; };
+		ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-03-02 at 19.09.39.png"; sourceTree = "<group>"; };
+		ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillCircleState.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
@@ -124,7 +128,8 @@
 			children = (
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
 				AC031EDE2B918644006A3A8C /* CircleType.swift */,
-				AC031EE22B91892B006A3A8C /* CircleState.swift */,
+				AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */,
+				ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
 			);
@@ -181,6 +186,7 @@
 				ACD4C9402B8F2A950087F632 /* test.swift */,
 				AC4080BB2B8E34AD004D7575 /* Assets.xcassets */,
 				AC4080BD2B8E34AD004D7575 /* Money.entitlements */,
+				ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */,
 				AC4080C12B8E34AD004D7575 /* Info.plist */,
 				AC4080BE2B8E34AD004D7575 /* Preview Content */,
 			);
@@ -335,6 +341,7 @@
 			files = (
 				AC4080C02B8E34AD004D7575 /* Preview Assets.xcassets in Resources */,
 				AC4080BC2B8E34AD004D7575 /* Assets.xcassets in Resources */,
+				ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */,
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
@@ -382,7 +390,7 @@
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
 				ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
-				AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */,
+				AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

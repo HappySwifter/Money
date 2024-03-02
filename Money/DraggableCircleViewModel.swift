@@ -11,12 +11,13 @@ import SwiftUI
 @Observable
 class DraggableCircleViewModel {
     let item: CircleItem
-    private(set) var highlighted = false
     var initialRect = CGRect.zero
-    var locationHandler: ((CircleItem, CircleState) -> ())?
-    var state = CircleState.released(location: .zero) {
+    var locationHandler: ((CircleItem, DraggableCircleState) -> ())?
+    
+    private(set) var stillState = StillCircleState.normal
+    var draggableState = DraggableCircleState.released(location: .zero) {
         didSet {
-            locationHandler?(item, state)
+            locationHandler?(item, draggableState)
         }
     }
     
@@ -24,11 +25,11 @@ class DraggableCircleViewModel {
         self.item = item
     }
     
-    func resetHighlight() {
-        highlighted = false
+    func unFocus() {
+        stillState = .normal
     }
     
-    func highlight() {
-        highlighted = true
+    func setFocus() {
+        stillState = .focused
     }
 }

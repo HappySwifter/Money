@@ -139,7 +139,7 @@ class DashboardViewModel {
         update()
     }
     
-    private func handle(movingItem: CircleItem, state: CircleState) {
+    private func handle(movingItem: CircleItem, state: DraggableCircleState) {
         
         switch state {
         case .released(let location):
@@ -188,12 +188,12 @@ class DashboardViewModel {
             if rect.intersects(datum.initialRect) {
                 if datum.item != movingItem &&
                     movingItem.type.canTrigger(stillItem: datum.item) &&
-                    allModels.filter({ $0.highlighted }).isEmpty {
-                    allModels[index].highlight()
+                    allModels.filter({ $0.stillState == .focused }).isEmpty {
+                    allModels[index].setFocus()
                     showImpact()
                 }
             } else {
-                allModels[index].resetHighlight()
+                allModels[index].unFocus()
             }
         }
     }
@@ -213,7 +213,7 @@ class DashboardViewModel {
     }
     
     private func resetHight() {
-        allModels.forEach { $0.resetHighlight() }
+        allModels.forEach { $0.unFocus() }
     }
 }
 

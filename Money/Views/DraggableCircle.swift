@@ -15,9 +15,7 @@ struct DraggableCircle: View {
             Circle()
                 .stroke(.white, lineWidth: 3)
                 .fill(
-                    viewModel.highlighted ?
-                    viewModel.item.type.highColor :
-                        viewModel.item.type.color
+                    viewModel.stillState.color(for: viewModel.item.type)
                 )
             VStack {
                 Text(viewModel.item.name)
@@ -27,10 +25,10 @@ struct DraggableCircle: View {
             }
             .foregroundStyle(Color.white)
         }
-        .scaleEffect(viewModel.state.shouldShowTouch ||
-                     viewModel.highlighted ?
+        .scaleEffect(viewModel.draggableState.shouldShowTouch ||
+                     viewModel.stillState == .focused ?
                      1.2 : 1.0)
-        .offset(viewModel.state.offset)
+        .offset(viewModel.draggableState.offset)
         .padding(5)
         .gesture(viewModel.item.type.isMovable ? drag : nil)
         .gesture(!viewModel.item.type.isMovable ? tap : nil)
@@ -42,7 +40,7 @@ struct DraggableCircle: View {
     
     var tap: some Gesture {
         TapGesture().onEnded {
-            viewModel.state = .pressed
+            viewModel.draggableState = .pressed
             showImpact()
         }
     }
@@ -50,14 +48,14 @@ struct DraggableCircle: View {
     var drag: some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
             .onChanged { value in
-                viewModel.state = .moving(location: value.location,
+                viewModel.draggableState = .moving(location: value.location,
                                           offset: value.translation)
             }
             .onEnded { value in
                 if value.translation.width == 0 && value.translation.height == 0 {
-                    viewModel.state = .pressed
+                    viewModel.draggableState = .pressed
                 } else {
-                    viewModel.state = .released(location: value.location)
+                    viewModel.draggableState = .released(location: value.location)
                 }
             }
     }
