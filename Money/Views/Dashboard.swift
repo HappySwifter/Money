@@ -35,7 +35,7 @@ struct Dashboard: View {
             
             
             if viewModel.showDropableLocations {
-                DropableView(highlighted: .constant(true), type: .account)
+                DropableView(viewModel: viewModel.addAccountButton)
             } else {
                 HStack {
                     Text("Accounts")
@@ -55,7 +55,7 @@ struct Dashboard: View {
                 .padding(.vertical)
             
             if viewModel.showDropableLocations {
-                DropableView(highlighted: .constant(false), type: .category)
+                DropableView(viewModel: viewModel.addCategoryButton)
             } else {
                 HStack {
                     Text("This month")
@@ -91,10 +91,17 @@ struct Dashboard: View {
 
 @Observable
 class DashboardViewModel {
-    var data: [DraggableCircleViewModel]
-    var accounts: [DraggableCircleViewModel]
-    var expenses: [DraggableCircleViewModel]
-    var plusButton: DraggableCircleViewModel
+    let allModels: [DraggableCircleViewModel]
+    let accounts: [DraggableCircleViewModel]
+    let expenses: [DraggableCircleViewModel]
+    
+    let plusButton = DraggableCircleViewModel(
+        item: CircleItem(name: "", type: .plusButton))
+    let addAccountButton = DraggableCircleViewModel(
+        item: CircleItem(name: "", type: .addAccount))
+    let addCategoryButton = DraggableCircleViewModel(
+        item: CircleItem(name: "", type: .addCategory))
+    
     var showDropableLocations = false
     var presentingType = PresentingType.none
         
@@ -104,18 +111,17 @@ class DashboardViewModel {
             set: { (newValue) in return self.presentingType = .none }
         )
     }
-    
+
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
     private let animation = Animation.smooth(duration: 0.3)
     
     init(data: [DraggableCircleViewModel]) {
-        self.data = data
+        self.allModels = data + [plusButton, addAccountButton, addCategoryButton]
         self.accounts = data.filter { $0.item.type == .account }
         self.expenses = data.filter { $0.item.type == .category }
-        self.plusButton = data.filter { $0.item.type == .plusButton }.first!
         
-        for datum in data {
+        for datum in allModels {
             datum.locationHandler = handle(movingItem:state:)
         }
     }
@@ -127,8 +133,14 @@ class DashboardViewModel {
             resetHight()
             showImpact()
             if let destination = shouldPresentSheet(movingItem: movingItem, location: location) {
-                presentingType = .transfer(source: movingItem,
-                                           destination: destination)
+                if destination.type == .addAccount {
+                    presentingType = .addAccount
+                } else if destination.type == .addAccount {
+                    presentingType = .addAccount
+                } else {
+                    presentingType = .transfer(source: movingItem,
+                                               destination: destination)
+                }
             }
             updateDropableLocations(plusButtonOffset: .zero)
         case .pressed:
@@ -144,9 +156,7 @@ class DashboardViewModel {
             if movingItem.type == .plusButton {
                 updateDropableLocations(plusButtonOffset: offset)
             }
-            if movingItem.type.isMovable {
-                highlighted(location: location, movingItem: movingItem)
-            }
+            highlighted(location: location, movingItem: movingItem)
         }
     }
     
@@ -161,34 +171,25 @@ class DashboardViewModel {
     private func highlighted(location: CGPoint, movingItem: CircleItem) {
         let rect = CGRect(origin: location, size: movingItemSize)
         
-        for (index, datum) in data.enumerated() {
+        for (index, datum) in allModels.enumerated() {
             if rect.intersects(datum.initialRect) {
                 if datum.item != movingItem &&
-                    canTrigger(movingItem: movingItem, stillItem: datum.item) &&
-                    data.filter({ $0.highlighted }).isEmpty {
-                    data[index].highlighted = true
+                    movingItem.type.canTrigger(stillItem: datum.item) &&
+                    allModels.filter({ $0.highlighted }).isEmpty {
+                    allModels[index].highlight()
                     showImpact()
                 }
             } else {
-                data[index].highlighted = false
+                allModels[index].resetHighlight()
             }
-        }
-    }
-    
-    private func canTrigger(movingItem: CircleItem, stillItem: CircleItem) -> Bool {
-        if movingItem.type == .plusButton && stillItem.type == .category ||
-            movingItem.type == .category {
-            return false
-        } else {
-            return true
         }
     }
     
     private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
         let rect = CGRect(origin: location, size: movingItemSize)
-        let intersectedModel = data
+        let intersectedModel = allModels
             .filter { rect.intersects($0.initialRect) }
-            .filter { canTrigger(movingItem: movingItem, stillItem: $0.item) }
+            .filter { movingItem.type.canTrigger(stillItem: $0.item) }
             .first
         if let interspectedModel = intersectedModel,
            interspectedModel.item != movingItem {
@@ -199,9 +200,7 @@ class DashboardViewModel {
     }
     
     private func resetHight() {
-        for i in 0..<data.count {
-            data[i].highlighted = false
-        }
+        allModels.forEach { $0.resetHighlight() }
     }
 }
 

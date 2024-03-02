@@ -7,8 +7,10 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
-struct CircleItem: Codable, Identifiable, Hashable {
+@Model
+final class CircleItem {
     let id: UUID
     let name: String
     let icon: String

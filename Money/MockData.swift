@@ -35,10 +35,9 @@ struct MockData {
         DraggableCircleViewModel(item: CircleItem(name: "relax17", type: .category)),
         DraggableCircleViewModel(item: CircleItem(name: "relax18", type: .category)),
         DraggableCircleViewModel(item: CircleItem(name: "relax19", type: .category)),
-        DraggableCircleViewModel(item: CircleItem(name: "relax20", type: .category)),
-        DraggableCircleViewModel(item: CircleItem(name: "", type: .plusButton))
+        DraggableCircleViewModel(item: CircleItem(name: "relax20", type: .category))
     ]
-    
+
     static let columns = [
         GridItem(.adaptive(minimum: 100, maximum: 200)),
         GridItem(.adaptive(minimum: 100, maximum: 200)),

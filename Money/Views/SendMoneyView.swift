@@ -18,14 +18,20 @@ struct SendMoneyView: View {
             switch presentingType {
             case .transfer(let source, let destination):
                 HStack {
-                    Text(source?.name ?? "")
+                    if source?.type == .plusButton {
+                        Text("New income")
+                    } else {
+                        Text(source?.name ?? "")
+                    }
                     Text("->")
                     Text(destination?.name ?? "")
                 }
             case .details(let item):
                 Text("Details: \(item.name)")
-            case .addItem:
-                Text("Add new item")
+            case .addAccount:
+                Text("Add new account")
+            case .addCategory:
+                Text("Add new category")
             case .none:
                 Spacer()
             }
@@ -60,5 +66,5 @@ struct SendMoneyView: View {
 }
 
 #Preview {
-    SendMoneyView(isPresented: .constant(true), presentingType: .addItem)
+    SendMoneyView(isPresented: .constant(true), presentingType: .addCategory)
 }

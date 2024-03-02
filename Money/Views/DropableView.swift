@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct DropableView: View {
-    @Binding var highlighted: Bool
-    let type: CircleType
+    let viewModel: DraggableCircleViewModel
     
     var body: some View {
         HStack {
-            Text("Add \(type.description)")
+            Text("Add \(viewModel.item.type.addDescription)")
             Image(systemName: "plus")
-                .font(.system(size: highlighted ? 20 : 15))
+                .font(.system(size: viewModel.highlighted ? 25 : 15))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(Color.gray.opacity(highlighted ? 0.6 : 0.4))
+                .background(Color.gray.opacity(viewModel.highlighted ? 0.6 : 0.4))
                 .clipShape(Circle())
+                .getRect()
             Spacer()
         }
+        .onPreferenceChange(OriginKey.self, perform: { value in
+            viewModel.initialRect = value
+        })
     }
 }
 
-#Preview {
-    DropableView(highlighted: .constant(false), type: .account)
-}

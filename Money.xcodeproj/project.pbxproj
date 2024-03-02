@@ -112,8 +112,8 @@
 		AC031EDD2B91863B006A3A8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
+				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				AC031EE22B91892B006A3A8C /* CircleState.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
