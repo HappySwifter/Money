@@ -8,7 +8,6 @@
 import SwiftUI
 
 enum CalculatorButtons: String, CaseIterable {
-    
     case but7 = "7"
     case but8 = "8"
     case but9 = "9"
