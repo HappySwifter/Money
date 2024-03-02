@@ -15,13 +15,12 @@ struct SendMoneyView: View {
         VStack {
             HStack {
                 Spacer()
-                HStack {
-                    TextField("Enter amount", text: $amount)
-                        .font(.title)
-                        .disabled(true)
-                        .multilineTextAlignment(.trailing)
-                }
-                .padding(.trailing)
+              
+                Text(amount)
+                    .font(.title)
+                    .multilineTextAlignment(.trailing)
+                    .padding(.trailing)
+                
                 Button(action: {
                     isPresented = false
                 }, label: {

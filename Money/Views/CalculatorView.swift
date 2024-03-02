@@ -28,6 +28,9 @@ struct CalculatorView: View {
     private func handlePress(on button: CalculatorButton) {
         switch button {
         case .but1, .but2, .but3, .but4, .but5, .but6, .but7, .but8, .but9:
+            if resultString == "0" {
+                resultString = ""
+            }
             resultString.append(button.rawValue)
         case .plus:
             break
@@ -43,6 +46,9 @@ struct CalculatorView: View {
             resultString.append(button.rawValue)
         case .remove:
             resultString = String(resultString.dropLast())
+            if resultString.isEmpty {
+                resultString = "0"
+            }
         }
     }
 }
