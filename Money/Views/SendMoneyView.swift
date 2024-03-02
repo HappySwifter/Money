@@ -33,7 +33,7 @@ struct SendMoneyView: View {
                 })
 
             }
-            DecimalPadView(resultString: $amount)
+            CalculatorView(resultString: $amount)
         }
         .padding()
         .focused($focusedField, equals: .field)

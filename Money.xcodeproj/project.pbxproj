@@ -20,6 +20,7 @@
 		AC4080CB2B8E34AD004D7575 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080CA2B8E34AD004D7575 /* MoneyTests.swift */; };
 		AC4080D52B8E34AD004D7575 /* MoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */; };
 		AC4080D72B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */; };
+		ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
@@ -28,7 +29,7 @@
 		ACD4C9492B8F73970087F632 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9482B8F73970087F632 /* MockData.swift */; };
 		ACF62B002B91E61A002CB75D /* DropableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* DropableView.swift */; };
 		ACF62B022B91EB09002CB75D /* SendMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* SendMoneyView.swift */; };
-		ACF62B0B2B9225BB002CB75D /* DecimalPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B0A2B9225BB002CB75D /* DecimalPadView.swift */; };
+		ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		AC4080D02B8E34AD004D7575 /* MoneyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoneyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITests.swift; sourceTree = "<group>"; };
 		AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonView.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
@@ -75,7 +77,7 @@
 		ACD4C9482B8F73970087F632 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		ACF62AFF2B91E61A002CB75D /* DropableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropableView.swift; sourceTree = "<group>"; };
 		ACF62B012B91EB09002CB75D /* SendMoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMoneyView.swift; sourceTree = "<group>"; };
-		ACF62B0A2B9225BB002CB75D /* DecimalPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalPadView.swift; sourceTree = "<group>"; };
+		ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +123,8 @@
 				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
 				ACF62AFF2B91E61A002CB75D /* DropableView.swift */,
 				ACF62B012B91EB09002CB75D /* SendMoneyView.swift */,
-				ACF62B0A2B9225BB002CB75D /* DecimalPadView.swift */,
+				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
+				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -332,8 +335,9 @@
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */,
+				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
-				ACF62B0B2B9225BB002CB75D /* DecimalPadView.swift in Sources */,
+				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* SendMoneyView.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
