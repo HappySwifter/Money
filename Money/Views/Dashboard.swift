@@ -140,12 +140,28 @@ class DashboardViewModel {
     }
     
     private func handle(movingItem: CircleItem, state: DraggableCircleState) {
+        if movingItem.type == .plusButton {
+            handlePlusButton(movement: state.offset)
+        }
+        setFocused(location: state.location, movingItem: movingItem)
+        updatePresentingType(state: state, movingItem: movingItem)
         
         switch state {
+        case .moving(let location, let offset):
+            if offset == .zero { showImpact() }
         case .released(let location):
-            resetHight()
+            resetFocus()
             showImpact()
-            if let destination = shouldPresentSheet(movingItem: movingItem, location: location) {
+        case .pressed:
+            break
+        }
+    }
+    
+    private func updatePresentingType(state: DraggableCircleState,
+                              movingItem: CircleItem) {
+        switch state {
+        case .released(let location):
+            if let destination = getDestinationItem(movingItem: movingItem, location: location) {
                 if destination.type == .addAccount {
                     presentingType = .addAccount
                 } else if destination.type == .addCategory {
@@ -155,7 +171,6 @@ class DashboardViewModel {
                                                destination: destination)
                 }
             }
-            updateDropableLocations(plusButtonOffset: .zero)
         case .pressed:
             if movingItem.type == .plusButton {
                 presentingType = .transfer(source: nil,
@@ -163,25 +178,25 @@ class DashboardViewModel {
             } else {
                 presentingType = .details(item: movingItem)
             }
-        case .moving(let location, let offset):
-            if offset == .zero { showImpact() }
-            
-            if movingItem.type == .plusButton {
-                updateDropableLocations(plusButtonOffset: offset)
-            }
-            highlighted(location: location, movingItem: movingItem)
+        case .moving:
+            break
         }
     }
     
-    private func updateDropableLocations(plusButtonOffset: CGSize) {
+    private func handlePlusButton(movement offset: CGSize) {
         withAnimation(animation) {
-            showDropableLocations =
-            abs(plusButtonOffset.width) > plusButtonOffsetThreshold ||
-            abs(plusButtonOffset.height) > plusButtonOffsetThreshold
+            if abs(offset.width) > plusButtonOffsetThreshold ||
+                abs (offset.height) > plusButtonOffsetThreshold {
+                showDropableLocations = true
+                categories.forEach { $0.setDisabled() }
+            } else {
+                showDropableLocations = false
+                categories.forEach { $0.setNormal() }
+            }
         }
     }
     
-    private func highlighted(location: CGPoint, movingItem: CircleItem) {
+    private func setFocused(location: CGPoint, movingItem: CircleItem) {
         let rect = CGRect(origin: location, size: movingItemSize)
         
         for (index, datum) in allModels.enumerated() {
@@ -193,14 +208,14 @@ class DashboardViewModel {
                     showImpact()
                 }
             } else {
-                allModels[index].unFocus()
+                allModels[index].setNormal()
             }
         }
     }
     
-    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
-        let rect = CGRect(origin: location, size: movingItemSize)
-        let intersectedModel = allModels
+    private func getDestinationItem(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
+        let rect = CGRect(origin: location, size: self.movingItemSize)
+        let intersectedModel = self.allModels
             .filter { rect.intersects($0.initialRect) }
             .filter { movingItem.type.canTrigger(stillItem: $0.item) }
             .first
@@ -212,8 +227,8 @@ class DashboardViewModel {
         }
     }
     
-    private func resetHight() {
-        allModels.forEach { $0.unFocus() }
+    private func resetFocus() {
+        allModels.forEach { $0.setNormal() }
     }
 }
 

@@ -25,11 +25,15 @@ class DraggableCircleViewModel {
         self.item = item
     }
     
-    func unFocus() {
+    func setNormal() {
         stillState = .normal
     }
     
     func setFocus() {
         stillState = .focused
+    }
+    
+    func setDisabled() {
+        stillState = .disabled
     }
 }
