@@ -22,8 +22,8 @@ struct DraggableCircle: View {
             VStack {
                 Text(viewModel.item.name)
                     .font(.caption2)
-                Text(prettify(location: viewModel.initialRect.origin))
-                    .font(.caption2)
+//                Text(prettify(location: viewModel.initialRect.origin))
+//                    .font(.caption2)
             }
             .foregroundStyle(Color.white)
         }

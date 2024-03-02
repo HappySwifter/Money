@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct SendMoneyView: View {
-    @Binding var amount: String
     @Binding var isPresented: Bool
+    let presentingType: PresentingType
+
+    @State private var amount = "0"
     
     var body: some View {
         VStack {
+            switch presentingType {
+            case .transfer(let source, let destination):
+                HStack {
+                    Text(source?.name ?? "")
+                    Text("->")
+                    Text(destination?.name ?? "")
+                }
+            case .details(let item):
+                Text("Details: \(item.name)")
+            case .addItem:
+                Text("Add new item")
+            case .none:
+                Spacer()
+            }
             HStack {
                 Spacer()
               
@@ -44,5 +60,5 @@ struct SendMoneyView: View {
 }
 
 #Preview {
-    SendMoneyView(amount: .constant(""), isPresented: .constant(true))
+    SendMoneyView(isPresented: .constant(true), presentingType: .addItem)
 }

@@ -77,11 +77,14 @@ struct Dashboard: View {
         .padding()
         .sheet(isPresented: viewModel.sheetBinding,
                content: {
-            SendMoneyView(amount: Binding(get: {
-                viewModel.newAmount
-            }, set: { val, _ in
-                viewModel.newAmount = val
-            }), isPresented: viewModel.sheetBinding)
+            SendMoneyView(
+//                amount: Binding(get: {
+//                viewModel.newAmount
+//            }, set: { val, _ in
+//                viewModel.newAmount = val
+//            }),
+                isPresented: viewModel.sheetBinding,
+                presentingType: viewModel.presentingType)
         })
     }
 }
@@ -92,17 +95,15 @@ class DashboardViewModel {
     var accounts: [DraggableCircleViewModel]
     var expenses: [DraggableCircleViewModel]
     var plusButton: DraggableCircleViewModel
-    var sheetPresended = false
     var showDropableLocations = false
-    var newAmount = "0"
-    
+    var presentingType = PresentingType.none
+        
     var sheetBinding: Binding<Bool> {
         Binding(
-            get: { return self.sheetPresended },
-            set: { (newValue) in return self.sheetPresended = newValue }
+            get: { return self.presentingType != .none },
+            set: { (newValue) in return self.presentingType = .none }
         )
     }
-    
     
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
@@ -125,12 +126,18 @@ class DashboardViewModel {
         case .released(let location):
             resetHight()
             showImpact()
-            if shouldPresentSheet(movingItem: movingItem, location: location) {
-                sheetPresended = true
+            if let destination = shouldPresentSheet(movingItem: movingItem, location: location) {
+                presentingType = .transfer(source: movingItem,
+                                           destination: destination)
             }
             updateDropableLocations(plusButtonOffset: .zero)
         case .pressed:
-            sheetPresended = true
+            if movingItem.type == .plusButton {
+                presentingType = .transfer(source: nil,
+                                           destination: nil)
+            } else {
+                presentingType = .details(item: movingItem)
+            }
         case .moving(let location, let offset):
             if offset == .zero { showImpact() }
             
@@ -177,7 +184,7 @@ class DashboardViewModel {
         }
     }
     
-    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> Bool {
+    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
         let rect = CGRect(origin: location, size: movingItemSize)
         let intersectedModel = data
             .filter { rect.intersects($0.initialRect) }
@@ -185,12 +192,11 @@ class DashboardViewModel {
             .first
         if let interspectedModel = intersectedModel,
            interspectedModel.item != movingItem {
-            return true
+            return interspectedModel.item
         } else {
-            return false
+            return nil
         }
     }
-    
     
     private func resetHight() {
         for i in 0..<data.count {
@@ -199,13 +205,6 @@ class DashboardViewModel {
     }
 }
 
-
 #Preview {
     Dashboard(viewModel: DashboardViewModel(data: MockData.data))
-}
-
-extension Collection {
-    subscript (safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
 }
