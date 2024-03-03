@@ -52,11 +52,20 @@ enum CircleType: Codable {
         return color.opacity(0.3)
     }
     
-    func canTrigger(stillItem: CircleItem) -> Bool {
-        if self == .plusButton && stillItem.type == .category {
-            return false
-        } else {
+    func canTrigger(type: CircleType) -> Bool {
+        switch (self, type) {
+        case (.account, .category):
             return true
+        case (.account, .account):
+            return true
+        case (.plusButton, .account):
+            return true
+        case (.plusButton, .addAccount):
+            return true
+        case (.plusButton, .addCategory):
+            return true
+        default:
+            return false
         }
     }
 }

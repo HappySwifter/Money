@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EDE2B918644006A3A8C /* CircleType.swift */; };
 		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
-		AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* CircleState.swift */; };
+		AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */; };
 		AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE42B918A11006A3A8C /* DragGesture.swift */; };
 		AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
@@ -20,6 +20,9 @@
 		AC4080CB2B8E34AD004D7575 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080CA2B8E34AD004D7575 /* MoneyTests.swift */; };
 		AC4080D52B8E34AD004D7575 /* MoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */; };
 		AC4080D72B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */; };
+		AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */; };
+		AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */; };
+		AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */; };
 		ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */; };
 		ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF312B930DAB00403538 /* CalculatorButton.swift */; };
 		ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF332B9319A900403538 /* PresentingType.swift */; };
@@ -28,6 +31,8 @@
 		ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF452B933DAA00403538 /* EnterAmountView.swift */; };
 		ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */; };
 		ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF492B93515600403538 /* NewCategoryView.swift */; };
+		ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */; };
+		ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
@@ -59,7 +64,7 @@
 /* Begin PBXFileReference section */
 		AC031EDE2B918644006A3A8C /* CircleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleType.swift; sourceTree = "<group>"; };
 		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
-		AC031EE22B91892B006A3A8C /* CircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleState.swift; sourceTree = "<group>"; };
+		AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleState.swift; sourceTree = "<group>"; };
 		AC031EE42B918A11006A3A8C /* DragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGesture.swift; sourceTree = "<group>"; };
 		AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleViewModel.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +80,9 @@
 		AC4080D02B8E34AD004D7575 /* MoneyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoneyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITests.swift; sourceTree = "<group>"; };
 		AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
+		AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsView.swift; sourceTree = "<group>"; };
+		AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonStyle.swift; sourceTree = "<group>"; };
 		ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonView.swift; sourceTree = "<group>"; };
 		ACA3AF312B930DAB00403538 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
 		ACA3AF332B9319A900403538 /* PresentingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingType.swift; sourceTree = "<group>"; };
@@ -82,6 +90,8 @@
 		ACA3AF452B933DAA00403538 /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
 		ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonStyle.swift; sourceTree = "<group>"; };
 		ACA3AF492B93515600403538 /* NewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryView.swift; sourceTree = "<group>"; };
+		ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-03-02 at 19.09.39.png"; sourceTree = "<group>"; };
+		ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillCircleState.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
@@ -124,7 +134,8 @@
 			children = (
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
 				AC031EDE2B918644006A3A8C /* CircleType.swift */,
-				AC031EE22B91892B006A3A8C /* CircleState.swift */,
+				AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */,
+				ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
 			);
@@ -139,6 +150,7 @@
 				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
 				ACF62AFF2B91E61A002CB75D /* DropableView.swift */,
 				ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */,
+				AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
 				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
@@ -181,6 +193,7 @@
 				ACD4C9402B8F2A950087F632 /* test.swift */,
 				AC4080BB2B8E34AD004D7575 /* Assets.xcassets */,
 				AC4080BD2B8E34AD004D7575 /* Money.entitlements */,
+				ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */,
 				AC4080C12B8E34AD004D7575 /* Info.plist */,
 				AC4080BE2B8E34AD004D7575 /* Preview Content */,
 			);
@@ -218,6 +231,8 @@
 				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
 				ACA3AF382B932FB800403538 /* NewAccountView.swift */,
 				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
+				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
+				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
 				ACA3AF452B933DAA00403538 /* EnterAmountView.swift */,
 			);
 			path = Sheets;
@@ -335,6 +350,7 @@
 			files = (
 				AC4080C02B8E34AD004D7575 /* Preview Assets.xcassets in Resources */,
 				AC4080BC2B8E34AD004D7575 /* Assets.xcassets in Resources */,
+				ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */,
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
@@ -378,11 +395,14 @@
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
+				AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
+				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
 				ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
-				AC031EE32B91892B006A3A8C /* CircleState.swift in Sources */,
+				AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */,
+				AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

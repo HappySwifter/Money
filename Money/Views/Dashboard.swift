@@ -112,6 +112,7 @@ class DashboardViewModel {
             set: { (newValue) in return self.presentingType = .none }
         )
     }
+        
 //    @ObservationIgnored
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
@@ -139,13 +140,32 @@ class DashboardViewModel {
         update()
     }
     
-    private func handle(movingItem: CircleItem, state: CircleState) {
+    private func handle(movingItem: CircleItem, state: DraggableCircleState) {
+        if movingItem.type == .plusButton {
+            withAnimation(animation) {
+                showDropableLocations = isPlusButtonMovedAway(movement: state.offset)
+            }
+        }
+        updateSheetType(state: state,
+                        movingItem: movingItem)
         
         switch state {
-        case .released(let location):
-            resetHight()
+        case .moving(_, let offset):
+            if offset == .zero { showImpact() }
+            updateStillCircleState(with: movingItem, movingItemState: state)
+        case .released(_):
+            resetFocus()
             showImpact()
-            if let destination = shouldPresentSheet(movingItem: movingItem, location: location) {
+        case .pressed:
+            break
+        }
+    }
+    
+    private func updateSheetType(state: DraggableCircleState,
+                              movingItem: CircleItem) {
+        switch state {
+        case .released(let location):
+            if let destination = getDestinationItem(movingItem: movingItem, location: location) {
                 if destination.type == .addAccount {
                     presentingType = .addAccount
                 } else if destination.type == .addCategory {
@@ -155,7 +175,6 @@ class DashboardViewModel {
                                                destination: destination)
                 }
             }
-            updateDropableLocations(plusButtonOffset: .zero)
         case .pressed:
             if movingItem.type == .plusButton {
                 presentingType = .transfer(source: nil,
@@ -163,46 +182,29 @@ class DashboardViewModel {
             } else {
                 presentingType = .details(item: movingItem)
             }
-        case .moving(let location, let offset):
-            if offset == .zero { showImpact() }
-            
-            if movingItem.type == .plusButton {
-                updateDropableLocations(plusButtonOffset: offset)
-            }
-            highlighted(location: location, movingItem: movingItem)
+        case .moving:
+            break
         }
     }
-    
-    private func updateDropableLocations(plusButtonOffset: CGSize) {
-        withAnimation(animation) {
-            showDropableLocations =
-            abs(plusButtonOffset.width) > plusButtonOffsetThreshold ||
-            abs(plusButtonOffset.height) > plusButtonOffsetThreshold
-        }
-    }
-    
-    private func highlighted(location: CGPoint, movingItem: CircleItem) {
-        let rect = CGRect(origin: location, size: movingItemSize)
         
-        for (index, datum) in allModels.enumerated() {
-            if rect.intersects(datum.initialRect) {
-                if datum.item != movingItem &&
-                    movingItem.type.canTrigger(stillItem: datum.item) &&
-                    allModels.filter({ $0.highlighted }).isEmpty {
-                    allModels[index].highlight()
-                    showImpact()
-                }
-            } else {
-                allModels[index].resetHighlight()
-            }
+    private func updateStillCircleState(with movingItem: CircleItem,
+                                        movingItemState: DraggableCircleState)
+    {
+        let isNoFocusedModels = allModels.filter({ $0.stillState == .focused }).isEmpty
+
+        for stillModel in allModels where stillModel.item != movingItem {
+            stillModel.updateStillItemState(
+                movingItemType: movingItem.type, 
+                movingItemState: movingItemState,
+                noFocusedItems: isNoFocusedModels)
         }
     }
     
-    private func shouldPresentSheet(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
-        let rect = CGRect(origin: location, size: movingItemSize)
-        let intersectedModel = allModels
-            .filter { rect.intersects($0.initialRect) }
-            .filter { movingItem.type.canTrigger(stillItem: $0.item) }
+    private func getDestinationItem(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
+        let movingRect = CGRect(origin: location, size: self.movingItemSize)
+        let intersectedModel = self.allModels
+            .filter { movingRect.intersects($0.stillRect) }
+            .filter { movingItem.type.canTrigger(type: $0.item.type) }
             .first
         if let interspectedModel = intersectedModel,
            interspectedModel.item != movingItem {
@@ -212,8 +214,13 @@ class DashboardViewModel {
         }
     }
     
-    private func resetHight() {
-        allModels.forEach { $0.resetHighlight() }
+    private func resetFocus() {
+        allModels.forEach { $0.setNormal() }
+    }
+    
+    private func isPlusButtonMovedAway(movement offset: CGSize) -> Bool {
+        return abs(offset.width) > plusButtonOffsetThreshold ||
+        abs (offset.height) > plusButtonOffsetThreshold
     }
 }
 

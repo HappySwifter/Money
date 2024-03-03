@@ -14,35 +14,29 @@ struct DraggableCircle: View {
         ZStack {
             Circle()
                 .stroke(.white, lineWidth: 3)
-                .fill(
-                    viewModel.highlighted ?
-                    viewModel.item.type.highColor :
-                        viewModel.item.type.color
-                )
+                .fill(viewModel.item.type.color)
             VStack {
+                Text(viewModel.item.icon)
+                    .font(.system(size: 35))
                 Text(viewModel.item.name)
-                    .font(.caption2)
-                Text(prettify(location: viewModel.initialRect.origin))
-                    .font(.caption2)
+                    .font(.title3)
+                    .foregroundStyle(Color.white)
             }
-            .foregroundStyle(Color.white)
         }
-        .scaleEffect(viewModel.state.shouldShowTouch ||
-                     viewModel.highlighted ?
+        .opacity(viewModel.stillState.opacity)
+        .scaleEffect(viewModel.draggableState.shouldShowTouch ||
+                     viewModel.stillState == .focused ?
                      1.2 : 1.0)
-        .offset(viewModel.state.offset)
+        .offset(viewModel.draggableState.offset)
         .padding(5)
         .gesture(viewModel.item.type.isMovable ? drag : nil)
         .gesture(!viewModel.item.type.isMovable ? tap : nil)
-        .getRect()
-        .onPreferenceChange(OriginKey.self, perform: { value in
-            viewModel.initialRect = value
-        })
+        .getRect { viewModel.stillRect = $0 }
     }
     
     var tap: some Gesture {
         TapGesture().onEnded {
-            viewModel.state = .pressed
+            viewModel.draggableState = .pressed
             showImpact()
         }
     }
@@ -50,14 +44,14 @@ struct DraggableCircle: View {
     var drag: some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
             .onChanged { value in
-                viewModel.state = .moving(location: value.location,
+                viewModel.draggableState = .moving(location: value.location,
                                           offset: value.translation)
             }
             .onEnded { value in
                 if value.translation.width == 0 && value.translation.height == 0 {
-                    viewModel.state = .pressed
+                    viewModel.draggableState = .pressed
                 } else {
-                    viewModel.state = .released(location: value.location)
+                    viewModel.draggableState = .released(location: value.location)
                 }
             }
     }

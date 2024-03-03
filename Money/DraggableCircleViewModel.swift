@@ -11,12 +11,13 @@ import SwiftUI
 @Observable
 class DraggableCircleViewModel {
     let item: CircleItem
-    private(set) var highlighted = false
-    var initialRect = CGRect.zero
-    var locationHandler: ((CircleItem, CircleState) -> ())?
-    var state = CircleState.released(location: .zero) {
+    var stillRect = CGRect.zero
+    var locationHandler: ((CircleItem, DraggableCircleState) -> ())?
+    
+    private(set) var stillState = StillCircleState.normal
+    var draggableState = DraggableCircleState.released(location: .zero) {
         didSet {
-            locationHandler?(item, state)
+            locationHandler?(item, draggableState)
         }
     }
     
@@ -24,11 +25,53 @@ class DraggableCircleViewModel {
         self.item = item
     }
     
-    func resetHighlight() {
-        highlighted = false
+    func setNormal() {
+        stillState = .normal
     }
-    
-    func highlight() {
-        highlighted = true
+
+    func updateStillItemState(movingItemType: CircleType,
+                              movingItemState: DraggableCircleState,
+                              noFocusedItems: Bool)
+    {
+        switch movingItemState {
+        case .pressed, .released:
+            return
+        case .moving:
+            break
+        }
+        
+        let movingOffset = movingItemState.offset
+        let movingLocation = movingItemState.location
+        let movingItemSize = CGSize(width: 1, height: 1)
+        let movingRect = CGRect(origin: movingLocation,
+                                size: movingItemSize)
+        let stillItemType = self.item.type
+        withAnimation {
+            switch (movingItemType, stillItemType) {
+            case (.plusButton, .category):
+                if abs(movingOffset.width) > 20 || abs (movingOffset.height) > 20 {
+                    stillState = .disabled
+                } else {
+                    setNormal()
+                }
+                
+            case (.account, .plusButton):
+                if abs(movingOffset.width) > 20 || abs (movingOffset.height) > 20 {
+                    stillState = .disabled
+                } else {
+                    setNormal()
+                }
+            default:
+                if movingRect.intersects(stillRect) {
+                    if movingItemType.canTrigger(type: stillItemType) && noFocusedItems {
+                        stillState = .focused
+                        showImpact()
+                    }
+                } else {
+                    setNormal()
+                }
+            }
+
+        }
     }
 }

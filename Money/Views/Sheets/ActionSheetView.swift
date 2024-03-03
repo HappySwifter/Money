@@ -25,7 +25,14 @@ struct ActionSheetView: View {
                     Text(destination?.name ?? "")
                 }
             case .details(let item):
-                Text("Details: \(item.name)")
+                switch item.type {
+                case .account:
+                    AccountDetailsView(item: item)
+                case .category:
+                    CategoryDetailsView(item: item)
+                default:
+                    Color.red
+                }
             case .addAccount:
                 NewAccountView(isSheetPresented: $isPresented)
             case .addCategory:

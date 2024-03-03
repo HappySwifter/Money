@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CircleState: Equatable {
+enum DraggableCircleState: Equatable {
     case released(location: CGPoint)
     case pressed
     case moving(location: CGPoint, offset: CGSize)
