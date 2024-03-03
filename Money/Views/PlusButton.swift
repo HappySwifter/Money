@@ -16,9 +16,10 @@ struct PlusButton: View {
                 .font(.system(size: 30))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(viewModel.stillState.color(for: viewModel.item.type))
+                .background(viewModel.item.type.color)
                 .clipShape(Circle())
         }
+        .opacity(viewModel.stillState.opacity)
         .scaleEffect(viewModel.draggableState.shouldShowTouch ||
                      viewModel.stillState == .focused ?
                      1.2 : 1.0)

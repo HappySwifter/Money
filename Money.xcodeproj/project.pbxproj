@@ -20,6 +20,9 @@
 		AC4080CB2B8E34AD004D7575 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080CA2B8E34AD004D7575 /* MoneyTests.swift */; };
 		AC4080D52B8E34AD004D7575 /* MoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */; };
 		AC4080D72B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */; };
+		AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */; };
+		AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */; };
+		AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */; };
 		ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */; };
 		ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF312B930DAB00403538 /* CalculatorButton.swift */; };
 		ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF332B9319A900403538 /* PresentingType.swift */; };
@@ -77,6 +80,9 @@
 		AC4080D02B8E34AD004D7575 /* MoneyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoneyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITests.swift; sourceTree = "<group>"; };
 		AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
+		AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsView.swift; sourceTree = "<group>"; };
+		AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonStyle.swift; sourceTree = "<group>"; };
 		ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonView.swift; sourceTree = "<group>"; };
 		ACA3AF312B930DAB00403538 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
 		ACA3AF332B9319A900403538 /* PresentingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingType.swift; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
 				ACF62AFF2B91E61A002CB75D /* DropableView.swift */,
 				ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */,
+				AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
 				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
@@ -224,6 +231,8 @@
 				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
 				ACA3AF382B932FB800403538 /* NewAccountView.swift */,
 				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
+				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
+				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
 				ACA3AF452B933DAA00403538 /* EnterAmountView.swift */,
 			);
 			path = Sheets;
@@ -386,10 +395,13 @@
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
+				AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */,
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
+				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
 				ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
+				AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */,
 				AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

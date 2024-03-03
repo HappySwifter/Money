@@ -12,41 +12,15 @@ enum StillCircleState {
     case normal
     case focused
     case disabled
-        
-    func color(for circleType: CircleType) -> Color {
-        switch (self, circleType) {
-        case (.normal, .account):
-            return circleType.color.opacity(0.8)
-        case (.normal, .category):
-            return circleType.color.opacity(0.8)
-        case (.normal, .plusButton):
-            return circleType.color.opacity(0.8)
-        case (.normal, .addAccount):
-            return circleType.color.opacity(0.8)
-        case (.normal, .addCategory):
-            return circleType.color.opacity(0.8)
-            
-        case (.focused, .account):
-            return circleType.color
-        case (.focused, .category):
-            return circleType.color
-        case (.focused, .plusButton):
-            return circleType.color
-        case (.focused, .addAccount):
-            return circleType.color
-        case (.focused, .addCategory):
-            return circleType.color
-            
-        case (.disabled, .account):
-            return circleType.color.opacity(0.1)
-        case (.disabled, .category):
-            return circleType.color.opacity(0.1)
-        case (.disabled, .plusButton):
-            return circleType.color.opacity(0.1)
-        case (.disabled, .addAccount):
-            return circleType.color.opacity(0.1)
-        case (.disabled, .addCategory):
-            return circleType.color.opacity(0.1)
+    
+    var opacity: CGFloat {
+        switch self {
+        case .normal:
+            0.8
+        case .focused:
+            1.0
+        case .disabled:
+            0.1
         }
     }
 }

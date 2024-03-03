@@ -14,17 +14,16 @@ struct DraggableCircle: View {
         ZStack {
             Circle()
                 .stroke(.white, lineWidth: 3)
-                .fill(
-                    viewModel.stillState.color(for: viewModel.item.type)
-                )
+                .fill(viewModel.item.type.color)
             VStack {
+                Text(viewModel.item.icon)
+                    .font(.system(size: 35))
                 Text(viewModel.item.name)
-                    .font(.caption2)
-                Text(prettify(location: viewModel.stillRect.origin))
-                    .font(.caption2)
+                    .font(.title3)
+                    .foregroundStyle(Color.white)
             }
-            .foregroundStyle(Color.white)
         }
+        .opacity(viewModel.stillState.opacity)
         .scaleEffect(viewModel.draggableState.shouldShowTouch ||
                      viewModel.stillState == .focused ?
                      1.2 : 1.0)

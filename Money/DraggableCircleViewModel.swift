@@ -56,8 +56,11 @@ class DraggableCircleViewModel {
                 }
                 
             case (.account, .plusButton):
-                stillState = .disabled
-                
+                if abs(movingOffset.width) > 20 || abs (movingOffset.height) > 20 {
+                    stillState = .disabled
+                } else {
+                    setNormal()
+                }
             default:
                 if movingRect.intersects(stillRect) {
                     if movingItemType.canTrigger(type: stillItemType) && noFocusedItems {
