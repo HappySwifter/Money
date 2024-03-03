@@ -19,12 +19,9 @@ struct DropableView: View {
                 .padding(15)
                 .background(Color.gray.opacity(viewModel.stillState == .focused ? 0.6 : 0.4))
                 .clipShape(Circle())
-                .getRect()
+                .getRect { viewModel.stillRect = $0 }
             Spacer()
         }
-        .onPreferenceChange(OriginKey.self, perform: { value in
-            viewModel.stillRect = value
-        })
     }
 }
 

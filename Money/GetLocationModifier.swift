@@ -9,25 +9,13 @@ import Foundation
 import SwiftUI
 
 extension View {
-    func getRect() -> some View {
+    func getRect(result: @escaping (CGRect) -> ()) -> some View {
         modifier(GetOriginModifier())
+            .onPreferenceChange(OriginKey.self, perform: result)
     }
 }
 
 struct GetOriginModifier: ViewModifier {
-//    @Binding var origin: CGRect
-//    func body(content: Content) -> some View {
-//        content
-//            .background(
-//                GeometryReader { proxy in
-//                    let frame = proxy.frame(in: .named("screen"))
-//                    Color.clear
-//                        .task(id: frame) {
-//                            $origin.wrappedValue = frame
-//                        }
-//                }
-//            )
-//    }
     func body(content: Content) -> some View {
         content
             .overlay(
@@ -39,7 +27,7 @@ struct GetOriginModifier: ViewModifier {
     }
 }
 
-struct OriginKey: PreferenceKey {
+private struct OriginKey: PreferenceKey {
     static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
         value = nextValue()
     }

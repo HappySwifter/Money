@@ -31,10 +31,7 @@ struct DraggableCircle: View {
         .padding(5)
         .gesture(viewModel.item.type.isMovable ? drag : nil)
         .gesture(!viewModel.item.type.isMovable ? tap : nil)
-        .getRect()
-        .onPreferenceChange(OriginKey.self, perform: { value in
-            viewModel.stillRect = value
-        })
+        .getRect { viewModel.stillRect = $0 }
     }
     
     var tap: some Gesture {
