@@ -23,7 +23,7 @@ struct DropableView: View {
             Spacer()
         }
         .onPreferenceChange(OriginKey.self, perform: { value in
-            viewModel.initialRect = value
+            viewModel.stillRect = value
         })
     }
 }

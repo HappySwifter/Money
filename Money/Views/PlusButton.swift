@@ -16,7 +16,7 @@ struct PlusButton: View {
                 .font(.system(size: 30))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(Color.purple)
+                .background(viewModel.stillState.color(for: viewModel.item.type))
                 .clipShape(Circle())
         }
         .scaleEffect(viewModel.draggableState.shouldShowTouch ||
@@ -36,9 +36,9 @@ struct PlusButton: View {
                 if value.translation.width == 0 && value.translation.height == 0 {
                     viewModel.draggableState = .pressed
                 } else {
-                    withAnimation(.bouncy(duration: 0.5)) {
+//                    withAnimation(.bouncy(duration: 0.5)) {
                         viewModel.draggableState = .released(location: value.location)
-                    }
+//                    }
                 }
             }
     }

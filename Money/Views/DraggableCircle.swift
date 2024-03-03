@@ -20,7 +20,7 @@ struct DraggableCircle: View {
             VStack {
                 Text(viewModel.item.name)
                     .font(.caption2)
-                Text(prettify(location: viewModel.initialRect.origin))
+                Text(prettify(location: viewModel.stillRect.origin))
                     .font(.caption2)
             }
             .foregroundStyle(Color.white)
@@ -34,7 +34,7 @@ struct DraggableCircle: View {
         .gesture(!viewModel.item.type.isMovable ? tap : nil)
         .getRect()
         .onPreferenceChange(OriginKey.self, perform: { value in
-            viewModel.initialRect = value
+            viewModel.stillRect = value
         })
     }
     
