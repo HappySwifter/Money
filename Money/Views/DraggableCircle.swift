@@ -29,7 +29,12 @@ struct DraggableCircle: View {
                      1.2 : 1.0)
         .offset(viewModel.draggableState.offset)
         .padding(5)
-        .gesture(viewModel.item.type.isMovable ? drag : nil)
+        .gesture(viewModel.item.type.isMovable ?
+                 Drag(state: Binding(get: {
+            viewModel.draggableState
+        }, set: { val in
+            viewModel.draggableState = val
+        })).drag : nil)
         .gesture(!viewModel.item.type.isMovable ? tap : nil)
         .getRect { viewModel.stillRect = $0 }
     }
@@ -39,21 +44,6 @@ struct DraggableCircle: View {
             viewModel.draggableState = .pressed
             showImpact()
         }
-    }
-    
-    var drag: some Gesture {
-        DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
-            .onChanged { value in
-                viewModel.draggableState = .moving(location: value.location,
-                                          offset: value.translation)
-            }
-            .onEnded { value in
-                if value.translation.width == 0 && value.translation.height == 0 {
-                    viewModel.draggableState = .pressed
-                } else {
-                    viewModel.draggableState = .released(location: value.location)
-                }
-            }
     }
 }
 

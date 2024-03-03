@@ -24,25 +24,13 @@ struct PlusButton: View {
                      viewModel.stillState == .focused ?
                      1.2 : 1.0)
         .offset(viewModel.draggableState.offset)
-        .gesture(drag)
+        .gesture(Drag(state: Binding(get: {
+            viewModel.draggableState
+        }, set: { val in
+            viewModel.draggableState = val
+        })).drag)
     }
-    
-    var drag: some Gesture {
-        DragGesture(minimumDistance: 0, coordinateSpace: .named("screen"))
-            .onChanged { value in
-                viewModel.draggableState = .moving(location: value.location,
-                                                   offset: value.translation)
-            }
-            .onEnded { value in
-                if value.translation.width == 0 && value.translation.height == 0 {
-                    viewModel.draggableState = .pressed
-                } else {
-//                    withAnimation(.bouncy(duration: 0.5)) {
-                        viewModel.draggableState = .released(location: value.location)
-//                    }
-                }
-            }
-    }
+
 }
 
 #Preview {

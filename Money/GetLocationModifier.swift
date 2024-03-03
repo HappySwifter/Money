@@ -15,7 +15,7 @@ extension View {
     }
 }
 
-struct GetOriginModifier: ViewModifier {
+private struct GetOriginModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .overlay(
