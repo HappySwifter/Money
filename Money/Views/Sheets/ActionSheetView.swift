@@ -41,7 +41,7 @@ struct ActionSheetView: View {
             }
             Spacer()
         }
-        .padding()
+//        .padding()
         .presentationCornerRadius(30)
         .presentationDetents([.fraction(presentingType.sheetHeightFraction)])
         

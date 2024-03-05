@@ -9,10 +9,18 @@ import Foundation
 import SwiftUI
 
 enum SwiftColor: String, CaseIterable {
-    case purple = "purple"
-    case red = "red"
-    case blue = "blue"
-    case gray = "gray"
+    case green,
+         mint,
+         teal,
+         blue,
+         indigo,
+         purple,
+         yellow,
+         orange,
+         red,
+         brown,
+         gray,
+         black
     
     var value: Color {
         switch self {
@@ -24,6 +32,22 @@ enum SwiftColor: String, CaseIterable {
             return .blue
         case .gray:
             return .gray
+        case .green:
+            return .green
+        case .black:
+            return .black
+        case .brown:
+            return .brown
+        case .indigo:
+            return .indigo
+        case .mint:
+            return .mint
+        case .yellow:
+            return .yellow
+        case .orange:
+            return .orange
+        case .teal:
+            return .teal
         }
     }
 }
