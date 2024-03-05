@@ -12,7 +12,7 @@ enum DraggableCircleState: Equatable {
     case pressed
     case moving(location: CGPoint, offset: CGSize)
     
-    var shouldShowTouch: Bool {
+    var isMoving: Bool {
         switch self {
         case .released, .pressed:
             return false

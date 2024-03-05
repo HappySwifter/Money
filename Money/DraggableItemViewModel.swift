@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class DraggableCircleViewModel {
+class DraggableItemViewModel {
     let item: CircleItem
     var stillRect = CGRect.zero
     var locationHandler: ((CircleItem, DraggableCircleState) -> ())?

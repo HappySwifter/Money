@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum CircleType: Codable {
+enum CircleType: Int, Codable {
     case account
     case category
     case plusButton
@@ -35,22 +35,22 @@ enum CircleType: Codable {
         }
     }
     
-    var color: Color {
-        switch self {
-        case .account:
-            return .green
-        case .category:
-            return .red
-        case .plusButton:
-            return .purple
-        case .addAccount, .addCategory:
-            return .gray
-        }
-    }
+//    var color: Color {
+//        switch self {
+//        case .account:
+//            return .green
+//        case .category:
+//            return .red
+//        case .plusButton:
+//            return .purple
+//        case .addAccount, .addCategory:
+//            return .gray
+//        }
+//    }
     
-    var highColor: Color {
-        return color.opacity(0.3)
-    }
+//    var highColor: Color {
+//        return color.opacity(0.3)
+//    }
     
     func canTrigger(type: CircleType) -> Bool {
         switch (self, type) {

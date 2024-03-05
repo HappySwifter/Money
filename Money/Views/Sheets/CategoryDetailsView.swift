@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryDetailsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Binding var isSheetPresented: Bool
     let item: CircleItem
     
     var body: some View {
@@ -16,6 +17,7 @@ struct CategoryDetailsView: View {
         Button("Delete") {
             withAnimation {
                 modelContext.delete(item)
+                isSheetPresented = false
             }
         }
         .buttonStyle(DeleteButton())
@@ -23,5 +25,8 @@ struct CategoryDetailsView: View {
 }
 
 #Preview {
-    CategoryDetailsView(item: CircleItem(name: "test", type: .category))
+    let item = CircleItem(name: "Dollar",
+                          currency: Currency(code: "", name: "", icon: ""),
+                          type: .account, color: SwiftColor.purple)
+    return CategoryDetailsView(isSheetPresented: .constant(true), item: item)
 }

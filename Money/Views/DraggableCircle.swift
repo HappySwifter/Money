@@ -8,27 +8,45 @@
 import SwiftUI
 
 struct DraggableCircle: View {
-    var viewModel: DraggableCircleViewModel
-    
+    var viewModel: DraggableItemViewModel
+
     var body: some View {
-        ZStack {
-            Circle()
-                .stroke(.white, lineWidth: 3)
-                .fill(viewModel.item.type.color)
+//        ZStack {
+//            Circle()
+//                .stroke(.white, lineWidth: 3)
+//                .fill(viewModel.item.type.color)
+//            VStack {
+//                Text(viewModel.item.icon)
+//                    .font(.system(size: 35))
+//                Text(viewModel.item.name)
+//                    .font(.title3)
+//                    .foregroundStyle(Color.white)
+//            }
+//        }
+        VStack {
             VStack {
                 Text(viewModel.item.icon)
-                    .font(.system(size: 35))
+                    .font(.system(size: 45))
                 Text(viewModel.item.name)
                     .font(.title3)
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.gray)
+                if viewModel.item.type == .account {
+                    Text(prettify(val: viewModel.item.amount))
+                }
             }
+            .padding(10)
+
         }
+        .frame(maxWidth: 100, maxHeight: 120)
+
+        .background(SwiftColor(rawValue: viewModel.item.color)!.value.opacity(0.2))
+        .clipShape(RoundedRectangle(cornerSize: .init(width: 10, height: 10)))
+        .zIndex(viewModel.draggableState.isMoving ? 1 : -1)
         .opacity(viewModel.stillState.opacity)
-        .scaleEffect(viewModel.draggableState.shouldShowTouch ||
+        .scaleEffect(viewModel.draggableState.isMoving ||
                      viewModel.stillState == .focused ?
-                     1.2 : 1.0)
+                     1.1 : 1.0)
         .offset(viewModel.draggableState.offset)
-        .padding(5)
         .gesture(viewModel.item.type.isMovable ?
                  Drag(state: Binding(get: {
             viewModel.draggableState
@@ -45,13 +63,4 @@ struct DraggableCircle: View {
             showImpact()
         }
     }
-}
-
-
-#Preview {
-    LazyVGrid(columns: MockData.columns, content: {
-        ForEach(Array(zip(MockData.data.indices, MockData.data)), id: \.0) { index, account in
-            DraggableCircle(viewModel: account)
-        }
-    })
 }

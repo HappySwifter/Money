@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlusButton: View {
-    var viewModel: DraggableCircleViewModel
+    var viewModel: DraggableItemViewModel
     
     var body: some View {
         VStack {
@@ -16,11 +16,11 @@ struct PlusButton: View {
                 .font(.system(size: 30))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(viewModel.item.type.color)
+                .background(SwiftColor(rawValue: viewModel.item.color)?.value)
                 .clipShape(Circle())
         }
         .opacity(viewModel.stillState.opacity)
-        .scaleEffect(viewModel.draggableState.shouldShowTouch ||
+        .scaleEffect(viewModel.draggableState.isMoving ||
                      viewModel.stillState == .focused ?
                      1.2 : 1.0)
         .offset(viewModel.draggableState.offset)
@@ -34,6 +34,6 @@ struct PlusButton: View {
 }
 
 #Preview {
-    PlusButton(viewModel: DraggableCircleViewModel(
-        item: CircleItem(name: "", type: .plusButton)))
+    PlusButton(viewModel: DraggableItemViewModel(
+        item: CircleItem(name: "", currency: MockData.mockCurrency, type: .plusButton, color: SwiftColor.red)))
 }

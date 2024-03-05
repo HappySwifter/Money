@@ -1,32 +1,22 @@
 import SwiftUI
 
-struct ContentView2: View {
-    let data = (1...10).map { "Item \($0)" }
-
-    var body: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-        ] ) {
-            ForEach(data, id: \.self) { item in
-                
-                
-            }
-        }
-    }
+struct Constants {
+    static let visibleAccountCount = 5
 }
 
-
-#Preview {
-    ContentView2()
+func prettify(size: CGSize?) -> String {
+    guard let size = size else { return "" }
+    return "\(String(format: "%.0f", size.width)) \(String(format: "%.0f", size.height))"
 }
-
 
 func prettify(location: CGPoint?) -> String {
     guard let location = location else { return "" }
     return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
+}
+
+func prettify(val: Double?) -> String {
+    guard let val = val else { return "" }
+    return "\(String(format: "%.2f", val))"
 }
 
 func showImpact() {

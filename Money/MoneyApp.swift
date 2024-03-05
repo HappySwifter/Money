@@ -10,10 +10,13 @@ import SwiftData
 
 @main
 struct MoneyApp: App {
+    let currencyApi: CurrenciesApi
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
             CircleItem.self,
+            Currency.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -23,6 +26,10 @@ struct MoneyApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    init() {
+        currencyApi = CurrenciesApi(modelContext: sharedModelContainer.mainContext)
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -30,5 +37,6 @@ struct MoneyApp: App {
             Dashboard(viewModel: DashboardViewModel())
         }
         .modelContainer(sharedModelContainer)
+        .environment(currencyApi)
     }
 }

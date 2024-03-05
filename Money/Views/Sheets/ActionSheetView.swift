@@ -15,21 +15,20 @@ struct ActionSheetView: View {
         VStack {
             switch presentingType {
             case .transfer(let source, let destination):
-                HStack {
-                    if source?.type == .plusButton {
-                        Text("New income")
-                    } else {
-                        Text(source?.name ?? "")
-                    }
-                    Text("->")
-                    Text(destination?.name ?? "")
-                }
+                TransferMoneyView(
+                    source: source!,
+                    destination: destination!,
+                    isSheetPresented: $isPresented)
             case .details(let item):
                 switch item.type {
                 case .account:
-                    AccountDetailsView(item: item)
+                    AccountDetailsView(
+                        isSheetPresented: $isPresented,
+                        item: item)
                 case .category:
-                    CategoryDetailsView(item: item)
+                    CategoryDetailsView(
+                        isSheetPresented: $isPresented,
+                        item: item)
                 default:
                     Color.red
                 }
@@ -44,7 +43,7 @@ struct ActionSheetView: View {
         }
         .padding()
         .presentationCornerRadius(30)
-        .presentationDetents([.height(380)])
+        .presentationDetents([.fraction(presentingType.sheetHeightFraction)])
         
     }
 }

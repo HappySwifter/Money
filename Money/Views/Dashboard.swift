@@ -24,7 +24,7 @@ struct Dashboard: View {
         default:
             count = 0
         }
-        return Array(repeating: .init(.flexible(minimum: 60, maximum: 100)), count: count)
+        return Array(repeating: .init(.flexible()), count: count)
     }
     
     var body: some View {
@@ -49,8 +49,10 @@ struct Dashboard: View {
             HStack {
                 ForEach(viewModel.accounts, id: \.item) { acc in
                     DraggableCircle(viewModel: acc)
+                        
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .zIndex(1)
             
             Divider()
@@ -92,16 +94,16 @@ struct Dashboard: View {
 
 @Observable
 class DashboardViewModel {
-    private var allModels = [DraggableCircleViewModel]()
-    var accounts = [DraggableCircleViewModel]()
-    var categories = [DraggableCircleViewModel]()
+    private var allModels = [DraggableItemViewModel]()
+    var accounts = [DraggableItemViewModel]()
+    var categories = [DraggableItemViewModel]()
     
-    let plusButton = DraggableCircleViewModel(
-        item: CircleItem(name: "", type: .plusButton))
-    let addAccountButton = DraggableCircleViewModel(
-        item: CircleItem(name: "", type: .addAccount))
-    let addCategoryButton = DraggableCircleViewModel(
-        item: CircleItem(name: "", type: .addCategory))
+    let plusButton = DraggableItemViewModel(
+        item: CircleItem(name: "", currency: nil, type: .plusButton, color: SwiftColor.blue))
+    let addAccountButton = DraggableItemViewModel(
+        item: CircleItem(name: "", currency: nil, type: .addAccount, color: SwiftColor.gray))
+    let addCategoryButton = DraggableItemViewModel(
+        item: CircleItem(name: "", currency: nil, type: .addCategory, color: SwiftColor.gray))
     
     var showDropableLocations = false
     var presentingType = PresentingType.none
@@ -113,7 +115,6 @@ class DashboardViewModel {
         )
     }
         
-//    @ObservationIgnored
     private let movingItemSize = CGSize(width: 1, height: 1)
     private let plusButtonOffsetThreshold = 20.0
     private let animation = Animation.smooth(duration: 0.3)
@@ -132,11 +133,11 @@ class DashboardViewModel {
     func setModels(from items: [CircleItem]) {
         accounts = items
             .filter { $0.type == .account }
-            .prefix(4)
-            .map { DraggableCircleViewModel(item: $0) }
+            .prefix(Constants.visibleAccountCount)
+            .map { DraggableItemViewModel(item: $0) }
         categories = items
             .filter { $0.type == .category }
-            .map { DraggableCircleViewModel(item: $0) }
+            .map { DraggableItemViewModel(item: $0) }
         update()
     }
     

@@ -43,7 +43,11 @@ struct NewCategoryView: View {
     }
     
     func saveCategory() {
-        let item = CircleItem(name: name, icon: selectedEmoji, type: .category)
+        let item = CircleItem(name: name,
+                              icon: selectedEmoji,
+                              currency: nil,
+                              type: .category,
+                              color: .blue)
         modelContext.insert(item)
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DropableView: View {
-    let viewModel: DraggableCircleViewModel
+    let viewModel: DraggableItemViewModel
     
     var body: some View {
         HStack {
@@ -17,7 +17,9 @@ struct DropableView: View {
                 .font(.system(size: viewModel.stillState == .focused ? 25 : 15))
                 .foregroundColor(.white)
                 .padding(15)
-                .background(Color.gray.opacity(viewModel.stillState == .focused ? 0.6 : 0.4))
+                .background(SwiftColor(rawValue: viewModel.item.color)?
+                    .value
+                    .opacity(viewModel.stillState == .focused ? 0.6 : 0.4))
                 .clipShape(Circle())
                 .getRect { viewModel.stillRect = $0 }
             Spacer()

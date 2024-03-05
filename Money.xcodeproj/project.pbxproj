@@ -11,7 +11,7 @@
 		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
 		AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */; };
 		AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE42B918A11006A3A8C /* DragGesture.swift */; };
-		AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */; };
+		AC031EE72B919087006A3A8C /* DraggableItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableItemViewModel.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
 		AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B92B8E34AB004D7575 /* Item.swift */; };
@@ -20,6 +20,7 @@
 		AC4080CB2B8E34AD004D7575 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080CA2B8E34AD004D7575 /* MoneyTests.swift */; };
 		AC4080D52B8E34AD004D7575 /* MoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */; };
 		AC4080D72B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */; };
+		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */; };
 		AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */; };
 		AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */; };
@@ -28,11 +29,15 @@
 		ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF332B9319A900403538 /* PresentingType.swift */; };
 		ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF382B932FB800403538 /* NewAccountView.swift */; };
 		ACA3AF442B933A2A00403538 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = ACA3AF432B933A2A00403538 /* MCEmojiPicker */; };
-		ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF452B933DAA00403538 /* EnterAmountView.swift */; };
+		ACA3AF462B933DAA00403538 /* TransferMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */; };
 		ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */; };
 		ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF492B93515600403538 /* NewCategoryView.swift */; };
 		ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */; };
 		ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */; };
+		ACC3EFAD2B958F670069C2D1 /* Currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = ACC3EFAC2B958F670069C2D1 /* Currencies.json */; };
+		ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */; };
+		ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB12B95900C0069C2D1 /* Currency.swift */; };
+		ACC3EFB42B9595970069C2D1 /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB32B9595970069C2D1 /* CurrencyPicker.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
@@ -66,7 +71,7 @@
 		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
 		AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleState.swift; sourceTree = "<group>"; };
 		AC031EE42B918A11006A3A8C /* DragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGesture.swift; sourceTree = "<group>"; };
-		AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleViewModel.swift; sourceTree = "<group>"; };
+		AC031EE62B919087006A3A8C /* DraggableItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableItemViewModel.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
 		AC4080B72B8E34AB004D7575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -80,6 +85,7 @@
 		AC4080D02B8E34AD004D7575 /* MoneyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoneyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080D42B8E34AD004D7575 /* MoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITests.swift; sourceTree = "<group>"; };
 		AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
 		AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonStyle.swift; sourceTree = "<group>"; };
@@ -87,11 +93,15 @@
 		ACA3AF312B930DAB00403538 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
 		ACA3AF332B9319A900403538 /* PresentingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingType.swift; sourceTree = "<group>"; };
 		ACA3AF382B932FB800403538 /* NewAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountView.swift; sourceTree = "<group>"; };
-		ACA3AF452B933DAA00403538 /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
+		ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMoneyView.swift; sourceTree = "<group>"; };
 		ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonStyle.swift; sourceTree = "<group>"; };
 		ACA3AF492B93515600403538 /* NewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryView.swift; sourceTree = "<group>"; };
 		ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-03-02 at 19.09.39.png"; sourceTree = "<group>"; };
 		ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillCircleState.swift; sourceTree = "<group>"; };
+		ACC3EFAC2B958F670069C2D1 /* Currencies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Currencies.json; sourceTree = "<group>"; };
+		ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesApi.swift; sourceTree = "<group>"; };
+		ACC3EFB12B95900C0069C2D1 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		ACC3EFB32B9595970069C2D1 /* CurrencyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
@@ -133,11 +143,13 @@
 			isa = PBXGroup;
 			children = (
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
+				ACC3EFB12B95900C0069C2D1 /* Currency.swift */,
 				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */,
 				ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
+				AC6EC3092B96FB94006DB482 /* SwiftColor.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -181,9 +193,11 @@
 		AC4080B42B8E34AB004D7575 /* Money */ = {
 			isa = PBXGroup;
 			children = (
+				ACC3EFAE2B958FE60069C2D1 /* API */,
+				ACC3EFAB2B958F500069C2D1 /* Files */,
 				AC031EDD2B91863B006A3A8C /* Models */,
 				AC031EE82B9190A6006A3A8C /* Views */,
-				AC031EE62B919087006A3A8C /* DraggableCircleViewModel.swift */,
+				AC031EE62B919087006A3A8C /* DraggableItemViewModel.swift */,
 				AC031EE42B918A11006A3A8C /* DragGesture.swift */,
 				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
@@ -233,9 +247,26 @@
 				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
 				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
 				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
-				ACA3AF452B933DAA00403538 /* EnterAmountView.swift */,
+				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
+				ACC3EFB32B9595970069C2D1 /* CurrencyPicker.swift */,
 			);
 			path = Sheets;
+			sourceTree = "<group>";
+		};
+		ACC3EFAB2B958F500069C2D1 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACC3EFAC2B958F670069C2D1 /* Currencies.json */,
+			);
+			path = Files;
+			sourceTree = "<group>";
+		};
+		ACC3EFAE2B958FE60069C2D1 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,6 +381,7 @@
 			files = (
 				AC4080C02B8E34AD004D7575 /* Preview Assets.xcassets in Resources */,
 				AC4080BC2B8E34AD004D7575 /* Assets.xcassets in Resources */,
+				ACC3EFAD2B958F670069C2D1 /* Currencies.json in Resources */,
 				ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,9 +409,13 @@
 			files = (
 				ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */,
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
+				ACC3EFB42B9595970069C2D1 /* CurrencyPicker.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
+				AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */,
+				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
+				ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */,
 				AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
@@ -388,7 +424,7 @@
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */,
-				AC031EE72B919087006A3A8C /* DraggableCircleViewModel.swift in Sources */,
+				AC031EE72B919087006A3A8C /* DraggableItemViewModel.swift in Sources */,
 				ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */,
 				ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */,
 				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
@@ -399,7 +435,7 @@
 				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
 				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
-				ACA3AF462B933DAA00403538 /* EnterAmountView.swift in Sources */,
+				ACA3AF462B933DAA00403538 /* TransferMoneyView.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
 				AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */,
 				AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */,
