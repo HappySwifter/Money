@@ -12,11 +12,10 @@ struct NewAccountView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CurrenciesApi.self) private var currencyApi
     
-    @State var circleItem = CircleItem(name: "",
+    @State var circleItem = Account(name: "",
                                        icon: "🏦",
                                        amount: 0,
                                        currency: Currency(code: "usd", name: "US Dollar", icon: ""),
-                                       type: .account,
                                        color: SwiftColor.allCases.first!)
     
     @State var currencies = [Currency]()

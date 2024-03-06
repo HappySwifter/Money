@@ -1,5 +1,5 @@
 //
-//  CircleItem.swift
+//  Account.swift
 //  Money
 //
 //  Created by Artem on 01.03.2024.
@@ -10,33 +10,37 @@ import SwiftUI
 import SwiftData
 
 @Model
-final class CircleItem {
+final class Account {
+    let date: Date
     var name: String
     var icon: String
     var amount: Double
     var currency: Currency?
-    var type: CircleType
     var color: String
     
-    init(name: String,
+    init(date: Date = Date(),
+        name: String,
          icon: String = "",
          amount: Double = 0.0,
          currency: Currency?,
-         type: CircleType,
          color: SwiftColor)
     {
+        self.date = date
         self.name = name
         self.currency = currency
         self.icon = icon
         self.amount = amount
-        self.type = type
         self.color = color.rawValue
     }
 }
 
-extension CircleItem: Transactionable {
+extension Account: Transactionable {
+    var type: ItemType {
+        .account
+    }
+    
     func deposit(amount: Double) {
-        
+
     }
     
     func creadit(amount: Double) {

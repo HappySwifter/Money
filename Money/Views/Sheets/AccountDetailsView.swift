@@ -10,7 +10,7 @@ import SwiftUI
 struct AccountDetailsView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var isSheetPresented: Bool
-    let item: CircleItem
+    let item: Account
     
     var body: some View {
         Text("Details: \(item.name)")
@@ -22,8 +22,4 @@ struct AccountDetailsView: View {
         }
         .buttonStyle(DeleteButton())
     }
-}
-
-#Preview {
-    AccountDetailsView(isSheetPresented: .constant(true), item: CircleItem(name: "test", currency: Currency(code: "usd", name: "US Dollar", icon: "$"), type: .account, color: SwiftColor.purple))
 }

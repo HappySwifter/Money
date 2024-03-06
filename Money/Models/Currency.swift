@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class Currency {
-    @Attribute(.unique)
+//    @Attribute(.unique)
     let code: String
     let name: String
     let icon: String

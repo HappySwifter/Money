@@ -10,32 +10,39 @@ import SwiftData
 
 struct TransferMoneyView: View {
 //    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \CircleItem.date) private var items: [CircleItem]
-
+    @Query(sort: \Account.date) private var accounts: [Account]
+    @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
+    
     @State private var amount = "0"
-    @State var source: CircleItem
-    @State var destination: CircleItem
+    @State var source: Transactionable
+    @State var destination: Transactionable
     @Binding var isSheetPresented: Bool
     
     
-    
+    @State var sourceSheetPresented = false
+    @State var destinationSheetPresented = false
     
     var body: some View {
         VStack {
             HStack {
-                Picker("", selection: $source) {
-                    ForEach(items.filter { $0.type == source.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                            .font(.title)
-                            .tag(account)
+                Button {
+                    sourceSheetPresented.toggle()
+                } label: {
+                    HStack {
+                        Text(source.icon)
+                        Text(source.name)
                     }
+                    
                 }
                 Text("-->")
-                Picker("", selection: $destination) {
-                    ForEach(items.filter { $0.type == destination.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                        .tag(account)
+                Button {
+                    sourceSheetPresented.toggle()
+                } label: {
+                    HStack {
+                        Text(source.icon)
+                        Text(source.name)
                     }
+                    
                 }
                 Spacer()
                 Button(" Done ") {
@@ -59,6 +66,17 @@ struct TransferMoneyView: View {
             Spacer()
         }
         .padding()
+        .sheet(isPresented: $sourceSheetPresented) {
+            ItemPicker(type: source.type,
+                       isPresented: $sourceSheetPresented, 
+                       selectedItem: $source)
+        }
+        .sheet(isPresented: $destinationSheetPresented) {
+            ItemPicker(type: destination.type,
+                       isPresented: $destinationSheetPresented,
+                       selectedItem: $destination)
+        }
+        
     }
     
     private func makeTransfer() {
@@ -66,8 +84,8 @@ struct TransferMoneyView: View {
             assert(false)
             return
         }
-        source.amount = source.amount - amount
-        destination.amount = source.amount + amount
+        source.creadit(amount: amount)
+        destination.deposit(amount: amount)
         
     }
 }

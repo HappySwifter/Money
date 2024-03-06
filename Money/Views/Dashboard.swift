@@ -12,10 +12,9 @@ import SwiftData
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
    
-    @Query(sort: \CircleItem.date) private var items: [CircleItem]
-    @State var accounts = [CircleItem]()
-    @State var categories = [CircleItem]()
-    
+    @Query(sort: \Account.date) private var accounts: [Account]
+    @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
+        
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
     @State var presentingType = PresentingType.none
@@ -81,12 +80,6 @@ struct Dashboard: View {
             }
         }
         .padding()
-        .onAppear {
-            setModels()
-        }
-        .onChange(of: items) { _, _ in
-            setModels()
-        }
         .sheet(isPresented: sheetBinding) { ActionSheetView(
             isPresented: sheetBinding,
             presentingType: presentingType)
@@ -99,17 +92,12 @@ struct Dashboard: View {
         }
     }
     
-    func itemPressHandler(item: CircleItem) {
+    func itemPressHandler(item: Transactionable) {
         presentingType = .transfer(source: item, destination: item)
     }
     
-    func itemLongPressHandler(item: CircleItem) {
+    func itemLongPressHandler(item: Transactionable) {
         presentingType = .details(item: item)
-    }
-    
-    func setModels() {
-        accounts = items.filter { $0.type == .account }
-        categories = items.filter { $0.type == .category }
     }
 }
 

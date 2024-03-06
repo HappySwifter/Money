@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct AccountView: View {
-    @State var item: CircleItem
-    var pressHandler: ((CircleItem) -> ())?
-    var longPressHandler: ((CircleItem) -> ())?
+    @State var item: Account
+    var pressHandler: ((Transactionable) -> ())?
+    var longPressHandler: ((Transactionable) -> ())?
     
     var body: some View {
         Button(

@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EDE2B918644006A3A8C /* CircleType.swift */; };
-		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
+		AC031EE12B918684006A3A8C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* Account.swift */; };
 		AC213FE02B9827100095846E /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FDF2B9827100095846E /* CategoryView.swift */; };
 		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
 		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
 		AC213FE72B9876750095846E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE62B9876750095846E /* Category.swift */; };
 		AC213FE92B9876D40095846E /* Transactionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE82B9876D40095846E /* Transactionable.swift */; };
+		AC213FEB2B987E0D0095846E /* ItemPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FEA2B987E0D0095846E /* ItemPicker.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
 		AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B92B8E34AB004D7575 /* Item.swift */; };
@@ -67,13 +67,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AC031EDE2B918644006A3A8C /* CircleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleType.swift; sourceTree = "<group>"; };
-		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
+		AC031EE02B918684006A3A8C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		AC213FDF2B9827100095846E /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
 		AC213FE42B986C2A0095846E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		AC213FE62B9876750095846E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		AC213FE82B9876D40095846E /* Transactionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactionable.swift; sourceTree = "<group>"; };
+		AC213FEA2B987E0D0095846E /* ItemPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPicker.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
 		AC4080B72B8E34AB004D7575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -142,12 +142,11 @@
 		AC031EDD2B91863B006A3A8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AC031EE02B918684006A3A8C /* CircleItem.swift */,
+				AC031EE02B918684006A3A8C /* Account.swift */,
 				AC213FE62B9876750095846E /* Category.swift */,
 				AC213FE82B9876D40095846E /* Transactionable.swift */,
 				ACC3EFB12B95900C0069C2D1 /* Currency.swift */,
 				AC213FE42B986C2A0095846E /* Transaction.swift */,
-				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
 				AC6EC3092B96FB94006DB482 /* SwiftColor.swift */,
@@ -257,6 +256,7 @@
 				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
 				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
 				ACC3EFB32B9595970069C2D1 /* CurrencyPicker.swift */,
+				AC213FEA2B987E0D0095846E /* ItemPicker.swift */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -439,13 +439,13 @@
 				ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */,
 				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
+				AC213FEB2B987E0D0095846E /* ItemPicker.swift in Sources */,
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
 				AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */,
 				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
-				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
+				AC031EE12B918684006A3A8C /* Account.swift in Sources */,
 				ACA3AF462B933DAA00403538 /* TransferMoneyView.swift in Sources */,
-				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
 				AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

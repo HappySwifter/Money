@@ -7,9 +7,9 @@
 import SwiftUI
 
 struct CategoryView: View {
-    @State var item: CircleItem
-    var pressHandler: ((CircleItem) -> ())
-    var longPressHandler: ((CircleItem) -> ())
+    @State var item: SpendCategory
+    var pressHandler: ((Transactionable) -> ())
+    var longPressHandler: ((Transactionable) -> ())
     
     var body: some View {
         Button(

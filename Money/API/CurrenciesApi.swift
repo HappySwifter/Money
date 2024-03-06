@@ -41,6 +41,7 @@ class CurrenciesApi {
                 modelContext.insert(cur)
             }
         }
+        try modelContext.save()
         
         return try modelContext.fetch(FetchDescriptor<Currency>())
     }
