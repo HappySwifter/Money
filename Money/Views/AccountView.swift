@@ -22,7 +22,7 @@ struct AccountView: View {
                     VStack {
                         Text(item.icon)
                             .font(.system(size: 45))
-                        Text(item.name)
+                        Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.title3)
                             .foregroundStyle(Color.gray)
                         if item.type == .account {

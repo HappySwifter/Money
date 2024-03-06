@@ -9,47 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct TransferMoneyView: View {
+//    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \CircleItem.date) private var items: [CircleItem]
+
     @State private var amount = "0"
     @State var source: CircleItem
     @State var destination: CircleItem
     @Binding var isSheetPresented: Bool
     
-    @Query(sort: \CircleItem.date) private var items: [CircleItem]
     
     
     
     var body: some View {
-
-        
         VStack {
-            Spacer()
             HStack {
-                Picker("", selection: $source) {
-                    ForEach(items.filter { $0.type == source.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                            .font(.title3)
-                            .tag(account)
-                    }
-                }
-                .pickerStyle(.wheel)
-                
-                Text("-->")
-                
-                Picker("", selection: $destination) {
-                    ForEach(items.filter { $0.type == source.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                            .font(.title3)
-                            .tag(account)
-                    }
-                }
-                .pickerStyle(.wheel)
-            }
-            .frame(height: 100, alignment: .center)
-            .padding()
-            
-            HStack {
-                
-                
                 Picker("", selection: $source) {
                     ForEach(items.filter { $0.type == source.type }) { account in
                         Text("\(account.icon) \(account.name)")
@@ -64,7 +37,16 @@ struct TransferMoneyView: View {
                         .tag(account)
                     }
                 }
+                Spacer()
+                Button(" Done ") {
+                    makeTransfer()
+                    isSheetPresented.toggle()
+                }
+                .disabled(amount == "0")
+                .buttonStyle(DoneButtonStyle())
+                
             }
+
             HStack {
                 Spacer()
                 Text(amount)
@@ -76,6 +58,17 @@ struct TransferMoneyView: View {
             CalculatorView(viewModel: CalculatorViewModel(showCalculator: false), resultString: $amount)
             Spacer()
         }
+        .padding()
+    }
+    
+    private func makeTransfer() {
+        guard let amount = Double(amount) else {
+            assert(false)
+            return
+        }
+        source.amount = source.amount - amount
+        destination.amount = source.amount + amount
+        
     }
 }
 

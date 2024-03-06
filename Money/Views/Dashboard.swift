@@ -18,7 +18,6 @@ struct Dashboard: View {
     
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
-    
     @State var presentingType = PresentingType.none
     
     var sheetBinding: Binding<Bool> {
@@ -27,11 +26,7 @@ struct Dashboard: View {
             set: { (newValue) in return self.presentingType = .none }
         )
     }
-    
-    private let movingItemSize = CGSize(width: 1, height: 1)
-    private let plusButtonOffsetThreshold = 20.0
-    private let animation = Animation.smooth(duration: 0.3)
-    
+        
     var columns: [GridItem] {
         let count: Int
         switch horizontalSizeClass {

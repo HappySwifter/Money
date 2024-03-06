@@ -11,6 +11,9 @@
 		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
 		AC213FE02B9827100095846E /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FDF2B9827100095846E /* CategoryView.swift */; };
 		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
+		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
+		AC213FE72B9876750095846E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE62B9876750095846E /* Category.swift */; };
+		AC213FE92B9876D40095846E /* Transactionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE82B9876D40095846E /* Transactionable.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
 		AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B92B8E34AB004D7575 /* Item.swift */; };
@@ -68,6 +71,9 @@
 		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
 		AC213FDF2B9827100095846E /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
+		AC213FE42B986C2A0095846E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		AC213FE62B9876750095846E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		AC213FE82B9876D40095846E /* Transactionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactionable.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
 		AC4080B72B8E34AB004D7575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -137,7 +143,10 @@
 			isa = PBXGroup;
 			children = (
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
+				AC213FE62B9876750095846E /* Category.swift */,
+				AC213FE82B9876D40095846E /* Transactionable.swift */,
 				ACC3EFB12B95900C0069C2D1 /* Currency.swift */,
+				AC213FE42B986C2A0095846E /* Transaction.swift */,
 				AC031EDE2B918644006A3A8C /* CircleType.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
@@ -153,13 +162,20 @@
 				ACD4C9442B8F421E0087F632 /* AccountView.swift */,
 				AC213FDF2B9827100095846E /* CategoryView.swift */,
 				ACF62AFF2B91E61A002CB75D /* PlusView.swift */,
-				ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */,
-				AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
 				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AC213FE32B9868D40095846E /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */,
+				AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */,
+			);
+			path = Styles;
 			sourceTree = "<group>";
 		};
 		AC4080A92B8E34AB004D7575 = {
@@ -187,6 +203,7 @@
 			children = (
 				ACC3EFAE2B958FE60069C2D1 /* API */,
 				ACC3EFAB2B958F500069C2D1 /* Files */,
+				AC213FE32B9868D40095846E /* Styles */,
 				AC031EDD2B91863B006A3A8C /* Models */,
 				AC031EE82B9190A6006A3A8C /* Views */,
 				AC213FE12B9865A00095846E /* LongPressSupport.swift */,
@@ -401,17 +418,20 @@
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACC3EFB42B9595970069C2D1 /* CurrencyPicker.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
+				AC213FE72B9876750095846E /* Category.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,
 				AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */,
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
 				ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */,
+				AC213FE92B9876D40095846E /* Transactionable.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
 				ACD4C9492B8F73970087F632 /* MockData.swift in Sources */,
 				ACF62B002B91E61A002CB75D /* PlusView.swift in Sources */,
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
+				AC213FE52B986C2A0095846E /* Transaction.swift in Sources */,
 				AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */,

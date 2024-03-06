@@ -12,19 +12,16 @@ struct NewAccountView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CurrenciesApi.self) private var currencyApi
     
-    @State var name = ""
-    @State var amount = "0"
-    @State var selectedEmoji = "🏦"
-    @State var selectedColor = SwiftColor.allCases.first!
-    
     @State var circleItem = CircleItem(name: "",
+                                       icon: "🏦",
+                                       amount: 0,
                                        currency: Currency(code: "usd", name: "US Dollar", icon: ""),
                                        type: .account,
                                        color: SwiftColor.allCases.first!)
     
     @State var currencies = [Currency]()
     @State var currency = Currency(code: "usd", name: "US Dollar", icon: "")
-
+    
     
     @Binding var isSheetPresented: Bool
     @State private var isEmojiPickerPresented = false
@@ -39,7 +36,7 @@ struct NewAccountView: View {
                                 longPressHandler: nil)
                     
                     HStack {
-                        Button(selectedEmoji) {
+                        Button(circleItem.icon) {
                             isEmojiPickerPresented.toggle()
                         }
                         .font(.title)
@@ -48,12 +45,12 @@ struct NewAccountView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                         .emojiPicker(
                             isPresented: $isEmojiPickerPresented,
-                            selectedEmoji: $selectedEmoji,
+                            selectedEmoji: $circleItem.icon,
                             arrowDirection: .up
                         )
                         .aspectRatio(1, contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                         
-                        TextField("Name", text: $name)
+                        TextField("Name", text: $circleItem.name)
                             .font(.title3)
                             .padding(15)
                             .background(Color(red: 0.98, green: 0.96, blue: 1))
@@ -61,17 +58,20 @@ struct NewAccountView: View {
                             .keyboardType(.asciiCapable)
                             .autocorrectionDisabled()
                     }
-
-                    TextField("Amount", text: $amount)
-                        .font(.title3)
-                        .padding(15)
-                        .background(Color(red: 0.98, green: 0.96, blue: 1))
-                        .clipShape(RoundedRectangle(cornerRadius: 15.0))
-                        .keyboardType(.decimalPad)
+                    
+                    TextField("Amount", text: Binding(get: {
+                        String(format: "%.0f", circleItem.amount)
+                    }, set: {
+                        circleItem.amount = Double($0) ?? 0
+                    }))
+                    .font(.title3)
+                    .padding(15)
+                    .background(Color(red: 0.98, green: 0.96, blue: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
+                    .keyboardType(.decimalPad)
                     
                     if !currencies.isEmpty {
                         CurrencyPicker(currency: $currency)
-//                            .padding()
                     }
                     
                     
@@ -81,9 +81,9 @@ struct NewAccountView: View {
                                 color.value
                                     .clipShape(Circle())
                                     .frame(width: 50, height: 50)
-                                    .opacity(selectedColor == color ? 1 : 0.3)
+                                    .opacity(circleItem.color == color.rawValue ? 1 : 0.3)
                                     .onTapGesture {
-                                        selectedColor = color
+                                        circleItem.color = color.rawValue
                                     }
                             }
                         }
@@ -122,25 +122,21 @@ struct NewAccountView: View {
                         saveCategory()
                         isSheetPresented.toggle()
                     }
+                    .disabled(circleItem.name.isEmpty)
                 }
             }
             .navigationTitle("New account")
         }
-
+        
     }
     
-    func getAccountItem() -> CircleItem {
-        CircleItem(name: name,
-                         icon: selectedEmoji,
-                         amount: Double(amount) ?? 0,
-                         currency: currency,
-                         type: .account,
-                         color: selectedColor)
-    }
     
     func saveCategory() {
-        let item = getAccountItem()
-        modelContext.insert(item)
+        guard !circleItem.name.isEmpty else {
+            print("name is empty")
+            return
+        }
+        modelContext.insert(circleItem)
     }
 }
 

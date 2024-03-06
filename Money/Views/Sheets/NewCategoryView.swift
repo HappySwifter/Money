@@ -27,7 +27,7 @@ struct NewCategoryView: View {
                     saveCategory()
                     isSheetPresented.toggle()
                 }
-                .buttonStyle(DoneButton())
+                .buttonStyle(DoneButtonStyle())
             }
             TextField("Name", text: $name)
             TextField("Currency", text: $currency)

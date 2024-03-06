@@ -11,7 +11,4 @@ import SwiftUI
 enum CircleType: Int, Codable {
     case account
     case category
-    case plusButton
-    case addAccount
-    case addCategory
 }
