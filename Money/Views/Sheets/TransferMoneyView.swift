@@ -9,62 +9,51 @@ import SwiftUI
 import SwiftData
 
 struct TransferMoneyView: View {
+//    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Account.date) private var accounts: [Account]
+    @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
+    
     @State private var amount = "0"
-    @State var source: CircleItem
-    @State var destination: CircleItem
+    @State var source: Transactionable
+    @State var destination: Transactionable
     @Binding var isSheetPresented: Bool
     
-    @Query(sort: \CircleItem.date) private var items: [CircleItem]
     
-    
+    @State var sourceSheetPresented = false
+    @State var destinationSheetPresented = false
     
     var body: some View {
-
-        
         VStack {
-            Spacer()
             HStack {
-                Picker("", selection: $source) {
-                    ForEach(items.filter { $0.type == source.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                            .font(.title3)
-                            .tag(account)
+                Button {
+                    sourceSheetPresented.toggle()
+                } label: {
+                    HStack {
+                        Text(source.icon)
+                        Text(source.name)
                     }
-                }
-                .pickerStyle(.wheel)
-                
-                Text("-->")
-                
-                Picker("", selection: $destination) {
-                    ForEach(items.filter { $0.type == source.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                            .font(.title3)
-                            .tag(account)
-                    }
-                }
-                .pickerStyle(.wheel)
-            }
-            .frame(height: 100, alignment: .center)
-            .padding()
-            
-            HStack {
-                
-                
-                Picker("", selection: $source) {
-                    ForEach(items.filter { $0.type == source.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                            .font(.title)
-                            .tag(account)
-                    }
+                    
                 }
                 Text("-->")
-                Picker("", selection: $destination) {
-                    ForEach(items.filter { $0.type == destination.type }) { account in
-                        Text("\(account.icon) \(account.name)")
-                        .tag(account)
+                Button {
+                    sourceSheetPresented.toggle()
+                } label: {
+                    HStack {
+                        Text(source.icon)
+                        Text(source.name)
                     }
+                    
                 }
+                Spacer()
+                Button(" Done ") {
+                    makeTransfer()
+                    isSheetPresented.toggle()
+                }
+                .disabled(amount == "0")
+                .buttonStyle(DoneButtonStyle())
+                
             }
+
             HStack {
                 Spacer()
                 Text(amount)
@@ -76,6 +65,28 @@ struct TransferMoneyView: View {
             CalculatorView(viewModel: CalculatorViewModel(showCalculator: false), resultString: $amount)
             Spacer()
         }
+        .padding()
+        .sheet(isPresented: $sourceSheetPresented) {
+            ItemPicker(type: source.type,
+                       isPresented: $sourceSheetPresented, 
+                       selectedItem: $source)
+        }
+        .sheet(isPresented: $destinationSheetPresented) {
+            ItemPicker(type: destination.type,
+                       isPresented: $destinationSheetPresented,
+                       selectedItem: $destination)
+        }
+        
+    }
+    
+    private func makeTransfer() {
+        guard let amount = Double(amount) else {
+            assert(false)
+            return
+        }
+        source.creadit(amount: amount)
+        destination.deposit(amount: amount)
+        
     }
 }
 

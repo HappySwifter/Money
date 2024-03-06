@@ -27,7 +27,7 @@ struct NewCategoryView: View {
                     saveCategory()
                     isSheetPresented.toggle()
                 }
-                .buttonStyle(DoneButton())
+                .buttonStyle(DoneButtonStyle())
             }
             TextField("Name", text: $name)
             TextField("Currency", text: $currency)
@@ -43,11 +43,9 @@ struct NewCategoryView: View {
     }
     
     func saveCategory() {
-        let item = CircleItem(name: name,
+        let item = SpendCategory(name: name,
                               icon: selectedEmoji,
-                              currency: nil,
-                              type: .category,
-                              color: .blue)
+                                 color: SwiftColor.blue)
         modelContext.insert(item)
     }
 }

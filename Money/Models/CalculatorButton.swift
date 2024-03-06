@@ -25,14 +25,22 @@ enum CalculatorButton: String, CaseIterable {
     case but0 = "0"
     case remove = "\u{232b}"
     
+    var baseColor: Color {
+        .teal
+    }
+    
+    var borderColor: Color {
+        baseColor
+    }
+    
     var backgroundColor: Color {
         switch self {
         case .plus, .minus, .equal:
-            return .orange
+            return .orange.opacity(0.8)
         case .comma, .remove:
-            return .gray
+            return baseColor.opacity(0.8)
         default:
-            return .gray.opacity(0.8)
+            return baseColor.opacity(0.6)
         }
     }
     

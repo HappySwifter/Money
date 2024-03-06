@@ -24,13 +24,11 @@ struct ActionSheetView: View {
                 case .account:
                     AccountDetailsView(
                         isSheetPresented: $isPresented,
-                        item: item)
+                        item: item as! Account)
                 case .category:
                     CategoryDetailsView(
                         isSheetPresented: $isPresented,
-                        item: item)
-                default:
-                    Color.red
+                        item: item as! SpendCategory)
                 }
             case .addAccount:
                 NewAccountView(isSheetPresented: $isPresented)

@@ -15,7 +15,8 @@ struct MoneyApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
-            CircleItem.self,
+            Account.self,
+            SpendCategory.self,
             Currency.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -33,8 +34,7 @@ struct MoneyApp: App {
 
     var body: some Scene {
         WindowGroup {
-//            ContentView3()
-            Dashboard(viewModel: DashboardViewModel())
+            Dashboard()
         }
         .modelContainer(sharedModelContainer)
         .environment(currencyApi)

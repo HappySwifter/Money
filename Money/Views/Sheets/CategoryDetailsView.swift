@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoryDetailsView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var isSheetPresented: Bool
-    let item: CircleItem
+    let item: SpendCategory
     
     var body: some View {
         Text("Details: \(item.name)")
@@ -25,8 +25,6 @@ struct CategoryDetailsView: View {
 }
 
 #Preview {
-    let item = CircleItem(name: "Dollar",
-                          currency: Currency(code: "", name: "", icon: ""),
-                          type: .account, color: SwiftColor.purple)
+    let item = SpendCategory(name: "Dollar", icon: "", color: SwiftColor.purple)
     return CategoryDetailsView(isSheetPresented: .constant(true), item: item)
 }
