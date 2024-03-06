@@ -17,7 +17,7 @@ struct CalculatorButtonView: View {
             .foregroundColor(.white)
             .frame(width: size.width, height: size.height)
             .background(button.backgroundColor)
-            .border(Color.black, width: 0.5)
+            .border(button.borderColor, width: 0.5)
     }
 }
 

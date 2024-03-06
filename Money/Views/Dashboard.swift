@@ -11,8 +11,26 @@ import SwiftData
 
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @State var viewModel: DashboardViewModel
+   
     @Query(sort: \CircleItem.date) private var items: [CircleItem]
+    @State var accounts = [CircleItem]()
+    @State var categories = [CircleItem]()
+    
+    @State var createAccountPresented = false
+    @State var createCategoryPresented = false
+    
+    @State var presentingType = PresentingType.none
+    
+    var sheetBinding: Binding<Bool> {
+        Binding(
+            get: { return self.presentingType != .none },
+            set: { (newValue) in return self.presentingType = .none }
+        )
+    }
+    
+    private let movingItemSize = CGSize(width: 1, height: 1)
+    private let plusButtonOffsetThreshold = 20.0
+    private let animation = Animation.smooth(duration: 0.3)
     
     var columns: [GridItem] {
         let count: Int
@@ -24,207 +42,82 @@ struct Dashboard: View {
         default:
             count = 0
         }
-        return Array(repeating: .init(.flexible()), count: count)
+        return Array(repeating: .init(.flexible(minimum: 60)), count: count)
     }
     
     var body: some View {
         VStack {
             HStack {
+                Text("Accounts")
+                Text("$124.420")
                 Spacer()
-                PlusButton(viewModel: viewModel.plusButton)
             }
-            .zIndex(100)
             
-            
-            if viewModel.showDropableLocations {
-                DropableView(viewModel: viewModel.addAccountButton)
-            } else {
+            ScrollView(.horizontal) {
                 HStack {
-                    Text("Accounts")
-                    Text("$124.420")
-                    Spacer()
-                }
-            }
-            
-            HStack {
-                ForEach(viewModel.accounts, id: \.item) { acc in
-                    DraggableCircle(viewModel: acc)
-                        
+                    ForEach(accounts) { item in
+                        AccountView(item: item,
+                                    pressHandler: itemPressHandler(item:),
+                                    longPressHandler: itemLongPressHandler(item:))
+                    }
+                    PlusView(buttonPressed: $createAccountPresented)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .zIndex(1)
             
             Divider()
                 .padding(.vertical)
             
-            if viewModel.showDropableLocations {
-                DropableView(viewModel: viewModel.addCategoryButton)
-            } else {
-                HStack {
-                    Text("This month")
-                    Text("-$123")
-                    Spacer()
-                }
+            HStack {
+                Text("This month")
+                Text("-$123")
+                Spacer()
             }
             
             ScrollView {
-                LazyVGrid(columns: columns, alignment: .leading, content: {
-                    ForEach(viewModel.categories, id: \.item) { exp in
-                        DraggableCircle(viewModel: exp)
+                LazyVGrid(columns: columns, alignment: .leading) {
+                    ForEach(categories) { item in
+                        CategoryView(item: item,
+                                     pressHandler: itemPressHandler(item:),
+                                     longPressHandler: itemLongPressHandler(item:))
                     }
-                    .zIndex(-1)
-                })
-            }
-        }
-        .coordinateSpace(name: "screen")
-        .padding()
-        .onAppear {
-            viewModel.setModels(from: items)
-        }
-        .onChange(of: items) { _, _ in
-            viewModel.setModels(from: items)
-        }
-        .sheet(isPresented: viewModel.sheetBinding) { ActionSheetView(
-            isPresented: viewModel.sheetBinding,
-            presentingType: viewModel.presentingType)
-        }
-    }
-}
-
-@Observable
-class DashboardViewModel {
-    private var allModels = [DraggableItemViewModel]()
-    var accounts = [DraggableItemViewModel]()
-    var categories = [DraggableItemViewModel]()
-    
-    let plusButton = DraggableItemViewModel(
-        item: CircleItem(name: "", currency: nil, type: .plusButton, color: SwiftColor.blue))
-    let addAccountButton = DraggableItemViewModel(
-        item: CircleItem(name: "", currency: nil, type: .addAccount, color: SwiftColor.gray))
-    let addCategoryButton = DraggableItemViewModel(
-        item: CircleItem(name: "", currency: nil, type: .addCategory, color: SwiftColor.gray))
-    
-    var showDropableLocations = false
-    var presentingType = PresentingType.none
-    
-    var sheetBinding: Binding<Bool> {
-        Binding(
-            get: { return self.presentingType != .none },
-            set: { (newValue) in return self.presentingType = .none }
-        )
-    }
-        
-    private let movingItemSize = CGSize(width: 1, height: 1)
-    private let plusButtonOffsetThreshold = 20.0
-    private let animation = Animation.smooth(duration: 0.3)
-    
-    init() {
-        update()
-    }
-
-    func update() {
-        self.allModels = accounts + categories + [plusButton, addAccountButton, addCategoryButton]
-        for datum in allModels {
-            datum.locationHandler = handle(movingItem:state:)
-        }
-    }
-    
-    func setModels(from items: [CircleItem]) {
-        accounts = items
-            .filter { $0.type == .account }
-            .prefix(Constants.visibleAccountCount)
-            .map { DraggableItemViewModel(item: $0) }
-        categories = items
-            .filter { $0.type == .category }
-            .map { DraggableItemViewModel(item: $0) }
-        update()
-    }
-    
-    private func handle(movingItem: CircleItem, state: DraggableCircleState) {
-        if movingItem.type == .plusButton {
-            withAnimation(animation) {
-                showDropableLocations = isPlusButtonMovedAway(movement: state.offset)
-            }
-        }
-        updateSheetType(state: state,
-                        movingItem: movingItem)
-        
-        switch state {
-        case .moving(_, let offset):
-            if offset == .zero { showImpact() }
-            updateStillCircleState(with: movingItem, movingItemState: state)
-        case .released(_):
-            resetFocus()
-            showImpact()
-        case .pressed:
-            break
-        }
-    }
-    
-    private func updateSheetType(state: DraggableCircleState,
-                              movingItem: CircleItem) {
-        switch state {
-        case .released(let location):
-            if let destination = getDestinationItem(movingItem: movingItem, location: location) {
-                if destination.type == .addAccount {
-                    presentingType = .addAccount
-                } else if destination.type == .addCategory {
-                    presentingType = .addCategory
-                } else {
-                    presentingType = .transfer(source: movingItem,
-                                               destination: destination)
+                    PlusView(buttonPressed: $createCategoryPresented)
                 }
             }
-        case .pressed:
-            if movingItem.type == .plusButton {
-                presentingType = .transfer(source: nil,
-                                           destination: nil)
-            } else {
-                presentingType = .details(item: movingItem)
-            }
-        case .moving:
-            break
         }
-    }
-        
-    private func updateStillCircleState(with movingItem: CircleItem,
-                                        movingItemState: DraggableCircleState)
-    {
-        let isNoFocusedModels = allModels.filter({ $0.stillState == .focused }).isEmpty
-
-        for stillModel in allModels where stillModel.item != movingItem {
-            stillModel.updateStillItemState(
-                movingItemType: movingItem.type, 
-                movingItemState: movingItemState,
-                noFocusedItems: isNoFocusedModels)
+        .padding()
+        .onAppear {
+            setModels()
+        }
+        .onChange(of: items) { _, _ in
+            setModels()
+        }
+        .sheet(isPresented: sheetBinding) { ActionSheetView(
+            isPresented: sheetBinding,
+            presentingType: presentingType)
+        }
+        .sheet(isPresented: $createAccountPresented) {
+            ActionSheetView(isPresented: $createAccountPresented, presentingType: .addAccount)
+        }
+        .sheet(isPresented: $createCategoryPresented) {
+            ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
         }
     }
     
-    private func getDestinationItem(movingItem: CircleItem, location: CGPoint) -> CircleItem? {
-        let movingRect = CGRect(origin: location, size: self.movingItemSize)
-        let intersectedModel = self.allModels
-            .filter { movingRect.intersects($0.stillRect) }
-            .filter { movingItem.type.canTrigger(type: $0.item.type) }
-            .first
-        if let interspectedModel = intersectedModel,
-           interspectedModel.item != movingItem {
-            return interspectedModel.item
-        } else {
-            return nil
-        }
+    func itemPressHandler(item: CircleItem) {
+        presentingType = .transfer(source: item, destination: item)
     }
     
-    private func resetFocus() {
-        allModels.forEach { $0.setNormal() }
+    func itemLongPressHandler(item: CircleItem) {
+        presentingType = .details(item: item)
     }
     
-    private func isPlusButtonMovedAway(movement offset: CGSize) -> Bool {
-        return abs(offset.width) > plusButtonOffsetThreshold ||
-        abs (offset.height) > plusButtonOffsetThreshold
+    func setModels() {
+        accounts = items.filter { $0.type == .account }
+        categories = items.filter { $0.type == .category }
     }
 }
 
 #Preview {
-    Dashboard(viewModel: DashboardViewModel())
+    Dashboard()
 }

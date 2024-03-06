@@ -33,8 +33,7 @@ struct MoneyApp: App {
 
     var body: some Scene {
         WindowGroup {
-//            ContentView3()
-            Dashboard(viewModel: DashboardViewModel())
+            Dashboard()
         }
         .modelContainer(sharedModelContainer)
         .environment(currencyApi)

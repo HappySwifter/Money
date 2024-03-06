@@ -9,9 +9,8 @@
 /* Begin PBXBuildFile section */
 		AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EDE2B918644006A3A8C /* CircleType.swift */; };
 		AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* CircleItem.swift */; };
-		AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */; };
-		AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE42B918A11006A3A8C /* DragGesture.swift */; };
-		AC031EE72B919087006A3A8C /* DraggableItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE62B919087006A3A8C /* DraggableItemViewModel.swift */; };
+		AC213FE02B9827100095846E /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FDF2B9827100095846E /* CategoryView.swift */; };
+		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
 		AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B92B8E34AB004D7575 /* Item.swift */; };
@@ -33,18 +32,16 @@
 		ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */; };
 		ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF492B93515600403538 /* NewCategoryView.swift */; };
 		ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */; };
-		ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */; };
 		ACC3EFAD2B958F670069C2D1 /* Currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = ACC3EFAC2B958F670069C2D1 /* Currencies.json */; };
 		ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */; };
 		ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB12B95900C0069C2D1 /* Currency.swift */; };
 		ACC3EFB42B9595970069C2D1 /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB32B9595970069C2D1 /* CurrencyPicker.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
-		ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9422B8F41410087F632 /* PlusButton.swift */; };
-		ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */; };
+		ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* AccountView.swift */; };
 		ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */; };
 		ACD4C9492B8F73970087F632 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9482B8F73970087F632 /* MockData.swift */; };
-		ACF62B002B91E61A002CB75D /* DropableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* DropableView.swift */; };
+		ACF62B002B91E61A002CB75D /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* PlusView.swift */; };
 		ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* ActionSheetView.swift */; };
 		ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */; };
 /* End PBXBuildFile section */
@@ -69,9 +66,8 @@
 /* Begin PBXFileReference section */
 		AC031EDE2B918644006A3A8C /* CircleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleType.swift; sourceTree = "<group>"; };
 		AC031EE02B918684006A3A8C /* CircleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleItem.swift; sourceTree = "<group>"; };
-		AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircleState.swift; sourceTree = "<group>"; };
-		AC031EE42B918A11006A3A8C /* DragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGesture.swift; sourceTree = "<group>"; };
-		AC031EE62B919087006A3A8C /* DraggableItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableItemViewModel.swift; sourceTree = "<group>"; };
+		AC213FDF2B9827100095846E /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
 		AC4080B72B8E34AB004D7575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,18 +93,16 @@
 		ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonStyle.swift; sourceTree = "<group>"; };
 		ACA3AF492B93515600403538 /* NewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryView.swift; sourceTree = "<group>"; };
 		ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-03-02 at 19.09.39.png"; sourceTree = "<group>"; };
-		ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillCircleState.swift; sourceTree = "<group>"; };
 		ACC3EFAC2B958F670069C2D1 /* Currencies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Currencies.json; sourceTree = "<group>"; };
 		ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesApi.swift; sourceTree = "<group>"; };
 		ACC3EFB12B95900C0069C2D1 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		ACC3EFB32B9595970069C2D1 /* CurrencyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
-		ACD4C9422B8F41410087F632 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
-		ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircle.swift; sourceTree = "<group>"; };
+		ACD4C9442B8F421E0087F632 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationModifier.swift; sourceTree = "<group>"; };
 		ACD4C9482B8F73970087F632 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
-		ACF62AFF2B91E61A002CB75D /* DropableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropableView.swift; sourceTree = "<group>"; };
+		ACF62AFF2B91E61A002CB75D /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		ACF62B012B91EB09002CB75D /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,8 +139,6 @@
 				AC031EE02B918684006A3A8C /* CircleItem.swift */,
 				ACC3EFB12B95900C0069C2D1 /* Currency.swift */,
 				AC031EDE2B918644006A3A8C /* CircleType.swift */,
-				AC031EE22B91892B006A3A8C /* DraggableCircleState.swift */,
-				ACA3AF4D2B9368BF00403538 /* StillCircleState.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
 				AC6EC3092B96FB94006DB482 /* SwiftColor.swift */,
@@ -158,9 +150,9 @@
 			isa = PBXGroup;
 			children = (
 				ACD4C93E2B8F09F00087F632 /* Dashboard.swift */,
-				ACD4C9442B8F421E0087F632 /* DraggableCircle.swift */,
-				ACD4C9422B8F41410087F632 /* PlusButton.swift */,
-				ACF62AFF2B91E61A002CB75D /* DropableView.swift */,
+				ACD4C9442B8F421E0087F632 /* AccountView.swift */,
+				AC213FDF2B9827100095846E /* CategoryView.swift */,
+				ACF62AFF2B91E61A002CB75D /* PlusView.swift */,
 				ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */,
 				AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */,
 				ACA3AF352B932F9100403538 /* Sheets */,
@@ -197,8 +189,7 @@
 				ACC3EFAB2B958F500069C2D1 /* Files */,
 				AC031EDD2B91863B006A3A8C /* Models */,
 				AC031EE82B9190A6006A3A8C /* Views */,
-				AC031EE62B919087006A3A8C /* DraggableItemViewModel.swift */,
-				AC031EE42B918A11006A3A8C /* DragGesture.swift */,
+				AC213FE12B9865A00095846E /* LongPressSupport.swift */,
 				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				AC4080B72B8E34AB004D7575 /* ContentView.swift */,
@@ -407,24 +398,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACA3AF4E2B9368BF00403538 /* StillCircleState.swift in Sources */,
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACC3EFB42B9595970069C2D1 /* CurrencyPicker.swift in Sources */,
-				ACD4C9452B8F421E0087F632 /* DraggableCircle.swift in Sources */,
+				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
+				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,
 				AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */,
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
 				ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */,
-				AC031EE52B918A11006A3A8C /* DragGesture.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
 				ACD4C9492B8F73970087F632 /* MockData.swift in Sources */,
-				ACF62B002B91E61A002CB75D /* DropableView.swift in Sources */,
+				ACF62B002B91E61A002CB75D /* PlusView.swift in Sources */,
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
+				AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */,
-				AC031EE72B919087006A3A8C /* DraggableItemViewModel.swift in Sources */,
 				ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */,
 				ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */,
 				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
@@ -432,13 +422,11 @@
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
 				AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */,
-				ACD4C9432B8F41410087F632 /* PlusButton.swift in Sources */,
 				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC031EE12B918684006A3A8C /* CircleItem.swift in Sources */,
 				ACA3AF462B933DAA00403538 /* TransferMoneyView.swift in Sources */,
 				AC031EDF2B918644006A3A8C /* CircleType.swift in Sources */,
 				AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */,
-				AC031EE32B91892B006A3A8C /* DraggableCircleState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

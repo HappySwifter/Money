@@ -34,7 +34,9 @@ struct NewAccountView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30, content: {
                     
-                    DraggableCircle(viewModel: DraggableItemViewModel(item: getAccountItem()))
+                    AccountView(item: circleItem,
+                                pressHandler: nil,
+                                longPressHandler: nil)
                     
                     HStack {
                         Button(selectedEmoji) {

@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct Constants {
-    static let visibleAccountCount = 5
 }
 
 func prettify(size: CGSize?) -> String {
