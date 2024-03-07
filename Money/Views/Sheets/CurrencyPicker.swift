@@ -1,39 +1,43 @@
 //
-//  CurrencyPicker.swift
+//  ItemPicker.swift
 //  Money
 //
-//  Created by Artem on 04.03.2024.
+//  Created by Artem on 06.03.2024.
 //
 
 import SwiftUI
 import SwiftData
 
 struct CurrencyPicker: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var currencies: [Currency]
-    
-    @Binding var currency: Currency
+    @Environment(CurrenciesApi.self) private var currenciesApi
+        
+    @Binding var isPresented: Bool
+    @Binding var selectedCurrencyCode: String
     @State private var searchText = ""
+    @State var currencies = [Currency]()
     
     var body: some View {
-        VStack {
-            
-            Picker("Currency", selection: $currency) {
-                TextField("Search", text: $searchText)
-                    .font(.title3)
-                    .foregroundStyle(Color.gray)
-                ForEach(searchResults) { curr in
-                    HStack {
-                        Text(curr.name)
-                            .font(.title3)
-                    }
-                    .tag(curr)
+        Form {
+            ForEach(searchResults, id: \.code) { item in
+                HStack {
+                    Text(item.name)
+                    Spacer()
+                    Text(item.code)
+                }
+                .onTapGesture {
+                    selectedCurrencyCode = item.code
+                    isPresented.toggle()
                 }
             }
-            .pickerStyle(.navigationLink)
-            .onAppear(perform: {
-                searchText = ""
-            })
+        }
+        .onAppear {
+            searchText = ""
+            do {
+                currencies = try currenciesApi.getCurrencies()
+            } catch {
+                print(error)
+            }
+            
         }
     }
     
@@ -45,10 +49,3 @@ struct CurrencyPicker: View {
         }
     }
 }
-
-//#Preview(body: {
-//    NavigationView {
-//        CurrencyPicker(currency: .constant("nil"))
-//    }
-//    
-//})

@@ -10,15 +10,18 @@ import SwiftData
 
 @Model
 class SpendCategory {
+    let id: UUID
     let date: Date
     var name: String
     var icon: String
     var color: String
     
-    init(date: Date = Date(),
+    init(id: UUID = UUID(),
+        date: Date = Date(),
          name: String,
          icon: String,
          color: SwiftColor) {
+        self.id = id
         self.date = date
         self.name = name
         self.icon = icon
@@ -28,14 +31,14 @@ class SpendCategory {
 
 extension SpendCategory: Transactionable {
     var type: ItemType {
-        .category
+        .category(id: id)
     }
     
-    func deposit(amount: Double) {
+    func deposit(amount: Double, from account: Transactionable) {
         
     }
     
-    func creadit(amount: Double) {
-        
+    func credit(amount: Double, to item: Transactionable) {
+        assert(false, "Cant creadit from category")
     }
 }

@@ -10,6 +10,7 @@ import SwiftData
 
 @Observable
 class CurrenciesApi {
+    private var currencies: [Currency]?
     
     @ObservationIgnored
     private let modelContext: ModelContext
@@ -18,31 +19,42 @@ class CurrenciesApi {
         self.modelContext = modelContext
     }
     
-    enum CurrencyError: Error {
-        case jsonFileIsMissing
-    }
+
+    
+//    func saveCurrencies() throws -> [Currency] {
+//        let curs = try modelContext.fetch(FetchDescriptor<Currency>())
+//        if !curs.isEmpty {
+//            return curs
+//        }
+//
+//        try loadCurrenciesFromBundle()
+//            .forEach{ modelContext.insert($0) }
+//
+//        try modelContext.save()
+//        
+//        return try modelContext.fetch(FetchDescriptor<Currency>())
+//    }
     
     func getCurrencies() throws -> [Currency] {
-        let curs = try modelContext.fetch(FetchDescriptor<Currency>())
-        if !curs.isEmpty {
-            return curs
-        }
-
-        guard let jsonUrl = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
-            throw CurrencyError.jsonFileIsMissing
-        }
-        let data = try Data(contentsOf: jsonUrl)
-        let dict = try JSONDecoder().decode([String: String].self, from: data)
-        
-        
-        dict.forEach { (key: String, value: String) in
-            if !key.isEmpty && !value.isEmpty {
-                let cur = Currency(code: key, name: value, icon: "")
-                modelContext.insert(cur)
+        if let currencies = self.currencies {
+            return currencies
+        } else {
+            guard let jsonUrl = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
+                throw CurrencyError.jsonFileIsMissing
             }
+            let data = try Data(contentsOf: jsonUrl)
+            let dict = try JSONDecoder().decode([String: String].self, from: data)
+            
+            let currencies =  dict.compactMap { (key: String, value: String) in
+                if !key.isEmpty && !value.isEmpty {
+                    return Currency(code: key, name: value, icon: "")
+                } else {
+                    return nil
+                }
+            }
+            self.currencies = currencies
+            return currencies
         }
-        try modelContext.save()
         
-        return try modelContext.fetch(FetchDescriptor<Currency>())
     }
 }

@@ -6,11 +6,8 @@
 //
 
 import Foundation
-import SwiftData
 
-@Model
-class Currency {
-//    @Attribute(.unique)
+struct Currency: Codable {    
     let code: String
     let name: String
     let icon: String

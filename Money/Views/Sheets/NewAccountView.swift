@@ -10,20 +10,18 @@ import MCEmojiPicker
 
 struct NewAccountView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(CurrenciesApi.self) private var currencyApi
-    
-    @State var circleItem = Account(name: "",
-                                       icon: "🏦",
-                                       amount: 0,
-                                       currency: Currency(code: "usd", name: "US Dollar", icon: ""),
-                                       color: SwiftColor.allCases.first!)
-    
-    @State var currencies = [Currency]()
-    @State var currency = Currency(code: "usd", name: "US Dollar", icon: "")
-    
+    @Environment(Preferences.self) private var preferences
+    @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Binding var isSheetPresented: Bool
     @State private var isEmojiPickerPresented = false
+    @State private var isCurrencyPickerPresented = false
+    
+    @State var circleItem = Account(name: "",
+                                    icon: "🏦",
+                                    amount: 0,
+                                    currencyCode: "usd",
+                                    color: SwiftColor.allCases.first!)
     
     var body: some View {
         NavigationView {
@@ -31,7 +29,7 @@ struct NewAccountView: View {
                 VStack(alignment: .leading, spacing: 30, content: {
                     
                     AccountView(item: circleItem,
-                                pressHandler: nil,
+                                selected: .constant(false),
                                 longPressHandler: nil)
                     
                     HStack {
@@ -58,21 +56,27 @@ struct NewAccountView: View {
                             .autocorrectionDisabled()
                     }
                     
-                    TextField("Amount", text: Binding(get: {
-                        String(format: "%.0f", circleItem.amount)
-                    }, set: {
-                        circleItem.amount = Double($0) ?? 0
-                    }))
-                    .font(.title3)
-                    .padding(15)
-                    .background(Color(red: 0.98, green: 0.96, blue: 1))
-                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
-                    .keyboardType(.decimalPad)
-                    
-                    if !currencies.isEmpty {
-                        CurrencyPicker(currency: $currency)
+                    HStack {
+                        Button(circleItem.currencyCode) {
+                            isCurrencyPickerPresented = true
+                        }
+                        .font(.title)
+                        .padding(10)
+                        .background(Color(red: 0.98, green: 0.96, blue: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        
+                        
+                        TextField("Amount", text: Binding(get: {
+                            String(format: "%.0f", circleItem.amount)
+                        }, set: {
+                            circleItem.amount = Double($0) ?? 0
+                        }))
+                        .font(.title3)
+                        .padding(15)
+                        .background(Color(red: 0.98, green: 0.96, blue: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 15.0))
+                        .keyboardType(.decimalPad)
                     }
-                    
                     
                     ScrollView(.horizontal) {
                         HStack {
@@ -92,28 +96,13 @@ struct NewAccountView: View {
             }
             .onAppear {
                 Task {
-                    do {
-                        if self.currencies.isEmpty {
-                            let currencies = try currencyApi.getCurrencies()
-                            
-                            let locale = Locale.current
-                            let currencySymbol = locale.currencySymbol!
-                            let currencyCode = locale.identifier
-                            print(currencySymbol, currencyCode)
-                            if let localeCurrency = currencies.filter({ $0.code.lowercased() == currencySymbol.lowercased() }).first {
-                                self.currency = localeCurrency
-                            } else {
-                                self.currency = currencies.filter({ $0.code.lowercased() == "usd"
-                                }).first!
-                            }
-                            self.currencies = currencies
-                        }
-                    } catch {
-                        print(error)
-                    }
-                    
+                    self.circleItem.currencyCode = preferences.getUserCurrency().code
                 }
             }
+            .sheet(isPresented: $isCurrencyPickerPresented, content: {
+                CurrencyPicker(isPresented: $isCurrencyPickerPresented,
+                               selectedCurrencyCode: $circleItem.currencyCode)
+            })
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
