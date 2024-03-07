@@ -9,13 +9,13 @@ import SwiftUI
 
 struct AccountView: View {
     @State var item: Account
-    var pressHandler: ((Transactionable) -> ())?
+    @Binding var selected: Bool
     var longPressHandler: ((Transactionable) -> ())?
     
     var body: some View {
         Button(
             action: {
-                pressHandler?(item)
+                selected = true
             },
             label: {
                 VStack {
@@ -25,7 +25,7 @@ struct AccountView: View {
                         Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-                        if item.type == .account {
+                        if item.type.isAccount {
                             Text(prettify(val: item.amount))
                         }
                     }
@@ -33,15 +33,11 @@ struct AccountView: View {
                 }
                 .frame(width: 100, height: 120)
                 .background(SwiftColor(rawValue: item.color)!.value.opacity(0.2))
-                .clipShape(RoundedRectangle(cornerSize: .init(width: 10, height: 10)))
+                .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
             }
         )
         .supportsLongPress {
             longPressHandler?(item)
         }
-        
-        
-        
     }
-
 }

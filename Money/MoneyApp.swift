@@ -11,13 +11,13 @@ import SwiftData
 @main
 struct MoneyApp: App {
     let currencyApi: CurrenciesApi
-
+    let preferences: Preferences
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
             Account.self,
             SpendCategory.self,
-            Currency.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -30,6 +30,8 @@ struct MoneyApp: App {
     
     init() {
         currencyApi = CurrenciesApi(modelContext: sharedModelContainer.mainContext)
+        preferences = Preferences(userDefaults: UserDefaults.standard,
+                                  currenciesApi: currencyApi)
     }
 
     var body: some Scene {
@@ -38,5 +40,6 @@ struct MoneyApp: App {
         }
         .modelContainer(sharedModelContainer)
         .environment(currencyApi)
+        .environment(preferences)
     }
 }

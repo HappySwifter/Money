@@ -11,10 +11,11 @@ import SwiftData
 
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-   
+    
     @Query(sort: \Account.date) private var accounts: [Account]
     @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
-        
+    
+    @State var selectedAccount: Account?
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
     @State var presentingType = PresentingType.none
@@ -25,7 +26,7 @@ struct Dashboard: View {
             set: { (newValue) in return self.presentingType = .none }
         )
     }
-        
+    
     var columns: [GridItem] {
         let count: Int
         switch horizontalSizeClass {
@@ -51,7 +52,9 @@ struct Dashboard: View {
                 HStack {
                     ForEach(accounts) { item in
                         AccountView(item: item,
-                                    pressHandler: itemPressHandler(item:),
+                                    selected: Binding(
+                                        get: { selectedAccount == item },
+                                        set: { _ in selectedAccount = item }),
                                     longPressHandler: itemLongPressHandler(item:))
                     }
                     PlusView(buttonPressed: $createAccountPresented)
@@ -80,6 +83,9 @@ struct Dashboard: View {
             }
         }
         .padding()
+        .onChange(of: accounts, initial: true, {
+            selectedAccount = accounts.first
+        })
         .sheet(isPresented: sheetBinding) { ActionSheetView(
             isPresented: sheetBinding,
             presentingType: presentingType)
@@ -93,7 +99,7 @@ struct Dashboard: View {
     }
     
     func itemPressHandler(item: Transactionable) {
-        presentingType = .transfer(source: item, destination: item)
+        presentingType = .transfer(source: selectedAccount, destination: item)
     }
     
     func itemLongPressHandler(item: Transactionable) {
