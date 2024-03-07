@@ -55,6 +55,18 @@ class CurrenciesApi {
             self.currencies = currencies
             return currencies
         }
-        
+    }
+    
+    func getCurrencySymbol(for currencyCode: String) -> String? {
+        guard let jsonUrl = Bundle.main.url(forResource: "CurrencySymbols", withExtension: "json") else {
+            return nil
+        }
+        if let data = try? Data(contentsOf: jsonUrl), let symbols = try? JSONDecoder().decode([CurrencySymbol].self, from: data) {
+            return symbols
+                .first(where: { $0.abbreviation.lowercased() == currencyCode.lowercased() })?
+                .symbol
+        } else {
+            return nil
+        }
     }
 }

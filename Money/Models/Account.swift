@@ -17,6 +17,7 @@ final class Account {
     var icon: String
     var amount: Double
     var currencyCode: String
+    var currencySymbol: String
     var color: String
     
     init(id: UUID = UUID(),
@@ -25,12 +26,14 @@ final class Account {
          icon: String = "",
          amount: Double = 0.0,
          currencyCode: String,
+         currencySymbol: String,
          color: SwiftColor)
     {
         self.id = id
         self.date = date
         self.name = name
         self.currencyCode = currencyCode
+        self.currencySymbol = currencySymbol
         self.icon = icon
         self.amount = amount
         self.color = color.rawValue

@@ -17,23 +17,24 @@ struct NewAccountView: View {
     @State private var isEmojiPickerPresented = false
     @State private var isCurrencyPickerPresented = false
     
-    @State var circleItem = Account(name: "",
-                                    icon: "🏦",
-                                    amount: 0,
-                                    currencyCode: "usd",
-                                    color: SwiftColor.allCases.first!)
+    @State var account = Account(name: "",
+                                 icon: "🏦",
+                                 amount: 0,
+                                 currencyCode: "usd",
+                                 currencySymbol: "$",
+                                 color: SwiftColor.allCases.first!)
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30, content: {
                     
-                    AccountView(item: circleItem,
+                    AccountView(item: account,
                                 selected: .constant(false),
                                 longPressHandler: nil)
                     
                     HStack {
-                        Button(circleItem.icon) {
+                        Button(account.icon) {
                             isEmojiPickerPresented.toggle()
                         }
                         .font(.title)
@@ -42,12 +43,12 @@ struct NewAccountView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                         .emojiPicker(
                             isPresented: $isEmojiPickerPresented,
-                            selectedEmoji: $circleItem.icon,
+                            selectedEmoji: $account.icon,
                             arrowDirection: .up
                         )
                         .aspectRatio(1, contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                         
-                        TextField("Name", text: $circleItem.name)
+                        TextField("Name", text: $account.name)
                             .font(.title3)
                             .padding(15)
                             .background(Color(red: 0.98, green: 0.96, blue: 1))
@@ -57,7 +58,7 @@ struct NewAccountView: View {
                     }
                     
                     HStack {
-                        Button(circleItem.currencyCode) {
+                        Button(account.currencySymbol) {
                             isCurrencyPickerPresented = true
                         }
                         .font(.title)
@@ -67,9 +68,9 @@ struct NewAccountView: View {
                         
                         
                         TextField("Amount", text: Binding(get: {
-                            String(format: "%.0f", circleItem.amount)
+                            String(format: "%.0f", account.amount)
                         }, set: {
-                            circleItem.amount = Double($0) ?? 0
+                            account.amount = Double($0) ?? 0
                         }))
                         .font(.title3)
                         .padding(15)
@@ -84,9 +85,9 @@ struct NewAccountView: View {
                                 color.value
                                     .clipShape(Circle())
                                     .frame(width: 50, height: 50)
-                                    .opacity(circleItem.color == color.rawValue ? 1 : 0.3)
+                                    .opacity(account.color == color.rawValue ? 1 : 0.3)
                                     .onTapGesture {
-                                        circleItem.color = color.rawValue
+                                        account.color = color.rawValue
                                     }
                             }
                         }
@@ -96,12 +97,16 @@ struct NewAccountView: View {
             }
             .onAppear {
                 Task {
-                    self.circleItem.currencyCode = preferences.getUserCurrency().code
+                    let userCur = preferences.getUserCurrency()
+                    self.account.currencyCode = userCur.code
                 }
+            }
+            .onChange(of: account.currencyCode) {
+                self.account.currencySymbol = currenciesApi.getCurrencySymbol(for: account.currencyCode) ?? account.currencyCode
             }
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
                 CurrencyPicker(isPresented: $isCurrencyPickerPresented,
-                               selectedCurrencyCode: $circleItem.currencyCode)
+                               selectedCurrencyCode: $account.currencyCode)
             })
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
@@ -110,7 +115,7 @@ struct NewAccountView: View {
                         saveCategory()
                         isSheetPresented.toggle()
                     }
-                    .disabled(circleItem.name.isEmpty)
+                    .disabled(account.name.isEmpty)
                 }
             }
             .navigationTitle("New account")
@@ -120,11 +125,11 @@ struct NewAccountView: View {
     
     
     func saveCategory() {
-        guard !circleItem.name.isEmpty else {
+        guard !account.name.isEmpty else {
             print("name is empty")
             return
         }
-        modelContext.insert(circleItem)
+        modelContext.insert(account)
     }
 }
 
