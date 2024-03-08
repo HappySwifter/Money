@@ -13,9 +13,12 @@ func prettify(location: CGPoint?) -> String {
     return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
 }
 
-func prettify(val: Double?) -> String {
+func prettify(val: Double?, code: String, fractionLength: Int = 0) -> String {
     guard let val = val else { return "" }
-    return "\(String(format: "%.2f", val))"
+    return val.formatted(.number
+//        .currency(code: code)
+        .precision(.fractionLength(0))
+    )
 }
 
 func showImpact() {
