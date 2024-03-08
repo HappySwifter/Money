@@ -55,6 +55,7 @@ struct NewAccountView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 15.0))
                             .keyboardType(.asciiCapable)
                             .autocorrectionDisabled()
+                            .scrollDismissesKeyboard(.interactively)
                     }
                     
                     HStack {
@@ -77,20 +78,25 @@ struct NewAccountView: View {
                         .background(Color(red: 0.98, green: 0.96, blue: 1))
                         .clipShape(RoundedRectangle(cornerRadius: 15.0))
                         .keyboardType(.decimalPad)
+                        .scrollDismissesKeyboard(.interactively)
                     }
                     
-                    ScrollView(.horizontal) {
-                        HStack {
+                    ScrollView {
+                        LazyVGrid(columns: Array(repeating: .init(.flexible(minimum: 50)), count: 6), alignment: .center) {
                             ForEach(SwiftColor.allCases, id: \.self) { color in
                                 color.value
                                     .clipShape(Circle())
-                                    .frame(width: 50, height: 50)
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
+//                                    .frame(width: 50, height: 50)
                                     .opacity(account.color == color.rawValue ? 1 : 0.3)
                                     .onTapGesture {
                                         account.color = color.rawValue
                                     }
                             }
                         }
+//                        HStack {
+//                            
+//                        }
                     }
                 })
                 .padding()
@@ -102,7 +108,7 @@ struct NewAccountView: View {
                 }
             }
             .onChange(of: account.currencyCode) {
-                self.account.currencySymbol = currenciesApi.getCurrencySymbol(for: account.currencyCode) ?? account.currencyCode
+                self.account.currencySymbol = currenciesApi.getCurrencySymbol(for: account.currencyCode) ?? String(account.currencyCode.prefix(2))
             }
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
                 CurrencyPicker(isPresented: $isCurrencyPickerPresented,
@@ -110,6 +116,11 @@ struct NewAccountView: View {
             })
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") {
+                        isSheetPresented.toggle()
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         saveCategory()

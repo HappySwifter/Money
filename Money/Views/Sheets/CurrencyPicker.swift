@@ -17,19 +17,23 @@ struct CurrencyPicker: View {
     @State var currencies = [Currency]()
     
     var body: some View {
-        Form {
-            ForEach(searchResults, id: \.code) { item in
-                HStack {
-                    Text(item.name)
-                    Spacer()
-                    Text(item.code)
-                }
-                .onTapGesture {
-                    selectedCurrencyCode = item.code
-                    isPresented.toggle()
+        NavigationStack {
+            Form {
+                ForEach(searchResults, id: \.code) { item in
+                    HStack {
+                        Text(item.name)
+                        Spacer()
+                        Text(item.code)
+                    }
+                    .background(Color.gray.opacity(0.01))
+                    .onTapGesture {
+                        selectedCurrencyCode = item.code
+                        isPresented.toggle()
+                    }
                 }
             }
         }
+        .searchable(text: $searchText, prompt: "Search")
         .onAppear {
             searchText = ""
             do {
@@ -45,7 +49,10 @@ struct CurrencyPicker: View {
         if searchText.isEmpty {
             return currencies
         } else {
-            return currencies.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            return currencies.filter {
+                $0.name.lowercased().contains(searchText.lowercased()) ||
+                $0.code.lowercased().contains(searchText.lowercased())
+            }
         }
     }
 }
