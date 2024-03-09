@@ -11,10 +11,13 @@ import SwiftData
 
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(Preferences.self) private var preferences
+    @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Query(sort: \Account.date) private var accounts: [Account]
     @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
     
+    @State var totalAmount = ""
     @State var selectedAccount: Account?
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
@@ -41,60 +44,68 @@ struct Dashboard: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("Accounts")
-                Text("$124.420")
-                Spacer()
-            }
-            
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(accounts) { item in
-                        AccountView(item: item,
-                                    selected: Binding(
-                                        get: { selectedAccount == item },
-                                        set: { _ in selectedAccount = item }),
-                                    longPressHandler: itemLongPressHandler(item:))
-                    }
-                    PlusView(buttonPressed: $createAccountPresented)
+        NavigationStack {
+            VStack(alignment: .leading) {
+                NavigationLink {
+                    AllAccountsView()
+                } label: {
+                    Text("Accounts: \(totalAmount) >")
+                        .foregroundStyle(Color.gray)
                 }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Divider()
+                .buttonStyle(.plain)
                 .padding(.vertical)
-            
-            HStack {
-                Text("This month")
-                Text("-$123")
-                Spacer()
-            }
-            
-            ScrollView {
-                LazyVGrid(columns: columns, alignment: .leading) {
-                    ForEach(categories) { item in
-                        CategoryView(item: item,
-                                     pressHandler: itemPressHandler(item:),
-                                     longPressHandler: itemLongPressHandler(item:))
+
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(accounts) { item in
+                            AccountView(item: item,
+                                        selected: Binding(
+                                            get: { selectedAccount == item },
+                                            set: { _ in selectedAccount = item }),
+                                        longPressHandler: itemLongPressHandler(item:))
+                        }
+                        PlusView(buttonPressed: $createAccountPresented)
                     }
-                    PlusView(buttonPressed: $createCategoryPresented)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Divider()
+                    .padding(.vertical)
+                
+                NavigationLink {
+                    ExpensesView()
+                } label: {
+                    Text("This month -$123 >")
+                        .foregroundStyle(Color.gray)
+                }
+                .buttonStyle(.plain)
+
+                ScrollView {
+                    LazyVGrid(columns: columns, alignment: .leading) {
+                        ForEach(categories) { item in
+                            CategoryView(item: item,
+                                         pressHandler: itemPressHandler(item:),
+                                         longPressHandler: itemLongPressHandler(item:))
+                        }
+                        PlusView(buttonPressed: $createCategoryPresented)
+                    }
                 }
             }
-        }
-        .padding()
-        .onChange(of: accounts, initial: true, {
-            selectedAccount = accounts.first
-        })
-        .sheet(isPresented: sheetBinding) { ActionSheetView(
-            isPresented: sheetBinding,
-            presentingType: presentingType)
-        }
-        .sheet(isPresented: $createAccountPresented) {
-            ActionSheetView(isPresented: $createAccountPresented, presentingType: .addAccount)
-        }
-        .sheet(isPresented: $createCategoryPresented) {
-            ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
+            .padding()
+            .onChange(of: accounts, initial: true, {
+                selectedAccount = accounts.first
+                calculateAccountsTotal(from: accounts)
+            })
+            .sheet(isPresented: sheetBinding) { ActionSheetView(
+                isPresented: sheetBinding,
+                presentingType: presentingType)
+            }
+            .sheet(isPresented: $createAccountPresented) {
+                ActionSheetView(isPresented: $createAccountPresented, presentingType: .addAccount)
+            }
+            .sheet(isPresented: $createCategoryPresented) {
+                ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
+            }
         }
     }
     
@@ -105,6 +116,29 @@ struct Dashboard: View {
     func itemLongPressHandler(item: Transactionable) {
         presentingType = .details(item: item)
     }
+    
+    func calculateAccountsTotal(from accounts: [CurrencyConvertible]) {
+        Task {
+            do {
+                let userCode = preferences.getUserCurrency().code
+                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode)
+                
+                var totalAmount = 0.0
+                for account in accounts {
+                    if let changeRate = rates.currency[userCode]?[account.currencyCode] {
+                        totalAmount += account.getAmountWith(changeRate: changeRate)
+                    } else {
+                        print("No conversation rate for \(account.currencyCode)")
+                    }
+                }
+                self.totalAmount = getAmountStringWith(code: userCode, val: totalAmount)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+
 }
 
 #Preview {

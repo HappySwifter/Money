@@ -40,6 +40,8 @@ final class Account {
     }
 }
 
+extension Account : CurrencyConvertible {}
+
 extension Account: Transactionable {
     var type: ItemType {
         .account(id: id)

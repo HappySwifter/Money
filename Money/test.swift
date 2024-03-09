@@ -13,10 +13,17 @@ func prettify(location: CGPoint?) -> String {
     return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
 }
 
-func prettify(val: Double?, code: String, fractionLength: Int = 0) -> String {
+func prettify(val: Double?, fractionLength: Int = 0) -> String {
     guard let val = val else { return "" }
-    return val.formatted(.number
-//        .currency(code: code)
+    return val.formatted(
+        .number
+        .precision(.fractionLength(0))
+    )
+}
+
+func getAmountStringWith(code: String, val: Double, fractionLength: Int = 0) -> String {
+    return val.formatted(
+        .currency(code: code)
         .precision(.fractionLength(0))
     )
 }

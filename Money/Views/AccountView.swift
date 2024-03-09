@@ -28,8 +28,7 @@ struct AccountView: View {
                         if item.type.isAccount {
                             HStack(spacing: 3) {
                                 Text(item.currencySymbol)
-                                Text(prettify(val: item.amount, code: item.currencyCode))
-                            
+                                Text(prettify(val: item.amount))
                             }
                             .font(.caption2)
                         }

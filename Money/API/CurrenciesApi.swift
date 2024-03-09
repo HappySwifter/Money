@@ -20,7 +20,27 @@ class CurrenciesApi {
     }
     
 
-    
+    enum ExchangeRateUrlType {
+        case main
+        case fallback
+        
+        func getUrl(for currencyCode: String) throws -> URL {
+            let urlString: String
+            switch self {
+            case .main:
+                urlString = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies"
+            case .fallback:
+                urlString = "https://latest.currency-api.pages.dev/v1/currencies"
+            }
+            if let url = URL(string: urlString) {
+                return url
+                    .appending(path: "\(currencyCode)")
+                    .appendingPathExtension("json")
+            } else {
+                throw URLError(.badURL)
+            }
+        }
+    }
 //    func saveCurrencies() throws -> [Currency] {
 //        let curs = try modelContext.fetch(FetchDescriptor<Currency>())
 //        if !curs.isEmpty {
@@ -67,6 +87,22 @@ class CurrenciesApi {
                 .symbol
         } else {
             return nil
+        }
+    }
+    
+    func getExchangeRateFor(currencyCode: String, urlType: ExchangeRateUrlType = .main) async throws -> ExchangeRate {
+        let url = try urlType.getUrl(for: currencyCode)
+        let (data, response) = try await URLSession.shared.data(from: url)
+        if let response = response as? HTTPURLResponse {
+            if (200..<300).contains(response.statusCode) {
+                return try JSONDecoder().decode(ExchangeRate.self, from: data)
+            } else if urlType == .main {
+                return try await getExchangeRateFor(currencyCode: currencyCode, urlType: .fallback)
+            } else {
+                throw URLError(.badServerResponse)
+            }
+        } else {
+            throw URLError(.badServerResponse)
         }
     }
 }
