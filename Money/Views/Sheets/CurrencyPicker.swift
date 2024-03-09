@@ -15,22 +15,22 @@ struct CurrencyPicker: View {
     @Binding var selectedCurrency: Currency
     @State private var searchText = ""
     @State var currencies = [Currency]()
-    var showOnlyCurrencies = [Currency]()
+    var currenciesToShow = [Currency]()
     
     var body: some View {
-        NavigationStack {
-            Form {
-                ForEach(searchResults, id: \.code) { item in
-                    HStack {
-                        Text(item.name)
-                        Spacer()
-                        Text(item.code)
+        Form {
+            ForEach(searchResults, id: \.code) { item in
+                HStack {
+                    Text(item.name)
+                    Spacer()
+                    if selectedCurrency == item {
+                        Image(systemName: "checkmark")
                     }
-                    .background(Color.gray.opacity(0.01))
-                    .onTapGesture {
-                        selectedCurrency = item
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                }
+                .background(Color.gray.opacity(0.01))
+                .onTapGesture {
+                    selectedCurrency = item
+                    presentationMode.wrappedValue.dismiss()
                 }
             }
         }
@@ -48,23 +48,12 @@ struct CurrencyPicker: View {
     
     var searchResults: [Currency] {
         if searchText.isEmpty {
-            if showOnlyCurrencies.isEmpty {
-                return currencies
-            } else {
-                return showOnlyCurrencies
-            }
-            
+            return currenciesToShow.isEmpty ? currencies : currenciesToShow
         } else {
-            if showOnlyCurrencies.isEmpty {
-                return currencies.filter {
-                    $0.name.lowercased().contains(searchText.lowercased()) ||
-                    $0.code.lowercased().contains(searchText.lowercased())
-                }
-            } else {
-                return showOnlyCurrencies.filter {
-                    $0.name.lowercased().contains(searchText.lowercased()) ||
-                    $0.code.lowercased().contains(searchText.lowercased())
-                }
+            let temp = currenciesToShow.isEmpty ? currencies : currenciesToShow
+            return temp.filter {
+                $0.name.lowercased().contains(searchText.lowercased()) ||
+                $0.code.lowercased().contains(searchText.lowercased())
             }
         }
     }

@@ -14,7 +14,7 @@ struct Dashboard: View {
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesApi.self) private var currenciesApi
     
-    @Query(sort: \Account.date) private var accounts: [Account]
+    @Query(sort: \Account.orderIndex) var accounts: [Account]
     @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
     
     @State var totalAmount = ""

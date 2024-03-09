@@ -12,6 +12,7 @@ import SwiftData
 @Model
 final class Account {
     let id: UUID
+    var orderIndex: Int
     let date: Date
     var name: String
     var icon: String
@@ -22,6 +23,7 @@ final class Account {
     var color: String
     
     init(id: UUID = UUID(),
+         orderIndex: Int,
         date: Date = Date(),
         name: String,
          icon: String = "",
@@ -32,6 +34,7 @@ final class Account {
          color: SwiftColor)
     {
         self.id = id
+        self.orderIndex = orderIndex
         self.date = date
         self.name = name
         self.currencyCode = currencyCode
@@ -64,5 +67,13 @@ extension Account: Transactionable {
                                       sourceId: id,
                                       destination: item.type)
         modelContext?.insert(transaction)
+    }
+}
+
+extension [Account] {
+    func updateOrderIndices() {
+        for (index, item) in enumerated() {
+            item.orderIndex = index
+        }
     }
 }

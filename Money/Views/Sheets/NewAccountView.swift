@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MCEmojiPicker
+import SwiftData
 
 struct NewAccountView: View {
     @Environment(\.modelContext) private var modelContext
@@ -17,7 +18,8 @@ struct NewAccountView: View {
     @State private var isEmojiPickerPresented = false
     @State private var isCurrencyPickerPresented = false
     
-    @State var account = Account(name: "",
+    @State var account = Account(orderIndex: 0,
+                                 name: "",
                                  icon: "🏦",
                                  amount: 0,
                                  currencyCode: "usd",
@@ -103,13 +105,15 @@ struct NewAccountView: View {
                 updateAccountBy(currency: preferences.getUserCurrency())
             }
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
-                CurrencyPicker(selectedCurrency: Binding(get: {
-                    Currency(code: account.currencyCode,
-                             name: account.currencyName,
-                             icon: account.currencySymbol)
-                }, set: { currency in
-                    updateAccountBy(currency: currency)
-                }))
+                NavigationStack {
+                    CurrencyPicker(selectedCurrency: Binding(get: {
+                        Currency(code: account.currencyCode,
+                                 name: account.currencyName,
+                                 icon: account.currencySymbol)
+                    }, set: { currency in
+                        updateAccountBy(currency: currency)
+                    }))
+                }
             })
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
@@ -144,7 +148,15 @@ struct NewAccountView: View {
             print("name is empty")
             return
         }
-        modelContext.insert(account)
+        do {
+            let accDesc = FetchDescriptor<Account>()
+            let accountsCount = try modelContext.fetchCount(accDesc)
+            account.orderIndex = accountsCount
+            modelContext.insert(account)
+        } catch {
+            print(error)
+        }
+
     }
 }
 
