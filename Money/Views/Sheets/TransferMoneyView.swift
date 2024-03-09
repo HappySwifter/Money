@@ -18,10 +18,6 @@ struct TransferMoneyView: View {
     @State var destination: Transactionable
     @Binding var isSheetPresented: Bool
     
-    
-//    @State var sourceSheetPresented = false
-//    @State var destinationSheetPresented = false
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -132,16 +128,6 @@ struct TransferMoneyView: View {
                 Spacer()
             }
             .padding()
-//            .sheet(isPresented: $sourceSheetPresented) {
-//                ItemPicker(type: source.type,
-//                           isPresented: $sourceSheetPresented,
-//                           selectedItem: $source)
-//            }
-//            .sheet(isPresented: $destinationSheetPresented) {
-//                ItemPicker(type: destination.type,
-//                           isPresented: $destinationSheetPresented,
-//                           selectedItem: $destination)
-//            }
             .navigationTitle(destination.type.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

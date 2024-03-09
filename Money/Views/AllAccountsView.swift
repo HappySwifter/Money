@@ -14,9 +14,8 @@ struct AllAccountsView: View {
     @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Query(sort: \Account.orderIndex) var accounts: [Account]
-
-    
     @State var userCurrency: Currency
+    @State var newAccountSheetPresend = false
     
     var userCurrencies: [Currency] {
         var set = Set<Currency>()
@@ -26,21 +25,38 @@ struct AllAccountsView: View {
         set.insert(userCurrency)
         return Array(set)
     }
-
+    
     var body: some View {
         VStack {
-            List {
-                ForEach(accounts) { acc in
+            if accounts.isEmpty {
+                Button {
+                    newAccountSheetPresend.toggle()
+                } label: {
                     HStack {
-                        Text(acc.name)
-                        Text(acc.currencySymbol)
-                        Spacer()
-                        Text(getAmountStringWith(code: acc.currencyCode, val: acc.amount))
+                        Text("Create new account")
                     }
                 }
-                .onMove(perform: updateOrder)
-                .onDelete(perform: deleteAccount)
+                .padding(.vertical)
+            } else {
+                List {
+                    
+                    ForEach(accounts) { acc in
+                        NavigationLink {
+                            AccountDetailsView(account: acc)
+                        } label: {
+                            HStack {
+                                Text(acc.name)
+                                Text(acc.currencySymbol)
+                                Spacer()
+                                Text(getAmountStringWith(code: acc.currencyCode, val: acc.amount))
+                            }
+                        }
+                    }
+                    .onMove(perform: updateOrder)
+                    .onDelete(perform: deleteAccount)
+                }
             }
+            Spacer()
             NavigationLink {
                 CurrencyPicker(selectedCurrency: $userCurrency, currenciesToShow: userCurrencies)
             } label: {
@@ -50,6 +66,9 @@ struct AllAccountsView: View {
         .onChange(of: userCurrency) {
             preferences.updateUser(currency: userCurrency)
         }
+        .sheet(isPresented: $newAccountSheetPresend, content: {
+            NewAccountView(isSheetPresented: $newAccountSheetPresend)
+        })
         .toolbar {
             EditButton()
         }

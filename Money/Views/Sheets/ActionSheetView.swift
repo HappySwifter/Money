@@ -22,9 +22,7 @@ struct ActionSheetView: View {
             case .details(let item):
                 switch item.type {
                 case .account:
-                    AccountDetailsView(
-                        isSheetPresented: $isPresented,
-                        item: item as! Account)
+                    AccountDetailsView(account: item as! Account)
                 case .category:
                     CategoryDetailsView(
                         isSheetPresented: $isPresented,

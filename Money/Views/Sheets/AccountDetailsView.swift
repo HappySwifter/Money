@@ -6,20 +6,45 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AccountDetailsView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.modelContext) private var modelContext
-    @Binding var isSheetPresented: Bool
-    let item: Account
+    
+    private static var descriptor: FetchDescriptor<Account> {
+        var descriptor = FetchDescriptor<Account>()
+        descriptor.fetchLimit = 1
+        return descriptor
+    }
+    @Query(descriptor) var destinationAccount: [Account]
+    
+    let account: Account
+    
+    @State var isTransferViewPresented = false
     
     var body: some View {
-        Text("Details: \(item.name)")
-        Button("Delete") {
-            withAnimation {
-                modelContext.delete(item)
-                isSheetPresented = false
+        VStack {
+            Text("Details: \(account.name)")
+            Button {
+                isTransferViewPresented.toggle()
+            } label: {
+                Text("Transfer money to another account")
             }
+
+            Spacer()
+            Button("Delete") {
+                withAnimation {
+                    modelContext.delete(account)
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            .buttonStyle(DeleteButton())
         }
-        .buttonStyle(DeleteButton())
+        .sheet(isPresented: $isTransferViewPresented) {
+            TransferMoneyView(source: account,
+                              destination: destinationAccount.first!,
+                              isSheetPresented: $isTransferViewPresented)
+        }
     }
 }

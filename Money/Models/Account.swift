@@ -55,18 +55,10 @@ extension Account: Transactionable {
     
     func deposit(amount: Double, from account: Transactionable) {
         self.amount += amount
-        let transaction = Transaction(amount: amount,
-                                      sourceId: account.id,
-                                      destination: self.type)
-        modelContext?.insert(transaction)
     }
     
     func credit(amount: Double, to item: Transactionable) {
         self.amount -= amount
-        let transaction = Transaction(amount: amount,
-                                      sourceId: id,
-                                      destination: item.type)
-        modelContext?.insert(transaction)
     }
 }
 
