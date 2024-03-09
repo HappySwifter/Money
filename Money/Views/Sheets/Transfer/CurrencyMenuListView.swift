@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CurrencyView: View {
+struct CurrencyMenuListView: View {
     @Binding var selectedItem: Transactionable
     let accounts: [Account]?
     let categories: [SpendCategory]?

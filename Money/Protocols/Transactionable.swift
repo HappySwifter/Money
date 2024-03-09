@@ -10,6 +10,7 @@ import Foundation
 protocol Transactionable {
     var id: UUID { get }
     var name: String { get }
+    var color: String { get }
     var icon: String { get }
     var currencyCode: String { get }
     var type: ItemType { get }

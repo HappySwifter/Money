@@ -17,7 +17,7 @@ func prettify(val: Double?, fractionLength: Int = 0) -> String {
     guard let val = val else { return "" }
     return val.formatted(
         .number
-        .precision(.fractionLength(0))
+        .precision(.fractionLength(fractionLength))
     )
 }
 

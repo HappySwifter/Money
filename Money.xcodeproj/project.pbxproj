@@ -47,7 +47,8 @@
 		ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */; };
 		ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */; };
 		ACCD11022B9C2278000EF710 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11012B9C2278000EF710 /* ExpensesView.swift */; };
-		ACCD11042B9C6307000EF710 /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11032B9C6307000EF710 /* CurrencyView.swift */; };
+		ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */; };
+		ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* AccountView.swift */; };
@@ -120,7 +121,8 @@
 		ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertible.swift; sourceTree = "<group>"; };
 		ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsView.swift; sourceTree = "<group>"; };
 		ACCD11012B9C2278000EF710 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
-		ACCD11032B9C6307000EF710 /* CurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
+		ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyMenuListView.swift; sourceTree = "<group>"; };
+		ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAccountView.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9442B8F421E0087F632 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -280,8 +282,7 @@
 				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
 				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
 				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
-				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
-				ACCD11032B9C6307000EF710 /* CurrencyView.swift */,
+				ACCD11072B9C76BA000EF710 /* Transfer */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -310,6 +311,16 @@
 				ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		ACCD11072B9C76BA000EF710 /* Transfer */ = {
+			isa = PBXGroup;
+			children = (
+				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
+				ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */,
+				ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */,
+			);
+			path = Transfer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,7 +473,8 @@
 				ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */,
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
-				ACCD11042B9C6307000EF710 /* CurrencyView.swift in Sources */,
+				ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */,
+				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
 				AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,

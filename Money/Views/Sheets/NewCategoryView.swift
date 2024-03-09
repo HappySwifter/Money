@@ -12,7 +12,6 @@ struct NewCategoryView: View {
     @Environment(\.modelContext) private var modelContext
     
     @State var name = ""
-    @State var currency = ""
     @State var selectedEmoji = "Shoose icon"
     @State var displayEmojiPicker: Bool = false
     
@@ -30,7 +29,6 @@ struct NewCategoryView: View {
                 .buttonStyle(DoneButtonStyle())
             }
             TextField("Name", text: $name)
-            TextField("Currency", text: $currency)
             Button(selectedEmoji) {
                 isEmojiPickerPresented.toggle()
             }.emojiPicker(
