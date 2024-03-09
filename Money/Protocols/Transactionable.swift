@@ -11,6 +11,7 @@ protocol Transactionable {
     var id: UUID { get }
     var name: String { get }
     var icon: String { get }
+    var currencyCode: String { get }
     var type: ItemType { get }
     func deposit(amount: Double, from account: Transactionable)
     func credit(amount: Double, to item: Transactionable)

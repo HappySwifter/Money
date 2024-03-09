@@ -30,12 +30,17 @@ class SpendCategory {
 }
 
 extension SpendCategory: Transactionable {
+    var currencyCode: String {
+        assert(false)
+        return ""
+    }
+    
     var type: ItemType {
         .category(id: id)
     }
     
     func deposit(amount: Double, from account: Transactionable) {
-        
+        assert(false, "Cant deposit to category")
     }
     
     func credit(amount: Double, to item: Transactionable) {

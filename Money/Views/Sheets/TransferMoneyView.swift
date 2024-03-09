@@ -10,113 +10,71 @@ import SwiftData
 
 struct TransferMoneyView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(CurrenciesApi.self) private var currenciesApi
     @Query(sort: \Account.date) private var accounts: [Account]
     @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
     
-    @State private var amount = "0"
     @State var source: Transactionable
     @State var destination: Transactionable
     @Binding var isSheetPresented: Bool
     
+    @State var exchangeRate: Double?
+    @State private var amount = "0"
+    
     var body: some View {
         NavigationStack {
             VStack {
-                
                 HStack {
-                    
                     Menu("\(source.icon) \(source.name)") {
                         switch source.type {
                         case .account:
-                            ForEach(accounts) { acc in
-                                Button {
-                                    source = acc
-                                } label: {
-                                    HStack {
-                                        Text("\(acc.icon) \(acc.name)")
-                                        Spacer()
-                                        if source.name == acc.name {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
+                            CurrencyView(selectedItem: $source,
+                                         accounts: accounts,
+                                         categories: nil) {
+                                updateRate()
                             }
                         case .category:
                             Color.clear
                         }
                     }
-
                     Text("-->")
                     
                     Menu("\(destination.icon) \(destination.name)") {
                         switch destination.type {
                         case .account:
-                            Text("Accounts")
-                            ForEach(accounts) { acc in
-                                Button {
-                                    destination = acc
-                                } label: {
-                                    HStack {
-                                        Text("\(acc.icon) \(acc.name)")
-                                        Spacer()
-                                        if destination.name == acc.name && destination.type.isSameType(with: acc.type) {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
+                            CurrencyView(selectedItem: $destination,
+                                         accounts: accounts,
+                                         categories: nil) {
+                                updateRate()
                             }
                             
                             Divider()
-                            Text("Categories")
-                            ForEach(categories) { cat in
-                                Button {
-                                    destination = cat
-                                } label: {
-                                    HStack {
-                                        Text("\(cat.icon) \(cat.name)")
-                                        Spacer()
-                                        if destination.name == cat.name && destination.type.isSameType(with: cat.type) {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
+                            CurrencyView(selectedItem: $destination,
+                                         accounts: nil,
+                                         categories: categories) {
+                                updateRate()
                             }
                         case .category:
-                            Text("Categories")
-                            ForEach(categories) { cat in
-                                Button {
-                                    destination = cat
-                                } label: {
-                                    HStack {
-                                        Text("\(cat.icon) \(cat.name)")
-                                        Spacer()
-                                        if destination.name == cat.name && destination.type.isSameType(with: cat.type) {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
+                            CurrencyView(selectedItem: $destination,
+                                         accounts: nil,
+                                         categories: categories) {
+                                updateRate()
                             }
-                            
                             Divider()
-                            Text("Accounts")
-                            ForEach(accounts) { acc in
-                                Button {
-                                    destination = acc
-                                } label: {
-                                    HStack {
-                                        Text("\(acc.icon) \(acc.name)")
-                                        Spacer()
-                                        if destination.name == acc.name && destination.type.isSameType(with: acc.type) {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
+                            CurrencyView(selectedItem: $destination,
+                                         accounts: accounts,
+                                         categories: nil) {
+                                updateRate()
                             }
                         }
                     }
                     .environment(\.menuOrder, .fixed)
                 }
- 
+                
                 HStack {
+                    if let exchangeRate = exchangeRate {
+                        Text("\(exchangeRate)")
+                    }
                     Spacer()
                     Text(amount)
                         .font(.title)
@@ -155,6 +113,22 @@ struct TransferMoneyView: View {
                                       sourceId: source.id,
                                       destination: destination.type)
         modelContext.insert(transaction)
+    }
+    
+    private func updateRate() {
+        guard destination.type.isAccount else {
+            exchangeRate = nil
+            return
+        }
+        Task {
+            exchangeRate = try await loadRates(sourceCode: source.currencyCode,
+                                               destinationCode: destination.currencyCode) ?? 0
+        }
+    }
+    
+    private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
+        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode)
+        return rates.currency[sourceCode]?[destinationCode]
     }
 }
 
