@@ -21,6 +21,7 @@ struct NewAccountView: View {
                                  icon: "🏦",
                                  amount: 0,
                                  currencyCode: "usd",
+                                 currencyName: "US Dollar",
                                  currencySymbol: "$",
                                  color: SwiftColor.allCases.first!)
     
@@ -94,25 +95,21 @@ struct NewAccountView: View {
                                     }
                             }
                         }
-//                        HStack {
-//                            
-//                        }
                     }
                 })
                 .padding()
             }
             .onAppear {
-                Task {
-                    let userCur = preferences.getUserCurrency()
-                    self.account.currencyCode = userCur.code
-                }
-            }
-            .onChange(of: account.currencyCode) {
-                self.account.currencySymbol = currenciesApi.getCurrencySymbol(for: account.currencyCode) ?? String(account.currencyCode.prefix(2))
+                updateAccountBy(currency: preferences.getUserCurrency())
             }
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
-                CurrencyPicker(isPresented: $isCurrencyPickerPresented,
-                               selectedCurrencyCode: $account.currencyCode)
+                CurrencyPicker(selectedCurrency: Binding(get: {
+                    Currency(code: account.currencyCode,
+                             name: account.currencyName,
+                             icon: account.currencySymbol)
+                }, set: { currency in
+                    updateAccountBy(currency: currency)
+                }))
             })
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
@@ -134,6 +131,13 @@ struct NewAccountView: View {
         
     }
     
+    private func updateAccountBy(currency: Currency) {
+        self.account.currencyCode = currency.code
+        self.account.currencySymbol = currenciesApi
+            .getCurrencySymbol(for: currency.code) ??
+            String(account.currencyCode.prefix(2))
+        self.account.currencyName = currency.name
+    }
     
     func saveCategory() {
         guard !account.name.isEmpty else {

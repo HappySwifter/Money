@@ -7,7 +7,16 @@
 
 import Foundation
 
-struct Currency: Codable {    
+struct Currency: Codable, Equatable, Hashable {    
+    
+    static func == (lhs: Currency, rhs: Currency) -> Bool {
+        lhs.code == rhs.code
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(code)
+    }
+    
     let code: String
     let name: String
     let icon: String

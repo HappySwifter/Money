@@ -47,7 +47,7 @@ struct Dashboard: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 NavigationLink {
-                    AllAccountsView()
+                    AllAccountsView(userCurrency: preferences.getUserCurrency())
                 } label: {
                     Text("Accounts: \(totalAmount) >")
                         .foregroundStyle(Color.gray)

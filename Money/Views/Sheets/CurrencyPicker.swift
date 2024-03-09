@@ -10,11 +10,12 @@ import SwiftData
 
 struct CurrencyPicker: View {
     @Environment(CurrenciesApi.self) private var currenciesApi
-        
-    @Binding var isPresented: Bool
-    @Binding var selectedCurrencyCode: String
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    @Binding var selectedCurrency: Currency
     @State private var searchText = ""
     @State var currencies = [Currency]()
+    var showOnlyCurrencies = [Currency]()
     
     var body: some View {
         NavigationStack {
@@ -27,8 +28,8 @@ struct CurrencyPicker: View {
                     }
                     .background(Color.gray.opacity(0.01))
                     .onTapGesture {
-                        selectedCurrencyCode = item.code
-                        isPresented.toggle()
+                        selectedCurrency = item
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
@@ -47,11 +48,23 @@ struct CurrencyPicker: View {
     
     var searchResults: [Currency] {
         if searchText.isEmpty {
-            return currencies
+            if showOnlyCurrencies.isEmpty {
+                return currencies
+            } else {
+                return showOnlyCurrencies
+            }
+            
         } else {
-            return currencies.filter {
-                $0.name.lowercased().contains(searchText.lowercased()) ||
-                $0.code.lowercased().contains(searchText.lowercased())
+            if showOnlyCurrencies.isEmpty {
+                return currencies.filter {
+                    $0.name.lowercased().contains(searchText.lowercased()) ||
+                    $0.code.lowercased().contains(searchText.lowercased())
+                }
+            } else {
+                return showOnlyCurrencies.filter {
+                    $0.name.lowercased().contains(searchText.lowercased()) ||
+                    $0.code.lowercased().contains(searchText.lowercased())
+                }
             }
         }
     }

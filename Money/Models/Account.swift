@@ -17,6 +17,7 @@ final class Account {
     var icon: String
     var amount: Double
     var currencyCode: String
+    var currencyName: String
     var currencySymbol: String
     var color: String
     
@@ -26,6 +27,7 @@ final class Account {
          icon: String = "",
          amount: Double = 0.0,
          currencyCode: String,
+         currencyName: String,
          currencySymbol: String,
          color: SwiftColor)
     {
@@ -33,6 +35,7 @@ final class Account {
         self.date = date
         self.name = name
         self.currencyCode = currencyCode
+        self.currencyName = currencyName
         self.currencySymbol = currencySymbol
         self.icon = icon
         self.amount = amount

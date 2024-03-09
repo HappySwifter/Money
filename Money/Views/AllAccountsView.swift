@@ -6,13 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AllAccountsView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    @Environment(Preferences.self) private var preferences
+    @Environment(CurrenciesApi.self) private var currenciesApi
+    @Query(sort: \Account.date) private var accounts: [Account]
+    
+    @State var userCurrency: Currency
+    
+    var userCurrencyCodes: [Currency] {
+        var set = Set<Currency>()
+        accounts.forEach { set.insert(Currency(code: $0.currencyCode,
+                                               name: $0.currencyName,
+                                               icon: $0.currencySymbol)) }
+        set.insert(userCurrency)
+        return Array(set)
     }
-}
 
-#Preview {
-    AllAccountsView()
+    var body: some View {
+        VStack {
+            NavigationLink {
+                CurrencyPicker(selectedCurrency: $userCurrency, showOnlyCurrencies: userCurrencyCodes)
+            } label: {
+                Text("Selected currency: \(userCurrency.name)")
+            }
+        }
+    }
 }
