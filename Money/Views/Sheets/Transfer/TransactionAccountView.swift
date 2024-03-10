@@ -36,6 +36,8 @@ struct TransactionAccountView: View {
     let item: Transactionable
     let showAmount: Bool
     
+//    @State var temp = ""
+    
     var body: some View {
         VStack(alignment: viewType.alignment) {
             Text(viewType.title)
@@ -45,18 +47,19 @@ struct TransactionAccountView: View {
                 HStack {
                     Text("\(item.icon)")
                     Text("\(item.name)")
+                        .lineLimit(1)
                 }
             }
             .padding()
             .frame(minWidth: 0, maxWidth: .infinity)
             .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
-            .cornerRadiusWithBorder(radius: 10, borderColor: .gray)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             
-            Text(amount)
-                .font(.title2)
-                .multilineTextAlignment(.trailing)
-                .padding(.trailing)
-                .opacity(showAmount ? 1 : 0)
+//            TextField("0.0", text: $temp)
+//            Text(amount)
+//                .font(.title2)
+//                .multilineTextAlignment(.trailing)
+//                .opacity(showAmount ? 1 : 0)
         }
     }
 }

@@ -49,6 +49,8 @@
 		ACCD11022B9C2278000EF710 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11012B9C2278000EF710 /* ExpensesView.swift */; };
 		ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */; };
 		ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */; };
+		ACCD11092B9D84D5000EF710 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11082B9D84D5000EF710 /* ExchangeRateView.swift */; };
+		ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* AccountView.swift */; };
@@ -123,6 +125,8 @@
 		ACCD11012B9C2278000EF710 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
 		ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyMenuListView.swift; sourceTree = "<group>"; };
 		ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAccountView.swift; sourceTree = "<group>"; };
+		ACCD11082B9D84D5000EF710 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
+		ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHeightModifier.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9442B8F421E0087F632 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 				AC031EE82B9190A6006A3A8C /* Views */,
 				AC213FE12B9865A00095846E /* LongPressSupport.swift */,
 				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
+				ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */,
 				AC5A16E82B997AB100B07D1A /* CorneredBorderModifier.swift */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				AC5A16EA2B99E09C00B07D1A /* Preferences.swift */,
@@ -317,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
+				ACCD11082B9D84D5000EF710 /* ExchangeRateView.swift */,
 				ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */,
 				ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */,
 			);
@@ -467,10 +473,12 @@
 				AC213FE72B9876750095846E /* Category.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,
+				ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */,
 				AC5A16EB2B99E09D00B07D1A /* Preferences.swift in Sources */,
 				AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */,
 				ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */,
 				ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */,
+				ACCD11092B9D84D5000EF710 /* ExchangeRateView.swift in Sources */,
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
 				ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */,

@@ -14,8 +14,8 @@ protocol Transactionable {
     var icon: String { get }
     var currencyCode: String { get }
     var type: ItemType { get }
-    func deposit(amount: Double, from account: Transactionable)
-    func credit(amount: Double, to item: Transactionable)
+    func deposit(amount: Double)
+    func credit(amount: Double) -> Bool
 }
 
 enum ItemType: Codable {

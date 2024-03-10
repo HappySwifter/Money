@@ -12,7 +12,7 @@ struct CalculatorView: View {
     @Binding var resultString: String
     
     var body: some View {
-        LazyVGrid(columns: viewModel.columns, spacing: 0, content: {
+        LazyVGrid(columns: viewModel.columns, spacing: 5, content: {
             ForEach(viewModel.buttons, id: \.self) { button in
                 Button {
                     handlePress(on: button)
@@ -21,8 +21,10 @@ struct CalculatorView: View {
                 }
             }
         })
-        .clipShape(RoundedRectangle(cornerRadius: 10.0))
-        .frame(maxWidth: viewModel.buttonSize.width * Double(viewModel.buttonsInColumn))
+        .padding(7)
+        .frame(maxWidth: .infinity)
+        .background(Color.gray.opacity(0.3))
+        .safeAreaPadding(.bottom)
     }
     
     private func handlePress(on button: CalculatorButton) {
@@ -57,12 +59,12 @@ class CalculatorViewModel {
     let buttons: [CalculatorButton]
     let buttonsInColumn: Int
     let columns: [GridItem]
-    let buttonSize = CGSize(width: 80, height: 50)
+    let buttonSize = CGSize(width: CGFloat.infinity, height: 50)
     
     init(showCalculator: Bool) {
         self.buttons = CalculatorButton.allCases.filter { showCalculator ? true : !$0.isCalcButton }
         self.buttonsInColumn = showCalculator ? 4 : 3
-        self.columns = Array(repeating: GridItem(.fixed(buttonSize.width), spacing: 0), count: self.buttonsInColumn)
+        self.columns = Array(repeating: GridItem(.flexible(), spacing: 5), count: self.buttonsInColumn)
     }
     
     
@@ -71,5 +73,4 @@ class CalculatorViewModel {
 #Preview {
     @State var res = "324560"
     return CalculatorView(viewModel: CalculatorViewModel(showCalculator: false), resultString: .constant("0"))
-        .background(Color.red.opacity(0.3))
 }

@@ -53,12 +53,17 @@ extension Account: Transactionable {
         .account(id: id)
     }
     
-    func deposit(amount: Double, from account: Transactionable) {
+    func deposit(amount: Double) {
         self.amount += amount
     }
     
-    func credit(amount: Double, to item: Transactionable) {
-        self.amount -= amount
+    func credit(amount: Double) -> Bool {
+        if self.amount > amount {
+            self.amount -= amount
+            return true
+        } else {
+            return false
+        }
     }
 }
 

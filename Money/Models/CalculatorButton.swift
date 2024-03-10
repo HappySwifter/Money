@@ -9,24 +9,24 @@ import Foundation
 import SwiftUI
 
 enum CalculatorButton: String, CaseIterable {
-    case but7 = "7"
-    case but8 = "8"
-    case but9 = "9"
+    case but1 = "1"
+    case but2 = "2"
+    case but3 = "3"
     case plus = "+"
     case but4 = "4"
     case but5 = "5"
     case but6 = "6"
     case minus = "-"
-    case but1 = "1"
-    case but2 = "2"
-    case but3 = "3"
+    case but7 = "7"
+    case but8 = "8"
+    case but9 = "9"
     case equal = "="
     case comma = ","
     case but0 = "0"
     case remove = "\u{232b}"
     
     var baseColor: Color {
-        .teal
+        .white
     }
     
     var borderColor: Color {
@@ -38,9 +38,9 @@ enum CalculatorButton: String, CaseIterable {
         case .plus, .minus, .equal:
             return .orange.opacity(0.8)
         case .comma, .remove:
-            return baseColor.opacity(0.8)
+            return .clear
         default:
-            return baseColor.opacity(0.6)
+            return baseColor
         }
     }
     

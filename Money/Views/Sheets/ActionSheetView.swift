@@ -11,6 +11,8 @@ struct ActionSheetView: View {
     @Binding var isPresented: Bool
     let presentingType: PresentingType
     
+    
+    
     var body: some View {
         VStack {
             switch presentingType {
@@ -35,12 +37,8 @@ struct ActionSheetView: View {
             case .none:
                 Spacer()
             }
-            Spacer()
         }
-//        .padding()
-        .presentationCornerRadius(30)
-        .presentationDetents([.fraction(presentingType.sheetHeightFraction)])
-        
+        .presentationCornerRadius(20)
     }
 }
 

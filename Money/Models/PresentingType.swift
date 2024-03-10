@@ -34,7 +34,9 @@ enum PresentingType: Equatable {
     
     var sheetHeightFraction: CGFloat {
         switch self {
-        case .transfer, .details:
+        case .transfer:
+            return 0.6
+        case .details:
             return 0.7
         case .addAccount, .addCategory, .none:
             return 1

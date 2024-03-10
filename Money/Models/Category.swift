@@ -39,11 +39,12 @@ extension SpendCategory: Transactionable {
         .category(id: id)
     }
     
-    func deposit(amount: Double, from account: Transactionable) {
+    func deposit(amount: Double) {
         assert(false, "Cant deposit to category")
     }
     
-    func credit(amount: Double, to item: Transactionable) {
+    func credit(amount: Double) -> Bool {
         assert(false, "Cant creadit from category")
+        return false
     }
 }

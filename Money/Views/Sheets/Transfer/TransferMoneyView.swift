@@ -25,95 +25,107 @@ struct TransferMoneyView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Menu {
-                        switch source.type {
-                        case .account:
-                            CurrencyMenuListView(
-                                selectedItem: $source,
-                                accounts: accounts,
-                                categories: nil) {
-                                updateRate()
-                            }
-                        case .category:
-                            Color.clear
-                        }
-                    } label: {
-                        TransactionAccountView(
-                            viewType: .source,
-                            amount: prettify(val: sourceAmount, fractionLength: 2),
-                            item: source,
-                            showAmount: destination.type.isAccount
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .environment(\.menuOrder, .fixed)
-                    
-                    Menu {
-                        switch destination.type {
-                        case .account:
-                            CurrencyMenuListView(
-                                selectedItem: $destination,
-                                accounts: accounts,
-                                categories: nil)
-                            {
-                                updateRate()
-                            }
-                            
-                            Divider()
-                            CurrencyMenuListView(
-                                selectedItem: $destination,
-                                accounts: nil,
-                                categories: categories)
-                            {
-                                updateRate()
-                            }
-                        case .category:
-                            CurrencyMenuListView(
-                                selectedItem: $destination,
-                                accounts: nil,
-                                categories: categories)
-                            {
-                                updateRate()
-                            }
-                            Divider()
-                            CurrencyMenuListView(
-                                selectedItem: $destination,
-                                accounts: accounts,
-                                categories: nil)
-                            {
-                                updateRate()
-                            }
-                        }
-                    } label: {
-                        TransactionAccountView(
-                            viewType: .destination,
-                            amount: destinationAmount,
-                            item: destination,
-                            showAmount: true
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .environment(\.menuOrder, .fixed)
-                }
-                .frame(minWidth: 0, maxWidth: .infinity)
-                    
-                if let exchangeRate = exchangeRate {
+                VStack {
                     HStack {
-                        Text("Exchange rate: ")
-                        Text(prettify(val: exchangeRate, fractionLength: 3))
-                        Spacer()
+                        Menu {
+                            switch source.type {
+                            case .account:
+                                CurrencyMenuListView(
+                                    selectedItem: $source,
+                                    accounts: accounts,
+                                    categories: nil) {
+                                    updateRate()
+                                }
+                            case .category:
+                                Color.clear
+                            }
+                        } label: {
+                            TransactionAccountView(
+                                viewType: .source,
+                                amount: prettify(val: sourceAmount, fractionLength: 2),
+                                item: source,
+                                showAmount: destination.type.isAccount
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .environment(\.menuOrder, .fixed)
+                        
+                        Menu {
+                            switch destination.type {
+                            case .account:
+                                CurrencyMenuListView(
+                                    selectedItem: $destination,
+                                    accounts: accounts,
+                                    categories: nil)
+                                {
+                                    updateRate()
+                                }
+                                
+                                Divider()
+                                CurrencyMenuListView(
+                                    selectedItem: $destination,
+                                    accounts: nil,
+                                    categories: categories)
+                                {
+                                    updateRate()
+                                }
+                            case .category:
+                                CurrencyMenuListView(
+                                    selectedItem: $destination,
+                                    accounts: nil,
+                                    categories: categories)
+                                {
+                                    updateRate()
+                                }
+                                Divider()
+                                CurrencyMenuListView(
+                                    selectedItem: $destination,
+                                    accounts: accounts,
+                                    categories: nil)
+                                {
+                                    updateRate()
+                                }
+                            }
+                        } label: {
+                            TransactionAccountView(
+                                viewType: .destination,
+                                amount: destinationAmount,
+                                item: destination,
+                                showAmount: true
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .environment(\.menuOrder, .fixed)
                     }
-                    .foregroundStyle(Color.gray)
-                    .padding(.vertical)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                       
+                    
+                    TextField("0", text: $destinationAmount)
+        //            Text(amount)
+                        .font(.title2)
+                        .multilineTextAlignment(.trailing)
+                        .keyboardType(.decimalPad)
+
+                    
+                    if let exchangeRate = exchangeRate {
+                        HStack {
+                            Text("Exchange rate: ")
+                            Text(prettify(val: exchangeRate, fractionLength: 3))
+                            Spacer()
+                        }
+                        .foregroundStyle(Color.gray)
+                        .padding(.vertical)
+                    }
+                    
                 }
-                
+                .padding()
+                Spacer()
+
                 CalculatorView(
                     viewModel: CalculatorViewModel(showCalculator: false),
                     resultString: $destinationAmount)
-                Spacer()
             }
-            .padding()
+
             .navigationTitle(destination.type.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: destinationAmount) {
@@ -121,9 +133,18 @@ struct TransferMoneyView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(" Done ") {
-                        makeTransfer()
-                        isSheetPresented.toggle()
+                    Group {
+                        if destination.type.isCategory {
+                            Button( " Done ") {
+                                makeTransfer()
+                            }
+                        } else {
+                            NavigationLink {
+                                ExchangeRateView()
+                            } label: {
+                                Text(" Next ")
+                            }
+                        }
                     }
                     .disabled(destinationAmount == "0")
                     .buttonStyle(DoneButtonStyle())
@@ -140,14 +161,17 @@ struct TransferMoneyView: View {
             assert(false)
             return
         }
-        source.credit(amount: amount, to: destination)
+        guard source.credit(amount: amount) else {
+            return
+        }
         if destination.type.isAccount {
-            destination.deposit(amount: amount, from: source)
+            destination.deposit(amount: amount)
         }
         let transaction = Transaction(amount: amount,
                                       sourceId: source.id,
                                       destination: destination.type)
         modelContext.insert(transaction)
+        isSheetPresented.toggle()
     }
     
     private func updateRate() {
@@ -166,9 +190,8 @@ struct TransferMoneyView: View {
     }
     
     private func updateSourceAmount() {
-        if let exchangeRate = exchangeRate, let amount = Double(destinationAmount) {
+        if let exchangeRate = exchangeRate, exchangeRate > 0, let amount = Double(destinationAmount) {
             sourceAmount = amount / exchangeRate
-            print(sourceAmount)
         } else {
             sourceAmount = 0.0
         }
