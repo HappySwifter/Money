@@ -20,15 +20,15 @@ struct TransactionAccountView: View {
                 return "To"
             }
         }
-        
-        var alignment: HorizontalAlignment {
-            switch self {
-            case .source:
-                return .leading
-            case .destination:
-                return .trailing
-            }
-        }
+//        
+//        var alignment: HorizontalAlignment {
+//            switch self {
+//            case .source:
+//                return .leading
+//            case .destination:
+//                return .trailing
+//            }
+//        }
     }
     
     let viewType: ViewType
@@ -36,30 +36,30 @@ struct TransactionAccountView: View {
     let item: Transactionable
     let showAmount: Bool
     
-//    @State var temp = ""
+    //    @State var temp = ""
     
     var body: some View {
-        VStack(alignment: viewType.alignment) {
-            Text(viewType.title)
-                .font(.caption)
-            
-            VStack {
-                HStack {
-                    Text("\(item.icon)")
-                    Text("\(item.name)")
-                        .lineLimit(1)
-                }
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 3) {
+                Text(viewType.title)
+                Text("\(item.name)")
+                    .lineLimit(1)
+                Text("\(item.icon)")
+                Spacer()
             }
-            .padding()
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .foregroundStyle(Color.gray)
             
-//            TextField("0.0", text: $temp)
-//            Text(amount)
-//                .font(.title2)
-//                .multilineTextAlignment(.trailing)
-//                .opacity(showAmount ? 1 : 0)
+            if item.type.isAccount {
+                HStack(spacing: 3) {
+                    Text(prettify(val: item.amount, fractionLength: 2))
+                    Text(item.currencySymbol)
+                    Spacer()
+                }
+                .font(.title)
+            }
         }
+        .padding()
+        .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

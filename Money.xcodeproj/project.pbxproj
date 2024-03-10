@@ -51,6 +51,7 @@
 		ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */; };
 		ACCD11092B9D84D5000EF710 /* ExchangeRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11082B9D84D5000EF710 /* ExchangeRateView.swift */; };
 		ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */; };
+		ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD110C2B9E06E8000EF710 /* EnterAmountView.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* AccountView.swift */; };
@@ -127,6 +128,7 @@
 		ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAccountView.swift; sourceTree = "<group>"; };
 		ACCD11082B9D84D5000EF710 /* ExchangeRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateView.swift; sourceTree = "<group>"; };
 		ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHeightModifier.swift; sourceTree = "<group>"; };
+		ACCD110C2B9E06E8000EF710 /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9442B8F421E0087F632 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 			children = (
 				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
 				ACCD11082B9D84D5000EF710 /* ExchangeRateView.swift */,
+				ACCD110C2B9E06E8000EF710 /* EnterAmountView.swift */,
 				ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */,
 				ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */,
 			);
@@ -485,6 +488,7 @@
 				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
 				AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
+				ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,
 				ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */,
 				AC213FE92B9876D40095846E /* Transactionable.swift in Sources */,

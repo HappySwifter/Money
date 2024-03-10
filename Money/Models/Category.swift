@@ -30,6 +30,14 @@ class SpendCategory {
 }
 
 extension SpendCategory: Transactionable {
+    var currencySymbol: String {
+        ""
+    }
+    
+    var amount: Double {
+        0.0
+    }
+    
     var currencyCode: String {
         assert(false)
         return ""

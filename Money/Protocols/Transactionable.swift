@@ -10,9 +10,11 @@ import Foundation
 protocol Transactionable {
     var id: UUID { get }
     var name: String { get }
+    var amount: Double { get }
     var color: String { get }
     var icon: String { get }
     var currencyCode: String { get }
+    var currencySymbol: String { get }
     var type: ItemType { get }
     func deposit(amount: Double)
     func credit(amount: Double) -> Bool
