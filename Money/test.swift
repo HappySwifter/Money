@@ -45,6 +45,14 @@ extension String {
     }
 }
 
+extension Date {
+    var ratesDateString: String {
+        let form = DateFormatter()
+        form.dateFormat = "YYYY-MM-dd"
+        return form.string(from: self)
+    }
+}
+
 func showImpact() {
     UIImpactFeedbackGenerator(style: .light).impactOccurred()
 }

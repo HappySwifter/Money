@@ -121,7 +121,7 @@ struct Dashboard: View {
         Task {
             do {
                 let userCode = preferences.getUserCurrency().code
-                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode)
+                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date())
                 
                 var totalAmount = 0.0
                 for account in accounts {

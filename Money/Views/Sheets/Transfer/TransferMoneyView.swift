@@ -202,6 +202,9 @@ struct TransferMoneyView: View {
                 source = oldValue
             }
         }
+        if destination.type.isCategory {
+            focusedField = .source
+        }
         updateRate()
     }
     
@@ -242,7 +245,7 @@ struct TransferMoneyView: View {
     }
     
     private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
-        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode)
+        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode, date: Date())
         return rates.currency[sourceCode]?[destinationCode]
     }
 }

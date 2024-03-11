@@ -7,9 +7,11 @@
 
 import SwiftUI
 import SwiftData
+import OSLog
 
 @main
 struct MoneyApp: App {
+    let logger = Logger(subsystem: "Money", category: "MoneyApp")
     let currencyApi: CurrenciesApi
     let preferences: Preferences
     
@@ -30,9 +32,11 @@ struct MoneyApp: App {
     }()
     
     init() {
-        currencyApi = CurrenciesApi(modelContext: sharedModelContainer.mainContext)
-        preferences = Preferences(userDefaults: UserDefaults.standard,
-                                  currenciesApi: currencyApi)
+        
+        preferences = Preferences(userDefaults: UserDefaults.standard)
+        
+        currencyApi = CurrenciesApi(modelContext: sharedModelContainer.mainContext,
+                                    preferences: preferences)
     }
 
     var body: some Scene {
