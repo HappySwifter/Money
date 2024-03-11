@@ -37,6 +37,14 @@ extension Double {
     }
 }
 
+extension String {
+    func toDouble() -> Double? {
+        let formatter = NumberFormatter()
+        formatter.decimalSeparator = ","
+        return formatter.number(from: self)?.doubleValue
+    }
+}
+
 func showImpact() {
     UIImpactFeedbackGenerator(style: .light).impactOccurred()
 }

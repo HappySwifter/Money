@@ -16,7 +16,6 @@ struct EnterAmountView: View {
         HStack {
             Spacer()
             Text(value)
-            
             Text(symbol)
                 .foregroundStyle(Color.gray.opacity(0.5))
                 .font(.title2)
@@ -30,6 +29,8 @@ struct EnterAmountView: View {
             Button("Paste") {
                 let pasteString = UIPasteboard.general.string ?? ""
                 if let double = Double(pasteString), double > 0 {
+                    value = pasteString
+                } else if let double = pasteString.toDouble(), double > 0 {
                     value = pasteString
                 }
             }

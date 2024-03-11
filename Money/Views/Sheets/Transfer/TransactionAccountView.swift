@@ -47,6 +47,7 @@ struct TransactionAccountView: View {
             }
         }
         .padding()
+        .frame(minHeight: 100, maxHeight: 100)
         .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
