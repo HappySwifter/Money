@@ -134,13 +134,11 @@ struct TransferMoneyView: View {
                         
                     }
                     
-                    
                     if let exchangeRate {
                         Text("Exchange rate: \(normalizedString(rate: exchangeRate))")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
                     }
-                    
                 }
                 .padding()
                 Spacer()
@@ -155,7 +153,7 @@ struct TransferMoneyView: View {
                     Button( " Done ") {
                         makeTransfer()
                     }
-                    .disabled(sourceAmount == "0")
+                    .disabled(sourceAmount.toDouble() == 0)
                     .buttonStyle(DoneButtonStyle())
                 }
             }
@@ -194,7 +192,7 @@ struct TransferMoneyView: View {
     }
     
     private func swapItemsIfNeededAndUpdateRate(oldValue: Transactionable, changedItemType: ItemType) {
-        if source.id == destination.id  {
+        if source.id == destination.id && destination.type.isAccount  {
             switch changedItemType {
             case .source:
                 destination = oldValue
