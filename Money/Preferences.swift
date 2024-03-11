@@ -17,12 +17,12 @@ class Preferences {
         self.currenciesApi = currenciesApi
     }
     
-    func updateUser(currency: Currency) {
+    func updateUser(currency: MyCurrency) {
         let data = try! JSONEncoder().encode(currency)
         userDefaults.setValue(data, forKey: Keys.userCurrency.rawValue)
     }
     
-    func getUserCurrency() -> Currency {
+    func getUserCurrency() -> MyCurrency {
         if let userCurrency = decodeCurrencyData() {
             return userCurrency
         } else if let currencySymbol = Locale.current.currencySymbol,
@@ -34,15 +34,15 @@ class Preferences {
             updateUser(currency: localCurrency)
             return localCurrency
         } else {
-            let usd = Currency(code: "usd", name: "US Dollar", icon: "")
+            let usd = MyCurrency(code: "usd", name: "US Dollar", icon: "")
             updateUser(currency: usd)
             return usd
         }
     }
     
-    private func decodeCurrencyData() -> Currency? {
+    private func decodeCurrencyData() -> MyCurrency? {
         if let data = userDefaults.data(forKey: Keys.userCurrency.rawValue) {
-            return try? JSONDecoder().decode(Currency.self, from: data)
+            return try? JSONDecoder().decode(MyCurrency.self, from: data)
         } else {
             return nil
         }

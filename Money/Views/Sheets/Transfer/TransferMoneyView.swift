@@ -22,10 +22,11 @@ struct TransferMoneyView: View {
     @State private var sourceAmount = "0"
     @State private var destinationAmount = "0"
     
-    enum FocusField: Hashable {
-      case field
+    enum ItemType: Hashable {
+        case source
+        case destination
     }
-    @FocusState private var focusedField: FocusField?
+    @State private var focusedField = ItemType.source
     
     var body: some View {
         NavigationStack {
@@ -38,7 +39,7 @@ struct TransferMoneyView: View {
                                 selectedItem: $source,
                                 accounts: accounts,
                                 categories: nil) {
-                                    updateRate()
+                                    updateRate(itemType: .source)
                                 }
                         case .category:
                             Color.clear
@@ -46,7 +47,6 @@ struct TransferMoneyView: View {
                     } label: {
                         TransactionAccountView(
                             viewType: .source,
-                            amount: sourceAmount,
                             item: source,
                             showAmount: destination.type.isAccount
                         )
@@ -62,7 +62,7 @@ struct TransferMoneyView: View {
                                 accounts: accounts,
                                 categories: nil)
                             {
-                                updateRate()
+                                updateRate(itemType: .destination)
                             }
                             
                             Divider()
@@ -71,7 +71,7 @@ struct TransferMoneyView: View {
                                 accounts: nil,
                                 categories: categories)
                             {
-                                updateRate()
+                                updateRate(itemType: .destination)
                             }
                         case .category:
                             CurrencyMenuListView(
@@ -79,7 +79,7 @@ struct TransferMoneyView: View {
                                 accounts: nil,
                                 categories: categories)
                             {
-                                updateRate()
+                                updateRate(itemType: .destination)
                             }
                             Divider()
                             CurrencyMenuListView(
@@ -87,13 +87,13 @@ struct TransferMoneyView: View {
                                 accounts: accounts,
                                 categories: nil)
                             {
-                                updateRate()
+                                updateRate(itemType: .destination)
+                                
                             }
                         }
                     } label: {
                         TransactionAccountView(
                             viewType: .destination,
-                            amount: destinationAmount,
                             item: destination,
                             showAmount: true
                         )
@@ -103,25 +103,30 @@ struct TransferMoneyView: View {
                     
                     HStack {
                         EnterAmountView(
-                                symbol: source.currencySymbol,
-                                value: $sourceAmount)
-                        .focused($focusedField, equals: .field)
-                       
+                            symbol: source.currencySymbol,
+                            isFocused: focusedField == .source,
+                            value: $sourceAmount)
+                        .onTapGesture {
+                            focusedField = .source
+                        }
+                        
                         if destination.type.isAccount &&
                             source.currencyCode != destination.currencyCode {
-                            Divider()
+                            Spacer()
                             EnterAmountView(
                                 symbol: destination.currencySymbol,
+                                isFocused: focusedField == .destination,
                                 value: $destinationAmount)
+                            .onTapGesture {
+                                focusedField = .destination
+                            }
                         }
-
+                        
                     }
-                    .frame(maxHeight: 50)
-                    .background(Color.gray.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
                     
                     if let exchangeRate {
-                        Text("Exchange rate: \(prettify(val: 1 / exchangeRate, fractionLength: 3))")
+                        Text("Exchange rate: \(normalizedString(rate: exchangeRate))")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
                     }
@@ -129,38 +134,31 @@ struct TransferMoneyView: View {
                 }
                 .padding()
                 Spacer()
+                
+                CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
+                               resultString: focusedField == .source ? $sourceAmount.onChange(updateDestinationAmount) : $destinationAmount.onChange(updateSourceAmount))
             }
-            
             .navigationTitle(destination.type.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                self.focusedField = .field
-            }
-            .onChange(of: destinationAmount) {
-                updateSourceAmount()
-            }
-            .onChange(of: sourceAmount) {
-                updateDestinationAmount()
-            }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Group {
-                        if destination.type.isCategory {
-                            Button( " Done ") {
-                                makeTransfer()
-                            }
-                        } else {
-                            NavigationLink {
-                                ExchangeRateView()
-                            } label: {
-                                Text(" Next ")
-                            }
-                        }
+                    Button( " Done ") {
+                        makeTransfer()
                     }
                     .disabled(sourceAmount == "0")
                     .buttonStyle(DoneButtonStyle())
                 }
             }
+        }
+    }
+    
+    private func normalizedString(rate: Double) -> String {
+        let sourceSymbol = source.currencySymbol
+        let destinationSymbol = destination.currencySymbol
+        if rate > 1 {
+            return rate.getString() + " " + destinationSymbol
+        } else {
+            return (1 / rate).getString() + " " + sourceSymbol
         }
     }
     
@@ -185,7 +183,7 @@ struct TransferMoneyView: View {
         isSheetPresented.toggle()
     }
     
-    private func updateRate() {
+    private func updateRate(itemType: ItemType) {
         guard destination.type.isAccount else {
             exchangeRate = nil
             return
@@ -195,29 +193,51 @@ struct TransferMoneyView: View {
                 sourceCode: source.currencyCode,
                 destinationCode: destination.currencyCode) ??
             0
-            updateSourceAmount()
+            switch itemType {
+            case .source:
+                updateSourceAmount(from: destinationAmount)
+            case .destination:
+                updateDestinationAmount(from: sourceAmount)
+            }
         }
-        
     }
     
-    private func updateSourceAmount() {
-        if let exchangeRate = exchangeRate, exchangeRate > 0, let amount = Double(destinationAmount) {
-            sourceAmount = prettify(val: (amount / exchangeRate), fractionLength: 0)
+    private func updateSourceAmount(from destination: String) {
+        if let exchangeRate,
+           exchangeRate > 0,
+           let destination = Double(destination)
+        {
+            sourceAmount = (destination / exchangeRate).getString()
         } else {
             sourceAmount = "0"
         }
     }
     
-    private func updateDestinationAmount() {
-//        if let exchangeRate = exchangeRate, exchangeRate > 0, let amount = Double(sourceAmount) {
-//            destinationAmount = prettify(val: (amount / exchangeRate), fractionLength: 0)
-//        } else {
-//            destinationAmount = "0"
-//        }
+    private func updateDestinationAmount(from source: String) {
+        if let exchangeRate,
+           exchangeRate > 0,
+           let source = Double(source)
+        {
+            destinationAmount = (source * exchangeRate).getString()
+        } else {
+            destinationAmount = "0"
+        }
     }
     
     private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
         let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode)
         return rates.currency[sourceCode]?[destinationCode]
+    }
+}
+
+private extension Binding {
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        Binding(
+            get: { self.wrappedValue },
+            set: { newValue in
+                self.wrappedValue = newValue
+                handler(newValue)
+            }
+        )
     }
 }

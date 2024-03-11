@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MockData {
     
-    static let mockCurrency = Currency(code: "", name: "", icon: "")
+    static let mockCurrency = MyCurrency(code: "", name: "", icon: "")
     
     static let columns = [
         GridItem(.adaptive(minimum: 60, maximum: 200)),

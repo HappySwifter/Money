@@ -28,6 +28,15 @@ func getAmountStringWith(code: String, val: Double, fractionLength: Int = 0) -> 
     )
 }
 
+extension Double {
+    func getString(minFraction: Int = 0, maxFraction: Int = 2) -> String {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = minFraction
+        formatter.maximumFractionDigits = maxFraction
+        return formatter.string(from: NSNumber(value: self))!
+    }
+}
+
 func showImpact() {
     UIImpactFeedbackGenerator(style: .light).impactOccurred()
 }

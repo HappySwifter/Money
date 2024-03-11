@@ -12,10 +12,10 @@ struct CurrencyPicker: View {
     @Environment(CurrenciesApi.self) private var currenciesApi
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @Binding var selectedCurrency: Currency
+    @Binding var selectedCurrency: MyCurrency
     @State private var searchText = ""
-    @State var currencies = [Currency]()
-    var currenciesToShow = [Currency]()
+    @State var currencies = [MyCurrency]()
+    var currenciesToShow = [MyCurrency]()
     
     var body: some View {
         Form {
@@ -46,7 +46,7 @@ struct CurrencyPicker: View {
         }
     }
     
-    var searchResults: [Currency] {
+    var searchResults: [MyCurrency] {
         if searchText.isEmpty {
             return currenciesToShow.isEmpty ? currencies : currenciesToShow
         } else {

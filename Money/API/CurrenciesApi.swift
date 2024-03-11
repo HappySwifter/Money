@@ -10,7 +10,7 @@ import SwiftData
 
 @Observable
 class CurrenciesApi {
-    private var currencies: [Currency]?
+    private var currencies: [MyCurrency]?
     
     @ObservationIgnored
     private let modelContext: ModelContext
@@ -55,7 +55,7 @@ class CurrenciesApi {
 //        return try modelContext.fetch(FetchDescriptor<Currency>())
 //    }
     
-    func getCurrencies() throws -> [Currency] {
+    func getCurrencies() throws -> [MyCurrency] {
         if let currencies = self.currencies {
             return currencies
         } else {
@@ -67,7 +67,7 @@ class CurrenciesApi {
             
             let currencies =  dict.compactMap { (key: String, value: String) in
                 if !key.isEmpty && !value.isEmpty {
-                    return Currency(code: key, name: value, icon: "")
+                    return MyCurrency(code: key, name: value, icon: "")
                 } else {
                     return nil
                 }

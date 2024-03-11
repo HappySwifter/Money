@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Currency: Codable, Equatable, Hashable {    
+struct MyCurrency: Codable, Equatable, Hashable {    
     
-    static func == (lhs: Currency, rhs: Currency) -> Bool {
+    static func == (lhs: MyCurrency, rhs: MyCurrency) -> Bool {
         lhs.code == rhs.code
     }
     

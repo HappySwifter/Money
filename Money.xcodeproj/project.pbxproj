@@ -42,7 +42,7 @@
 		ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */; };
 		ACC3EFAD2B958F670069C2D1 /* Currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = ACC3EFAC2B958F670069C2D1 /* Currencies.json */; };
 		ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */; };
-		ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB12B95900C0069C2D1 /* Currency.swift */; };
+		ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB12B95900C0069C2D1 /* MyCurrency.swift */; };
 		ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */; };
 		ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */; };
 		ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */; };
@@ -119,7 +119,7 @@
 		ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-03-02 at 19.09.39.png"; sourceTree = "<group>"; };
 		ACC3EFAC2B958F670069C2D1 /* Currencies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Currencies.json; sourceTree = "<group>"; };
 		ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesApi.swift; sourceTree = "<group>"; };
-		ACC3EFB12B95900C0069C2D1 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		ACC3EFB12B95900C0069C2D1 /* MyCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCurrency.swift; sourceTree = "<group>"; };
 		ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
 		ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertible.swift; sourceTree = "<group>"; };
 		ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsView.swift; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 				AC031EE02B918684006A3A8C /* Account.swift */,
 				AC213FE62B9876750095846E /* Category.swift */,
 				AC213FE42B986C2A0095846E /* Transaction.swift */,
-				ACC3EFB12B95900C0069C2D1 /* Currency.swift */,
+				ACC3EFB12B95900C0069C2D1 /* MyCurrency.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
 				ACA3AF332B9319A900403538 /* PresentingType.swift */,
 				AC6EC3092B96FB94006DB482 /* SwiftColor.swift */,
@@ -490,7 +490,7 @@
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
 				ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,
-				ACC3EFB22B95900C0069C2D1 /* Currency.swift in Sources */,
+				ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */,
 				AC213FE92B9876D40095846E /* Transactionable.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,

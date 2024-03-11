@@ -30,18 +30,6 @@ class SpendCategory {
 }
 
 extension SpendCategory: Transactionable {
-    var currencySymbol: String {
-        ""
-    }
-    
-    var amount: Double {
-        0.0
-    }
-    
-    var currencyCode: String {
-        assert(false)
-        return ""
-    }
     
     var type: ItemType {
         .category(id: id)
@@ -54,5 +42,18 @@ extension SpendCategory: Transactionable {
     func credit(amount: Double) -> Bool {
         assert(false, "Cant creadit from category")
         return false
+    }
+    
+    var currencySymbol: String {
+        ""
+    }
+    
+    var amount: Double {
+        0.0
+    }
+    
+    var currencyCode: String {
+        assert(false)
+        return ""
     }
 }

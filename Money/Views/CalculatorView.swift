@@ -45,7 +45,9 @@ struct CalculatorView: View {
                 resultString.append(button.rawValue)
             }
         case .but0:
-            resultString.append(button.rawValue)
+            if resultString != "0" {
+                resultString.append(button.rawValue)
+            }
         case .remove:
             resultString = String(resultString.dropLast())
             if resultString.isEmpty {

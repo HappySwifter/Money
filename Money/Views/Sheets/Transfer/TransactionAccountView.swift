@@ -20,24 +20,12 @@ struct TransactionAccountView: View {
                 return "To"
             }
         }
-//        
-//        var alignment: HorizontalAlignment {
-//            switch self {
-//            case .source:
-//                return .leading
-//            case .destination:
-//                return .trailing
-//            }
-//        }
     }
     
     let viewType: ViewType
-    let amount: String
     let item: Transactionable
     let showAmount: Bool
-    
-    //    @State var temp = ""
-    
+        
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: 3) {
@@ -51,7 +39,7 @@ struct TransactionAccountView: View {
             
             if item.type.isAccount {
                 HStack(spacing: 3) {
-                    Text(prettify(val: item.amount, fractionLength: 2))
+                    Text(item.amount.getString())
                     Text(item.currencySymbol)
                     Spacer()
                 }

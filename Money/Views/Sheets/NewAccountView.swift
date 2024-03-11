@@ -107,7 +107,7 @@ struct NewAccountView: View {
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
                 NavigationStack {
                     CurrencyPicker(selectedCurrency: Binding(get: {
-                        Currency(code: account.currencyCode,
+                        MyCurrency(code: account.currencyCode,
                                  name: account.currencyName,
                                  icon: account.currencySymbol)
                     }, set: { currency in
@@ -135,7 +135,7 @@ struct NewAccountView: View {
         
     }
     
-    private func updateAccountBy(currency: Currency) {
+    private func updateAccountBy(currency: MyCurrency) {
         self.account.currencyCode = currency.code
         self.account.currencySymbol = currenciesApi
             .getCurrencySymbol(for: currency.code) ??

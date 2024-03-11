@@ -14,12 +14,12 @@ struct AllAccountsView: View {
     @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Query(sort: \Account.orderIndex) var accounts: [Account]
-    @State var userCurrency: Currency
+    @State var userCurrency: MyCurrency
     @State var newAccountSheetPresend = false
     
-    var userCurrencies: [Currency] {
-        var set = Set<Currency>()
-        accounts.forEach { set.insert(Currency(code: $0.currencyCode,
+    var userCurrencies: [MyCurrency] {
+        var set = Set<MyCurrency>()
+        accounts.forEach { set.insert(MyCurrency(code: $0.currencyCode,
                                                name: $0.currencyName,
                                                icon: $0.currencySymbol)) }
         set.insert(userCurrency)
