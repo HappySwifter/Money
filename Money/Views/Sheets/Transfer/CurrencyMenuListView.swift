@@ -20,7 +20,10 @@ struct CurrencyMenuListView: View {
                 ForEach(accounts) { acc in
                     Button {
                         let oldValue = selectedItem
-                        selectedItem = acc
+                        withAnimation {
+                            selectedItem = acc
+                        }
+                        
                         changeHandler(oldValue)
                     } label: {
                         HStack {
@@ -37,7 +40,9 @@ struct CurrencyMenuListView: View {
                 ForEach(categories) { acc in
                     Button {
                         let oldValue = selectedItem
-                        selectedItem = acc
+                        withAnimation {
+                            selectedItem = acc
+                        }
                         changeHandler(oldValue)
                     } label: {
                         HStack {

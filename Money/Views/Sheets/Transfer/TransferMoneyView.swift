@@ -131,10 +131,9 @@ struct TransferMoneyView: View {
                                 focusedField = .destination
                             }
                         }
-                        
                     }
                     
-                    if let exchangeRate {
+                    if let exchangeRate, (source.currencyCode != destination.currencyCode) {
                         Text("Exchange rate: \(normalizedString(rate: exchangeRate))")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
@@ -191,26 +190,35 @@ struct TransferMoneyView: View {
         isSheetPresented.toggle()
     }
     
-    private func swapItemsIfNeededAndUpdateRate(oldValue: Transactionable, changedItemType: ItemType) {
-        if source.id == destination.id && destination.type.isAccount  {
-            switch changedItemType {
-            case .source:
-                destination = oldValue
-            case .destination:
-                source = oldValue
+    private func swapItemsIfNeededAndUpdateRate(
+        oldValue: Transactionable,
+        changedItemType: ItemType)
+    {
+        if source.id == destination.id {
+            if oldValue.type.isCategory {
+                // restoring old state
+                switch changedItemType {
+                case .source: source = oldValue
+                case .destination: destination = oldValue
+                }
+            } else {
+                // swaping
+                switch changedItemType {
+                case .source: destination = oldValue
+                case .destination: source = oldValue
+                }
             }
         }
         if destination.type.isCategory {
             focusedField = .source
+            destinationAmount = "0"
+            exchangeRate = nil
+        } else {
+            updateRate()
         }
-        updateRate()
     }
     
     private func updateRate() {
-        guard destination.type.isAccount else {
-            exchangeRate = nil
-            return
-        }
         Task {
             exchangeRate = try await loadRates(
                 sourceCode: source.currencyCode,

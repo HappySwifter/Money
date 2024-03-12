@@ -58,7 +58,7 @@ extension Account: Transactionable {
     }
     
     func credit(amount: Double) -> Bool {
-        if self.amount > amount {
+        if self.amount >= amount {
             self.amount -= amount
             return true
         } else {

@@ -18,32 +18,46 @@ struct CurrencyPicker: View {
     var currenciesToShow = [MyCurrency]()
     
     var body: some View {
-        Form {
-            ForEach(searchResults, id: \.code) { item in
-                HStack {
-                    Text(item.name)
-                    Spacer()
-                    if selectedCurrency == item {
-                        Image(systemName: "checkmark")
+        NavigationStack {
+            Form {
+                ForEach(searchResults, id: \.code) { item in
+                    HStack {
+                        Text(item.name)
+                        Spacer()
+                        if selectedCurrency == item {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                    .padding(10)
+                    .background(Color.gray.opacity(0.01))
+                    .onTapGesture {
+                        selectedCurrency = item
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
-                .background(Color.gray.opacity(0.01))
-                .onTapGesture {
-                    selectedCurrency = item
-                    presentationMode.wrappedValue.dismiss()
+            }
+            .searchable(text: $searchText, prompt: "Search")
+            .onAppear {
+                searchText = ""
+                do {
+                    currencies = try currenciesApi.getCurrencies()
+                } catch {
+                    print(error)
+                }
+                
+            }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Close")
+                    }
+
                 }
             }
         }
-        .searchable(text: $searchText, prompt: "Search")
-        .onAppear {
-            searchText = ""
-            do {
-                currencies = try currenciesApi.getCurrencies()
-            } catch {
-                print(error)
-            }
-            
-        }
+
     }
     
     var searchResults: [MyCurrency] {

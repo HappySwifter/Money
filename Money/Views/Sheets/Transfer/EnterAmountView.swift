@@ -16,10 +16,10 @@ struct EnterAmountView: View {
         HStack {
             Spacer()
             Text(value)
-                .font(.title)
+                .font(.title2)
             Text(symbol)
-                .foregroundStyle(Color.gray.opacity(0.5))
-                .font(.title)
+                .opacity(0.5)
+                .font(.title2)
 
             Spacer()
         }

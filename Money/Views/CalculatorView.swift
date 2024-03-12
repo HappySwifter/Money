@@ -19,6 +19,7 @@ struct CalculatorView: View {
                 } label: {
                     CalculatorButtonView(size: viewModel.buttonSize, button: button)
                 }
+                .buttonStyle(.plain)
             }
         })
         .padding(7)
@@ -28,6 +29,7 @@ struct CalculatorView: View {
     }
     
     private func handlePress(on button: CalculatorButton) {
+        showImpact()
         switch button {
         case .but1, .but2, .but3, .but4, .but5, .but6, .but7, .but8, .but9:
             if resultString == "0" {

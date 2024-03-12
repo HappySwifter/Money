@@ -18,7 +18,8 @@ struct DoneButtonStyle: ButtonStyle {
         
         var body: some View {
             configuration.label
-                .padding(10)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 10)
                 .font(.headline)
                 .foregroundColor(.white)
                 .background(isEnabled ? Color.blue.opacity(0.8) : Color.gray.opacity(0.5))

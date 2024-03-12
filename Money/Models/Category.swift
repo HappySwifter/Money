@@ -53,7 +53,6 @@ extension SpendCategory: Transactionable {
     }
     
     var currencyCode: String {
-        assert(false)
         return ""
     }
 }

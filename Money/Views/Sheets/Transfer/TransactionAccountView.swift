@@ -35,7 +35,7 @@ struct TransactionAccountView: View {
                 Text("\(item.icon)")
                 Spacer()
             }
-            .foregroundStyle(item.type.isCategory ? Color.black : Color.black.opacity(0.8))
+            .opacity(item.type.isCategory ? 1 : 0.7)
             .font(item.type.isCategory ? .title2 : .title3)
             
             if item.type.isAccount {
@@ -44,7 +44,7 @@ struct TransactionAccountView: View {
                     Text(item.currencySymbol)
                     Spacer()
                 }
-                .font(.title2)
+                .font(.title3)
             }
         }
         .padding()
