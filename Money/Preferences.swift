@@ -26,7 +26,7 @@ class Preferences {
             return userCurrency
         } else if let currencyId = locale.currency?.identifier {
             let currencyName = locale.localizedString(forCurrencyCode: currencyId)
-            let localCurrency = MyCurrency(code: currencyId, name: currencyName ?? "", icon: "")
+            let localCurrency = MyCurrency(code: currencyId, name: currencyName ?? "", icon: "-")
             updateUser(currency: localCurrency)
             return localCurrency
         } else {

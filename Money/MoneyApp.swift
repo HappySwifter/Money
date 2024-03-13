@@ -19,7 +19,6 @@ struct MoneyApp: App {
         let schema = Schema([
             Item.self,
             Account.self,
-            SpendCategory.self,
             Transaction.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

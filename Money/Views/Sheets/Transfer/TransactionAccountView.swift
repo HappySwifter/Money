@@ -9,21 +9,8 @@ import SwiftUI
 
 struct TransactionAccountView: View {
     
-    enum ViewType {
-        case source, destination
-        
-        var title: String {
-            switch self {
-            case .source:
-                return "From"
-            case .destination:
-                return "To"
-            }
-        }
-    }
-    
-    let viewType: ViewType
-    let item: Transactionable
+    let viewType: TransferMoneyView.ItemType
+    let item: Account
     let showAmount: Bool
         
     var body: some View {
@@ -33,17 +20,16 @@ struct TransactionAccountView: View {
             HStack(spacing: 3) {
                 Text("\(item.name)")
                     .lineLimit(1)
-                    .font(item.type.isCategory ? .title2 : .title3)
+                    .font(item.isAccount ? .title3 : .title2)
                 Text("\(item.icon)")
-                    .font(item.type.isCategory ? .largeTitle : .title3)
+                    .font(item.isAccount ? .title3 : .largeTitle)
             }
-            .opacity(item.type.isCategory ? 1 : 0.7)
+            .opacity(item.isAccount ? 0.7 : 1)
             
-            
-            if item.type.isAccount {
+            if item.isAccount {
                 HStack(spacing: 3) {
-                    Text(item.amount.getString())
-                    Text(item.currencySymbol)
+                    Text(item.accountDetails?.amount.getString() ?? "")
+                    Text(item.accountDetails?.currency?.icon ?? "")
                     Spacer()
                 }
                 .font(.title3)

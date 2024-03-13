@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct CurrencyMenuListView: View {
-    @Binding var selectedItem: Transactionable
+    @Binding var selectedItem: Account
     let accounts: [Account]?
-    let categories: [SpendCategory]?
-    var changeHandler: ((_ oldValue: Transactionable) -> ())
+    let categories: [Account]?
+    var changeHandler: ((_ oldValue: Account) -> ())
         
     var body: some View {
         Group {
@@ -29,13 +29,14 @@ struct CurrencyMenuListView: View {
                         HStack {
                             Text("\(acc.icon) \(acc.name)")
                             Spacer()
-                            if selectedItem.name == acc.name && selectedItem.type.isSameType(with: acc.type) {
+                            if selectedItem.name == acc.name && selectedItem.isSameType(with: acc) {
                                 Image(systemName: "checkmark")
                             }
                         }
                     }
                 }
-            } else if let categories = categories {
+            }
+            else if let categories = categories {
                 Text("Categories")
                 ForEach(categories) { acc in
                     Button {
@@ -48,7 +49,7 @@ struct CurrencyMenuListView: View {
                         HStack {
                             Text("\(acc.icon) \(acc.name)")
                             Spacer()
-                            if selectedItem.name == acc.name && selectedItem.type.isSameType(with: acc.type) {
+                            if selectedItem.name == acc.name && selectedItem.isSameType(with: acc) {
                                 Image(systemName: "checkmark")
                             }
                         }

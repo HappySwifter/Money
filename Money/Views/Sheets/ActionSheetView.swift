@@ -22,13 +22,12 @@ struct ActionSheetView: View {
                     destination: destination!,
                     isSheetPresented: $isPresented)
             case .details(let item):
-                switch item.type {
-                case .account:
-                    AccountDetailsView(account: item as! Account)
-                case .category:
+                if item.isAccount {
+                    AccountDetailsView(account: item)
+                } else {
                     CategoryDetailsView(
                         isSheetPresented: $isPresented,
-                        item: item as! SpendCategory)
+                        item: item)
                 }
             case .addAccount:
                 NewAccountView(isSheetPresented: $isPresented)

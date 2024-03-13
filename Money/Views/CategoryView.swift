@@ -7,9 +7,9 @@
 import SwiftUI
 
 struct CategoryView: View {
-    @State var item: SpendCategory
-    var pressHandler: ((Transactionable) -> ())
-    var longPressHandler: ((Transactionable) -> ())
+    @State var item: Account
+    var pressHandler: ((Account) -> ())
+    var longPressHandler: ((Account) -> ())
     
     var body: some View {
         Button(

@@ -17,10 +17,12 @@ struct NewCategoryView: View {
     @Binding var isSheetPresented: Bool
     @State private var isEmojiPickerPresented = false
     
-    @State var category = SpendCategory(orderIndex: 0,
-                                        name: "",
-                                        icon: "🏦",
-                                        color: SwiftColor.allCases.randomElement()!)
+    @State var category = Account(orderIndex: 0,
+                                  name: "",
+                                  icon: "🏦",
+                                  color: SwiftColor.allCases.randomElement()!,
+                                  isAccount: false,
+                                  accountDetails: nil)
     
     var body: some View {
         NavigationView {
@@ -100,7 +102,7 @@ struct NewCategoryView: View {
             return
         }
         do {
-            let catDesc = FetchDescriptor<SpendCategory>()
+            let catDesc = FetchDescriptor<Account>()
             let catCount = try modelContext.fetchCount(catDesc)
             category.orderIndex = catCount
             modelContext.insert(category)

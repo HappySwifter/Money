@@ -13,15 +13,16 @@ struct AllAccountsView: View {
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesApi.self) private var currenciesApi
     
-    @Query(sort: \Account.orderIndex) var accounts: [Account]
+    @Query(filter: #Predicate<Account> { $0.isAccount },
+           sort: \Account.orderIndex)
+    private var accounts: [Account]
+    
     @State var userCurrency: MyCurrency
     @State var newAccountSheetPresend = false
     
     var userCurrencies: [MyCurrency] {
         var set = Set<MyCurrency>()
-        accounts.forEach { set.insert(MyCurrency(code: $0.currencyCode,
-                                               name: $0.currencyName,
-                                               icon: $0.currencySymbol)) }
+        accounts.forEach { set.insert($0.accountDetails!.currency!) }
         set.insert(userCurrency)
         return Array(set)
     }
@@ -46,9 +47,9 @@ struct AllAccountsView: View {
                         } label: {
                             HStack {
                                 Text(acc.name)
-                                Text(acc.currencySymbol)
+                                Text(acc.accountDetails?.currency?.icon ?? "")
                                 Spacer()
-                                Text(getAmountStringWith(code: acc.currencyCode, val: acc.amount))
+                                Text(getAmountStringWith(code: acc.accountDetails?.currency?.code ?? "", val: acc.accountDetails?.amount ?? 0))
                             }
                         }
                     }

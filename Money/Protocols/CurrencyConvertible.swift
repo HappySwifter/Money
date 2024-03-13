@@ -8,15 +8,14 @@
 import Foundation
 
 protocol CurrencyConvertible {
-    var amount: Double { get }
-    var currencyCode: String { get }
+    var accountDetails: AccountDetails? { get }
 }
 
 extension CurrencyConvertible {
     func getAmountWith(changeRate: Double) -> Double {
-        guard changeRate != 0.0 else {
+        guard let accountDetails, changeRate != 0.0 else {
             return 0
         }
-        return amount / changeRate
+        return accountDetails.amount / changeRate
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct AccountView: View {
     @State var item: Account
     @Binding var selected: Bool
-    var longPressHandler: ((Transactionable) -> ())?
+    var longPressHandler: ((Account) -> ())?
     
     var body: some View {
         Button(
@@ -25,10 +25,10 @@ struct AccountView: View {
                         Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.subheadline)
                             .foregroundStyle(Color.gray)
-                        if item.type.isAccount {
+                        if item.isAccount {
                             HStack(spacing: 3) {
-                                Text(prettify(val: item.amount))
-                                Text(item.currencySymbol)
+                                Text(prettify(val: item.accountDetails!.amount))
+                                Text(item.accountDetails?.currency?.icon ?? "")
                             }
                             .font(.caption2)
                         }

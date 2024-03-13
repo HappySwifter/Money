@@ -9,6 +9,11 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+struct AccountDetails: Codable {
+    var amount: Double
+    var currency: MyCurrency?
+}
+
 @Model
 final class Account {
     let id: UUID
@@ -16,50 +21,54 @@ final class Account {
     let date: Date
     var name: String
     var icon: String
-    var amount: Double
-    var currencyCode: String
-    var currencyName: String
-    var currencySymbol: String
     var color: String
+
+    let isAccount: Bool
+    var accountDetails: AccountDetails?
     
     init(id: UUID = UUID(),
          orderIndex: Int,
-        date: Date = Date(),
-        name: String,
+         date: Date = Date(),
+         name: String,
          icon: String = "",
-         amount: Double = 0.0,
-         currencyCode: String,
-         currencyName: String,
-         currencySymbol: String,
-         color: SwiftColor)
+         color: SwiftColor,
+         isAccount: Bool,
+         accountDetails: AccountDetails?)
     {
         self.id = id
         self.orderIndex = orderIndex
         self.date = date
         self.name = name
-        self.currencyCode = currencyCode
-        self.currencyName = currencyName
-        self.currencySymbol = currencySymbol
         self.icon = icon
-        self.amount = amount
+//        self.amount = amount
         self.color = color.rawValue
+        
+        self.isAccount = isAccount
+        
+        self.accountDetails = accountDetails
+    }
+    
+    func isSameType(with acc: Account) -> Bool {
+        if self.isAccount && acc.isAccount {
+            return true
+        } else if !self.isAccount && !acc.isAccount {
+            return true
+        } else {
+            return false
+        }
     }
 }
 
 extension Account : CurrencyConvertible {}
 
-extension Account: Transactionable {
-    var type: ItemType {
-        .account(id: id)
-    }
-    
+extension Account {
     func deposit(amount: Double) {
-        self.amount += amount
+        self.accountDetails!.amount += amount
     }
     
     func credit(amount: Double) -> Bool {
-        if self.amount >= amount {
-            self.amount -= amount
+        if self.accountDetails!.amount >= amount {
+            self.accountDetails!.amount -= amount
             return true
         } else {
             return false

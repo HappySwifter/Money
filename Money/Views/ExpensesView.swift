@@ -6,10 +6,35 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ExpensesView: View {
+    @Query(sort: \Transaction.date) var transactions: [Transaction]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(transactions) { transaction in
+                VStack {
+                    HStack {
+                        Text(transaction.source.icon)
+                        Text(transaction.source.name)
+                        Text(transaction.source.accountDetails?.currency?.icon ?? "")
+                        Spacer()
+                        Text("-")
+                        Text(transaction.sourceAmount.getString())
+                    }
+                    Spacer()
+                    HStack {
+                        if transaction.destination.isAccount {
+                            Text(transaction.destination.name)
+                            Text("-")
+                            Text(transaction.destinationAmount?.getString() ?? "")
+                        }
+
+                    }
+                }
+            }
+        }
     }
 }
 

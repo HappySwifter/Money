@@ -14,8 +14,15 @@ struct Dashboard: View {
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesApi.self) private var currenciesApi
     
-    @Query(sort: \Account.orderIndex) var accounts: [Account]
-    @Query(sort: \SpendCategory.date) private var categories: [SpendCategory]
+    @Query(filter: #Predicate<Account> { $0.isAccount },
+           sort: \Account.orderIndex)
+    private var accounts: [Account]
+    
+    @Query(
+        filter: #Predicate<Account> { !$0.isAccount },
+        sort: \Account.date)
+    private var categories: [Account]
+    
     
     @State var totalAmount = ""
     @State var selectedAccount: Account?
@@ -109,11 +116,11 @@ struct Dashboard: View {
         }
     }
     
-    func itemPressHandler(item: Transactionable) {
+    func itemPressHandler(item: Account) {
         presentingType = .transfer(source: selectedAccount, destination: item)
     }
     
-    func itemLongPressHandler(item: Transactionable) {
+    func itemLongPressHandler(item: Account) {
         presentingType = .details(item: item)
     }
     
@@ -125,10 +132,10 @@ struct Dashboard: View {
                 
                 var totalAmount = 0.0
                 for account in accounts {
-                    if let changeRate = rates.currency[userCode]?[account.currencyCode] {
+                    if let changeRate = rates.currency[userCode]?[account.accountDetails!.currency!.code] {
                         totalAmount += account.getAmountWith(changeRate: changeRate)
                     } else {
-                        print("No conversation rate for \(account.currencyCode)")
+                        print("No conversation rate for \(account.accountDetails!.currency!.code)")
                     }
                 }
                 self.totalAmount = getAmountStringWith(code: userCode, val: totalAmount)

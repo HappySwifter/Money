@@ -11,8 +11,6 @@
 		AC213FE02B9827100095846E /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FDF2B9827100095846E /* CategoryView.swift */; };
 		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
 		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
-		AC213FE72B9876750095846E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE62B9876750095846E /* Category.swift */; };
-		AC213FE92B9876D40095846E /* Transactionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE82B9876D40095846E /* Transactionable.swift */; };
 		AC213FEB2B987E0D0095846E /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
@@ -83,8 +81,6 @@
 		AC213FDF2B9827100095846E /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
 		AC213FE42B986C2A0095846E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
-		AC213FE62B9876750095846E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		AC213FE82B9876D40095846E /* Transactionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactionable.swift; sourceTree = "<group>"; };
 		AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
@@ -167,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				AC031EE02B918684006A3A8C /* Account.swift */,
-				AC213FE62B9876750095846E /* Category.swift */,
 				AC213FE42B986C2A0095846E /* Transaction.swift */,
 				ACC3EFB12B95900C0069C2D1 /* MyCurrency.swift */,
 				ACA3AF312B930DAB00403538 /* CalculatorButton.swift */,
@@ -312,7 +307,6 @@
 		ACCD10FA2B9C1CDF000EF710 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				AC213FE82B9876D40095846E /* Transactionable.swift */,
 				ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */,
 			);
 			path = Protocols;
@@ -470,7 +464,6 @@
 			files = (
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
-				AC213FE72B9876750095846E /* Category.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,
 				ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */,
@@ -487,7 +480,6 @@
 				ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,
 				ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */,
-				AC213FE92B9876D40095846E /* Transactionable.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
 				ACD4C9492B8F73970087F632 /* MockData.swift in Sources */,

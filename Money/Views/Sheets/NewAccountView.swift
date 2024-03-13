@@ -21,11 +21,9 @@ struct NewAccountView: View {
     @State var account = Account(orderIndex: 0,
                                  name: "",
                                  icon: "🏦",
-                                 amount: 0,
-                                 currencyCode: "usd",
-                                 currencyName: "US Dollar",
-                                 currencySymbol: "$",
-                                 color: SwiftColor.allCases.randomElement()!)
+                                 color: SwiftColor.allCases.randomElement()!,
+                                 isAccount: true,
+                                 accountDetails: AccountDetails(amount: 0, currency: MyCurrency(code: "usd", name: "US Dollar", icon: "$")))
     
     var body: some View {
         NavigationView {
@@ -62,7 +60,7 @@ struct NewAccountView: View {
                     }
                     
                     HStack {
-                        Button(account.currencySymbol) {
+                        Button(account.accountDetails?.currency?.icon ?? "") {
                             isCurrencyPickerPresented = true
                         }
                         .font(.title)
@@ -72,9 +70,9 @@ struct NewAccountView: View {
                         
                         
                         TextField("Amount", text: Binding(get: {
-                            String(format: "%.0f", account.amount)
+                            String(format: "%.0f", account.accountDetails?.amount ?? 0)
                         }, set: {
-                            account.amount = Double($0) ?? 0
+                            account.accountDetails!.amount = Double($0) ?? 0
                         }))
                         .font(.title3)
                         .padding(15)
@@ -102,16 +100,14 @@ struct NewAccountView: View {
                 .padding()
             }
             .onAppear {
-                updateAccountBy(currency: preferences.getUserCurrency())
+                account.accountDetails?.currency = preferences.getUserCurrency()
             }
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
                 NavigationStack {
                     CurrencyPicker(selectedCurrency: Binding(get: {
-                        MyCurrency(code: account.currencyCode,
-                                 name: account.currencyName,
-                                 icon: account.currencySymbol)
-                    }, set: { currency in
-                        updateAccountBy(currency: currency)
+                        account.accountDetails!.currency!
+                    }, set: {
+                        account.accountDetails?.currency = $0
                     }))
                 }
             })
@@ -135,14 +131,6 @@ struct NewAccountView: View {
         
     }
     
-    private func updateAccountBy(currency: MyCurrency) {
-        self.account.currencyCode = currency.code
-        self.account.currencySymbol = currenciesApi
-            .getCurrencySymbol(for: currency.code) ??
-            String(account.currencyCode.prefix(2))
-        self.account.currencyName = currency.name
-    }
-    
     func saveCategory() {
         guard !account.name.isEmpty else {
             print("name is empty")
@@ -160,8 +148,8 @@ struct NewAccountView: View {
     }
 }
 
-#Preview {
-    NewAccountView(isSheetPresented: .constant(true))
-        .modelContainer(MoneyApp().sharedModelContainer)
-        .environment(MoneyApp().currencyApi)
-}
+//#Preview {
+//    NewAccountView(isSheetPresented: .constant(true))
+//        .modelContainer(MoneyApp().sharedModelContainer)
+//        .environment(MoneyApp().currencyApi)
+//}

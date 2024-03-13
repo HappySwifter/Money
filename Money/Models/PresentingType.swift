@@ -26,8 +26,8 @@ enum PresentingType: Equatable {
         }
     }
     
-    case transfer(source: Transactionable?, destination: Transactionable?)
-    case details(item: Transactionable)
+    case transfer(source: Account?, destination: Account?)
+    case details(item: Account)
     case addAccount
     case addCategory
     case none
