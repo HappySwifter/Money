@@ -20,13 +20,13 @@ struct CategoryView: View {
                 VStack {
                     Text(item.icon)
                         .font(.system(size: 35))
-                    Text(item.name)
-                        .font(.caption)
-                        .foregroundStyle(Color.white)
+                    Text(item.name.isEmpty ? "Name" : item.name)
+                        .font(.subheadline)
+//                        .foregroundStyle(Color.gray)
                 }
                 .padding(10)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: 100)
-                .background(SwiftColor(rawValue: item.color)!.value.opacity(0.5))
+                .background(SwiftColor(rawValue: item.color)!.value.opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         )

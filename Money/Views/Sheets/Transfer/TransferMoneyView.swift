@@ -142,19 +142,35 @@ struct TransferMoneyView: View {
                 .padding()
                 Spacer()
                 
+                
+                HStack {
+                    Spacer()
+                    Button(" Done ") {
+                        makeTransfer()
+                    }
+                    .disabled(sourceAmount.toDouble() == 0)
+                    .buttonStyle(DoneButtonStyle())
+                }
+                .padding(.horizontal)
+                
                 CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
                                resultString: focusedField == .source ? $sourceAmount.onChange(updateDestinationAmount) : $destinationAmount.onChange(updateSourceAmount))
             }
             .navigationTitle(destination.type.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button( " Done ") {
-                        makeTransfer()
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") {
+                        isSheetPresented.toggle()
                     }
-                    .disabled(sourceAmount.toDouble() == 0)
-                    .buttonStyle(DoneButtonStyle())
                 }
+//                ToolbarItem(placement: .confirmationAction) {
+//                    Button(" Done ") {
+//                        makeTransfer()
+//                    }
+//                    .disabled(sourceAmount.toDouble() == 0)
+//                    .buttonStyle(DoneButtonStyle())
+//                }
             }
         }
     }
@@ -170,10 +186,11 @@ struct TransferMoneyView: View {
     }
     
     private func makeTransfer() {
-        if destinationAmount.last == "," {
-            destinationAmount = String(destinationAmount.dropLast())
+        var amount = sourceAmount
+        if amount.last == "," {
+            amount = String(amount.dropLast())
         }
-        guard let amount = destinationAmount.toDouble(), amount > 0 else {
+        guard let amount = amount.toDouble(), amount > 0 else {
             assert(false)
             return
         }

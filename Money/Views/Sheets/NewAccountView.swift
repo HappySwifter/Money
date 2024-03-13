@@ -25,7 +25,7 @@ struct NewAccountView: View {
                                  currencyCode: "usd",
                                  currencyName: "US Dollar",
                                  currencySymbol: "$",
-                                 color: SwiftColor.allCases.first!)
+                                 color: SwiftColor.allCases.randomElement()!)
     
     var body: some View {
         NavigationView {
@@ -49,7 +49,7 @@ struct NewAccountView: View {
                             selectedEmoji: $account.icon,
                             arrowDirection: .up
                         )
-                        .aspectRatio(1, contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                        .aspectRatio(1, contentMode: .fill)
                         
                         TextField("Name", text: $account.name)
                             .font(.title3)

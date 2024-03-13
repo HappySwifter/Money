@@ -283,8 +283,8 @@
 			children = (
 				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
 				ACA3AF382B932FB800403538 /* NewAccountView.swift */,
-				AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */,
 				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
+				AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */,
 				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
 				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
 				ACCD11072B9C76BA000EF710 /* Transfer */,

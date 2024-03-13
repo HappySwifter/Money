@@ -11,17 +11,20 @@ import SwiftData
 @Model
 class SpendCategory {
     let id: UUID
+    var orderIndex: Int
     let date: Date
     var name: String
     var icon: String
     var color: String
     
     init(id: UUID = UUID(),
+         orderIndex: Int,
         date: Date = Date(),
          name: String,
          icon: String,
          color: SwiftColor) {
         self.id = id
+        self.orderIndex = orderIndex
         self.date = date
         self.name = name
         self.icon = icon

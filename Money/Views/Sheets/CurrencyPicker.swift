@@ -44,7 +44,6 @@ struct CurrencyPicker: View {
                 } catch {
                     print(error)
                 }
-                
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

@@ -25,6 +25,6 @@ struct CategoryDetailsView: View {
 }
 
 #Preview {
-    let item = SpendCategory(name: "Dollar", icon: "", color: SwiftColor.purple)
+    let item = SpendCategory(orderIndex: 0, name: "Dollar", icon: "", color: SwiftColor.purple)
     return CategoryDetailsView(isSheetPresented: .constant(true), item: item)
 }

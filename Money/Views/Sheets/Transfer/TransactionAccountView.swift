@@ -28,15 +28,17 @@ struct TransactionAccountView: View {
         
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            Text(viewType.title)
+                .font(.footnote)
             HStack(spacing: 3) {
-                Text(viewType.title)
                 Text("\(item.name)")
                     .lineLimit(1)
+                    .font(item.type.isCategory ? .title2 : .title3)
                 Text("\(item.icon)")
-                Spacer()
+                    .font(item.type.isCategory ? .largeTitle : .title3)
             }
             .opacity(item.type.isCategory ? 1 : 0.7)
-            .font(item.type.isCategory ? .title2 : .title3)
+            
             
             if item.type.isAccount {
                 HStack(spacing: 3) {
