@@ -39,32 +39,22 @@ struct MoneyApp: App {
                                     preferences: preferences)
         
         do {
-            let container = sharedModelContainer
-
+            let context = sharedModelContainer.mainContext
             let descriptor = FetchDescriptor<MyCurrency>()
-            let existingCur = try container.mainContext.fetchCount(descriptor)
+            let existingCur = try context.fetchCount(descriptor)
             guard existingCur == 0 else { return }
 
-            
-            guard let jsonUrl = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
+            guard let url = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
                 throw CurrencyError.jsonFileIsMissing
             }
-            let data = try Data(contentsOf: jsonUrl)
+            let data = try Data(contentsOf: url)
             let dict = try JSONDecoder().decode([String: String].self, from: data)
             let symbols = try CurrencySymbol.getAll()
             
-            let currencies =  dict.compactMap { (key: String, value: String) in
-                if !key.isEmpty && !value.isEmpty {
-                    return MyCurrency(code: key,
-                                      name: value,
-                                      symbol: symbols.findWith(code: key)?.symbol ?? "")
-                } else {
-                    return nil
-                }
-            }
-
-            for currenciy in currencies {
-                container.mainContext.insert(currenciy)
+            for (code, name) in dict where !code.isEmpty && !name.isEmpty {
+                let symbol = symbols.findWith(code: code)?.symbol
+                let currency =  MyCurrency(code: code, name: name, symbol: symbol)
+                context.insert(currency)
             }
         } catch {
             print("Failed to pre-seed database.")

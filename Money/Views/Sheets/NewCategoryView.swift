@@ -105,7 +105,7 @@ struct NewCategoryView: View {
         do {
             let catDesc = FetchDescriptor<Account>()
             let catCount = try modelContext.fetchCount(catDesc)
-            category.orderIndex = catCount
+            category.updateOrder(index: catCount)
             modelContext.insert(category)
         } catch {
             print(error)

@@ -13,7 +13,7 @@ import SwiftData
 @Model
 final class Account {
     let id: UUID
-    var orderIndex: Int
+    private(set) var orderIndex: Int
     let date: Date
     var name: String
     var icon: String
@@ -57,6 +57,9 @@ final class Account {
 extension Account : CurrencyConvertible {}
 
 extension Account {
+    func updateOrder(index: Int) {
+        orderIndex = index
+    }
     
     func setInitial(amount: Double) {
         self.amount = amount
@@ -74,14 +77,6 @@ extension Account {
             return true
         } else {
             return false
-        }
-    }
-}
-
-extension [Account] {
-    func updateOrderIndices() {
-        for (index, item) in enumerated() {
-            item.orderIndex = index
         }
     }
 }

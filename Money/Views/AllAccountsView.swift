@@ -84,6 +84,8 @@ struct AllAccountsView: View {
     private func updateOrder(from: IndexSet, to: Int) {
         var updatedAccounts = accounts
         updatedAccounts.move(fromOffsets: from, toOffset: to)
-        updatedAccounts.updateOrderIndices()
+        for (index, item) in updatedAccounts.enumerated() {
+            item.updateOrder(index: index)
+        }
     }
 }

@@ -12,7 +12,7 @@ import SwiftData
 struct NewAccountView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(Preferences.self) private var preferences
-    @Environment(CurrenciesApi.self) private var currenciesApi
+//    @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Binding var isSheetPresented: Bool
     @State private var isEmojiPickerPresented = false
@@ -140,7 +140,7 @@ struct NewAccountView: View {
         do {
             let accDesc = FetchDescriptor<Account>()
             let accountsCount = try modelContext.fetchCount(accDesc)
-            account.orderIndex = accountsCount
+            account.updateOrder(index: accountsCount)
             modelContext.insert(account)
         } catch {
             print(error)

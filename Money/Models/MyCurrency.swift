@@ -14,9 +14,9 @@ final class MyCurrency {
     let name: String
     let symbol: String
     
-    init(code: String, name: String, symbol: String) {
+    init(code: String, name: String, symbol: String?) {
         self.code = code
         self.name = name
-        self.symbol = symbol
+        self.symbol = symbol ?? String(code.prefix(2))
     }
 }
