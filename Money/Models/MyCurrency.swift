@@ -6,24 +6,17 @@
 //
 
 import Foundation
+import SwiftData
 
-struct MyCurrency: Codable, Equatable, Hashable {    
-    
-    static func == (lhs: MyCurrency, rhs: MyCurrency) -> Bool {
-        lhs.code == rhs.code
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(code)
-    }
-    
+@Model
+final class MyCurrency {
     let code: String
     let name: String
-    let icon: String
+    let symbol: String
     
-    init(code: String, name: String, icon: String) {
+    init(code: String, name: String, symbol: String) {
         self.code = code
         self.name = name
-        self.icon = icon
+        self.symbol = symbol
     }
 }

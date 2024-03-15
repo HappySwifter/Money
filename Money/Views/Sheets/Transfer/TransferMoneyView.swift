@@ -22,7 +22,7 @@ struct TransferMoneyView: View {
     
     @Query(
         filter: #Predicate<Account> { !$0.isAccount },
-        sort: \Account.date)
+        sort: \Account.orderIndex)
     private var categories: [Account]
     
     @State var source: Account
@@ -54,15 +54,9 @@ struct TransferMoneyView: View {
                 VStack(spacing: 15) {
                     HStack {
                         Menu {
-                            if source.isAccount {
-                                CurrencyMenuListView(
-                                    selectedItem: $source,
-                                    accounts: accounts,
-                                    categories: nil) { oldValue in
-                                        swapItemsIfNeededAndUpdateRate(
-                                            oldValue: oldValue,
-                                            changedItemType: ItemType.source)
-                                    }
+                            Text("Accounts")
+                            CurrencyMenuListView(selectedItem: $source, data: accounts) {
+                                swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: ItemType.source)
                             }
                         } label: {
                             TransactionAccountView(
@@ -76,45 +70,24 @@ struct TransferMoneyView: View {
                         
                         Menu {
                             if destination.isAccount {
-                                CurrencyMenuListView(
-                                    selectedItem: $destination,
-                                    accounts: accounts,
-                                    categories: nil)
-                                { oldValue in
-                                    swapItemsIfNeededAndUpdateRate(
-                                        oldValue: oldValue,
-                                        changedItemType: .destination)
+                                Text("Accounts")
+                                CurrencyMenuListView(selectedItem: $destination, data: accounts) {
+                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
                                 }
-                                
                                 Divider()
-                                CurrencyMenuListView(
-                                    selectedItem: $destination,
-                                    accounts: nil,
-                                    categories: categories)
-                                { oldValue in
-                                    swapItemsIfNeededAndUpdateRate(
-                                        oldValue: oldValue,
-                                        changedItemType: .destination)
+                                Text("Categories")
+                                CurrencyMenuListView(selectedItem: $destination, data: categories) {
+                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
                                 }
                             } else {
-                                CurrencyMenuListView(
-                                    selectedItem: $destination,
-                                    accounts: nil,
-                                    categories: categories)
-                                { oldValue in
-                                    swapItemsIfNeededAndUpdateRate(
-                                        oldValue: oldValue,
-                                        changedItemType: .destination)
+                                Text("Categories")
+                                CurrencyMenuListView(selectedItem: $destination, data: categories) {
+                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
                                 }
                                 Divider()
-                                CurrencyMenuListView(
-                                    selectedItem: $destination,
-                                    accounts: accounts,
-                                    categories: nil)
-                                { oldValue in
-                                    swapItemsIfNeededAndUpdateRate(
-                                        oldValue: oldValue,
-                                        changedItemType: .destination)
+                                Text("Accounts")
+                                CurrencyMenuListView(selectedItem: $destination, data: accounts) {
+                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
                                 }
                             }
                         } label: {
@@ -129,18 +102,18 @@ struct TransferMoneyView: View {
                     }
                     HStack {
                         EnterAmountView(
-                            symbol: source.accountDetails?.currency?.icon ?? "",
+                            symbol: source.currency?.symbol ?? "",
                             isFocused: focusedField == .source,
                             value: $sourceAmount)
                         .onTapGesture {
                             focusedField = .source
                         }
                         
-                        if destination.isAccount &&
-                            source.accountDetails?.currency?.code != destination.accountDetails?.currency?.code {
+                        if destination.isAccount,
+                            source.currency?.code != destination.currency?.code {
                             Spacer()
                             EnterAmountView(
-                                symbol: destination.accountDetails?.currency?.icon ?? "",
+                                symbol: destination.currency?.symbol ?? "",
                                 isFocused: focusedField == .destination,
                                 value: $destinationAmount)
                             .onTapGesture {
@@ -149,7 +122,7 @@ struct TransferMoneyView: View {
                         }
                     }
                     
-                    if let exchangeRate, (source.accountDetails?.currency?.code != destination.accountDetails?.currency?.code) {
+                    if let exchangeRate, (source.currency?.code != destination.currency?.code) {
                         Text("Exchange rate: \(normalizedString(rate: exchangeRate))")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
@@ -185,8 +158,8 @@ struct TransferMoneyView: View {
     }
     
     private func normalizedString(rate: Double) -> String {
-        let sourceSymbol = source.accountDetails?.currency?.icon ?? ""
-        let destinationSymbol = destination.accountDetails?.currency?.icon ?? ""
+        let sourceSymbol = source.currency?.symbol ?? ""
+        let destinationSymbol = destination.currency?.symbol ?? ""
         if rate > 1 {
             return rate.getString() + " " + destinationSymbol
         } else {
@@ -246,8 +219,8 @@ struct TransferMoneyView: View {
     }
     
     private func updateRate() {
-        guard let sourceCode = source.accountDetails?.currency?.code,
-              let destCode = destination.accountDetails?.currency?.code else {
+        guard let sourceCode = source.currency?.code,
+              let destCode = destination.currency?.code else {
             return
         }
         Task {

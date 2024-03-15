@@ -25,13 +25,11 @@ struct AccountView: View {
                         Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.subheadline)
                             .foregroundStyle(Color.gray)
-                        if item.isAccount {
                             HStack(spacing: 3) {
-                                Text(prettify(val: item.accountDetails!.amount))
-                                Text(item.accountDetails?.currency?.icon ?? "")
+                                Text(prettify(val: item.amount))
+                                Text(item.currency?.symbol ?? "")
                             }
                             .font(.caption2)
-                        }
                     }
                     .padding(10)
                 }

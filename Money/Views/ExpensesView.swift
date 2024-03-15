@@ -18,7 +18,7 @@ struct ExpensesView: View {
                     HStack {
                         Text(transaction.source.icon)
                         Text(transaction.source.name)
-                        Text(transaction.source.accountDetails?.currency?.icon ?? "")
+                        Text(transaction.source.currency?.symbol ?? "")
                         Spacer()
                         Text("-")
                         Text(transaction.sourceAmount.getString())

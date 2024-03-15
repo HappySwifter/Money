@@ -27,7 +27,7 @@ public struct ExchangeRate: Codable {
         
         self.date = try container.decode(String.self, forKey: CustomCodingKeys(stringValue: "date")!)
         self.currency = [String: [String: Double]]()
-        for key in container.allKeys {
+        for key in container.allKeys where key.stringValue != "date" {
             if let value = try? container.decode([String: Double].self, forKey: CustomCodingKeys(stringValue: key.stringValue)!) {
                 self.currency[key.stringValue] = value
             }

@@ -6,42 +6,58 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 class Preferences {
-    @ObservationIgnored let userDefaults: UserDefaults
+    @ObservationIgnored private let userDefaults: UserDefaults
+    @ObservationIgnored private let modelContext: ModelContext
     
-    init(userDefaults: UserDefaults) {
+    init(userDefaults: UserDefaults, modelContext: ModelContext) {
         self.userDefaults = userDefaults
+        self.modelContext = modelContext
     }
     
-    func updateUser(currency: MyCurrency) {
-        let data = try! JSONEncoder().encode(currency)
-        userDefaults.setValue(data, forKey: Keys.userCurrency.rawValue)
+    func updateUser(currencyCode: String) {
+        userDefaults.setValue(currencyCode, forKey: Keys.userCurrency.rawValue)
+    }
+    
+    private func getUserCurrency() -> MyCurrency? {
+        if let code = userDefaults.string(forKey: Keys.userCurrency.rawValue) {
+            return fetchCurrencyBy(code: code)
+        } else {
+            return nil
+        }
     }
     
     func getUserCurrency() -> MyCurrency {
         let locale = Locale.current
-        if let userCurrency = decodeCurrencyData() {
+        if let userCurrency = getUserCurrency() {
             return userCurrency
-        } else if let currencyId = locale.currency?.identifier {
-            let currencyName = locale.localizedString(forCurrencyCode: currencyId)
-            let localCurrency = MyCurrency(code: currencyId, name: currencyName ?? "", icon: "-")
-            updateUser(currency: localCurrency)
-            return localCurrency
+        } else if let currencyId = locale.currency?.identifier,
+                  let currency = fetchCurrencyBy(code: currencyId)  {
+//            let currencyName = locale.localizedString(forCurrencyCode: currencyId)
+            updateUser(currencyCode: currency.code)
+            return currency
+        } else if let usd = fetchCurrencyBy(code: "usd") {
+            updateUser(currencyCode: usd.code)
+            return usd
         } else {
-            let usd = MyCurrency(code: "usd", name: "US Dollar", icon: "")
-            updateUser(currency: usd)
+            let usd = MyCurrency(code: "usd", name: "US Dollar", symbol: "$")
+            updateUser(currencyCode: usd.code)
+            modelContext.insert(usd)
             return usd
         }
     }
-    
-    private func decodeCurrencyData() -> MyCurrency? {
-        if let data = userDefaults.data(forKey: Keys.userCurrency.rawValue) {
-            return try? JSONDecoder().decode(MyCurrency.self, from: data)
-        } else {
-            return nil
+        
+    private func fetchCurrencyBy(code: String) -> MyCurrency? {
+        var desc = FetchDescriptor<MyCurrency>()
+        let pred = #Predicate<MyCurrency> { val in
+            val.code == code
         }
+        desc.fetchLimit = 1
+        desc.predicate = pred
+        return try? modelContext.fetch(desc).first
     }
     
     func setRates(data: Data, date: String, currency: String) {

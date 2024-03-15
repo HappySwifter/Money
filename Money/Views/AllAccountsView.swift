@@ -22,7 +22,7 @@ struct AllAccountsView: View {
     
     var userCurrencies: [MyCurrency] {
         var set = Set<MyCurrency>()
-        accounts.forEach { set.insert($0.accountDetails!.currency!) }
+        accounts.forEach { set.insert($0.currency!) }
         set.insert(userCurrency)
         return Array(set)
     }
@@ -47,9 +47,9 @@ struct AllAccountsView: View {
                         } label: {
                             HStack {
                                 Text(acc.name)
-                                Text(acc.accountDetails?.currency?.icon ?? "")
+                                Text(acc.currency?.symbol ?? "")
                                 Spacer()
-                                Text(getAmountStringWith(code: acc.accountDetails?.currency?.code ?? "", val: acc.accountDetails?.amount ?? 0))
+                                Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
                             }
                         }
                     }
@@ -65,7 +65,7 @@ struct AllAccountsView: View {
             }
         }
         .onChange(of: userCurrency) {
-            preferences.updateUser(currency: userCurrency)
+            preferences.updateUser(currencyCode: userCurrency.code)
         }
         .sheet(isPresented: $newAccountSheetPresend, content: {
             NewAccountView(isSheetPresented: $newAccountSheetPresend)

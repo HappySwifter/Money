@@ -20,7 +20,7 @@ struct Dashboard: View {
     
     @Query(
         filter: #Predicate<Account> { !$0.isAccount },
-        sort: \Account.date)
+        sort: \Account.orderIndex)
     private var categories: [Account]
     
     
@@ -132,10 +132,10 @@ struct Dashboard: View {
                 
                 var totalAmount = 0.0
                 for account in accounts {
-                    if let changeRate = rates.currency[userCode]?[account.accountDetails!.currency!.code] {
+                    if let changeRate = rates.currency[userCode]?[account.currency!.code] {
                         totalAmount += account.getAmountWith(changeRate: changeRate)
                     } else {
-                        print("No conversation rate for \(account.accountDetails!.currency!.code)")
+                        print("No conversation rate for \(account.currency!.code)")
                     }
                 }
                 self.totalAmount = getAmountStringWith(code: userCode, val: totalAmount)

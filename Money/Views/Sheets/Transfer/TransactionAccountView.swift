@@ -28,8 +28,8 @@ struct TransactionAccountView: View {
             
             if item.isAccount {
                 HStack(spacing: 3) {
-                    Text(item.accountDetails?.amount.getString() ?? "")
-                    Text(item.accountDetails?.currency?.icon ?? "")
+                    Text(item.amount.getString())
+                    Text(item.currency?.symbol ?? "")
                     Spacer()
                 }
                 .font(.title3)

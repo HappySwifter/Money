@@ -9,10 +9,6 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct AccountDetails: Codable {
-    var amount: Double
-    var currency: MyCurrency?
-}
 
 @Model
 final class Account {
@@ -22,30 +18,29 @@ final class Account {
     var name: String
     var icon: String
     var color: String
-
-    let isAccount: Bool
-    var accountDetails: AccountDetails?
+    var isAccount: Bool
+    private(set) var amount: Double
+    var currency: MyCurrency?
     
     init(id: UUID = UUID(),
          orderIndex: Int,
          date: Date = Date(),
          name: String,
-         icon: String = "",
+         icon: String,
          color: SwiftColor,
          isAccount: Bool,
-         accountDetails: AccountDetails?)
+         amount: Double,
+         currency: MyCurrency?)
     {
         self.id = id
         self.orderIndex = orderIndex
         self.date = date
         self.name = name
         self.icon = icon
-//        self.amount = amount
         self.color = color.rawValue
-        
         self.isAccount = isAccount
-        
-        self.accountDetails = accountDetails
+        self.amount = amount
+        self.currency = currency
     }
     
     func isSameType(with acc: Account) -> Bool {
@@ -62,13 +57,20 @@ final class Account {
 extension Account : CurrencyConvertible {}
 
 extension Account {
+    
+    func setInitial(amount: Double) {
+        self.amount = amount
+    }
+    
     func deposit(amount: Double) {
-        self.accountDetails!.amount += amount
+        guard isAccount else { return }
+        self.amount += amount
     }
     
     func credit(amount: Double) -> Bool {
-        if self.accountDetails!.amount >= amount {
-            self.accountDetails!.amount -= amount
+        guard isAccount else { return false }
+        if self.amount >= amount {
+            self.amount -= amount
             return true
         } else {
             return false

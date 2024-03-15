@@ -14,6 +14,8 @@ struct AccountDetailsView: View {
     
     private static var descriptor: FetchDescriptor<Account> {
         var descriptor = FetchDescriptor<Account>()
+        let predicate = #Predicate<Account> { $0.isAccount }
+        descriptor.predicate = predicate
         descriptor.fetchLimit = 1
         return descriptor
     }

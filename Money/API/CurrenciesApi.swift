@@ -12,7 +12,6 @@ import OSLog
 @Observable
 class CurrenciesApi {
     private var logger = Logger(subsystem: "Money", category: "CurrenciesApi")
-    private var currencies: [MyCurrency]?
     private var preferences: Preferences
     
     @ObservationIgnored
@@ -38,62 +37,19 @@ class CurrenciesApi {
             }
             if let url = URL(string: urlString) {
                 return url
-                    .appending(path: "\(currencyCode)")
+                    .appending(path: "\(currencyCode.lowercased())")
                     .appendingPathExtension("json")
             } else {
                 throw URLError(.badURL)
             }
         }
     }
-//    func saveCurrencies() throws -> [Currency] {
-//        let curs = try modelContext.fetch(FetchDescriptor<Currency>())
-//        if !curs.isEmpty {
-//            return curs
-//        }
-//
-//        try loadCurrenciesFromBundle()
-//            .forEach{ modelContext.insert($0) }
-//
-//        try modelContext.save()
-//        
-//        return try modelContext.fetch(FetchDescriptor<Currency>())
-//    }
     
     func getCurrencies() throws -> [MyCurrency] {
-        if let currencies = self.currencies {
-            return currencies
-        } else {
-            guard let jsonUrl = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
-                throw CurrencyError.jsonFileIsMissing
-            }
-            let data = try Data(contentsOf: jsonUrl)
-            let dict = try JSONDecoder().decode([String: String].self, from: data)
-            
-            let currencies =  dict.compactMap { (key: String, value: String) in
-                if !key.isEmpty && !value.isEmpty {
-                    return MyCurrency(code: key, name: value, icon: "")
-                } else {
-                    return nil
-                }
-            }
-            self.currencies = currencies
-            return currencies
-        }
+        let fetchDesc = FetchDescriptor<MyCurrency>()
+        return try modelContext.fetch(fetchDesc)
     }
-    
-    func getCurrencySymbol(for currencyCode: String) -> String? {
-        guard let jsonUrl = Bundle.main.url(forResource: "CurrencySymbols", withExtension: "json") else {
-            return nil
-        }
-        if let data = try? Data(contentsOf: jsonUrl), let symbols = try? JSONDecoder().decode([CurrencySymbol].self, from: data) {
-            return symbols
-                .first(where: { $0.abbreviation.lowercased() == currencyCode.lowercased() })?
-                .symbol
-        } else {
-            return nil
-        }
-    }
-    
+        
     func getExchangeRateFor(currencyCode: String, date: Date, urlType: ExchangeRateUrlType = .main) async throws -> ExchangeRate {
         if let data = preferences.getRates(date: date.ratesDateString, currency: currencyCode) {
             logger.info("Using rates from cache")

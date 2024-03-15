@@ -23,7 +23,8 @@ struct NewAccountView: View {
                                  icon: "🏦",
                                  color: SwiftColor.allCases.randomElement()!,
                                  isAccount: true,
-                                 accountDetails: AccountDetails(amount: 0, currency: MyCurrency(code: "usd", name: "US Dollar", icon: "$")))
+                                 amount: 0,
+                                 currency: nil)
     
     var body: some View {
         NavigationView {
@@ -60,7 +61,7 @@ struct NewAccountView: View {
                     }
                     
                     HStack {
-                        Button(account.accountDetails?.currency?.icon ?? "") {
+                        Button(account.currency?.symbol ?? "") {
                             isCurrencyPickerPresented = true
                         }
                         .font(.title)
@@ -70,9 +71,9 @@ struct NewAccountView: View {
                         
                         
                         TextField("Amount", text: Binding(get: {
-                            String(format: "%.0f", account.accountDetails?.amount ?? 0)
+                            String(format: "%.0f", account.amount)
                         }, set: {
-                            account.accountDetails!.amount = Double($0) ?? 0
+                            account.setInitial(amount: Double($0) ?? 0)
                         }))
                         .font(.title3)
                         .padding(15)
@@ -100,14 +101,14 @@ struct NewAccountView: View {
                 .padding()
             }
             .onAppear {
-                account.accountDetails?.currency = preferences.getUserCurrency()
+                account.currency = preferences.getUserCurrency()
             }
             .sheet(isPresented: $isCurrencyPickerPresented, content: {
                 NavigationStack {
                     CurrencyPicker(selectedCurrency: Binding(get: {
-                        account.accountDetails!.currency!
+                        account.currency!
                     }, set: {
-                        account.accountDetails?.currency = $0
+                        account.currency = $0
                     }))
                 }
             })

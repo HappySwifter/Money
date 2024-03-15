@@ -22,7 +22,8 @@ struct NewCategoryView: View {
                                   icon: "🏦",
                                   color: SwiftColor.allCases.randomElement()!,
                                   isAccount: false,
-                                  accountDetails: nil)
+                                  amount: 0,
+                                  currency: nil)
     
     var body: some View {
         NavigationView {
