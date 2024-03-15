@@ -227,30 +227,43 @@ struct TransferMoneyView: View {
             exchangeRate = try await loadRates(
                 sourceCode: sourceCode,
                 destinationCode: destCode) ?? 0
-
                 updateDestinationAmount(from: sourceAmount)
         }
     }
     
     private func updateSourceAmount(from destination: String) {
-        if let exchangeRate,
-           exchangeRate > 0,
-           let destination = destination.toDouble()
-        {
-            sourceAmount = (destination / exchangeRate).getString()
+        if sourceAmount == "0" {
+            if let exchangeRate,
+               exchangeRate > 0,
+               let destination = destination.toDouble()
+            {
+                sourceAmount = (destination / exchangeRate).getString()
+            } else {
+                sourceAmount = "0"
+            }
         } else {
-            sourceAmount = "0"
+            if let sour = sourceAmount.toDouble(), let dest = destinationAmount.toDouble(), dest > 0 {
+                exchangeRate = sour / dest
+            }
         }
     }
     
     private func updateDestinationAmount(from source: String) {
-        if let exchangeRate,
-           exchangeRate > 0,
-           let source = source.toDouble()
-        {
-            destinationAmount = (source * exchangeRate).getString()
+        guard destination.isAccount else { return }
+        
+        if destinationAmount == "0" {
+            if let exchangeRate,
+               exchangeRate > 0,
+               let source = source.toDouble()
+            {
+                destinationAmount = (source * exchangeRate).getString()
+            } else {
+                destinationAmount = "0"
+            }
         } else {
-            destinationAmount = "0"
+            if let sour = sourceAmount.toDouble(), let dest = destinationAmount.toDouble(), sour > 0 {
+                exchangeRate = dest / sour
+            }
         }
     }
     
