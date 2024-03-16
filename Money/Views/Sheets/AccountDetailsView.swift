@@ -11,7 +11,6 @@ import SwiftData
 struct AccountDetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.modelContext) private var modelContext
-    
     private static var descriptor: FetchDescriptor<Account> {
         var descriptor = FetchDescriptor<Account>()
         let predicate = #Predicate<Account> { $0.isAccount }
@@ -20,10 +19,8 @@ struct AccountDetailsView: View {
         return descriptor
     }
     @Query(descriptor) var destinationAccount: [Account]
-    
-    let account: Account
-    
     @State var isTransferViewPresented = false
+    let account: Account
     
     var body: some View {
         VStack {
