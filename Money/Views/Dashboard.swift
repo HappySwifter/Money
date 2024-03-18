@@ -23,8 +23,15 @@ struct Dashboard: View {
         sort: \Account.orderIndex)
     private var categories: [Account]
     
+    @Query(filter: Transaction.todayPredicate())
+    private var todayTransactions: [Transaction]
+    
+    @Query(filter: Transaction.thisMonthPredicate())
+    private var thisMonthTransactions: [Transaction]
     
     @State var totalAmount = ""
+    @State var spentToday = ""
+    @State var spentThisMonth = ""
     @State var selectedAccount: Account?
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
@@ -61,7 +68,7 @@ struct Dashboard: View {
                 }
                 .buttonStyle(.plain)
                 .padding(.vertical)
-
+                
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(accounts) { item in
@@ -82,11 +89,16 @@ struct Dashboard: View {
                 NavigationLink {
                     ExpensesView()
                 } label: {
-                    Text("This month -$123 >")
-                        .foregroundStyle(Color.gray)
+                    VStack {
+                        Text("Today -\(spentToday)")
+                        Text("This month -\(spentThisMonth)")
+                    }
+                    .foregroundStyle(Color.gray)
+                    
+                        
                 }
                 .buttonStyle(.plain)
-
+                
                 ScrollView {
                     LazyVGrid(columns: columns, alignment: .leading) {
                         ForEach(categories) { item in
@@ -99,10 +111,20 @@ struct Dashboard: View {
                 }
             }
             .padding()
+            .onAppear {
+                calculateSpent(for: todayTransactions)
+                calculateSpent(for: thisMonthTransactions)
+            }
             .onChange(of: accounts, initial: true, {
                 selectedAccount = accounts.first
                 calculateAccountsTotal(from: accounts)
             })
+            .onChange(of: todayTransactions) {
+                calculateSpent(for: todayTransactions)
+            }
+            .onChange(of: thisMonthTransactions) {
+                calculateSpent(for: thisMonthTransactions)
+            }
             .sheet(isPresented: sheetBinding) { ActionSheetView(
                 isPresented: sheetBinding,
                 presentingType: presentingType)
@@ -145,7 +167,34 @@ struct Dashboard: View {
         }
     }
     
-
+    func calculateSpent(for transactions: [Transaction]) {
+        let userCode = preferences.getUserCurrency().code
+        Task {
+            do {
+                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date())
+                let total = transactions.reduce(0.0) { total, tran in
+                    if let sourceCurrency = tran.source.currency {
+                        if userCode == sourceCurrency.code {
+                            return total + tran.sourceAmount
+                        } else {
+                            if let exchRate = rates.rate(for: sourceCurrency.code) {
+                                return total + tran.sourceAmount / exchRate
+                            } else {
+                                print("ERROR no rate for code", sourceCurrency.code)
+                                return total
+                            }
+                        }
+                    } else {
+                        return total
+                    }
+                }
+                spentToday = total.getString() + " " + userCode
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
 }
 
 #Preview {

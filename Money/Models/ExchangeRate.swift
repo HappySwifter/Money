@@ -33,4 +33,12 @@ public struct ExchangeRate: Codable {
             }
         }
     }
+    
+    func rate(for code: String) -> Double? {
+        if let sourceCurrency = currency.first?.key {
+            return currency[sourceCurrency]?[code]
+        } else {
+            return nil
+        }
+    }
 }

@@ -29,3 +29,25 @@ class Transaction {
         self.destination = destination
     }
 }
+
+extension Transaction {
+    
+    static func todayPredicate() -> Predicate<Transaction> {
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        return #Predicate<Transaction> { tran in
+//            print(tran.date, today, tran.date >= today)
+            return tran.date >= today
+        }
+    }
+
+    static func thisMonthPredicate() -> Predicate<Transaction> {
+        let thisWeek = Calendar.current
+            .dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: Date())
+            .date!
+        return #Predicate<Transaction> { tran in
+            return tran.date >= thisWeek
+        }
+    }
+}
+

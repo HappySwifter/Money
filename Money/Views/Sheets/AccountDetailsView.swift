@@ -11,14 +11,6 @@ import SwiftData
 struct AccountDetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.modelContext) private var modelContext
-    private static var descriptor: FetchDescriptor<Account> {
-        var descriptor = FetchDescriptor<Account>()
-        let predicate = #Predicate<Account> { $0.isAccount }
-        descriptor.predicate = predicate
-        descriptor.fetchLimit = 1
-        return descriptor
-    }
-    @Query(descriptor) var destinationAccount: [Account]
     @State var isTransferViewPresented = false
     let account: Account
     
@@ -42,8 +34,16 @@ struct AccountDetailsView: View {
         }
         .sheet(isPresented: $isTransferViewPresented) {
             TransferMoneyView(source: account,
-                              destination: destinationAccount.first!,
+                              destination: getDestAccount(),
                               isSheetPresented: $isTransferViewPresented)
         }
+    }
+    
+    func getDestAccount() -> Account {
+        var desc = FetchDescriptor<Account>()
+        desc.fetchLimit = 1
+        let predicate = #Predicate<Account> { $0.isAccount }
+        desc.predicate = predicate
+        return try! modelContext.fetch(desc).first!
     }
 }
