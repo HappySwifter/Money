@@ -112,18 +112,18 @@ struct Dashboard: View {
             }
             .padding()
             .onAppear {
-                calculateSpent(for: todayTransactions)
-                calculateSpent(for: thisMonthTransactions)
+                updateTotal(type: .today)
+                updateTotal(type: .month)
             }
             .onChange(of: accounts, initial: true, {
                 selectedAccount = accounts.first
                 calculateAccountsTotal(from: accounts)
             })
             .onChange(of: todayTransactions) {
-                calculateSpent(for: todayTransactions)
+                updateTotal(type: .today)
             }
             .onChange(of: thisMonthTransactions) {
-                calculateSpent(for: thisMonthTransactions)
+                updateTotal(type: .month)
             }
             .sheet(isPresented: sheetBinding) { ActionSheetView(
                 isPresented: sheetBinding,
@@ -146,7 +146,7 @@ struct Dashboard: View {
         presentingType = .details(item: item)
     }
     
-    func calculateAccountsTotal(from accounts: [CurrencyConvertible]) {
+    private func calculateAccountsTotal(from accounts: [CurrencyConvertible]) {
         Task {
             do {
                 let userCode = preferences.getUserCurrency().code
@@ -167,30 +167,46 @@ struct Dashboard: View {
         }
     }
     
-    func calculateSpent(for transactions: [Transaction]) {
-        let userCode = preferences.getUserCurrency().code
+    enum SpentType {
+        case today
+        case month
+    }
+    
+    private func updateTotal(type: SpentType) {
         Task {
             do {
-                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date())
-                let total = transactions.reduce(0.0) { total, tran in
-                    if let sourceCurrency = tran.source.currency {
-                        if userCode == sourceCurrency.code {
-                            return total + tran.sourceAmount
-                        } else {
-                            if let exchRate = rates.rate(for: sourceCurrency.code) {
-                                return total + tran.sourceAmount / exchRate
-                            } else {
-                                print("ERROR no rate for code", sourceCurrency.code)
-                                return total
-                            }
-                        }
+                let userCode = preferences.getUserCurrency().code
+                switch type {
+                case .today:
+                    let total = try await calculateSpent(for: todayTransactions)
+                    spentToday = total.getString() + " " + userCode
+                case .month:
+                    let total = try await calculateSpent(for: thisMonthTransactions)
+                    spentThisMonth = total.getString() + " " + userCode
+                }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func calculateSpent(for transactions: [Transaction]) async throws -> Double {
+        let userCode = preferences.getUserCurrency().code
+        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date())
+        return transactions.reduce(0.0) { total, tran in
+            if let sourceCurrency = tran.source.currency {
+                if userCode == sourceCurrency.code {
+                    return total + tran.sourceAmount
+                } else {
+                    if let exchRate = rates.value(for: sourceCurrency.code) {
+                        return total + tran.sourceAmount / exchRate
                     } else {
+                        print("ERROR no rate for code", sourceCurrency.code)
                         return total
                     }
                 }
-                spentToday = total.getString() + " " + userCode
-            } catch {
-                print(error)
+            } else {
+                return total
             }
         }
     }

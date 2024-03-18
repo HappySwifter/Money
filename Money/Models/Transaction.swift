@@ -36,18 +36,17 @@ extension Transaction {
         let today = Calendar.current.startOfDay(for: Date())
         
         return #Predicate<Transaction> { tran in
-//            print(tran.date, today, tran.date >= today)
             return tran.date >= today
         }
     }
 
     static func thisMonthPredicate() -> Predicate<Transaction> {
-        let thisWeek = Calendar.current
-            .dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: Date())
-            .date!
+        let comp = Calendar.current
+            .dateComponents([.year, .month], from: Date())
+        let startOfMonth = Calendar.current.date(from: comp)!
+        
         return #Predicate<Transaction> { tran in
-            return tran.date >= thisWeek
+            return tran.date >= startOfMonth
         }
     }
 }
-

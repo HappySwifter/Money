@@ -269,7 +269,7 @@ struct TransferMoneyView: View {
     
     private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
         let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode, date: Date())
-        return rates.currency[sourceCode]?[destinationCode]
+        return rates.value(for: destinationCode)
     }
 }
 
