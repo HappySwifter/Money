@@ -17,17 +17,17 @@ struct CategoryView: View {
                 pressHandler(item)
             },
             label: {
-                VStack {
+                VStack(spacing: 2) {
                     Text(item.icon)
                         .font(.system(size: 35))
+                        .padding(15)
+                        .background(SwiftColor(rawValue: item.color)!.value.opacity(0.3))
+                        .clipShape(Circle())
+                    
                     Text(item.name.isEmpty ? "Name" : item.name)
-                        .font(.subheadline)
-//                        .foregroundStyle(Color.gray)
+                        .font(.body)
                 }
-                .padding(10)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: 100)
-                .background(SwiftColor(rawValue: item.color)!.value.opacity(0.3))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         )
         .supportsLongPress {
