@@ -12,7 +12,6 @@ import SwiftData
 struct NewAccountView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(Preferences.self) private var preferences
-//    @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Binding var isSheetPresented: Bool
     @State private var isEmojiPickerPresented = false
@@ -89,7 +88,6 @@ struct NewAccountView: View {
                                 color.value
                                     .clipShape(Circle())
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
-//                                    .frame(width: 50, height: 50)
                                     .opacity(account.color == color.rawValue ? 1 : 0.3)
                                     .onTapGesture {
                                         account.color = color.rawValue
@@ -121,7 +119,7 @@ struct NewAccountView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        saveCategory()
+                        saveAccount()
                         isSheetPresented.toggle()
                     }
                     .disabled(account.name.isEmpty)
@@ -132,7 +130,7 @@ struct NewAccountView: View {
         
     }
     
-    func saveCategory() {
+    func saveAccount() {
         guard !account.name.isEmpty else {
             print("name is empty")
             return
