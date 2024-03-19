@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ExpensesView: View {
+struct TransactionsView: View {
     @Query(sort: \Transaction.date) var transactions: [Transaction]
 
     var body: some View {
@@ -20,7 +20,8 @@ struct ExpensesView: View {
                         Text(transaction.source.name)
                         Text(transaction.source.currency?.symbol ?? "")
                         Spacer()
-                        Text("-")
+                        Text(transaction.sign)
+                            .foregroundStyle(transaction.isIncome ? Color.green : Color.red)
                         Text(transaction.sourceAmount.getString())
                     }
                     Spacer()
@@ -39,5 +40,5 @@ struct ExpensesView: View {
 }
 
 #Preview {
-    ExpensesView()
+    TransactionsView()
 }

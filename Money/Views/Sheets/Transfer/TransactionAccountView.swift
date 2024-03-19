@@ -11,7 +11,6 @@ struct TransactionAccountView: View {
     
     let viewType: TransferMoneyView.ItemType
     let item: Account
-    let showAmount: Bool
         
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {

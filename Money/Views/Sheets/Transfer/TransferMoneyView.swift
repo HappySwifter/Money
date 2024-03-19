@@ -12,10 +12,6 @@ struct TransferMoneyView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CurrenciesApi.self) private var currenciesApi
     
-    let accountPredicate = #Predicate<Account> { acc in
-        acc.isAccount
-    }
-    
     @Query(filter: #Predicate<Account> { $0.isAccount },
            sort: \Account.orderIndex)
     private var accounts: [Account]
@@ -61,8 +57,7 @@ struct TransferMoneyView: View {
                         } label: {
                             TransactionAccountView(
                                 viewType: ItemType.source,
-                                item: source,
-                                showAmount: destination.isAccount
+                                item: source
                             )
                         }
                         .buttonStyle(.plain)
@@ -93,8 +88,7 @@ struct TransferMoneyView: View {
                         } label: {
                             TransactionAccountView(
                                 viewType: .destination,
-                                item: destination,
-                                showAmount: true
+                                item: destination
                             )
                         }
                         .buttonStyle(.plain)
@@ -168,23 +162,28 @@ struct TransferMoneyView: View {
     }
     
     private func makeTransfer() {
-        var amount = sourceAmount
-        if amount.last == "," {
-            amount = String(amount.dropLast())
-        }
-        guard let amount = amount.toDouble(), amount > 0 else {
+        guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
             assert(false)
             return
         }
-        guard source.credit(amount: amount) else {
+        guard source.credit(amount: sourceAmount) else {
             return
         }
+        
+        var destAmount: Double?
         if destination.isAccount {
-            destination.deposit(amount: amount)
+            guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
+                assert(false)
+                return
+            }
+            destination.deposit(amount: destinationAmount)
+            destAmount = destinationAmount
         }
-        let transaction = Transaction(sourceAmount: amount,
+        
+        let transaction = Transaction(isIncome: false, 
+                                      sourceAmount: sourceAmount,
                                       source: source,
-                                      destinationAmount: destinationAmount.toDouble(),
+                                      destinationAmount: destAmount,
                                       destination: destination)
         modelContext.insert(transaction)
         isSheetPresented.toggle()

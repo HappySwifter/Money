@@ -33,6 +33,7 @@ struct Dashboard: View {
     @State var spentToday = ""
     @State var spentThisMonth = ""
     @State var selectedAccount: Account?
+    @State var plusPressed = false
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
     @State var presentingType = PresentingType.none
@@ -60,14 +61,24 @@ struct Dashboard: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                NavigationLink {
-                    AllAccountsView(userCurrency: preferences.getUserCurrency())
-                } label: {
-                    Text("Accounts: \(totalAmount) >")
-                        .foregroundStyle(Color.gray)
+                
+                
+                HStack {
+                    NavigationLink {
+                        AllAccountsView(userCurrency: preferences.getUserCurrency())
+                    } label: {
+                        Text("Accounts: \(totalAmount) >")
+                            .foregroundStyle(Color.gray)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.vertical)
+                    
+                    Spacer()
+                    PlusView(selectedAccount: selectedAccount,
+                             buttonPressed: $plusPressed,
+                             presentingType: $presentingType)
                 }
-                .buttonStyle(.plain)
-                .padding(.vertical)
+
                 
                 ScrollView(.horizontal) {
                     HStack {
@@ -78,7 +89,7 @@ struct Dashboard: View {
                                             set: { _ in selectedAccount = item }),
                                         longPressHandler: itemLongPressHandler(item:))
                         }
-                        PlusView(buttonPressed: $createAccountPresented)
+//                        PlusView(buttonPressed: $createAccountPresented)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -87,15 +98,14 @@ struct Dashboard: View {
                     .padding(.vertical)
                 
                 NavigationLink {
-                    ExpensesView()
+                    TransactionsView()
                 } label: {
-                    VStack {
-                        Text("Today -\(spentToday)")
-                        Text("This month -\(spentThisMonth)")
+                    VStack(alignment: .leading) {
+                        Text("Spent today \(spentToday)")
+                        Text("Spent this month \(spentThisMonth)")
                     }
                     .foregroundStyle(Color.gray)
-                    
-                        
+                    .font(.footnote)
                 }
                 .buttonStyle(.plain)
                 
@@ -106,7 +116,7 @@ struct Dashboard: View {
                                          pressHandler: itemPressHandler(item:),
                                          longPressHandler: itemLongPressHandler(item:))
                         }
-                        PlusView(buttonPressed: $createCategoryPresented)
+//                        PlusView(buttonPressed: $createCategoryPresented)
                     }
                 }
             }
@@ -139,7 +149,9 @@ struct Dashboard: View {
     }
     
     func itemPressHandler(item: Account) {
-        presentingType = .transfer(source: selectedAccount, destination: item)
+        if let selectedAccount {
+            presentingType = .transfer(source: selectedAccount, destination: item)
+        }
     }
     
     func itemLongPressHandler(item: Account) {
@@ -192,7 +204,7 @@ struct Dashboard: View {
     
     private func calculateSpent(for transactions: [Transaction]) async throws -> Double {
         let userCode = preferences.getUserCurrency().code
-        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date())
+        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date()) // TODO не использовать апи тут. В транзацияя есть source and destination, использовать это значение
         return transactions.reduce(0.0) { total, tran in
             if let sourceCurrency = tran.source.currency {
                 if userCode == sourceCurrency.code {

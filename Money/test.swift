@@ -39,9 +39,16 @@ extension Double {
 
 extension String {
     func toDouble() -> Double? {
+        let separator: String.Element = ","
+        let amount: String
+        if self.last == separator {
+            amount = String(self.dropLast())
+        } else {
+            amount = self
+        }
         let formatter = NumberFormatter()
-        formatter.decimalSeparator = ","
-        return formatter.number(from: self)?.doubleValue
+        formatter.decimalSeparator = String(separator)
+        return formatter.number(from: amount)?.doubleValue
     }
 }
 

@@ -1,15 +1,21 @@
 import SwiftUI
 import PlaygroundSupport
 
-
-
-func currencyName(currencyCode: String) -> String {
-    let locale = Locale(identifier: Locale.identifier(fromComponents: [NSLocale.Key.currencyCode.rawValue: currencyCode]))
+extension Date {
+    var startOfMonth: Date {
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month], from: self)
+        
+        return  calendar.date(from: components)!
+    }
     
-    return locale.localizedString(forCurrencyCode: currencyCode) ?? currencyCode
 }
 
+let thisM = Date().startOfMonth
 
 
-currencyName(currencyCode: "TRY")
 
+let now = Date.now
+
+print(now >= thisM)

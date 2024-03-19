@@ -16,9 +16,13 @@ struct ActionSheetView: View {
     var body: some View {
         VStack {
             switch presentingType {
+            case .newIncome(let destination):
+                NewIncomeView(
+                    destination: destination,
+                    isSheetPresented: $isPresented)
             case .transfer(let source, let destination):
                 TransferMoneyView(
-                    source: source!,
+                    source: source,
                     destination: destination!,
                     isSheetPresented: $isPresented)
             case .details(let item):

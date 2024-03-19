@@ -10,7 +10,7 @@ import SwiftUI
 struct CurrencyMenuListView: View {
     @Binding var selectedItem: Account
     let data: [Account]
-    var changeHandler: ((_ oldValue: Account) -> ())
+    var changeHandler: ((_ oldValue: Account) -> ())?
         
     var body: some View {
         ForEach(data) { acc in
@@ -19,7 +19,7 @@ struct CurrencyMenuListView: View {
                 withAnimation {
                     selectedItem = acc
                 }
-                changeHandler(oldValue)
+                changeHandler?(oldValue)
             } label: {
                 HStack {
                     Text("\(acc.icon) \(acc.name)")

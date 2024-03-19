@@ -13,6 +13,7 @@ import SwiftData
 class Transaction {
     let id: UUID
     let date: Date
+    let isIncome: Bool
     
     let sourceAmount: Double
     let source: Account
@@ -20,13 +21,24 @@ class Transaction {
     let destinationAmount: Double?
     
     
-    init(id: UUID = UUID(), date: Date = Date(), sourceAmount: Double, source: Account, destinationAmount: Double?, destination: Account) {
+    init(id: UUID = UUID(),
+         date: Date = Date(),
+         isIncome: Bool,
+         sourceAmount: Double,
+         source: Account,
+         destinationAmount: Double?,
+         destination: Account) {
         self.id = id
         self.date = date
+        self.isIncome = isIncome
         self.sourceAmount = sourceAmount
         self.source = source
         self.destinationAmount = destinationAmount
         self.destination = destination
+    }
+    
+    var sign: String {
+        isIncome ? "+" : "-"
     }
 }
 

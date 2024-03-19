@@ -11,6 +11,8 @@ enum PresentingType: Equatable {
     
     static func == (lhs: PresentingType, rhs: PresentingType) -> Bool {
         switch (lhs, rhs) {
+        case (.newIncome, .newIncome):
+            return true
         case (.transfer, .transfer):
             return true
         case (.details, .details):
@@ -26,21 +28,10 @@ enum PresentingType: Equatable {
         }
     }
     
-    case transfer(source: Account?, destination: Account?)
+    case newIncome(destination: Account)
+    case transfer(source: Account, destination: Account?)
     case details(item: Account)
     case addAccount
     case addCategory
     case none
-    
-    var sheetHeightFraction: CGFloat {
-        switch self {
-        case .transfer:
-            return 0.6
-        case .details:
-            return 0.7
-        case .addAccount, .addCategory, .none:
-            return 1
-
-        }
-    }
 }
