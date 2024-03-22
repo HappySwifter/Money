@@ -29,7 +29,7 @@ enum PresentingType: Equatable {
     }
     
     case newIncome(destination: Account)
-    case transfer(source: Account, destination: Account?)
+    case transfer(source: Account, destination: Account)
     case details(item: Account)
     case addAccount
     case addCategory
