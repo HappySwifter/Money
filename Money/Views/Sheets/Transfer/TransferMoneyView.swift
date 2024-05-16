@@ -44,6 +44,19 @@ struct TransferMoneyView: View {
     }
     @State private var focusedField = ItemType.source
     
+    var doneButtonIsDisabled: Bool {
+        if sourceAmount.toDouble() == 0 ||
+            destination.isAccount &&
+            source.currency?.code != destination.currency?.code &&
+            (destinationAmount.toDouble() ?? 0) == 0
+        {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -104,7 +117,7 @@ struct TransferMoneyView: View {
                         }
                         
                         if destination.isAccount,
-                            source.currency?.code != destination.currency?.code {
+                           source.currency?.code != destination.currency?.code {
                             Spacer()
                             EnterAmountView(
                                 symbol: destination.currency?.symbol ?? "",
@@ -131,13 +144,16 @@ struct TransferMoneyView: View {
                     Button(" Done ") {
                         makeTransfer()
                     }
-                    .disabled(sourceAmount.toDouble() == 0)
+                    .disabled(doneButtonIsDisabled)
                     .buttonStyle(DoneButtonStyle())
                 }
                 .padding(.horizontal)
                 
+                //                CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
+                //                               resultString: focusedField == .source ? $sourceAmount.onChange(updateDestinationAmount) : $destinationAmount.onChange(updateSourceAmount))
+                
                 CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                               resultString: focusedField == .source ? $sourceAmount.onChange(updateDestinationAmount) : $destinationAmount.onChange(updateSourceAmount))
+                               resultString: focusedField == .source ? $sourceAmount : $destinationAmount)
             }
             .navigationTitle(destination.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
@@ -163,7 +179,7 @@ struct TransferMoneyView: View {
     
     private func makeTransfer() {
         guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
-            assert(false)
+            print("Enter source amount")
             return
         }
         guard source.credit(amount: sourceAmount) else {
@@ -172,20 +188,26 @@ struct TransferMoneyView: View {
         
         var destAmount: Double?
         if destination.isAccount {
-            guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
-                assert(false)
-                return
+            if source.currency?.code == destination.currency?.code {
+                destination.deposit(amount: sourceAmount)
+                destAmount = sourceAmount
+            } else {
+                guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
+                    assert(false)
+                    return
+                }
+                destination.deposit(amount: destinationAmount)
+                destAmount = destinationAmount
             }
-            destination.deposit(amount: destinationAmount)
-            destAmount = destinationAmount
         }
         
-        let transaction = Transaction(isIncome: false, 
+        let transaction = Transaction(isIncome: false,
                                       sourceAmount: sourceAmount,
                                       source: source,
                                       destinationAmount: destAmount,
                                       destination: destination)
         modelContext.insert(transaction)
+        try? modelContext.save()
         isSheetPresented.toggle()
     }
     
@@ -226,45 +248,45 @@ struct TransferMoneyView: View {
             exchangeRate = try await loadRates(
                 sourceCode: sourceCode,
                 destinationCode: destCode) ?? 0
-                updateDestinationAmount(from: sourceAmount)
+            //                updateDestinationAmount(from: sourceAmount)
         }
     }
     
-    private func updateSourceAmount(from destination: String) {
-        if sourceAmount == "0" {
-            if let exchangeRate,
-               exchangeRate > 0,
-               let destination = destination.toDouble()
-            {
-                sourceAmount = (destination / exchangeRate).getString()
-            } else {
-                sourceAmount = "0"
-            }
-        } else {
-            if let sour = sourceAmount.toDouble(), let dest = destinationAmount.toDouble(), dest > 0 {
-                exchangeRate = sour / dest
-            }
-        }
-    }
-    
-    private func updateDestinationAmount(from source: String) {
-        guard destination.isAccount else { return }
-        
-        if destinationAmount == "0" {
-            if let exchangeRate,
-               exchangeRate > 0,
-               let source = source.toDouble()
-            {
-                destinationAmount = (source * exchangeRate).getString()
-            } else {
-                destinationAmount = "0"
-            }
-        } else {
-            if let sour = sourceAmount.toDouble(), let dest = destinationAmount.toDouble(), sour > 0 {
-                exchangeRate = dest / sour
-            }
-        }
-    }
+    //    private func updateSourceAmount(from destination: String) {
+    //        if sourceAmount == "0" {
+    //            if let exchangeRate,
+    //               exchangeRate > 0,
+    //               let destination = destination.toDouble()
+    //            {
+    //                sourceAmount = (destination / exchangeRate).getString()
+    //            } else {
+    //                sourceAmount = "0"
+    //            }
+    //        } else {
+    //            if let sour = sourceAmount.toDouble(), let dest = destinationAmount.toDouble(), dest > 0 {
+    //                exchangeRate = sour / dest
+    //            }
+    //        }
+    //    }
+    //
+    //    private func updateDestinationAmount(from source: String) {
+    //        guard destination.isAccount else { return }
+    //
+    //        if destinationAmount == "0" {
+    //            if let exchangeRate,
+    //               exchangeRate > 0,
+    //               let source = source.toDouble()
+    //            {
+    //                destinationAmount = (source * exchangeRate).getString()
+    //            } else {
+    //                destinationAmount = "0"
+    //            }
+    //        } else {
+    //            if let sour = sourceAmount.toDouble(), let dest = destinationAmount.toDouble(), sour > 0 {
+    //                exchangeRate = dest / sour
+    //            }
+    //        }
+    //    }
     
     private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
         let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode, date: Date())

@@ -14,12 +14,12 @@ struct Dashboard: View {
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesApi.self) private var currenciesApi
     
-    @Query(filter: #Predicate<Account> { $0.isAccount },
+    @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
     private var accounts: [Account]
     
     @Query(
-        filter: #Predicate<Account> { !$0.isAccount },
+        filter: Account.categoryPredicate(),
         sort: \Account.orderIndex)
     private var categories: [Account]
     

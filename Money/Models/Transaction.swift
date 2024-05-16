@@ -14,10 +14,11 @@ class Transaction {
     let id: UUID
     let date: Date
     let isIncome: Bool
-    
     let sourceAmount: Double
+    
     let source: Account
     let destination: Account
+   
     let destinationAmount: Double?
     
     

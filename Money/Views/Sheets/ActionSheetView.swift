@@ -23,7 +23,7 @@ struct ActionSheetView: View {
             case .transfer(let source, let destination):
                 TransferMoneyView(
                     source: source,
-                    destination: destination!,
+                    destination: destination,
                     isSheetPresented: $isPresented)
             case .details(let item):
                 if item.isAccount {
@@ -31,7 +31,7 @@ struct ActionSheetView: View {
                 } else {
                     CategoryDetailsView(
                         isSheetPresented: $isPresented,
-                        item: item)
+                        category: item)
                 }
             case .addAccount:
                 NewAccountView(isSheetPresented: $isPresented)

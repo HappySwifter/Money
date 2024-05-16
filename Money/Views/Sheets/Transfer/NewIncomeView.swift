@@ -19,34 +19,54 @@ struct NewIncomeView: View {
     @Binding var isSheetPresented: Bool
     @State private var destinationAmount = "0"
     
-    
     var body: some View {
-        Menu {
-            Text("Accounts")
-            CurrencyMenuListView(selectedItem: $destination, data: accounts)
-        } label: {
-            TransactionAccountView(
-                viewType: TransferMoneyView.ItemType.destination,
-                item: destination
-            )
-        }
-        .buttonStyle(.plain)
-        .environment(\.menuOrder, .fixed)
-        
-        Spacer()
-        
-        HStack {
-            Spacer()
-            Button(" Done ") {
-                makeTransfer()
+        NavigationStack {
+            VStack {
+                VStack {
+                    Menu {
+                        Text("Accounts")
+                        CurrencyMenuListView(selectedItem: $destination, data: accounts)
+                    } label: {
+                        TransactionAccountView(
+                            viewType: TransferMoneyView.ItemType.destination,
+                            item: destination
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .environment(\.menuOrder, .fixed)
+                    
+                    EnterAmountView(
+                        symbol: destination.currency?.symbol ?? "",
+                        isFocused: true,
+                        value: $destinationAmount)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        Button(" Done ") {
+                            makeTransfer()
+                        }
+                        .disabled(destinationAmount.toDouble() == 0)
+                        .buttonStyle(DoneButtonStyle())
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.horizontal)
+                
+                CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
+                               resultString: $destinationAmount)
             }
-            .disabled(destinationAmount.toDouble() == 0)
-            .buttonStyle(DoneButtonStyle())
+            .navigationTitle(destination.isAccount ? "New transaction" : "New expense")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") {
+                        isSheetPresented.toggle()
+                    }
+                }
+            }
         }
-        .padding(.horizontal)
-        
-        CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                       resultString: $destinationAmount)
     }
     
     private func makeTransfer() {

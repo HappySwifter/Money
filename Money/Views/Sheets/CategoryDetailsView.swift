@@ -10,17 +10,20 @@ import SwiftUI
 struct CategoryDetailsView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var isSheetPresented: Bool
-    let item: Account
+    let category: Account
     
     var body: some View {
-        Text("Details: \(item.name)")
-        Button("Delete") {
-            withAnimation {
-                modelContext.delete(item)
-                isSheetPresented = false
+        VStack {
+            Text("Details: \(category.name)")
+            Button("Delete") {
+                withAnimation {
+                    category.isHidden = true
+                    isSheetPresented = false
+                }
             }
+            .buttonStyle(DeleteButton())
         }
-        .buttonStyle(DeleteButton())
+        .padding()
     }
 }
 

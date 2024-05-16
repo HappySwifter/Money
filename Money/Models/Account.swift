@@ -19,6 +19,7 @@ final class Account {
     var icon: String
     var color: String
     var isAccount: Bool
+    var isHidden: Bool
     private(set) var amount: Double
     var currency: MyCurrency?
     
@@ -29,6 +30,7 @@ final class Account {
          icon: String,
          color: SwiftColor,
          isAccount: Bool,
+         isHidden: Bool = false,
          amount: Double,
          currency: MyCurrency?)
     {
@@ -39,6 +41,7 @@ final class Account {
         self.icon = icon
         self.color = color.rawValue
         self.isAccount = isAccount
+        self.isHidden = isHidden
         self.amount = amount
         self.currency = currency
     }
@@ -50,6 +53,18 @@ final class Account {
             return true
         } else {
             return false
+        }
+    }
+    
+    static func accountPredicate() -> Predicate<Account> {
+        return #Predicate<Account> {
+             $0.isAccount/* && !$0.isHidden*/ // if uncomment then its freezes
+        }
+    }
+    
+    static func categoryPredicate() -> Predicate<Account> {
+        return #Predicate<Account> {
+             !$0.isAccount && !$0.isHidden
         }
     }
 }

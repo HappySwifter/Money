@@ -92,7 +92,7 @@ struct NewCategoryView: View {
                     .disabled(category.name.isEmpty)
                 }
             }
-            .navigationTitle("New account")
+            .navigationTitle("New category")
         }
         
     }

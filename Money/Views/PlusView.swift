@@ -15,32 +15,21 @@ struct PlusView: View {
     @Binding var presentingType: PresentingType
     
     enum ButtonType: String, CaseIterable {
-        case newIncome = "New income"
-        case accountToCategory = "Account -> Category"
-        case accountToAccount = "Account -> Account"
-        case newAccount = "Account"
-        case newCategory = "Category"
-        
-        var icon: String {
-            switch self {
-            case .newIncome:
-                return "🏦"
-            case .accountToCategory:
-                return "🏦"
-            case .accountToAccount:
-                return "🏦"
-            case .newAccount:
-                return "🏦"
-            case .newCategory:
-                return "🍔"
-            }
-        }
+        case newIncome = "🏦 New income"
+        case accountToCategory = "🏦 Account \u{2192} 🍔 Category"
+        case accountToAccount = "🏦 Account \u{2192} 🏦 Account"
+        case newAccount = "🏦 Account"
+        case newCategory = "🍔 Category"
     }
     
     
     var body: some View {
         Menu {
             ForEach(ButtonType.allCases, id: \.self) { button in
+                if button == .accountToCategory {
+                    Divider()
+                    Text("Transfer")
+                }
                 if button == .newAccount {
                     Divider()
                     Text("Create new")
@@ -49,7 +38,7 @@ struct PlusView: View {
                     press(type: button)
                 } label: {
                     Group {
-                        Text("\(button.icon) \(button.rawValue)")
+                        Text(button.rawValue)
                     }
                 }
                 .buttonStyle(MyButtonStyle())
@@ -73,8 +62,12 @@ struct PlusView: View {
                 presentingType = .newIncome(destination: selectedAccount)
             }
         case .accountToCategory:
-            if let selectedAccount, let dest = getDestination(isAccount: false, notId: selectedAccount.id) {
-                presentingType = .transfer(source: selectedAccount, destination: dest)
+            if let selectedAccount {
+                if let dest = getDestination(isAccount: false, notId: selectedAccount.id) {
+                    presentingType = .transfer(source: selectedAccount, destination: dest)
+                } else {
+                    presentingType = .addCategory
+                }
             }
         case .accountToAccount:
             if let selectedAccount, let dest = getDestination(isAccount: true, notId: selectedAccount.id) {

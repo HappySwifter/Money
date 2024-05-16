@@ -24,9 +24,9 @@ struct AccountDetailsView: View {
             }
 
             Spacer()
-            Button("Delete") {
+            Button("Hide") {
                 withAnimation {
-                    modelContext.delete(account)
+                    account.isHidden = true
                     presentationMode.wrappedValue.dismiss()
                 }
             }
@@ -37,6 +37,7 @@ struct AccountDetailsView: View {
                               destination: getDestAccount(),
                               isSheetPresented: $isTransferViewPresented)
         }
+        .padding()
     }
     
     func getDestAccount() -> Account {
