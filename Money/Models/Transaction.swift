@@ -9,6 +9,7 @@ import Foundation
 import SwiftData
 
 
+
 @Model
 class Transaction {
     let id: UUID
@@ -49,7 +50,7 @@ extension Transaction {
         let today = Calendar.current.startOfDay(for: Date())
         
         return #Predicate<Transaction> { tran in
-            return tran.date >= today
+            return tran.date >= today && !tran.isIncome
         }
     }
 
@@ -59,7 +60,7 @@ extension Transaction {
         let startOfMonth = Calendar.current.date(from: comp)!
         
         return #Predicate<Transaction> { tran in
-            return tran.date >= startOfMonth
+            return tran.date >= startOfMonth && !tran.isIncome
         }
     }
 }

@@ -58,6 +58,19 @@ extension Date {
         form.dateFormat = "YYYY-MM-dd"
         return form.string(from: self)
     }
+    
+
+    
+    var historyDate: Date {
+        let cal = Calendar.current
+        return cal.date(from: cal.dateComponents([.year, .month, .day], from: self))!
+    }
+    
+    var historyDateString: String {
+        let form = DateFormatter()
+        form.dateFormat = "dd.MM.YYYY"
+        return form.string(from: self)
+    }
 }
 
 func showImpact() {
