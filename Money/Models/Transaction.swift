@@ -44,23 +44,23 @@ class Transaction {
     }
 }
 
-extension Transaction {
-    
-    static func todayPredicate() -> Predicate<Transaction> {
-        let today = Calendar.current.startOfDay(for: Date())
-        
-        return #Predicate<Transaction> { tran in
-            return tran.date >= today && !tran.isIncome
-        }
-    }
-
-    static func thisMonthPredicate() -> Predicate<Transaction> {
-        let comp = Calendar.current
-            .dateComponents([.year, .month], from: Date())
-        let startOfMonth = Calendar.current.date(from: comp)!
-        
-        return #Predicate<Transaction> { tran in
-            return tran.date >= startOfMonth && !tran.isIncome
-        }
-    }
-}
+//extension Transaction {
+//    
+//    static func todayPredicate() -> Predicate<Transaction> {
+//        let today = Calendar.current.startOfDay(for: Date())
+//        
+//        return #Predicate<Transaction> { tran in
+//            return tran.date >= today && !tran.isIncome
+//        }
+//    }
+//
+//    static func thisMonthPredicate() -> Predicate<Transaction> {
+//        let comp = Calendar.current
+//            .dateComponents([.year, .month], from: Date())
+//        let startOfMonth = Calendar.current.date(from: comp)!
+//        
+//        return #Predicate<Transaction> { tran in
+//            return tran.date >= startOfMonth && !tran.isIncome
+//        }
+//    }
+//}

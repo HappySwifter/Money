@@ -27,6 +27,12 @@
 		AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
+		AC98AB6F2BF863EA00B15A2F /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */; };
+		AC98AB712BF8645E00B15A2F /* TransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB702BF8645E00B15A2F /* TransferView.swift */; };
+		AC98AB732BF8648F00B15A2F /* SpengingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB722BF8648F00B15A2F /* SpengingView.swift */; };
+		AC98AB762BF8673B00B15A2F /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = AC98AB752BF8673B00B15A2F /* TODO.txt */; };
+		AC98AB782BF8779100B15A2F /* SpendingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB772BF8779100B15A2F /* SpendingsService.swift */; };
+		AC98AB7A2BF8A50E00B15A2F /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */; };
 		AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */; };
 		AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */; };
 		AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */; };
@@ -45,7 +51,7 @@
 		ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */; };
 		ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */; };
 		ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */; };
-		ACCD11022B9C2278000EF710 /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11012B9C2278000EF710 /* TransactionsView.swift */; };
+		ACCD11022B9C2278000EF710 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11012B9C2278000EF710 /* HistoryView.swift */; };
 		ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */; };
 		ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */; };
 		ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */; };
@@ -102,6 +108,12 @@
 		AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbol.swift; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
 		AC872B0F2BA846400034E147 /* NewIncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIncomeView.swift; sourceTree = "<group>"; };
+		AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
+		AC98AB702BF8645E00B15A2F /* TransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferView.swift; sourceTree = "<group>"; };
+		AC98AB722BF8648F00B15A2F /* SpengingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpengingView.swift; sourceTree = "<group>"; };
+		AC98AB752BF8673B00B15A2F /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		AC98AB772BF8779100B15A2F /* SpendingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingsService.swift; sourceTree = "<group>"; };
+		AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonStyle.swift; sourceTree = "<group>"; };
@@ -119,7 +131,7 @@
 		ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
 		ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertible.swift; sourceTree = "<group>"; };
 		ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsView.swift; sourceTree = "<group>"; };
-		ACCD11012B9C2278000EF710 /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
+		ACCD11012B9C2278000EF710 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyMenuListView.swift; sourceTree = "<group>"; };
 		ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAccountView.swift; sourceTree = "<group>"; };
 		ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHeightModifier.swift; sourceTree = "<group>"; };
@@ -183,7 +195,7 @@
 				AC213FDF2B9827100095846E /* CategoryView.swift */,
 				ACF62AFF2B91E61A002CB75D /* PlusView.swift */,
 				ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */,
-				ACCD11012B9C2278000EF710 /* TransactionsView.swift */,
+				AC98AB742BF8652400B15A2F /* History */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
 				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
@@ -223,6 +235,8 @@
 		AC4080B42B8E34AB004D7575 /* Money */ = {
 			isa = PBXGroup;
 			children = (
+				AC98AB752BF8673B00B15A2F /* TODO.txt */,
+				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				ACC3EFAE2B958FE60069C2D1 /* API */,
 				ACC3EFAB2B958F500069C2D1 /* Files */,
 				AC213FE32B9868D40095846E /* Styles */,
@@ -233,11 +247,11 @@
 				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
 				ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */,
 				AC5A16E82B997AB100B07D1A /* CorneredBorderModifier.swift */,
-				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				AC5A16EA2B99E09C00B07D1A /* Preferences.swift */,
 				AC4080B72B8E34AB004D7575 /* ContentView.swift */,
 				AC4080B92B8E34AB004D7575 /* Item.swift */,
 				ACD4C9402B8F2A950087F632 /* test.swift */,
+				AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */,
 				AC4080BB2B8E34AD004D7575 /* Assets.xcassets */,
 				AC4080BD2B8E34AD004D7575 /* Money.entitlements */,
 				ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */,
@@ -272,6 +286,17 @@
 			path = MoneyUITests;
 			sourceTree = "<group>";
 		};
+		AC98AB742BF8652400B15A2F /* History */ = {
+			isa = PBXGroup;
+			children = (
+				ACCD11012B9C2278000EF710 /* HistoryView.swift */,
+				AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */,
+				AC98AB702BF8645E00B15A2F /* TransferView.swift */,
+				AC98AB722BF8648F00B15A2F /* SpengingView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 		ACA3AF352B932F9100403538 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */,
+				AC98AB772BF8779100B15A2F /* SpendingsService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -435,6 +461,7 @@
 			files = (
 				AC4080C02B8E34AD004D7575 /* Preview Assets.xcassets in Resources */,
 				AC4080BC2B8E34AD004D7575 /* Assets.xcassets in Resources */,
+				AC98AB762BF8673B00B15A2F /* TODO.txt in Resources */,
 				ACC3EFAD2B958F670069C2D1 /* Currencies.json in Resources */,
 				AC5A16EF2B9A010900B07D1A /* CurrencySymbols.json in Resources */,
 				ACA3AF4C2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png in Resources */,
@@ -465,8 +492,10 @@
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
+				AC98AB732BF8648F00B15A2F /* SpengingView.swift in Sources */,
 				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,
 				ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */,
+				AC98AB782BF8779100B15A2F /* SpendingsService.swift in Sources */,
 				AC5A16EB2B99E09D00B07D1A /* Preferences.swift in Sources */,
 				AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */,
 				ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */,
@@ -477,8 +506,10 @@
 				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
 				AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
+				AC98AB7A2BF8A50E00B15A2F /* EnvironmentValues.swift in Sources */,
 				ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,
+				AC98AB712BF8645E00B15A2F /* TransferView.swift in Sources */,
 				ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
@@ -486,9 +517,10 @@
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC213FE52B986C2A0095846E /* Transaction.swift in Sources */,
 				AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */,
+				AC98AB6F2BF863EA00B15A2F /* IncomeView.swift in Sources */,
 				AC4080BA2B8E34AB004D7575 /* Item.swift in Sources */,
 				ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */,
-				ACCD11022B9C2278000EF710 /* TransactionsView.swift in Sources */,
+				ACCD11022B9C2278000EF710 /* HistoryView.swift in Sources */,
 				ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */,
 				ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */,
 				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
@@ -676,7 +708,6 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -717,7 +748,6 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";

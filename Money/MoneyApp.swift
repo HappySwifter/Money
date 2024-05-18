@@ -8,12 +8,13 @@
 import SwiftUI
 import SwiftData
 import OSLog
-
+//@Environment(\.spendingsService) var spendingsService
 @main
 struct MoneyApp: App {
     let logger = Logger(subsystem: "Money", category: "MoneyApp")
     let currencyApi: CurrenciesApi
     let preferences: Preferences
+    let spendingsService: SpendingsService
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -23,7 +24,7 @@ struct MoneyApp: App {
             Transaction.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
@@ -32,18 +33,22 @@ struct MoneyApp: App {
     }()
     
     init() {
+        let context = sharedModelContainer.mainContext
         preferences = Preferences(userDefaults: UserDefaults.standard,
-                                  modelContext: sharedModelContainer.mainContext)
+                                  modelContext: context)
         
-        currencyApi = CurrenciesApi(modelContext: sharedModelContainer.mainContext,
+        currencyApi = CurrenciesApi(modelContext: context,
                                     preferences: preferences)
+        
+        spendingsService = SpendingsService(preferences: preferences,
+                                            modelContext: context, currenciesApi: currencyApi)
         
         do {
             let context = sharedModelContainer.mainContext
             let descriptor = FetchDescriptor<MyCurrency>()
             let existingCur = try context.fetchCount(descriptor)
             guard existingCur == 0 else { return }
-
+            
             guard let url = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
                 throw CurrencyError.jsonFileIsMissing
             }
@@ -53,15 +58,15 @@ struct MoneyApp: App {
             
             for (code, name) in dict where !code.isEmpty && !name.isEmpty {
                 let symbol = symbols.findWith(code: code)?.symbol
-                let currency =  MyCurrency(code: code, name: name, symbol: symbol)
+                let currency = MyCurrency(code: code, name: name, symbol: symbol)
                 context.insert(currency)
             }
         } catch {
             print("Failed to pre-seed database.")
         }
     }
-        
-
+    
+    
     var body: some Scene {
         WindowGroup {
             Dashboard()
@@ -69,8 +74,9 @@ struct MoneyApp: App {
         .modelContainer(sharedModelContainer)
         .environment(currencyApi)
         .environment(preferences)
-//        .modelContainer(for: MyCurrency.self) { result in
-//
-//        }
+        .environment(spendingsService)
+        //        .modelContainer(for: MyCurrency.self) { result in
+        //
+        //        }
     }
 }

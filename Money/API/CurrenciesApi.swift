@@ -8,13 +8,14 @@
 import Foundation
 import SwiftData
 import OSLog
+import Observation
 
 @Observable
 class CurrenciesApi {
-    private var logger = Logger(subsystem: "Money", category: "CurrenciesApi")
-    private var preferences: Preferences
-    
     @ObservationIgnored
+    private var logger = Logger(subsystem: "Money", category: "CurrenciesApi")
+    @ObservationIgnored
+    private var preferences: Preferences
     private let modelContext: ModelContext
     
     init(modelContext: ModelContext, preferences: Preferences) {

@@ -57,7 +57,13 @@ class Preferences {
         }
         desc.fetchLimit = 1
         desc.predicate = pred
-        return try? modelContext.fetch(desc).first
+        do {
+            return try modelContext.fetch(desc).first
+        } catch {
+            print("Error fetchCurrencyBy: ", error)
+            return nil
+        }
+        
     }
     
     func setRates(data: Data, date: String, currency: String) {

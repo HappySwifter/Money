@@ -13,12 +13,17 @@ func prettify(location: CGPoint?) -> String {
     return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
 }
 
-func prettify(val: Double?, fractionLength: Int = 0) -> String {
+func prettify(val: Double?, fractionLength: Int = 0, currencyCode: String? = nil) -> String {
     guard let val = val else { return "" }
-    return val.formatted(
+    let formatted = val.formatted(
         .number
         .precision(.fractionLength(fractionLength))
     )
+    if let currencyCode {
+        return formatted + " " + currencyCode
+    } else {
+        return formatted
+    }
 }
 
 func getAmountStringWith(code: String, val: Double, fractionLength: Int = 0) -> String {
@@ -56,19 +61,6 @@ extension Date {
     var ratesDateString: String {
         let form = DateFormatter()
         form.dateFormat = "YYYY-MM-dd"
-        return form.string(from: self)
-    }
-    
-
-    
-    var historyDate: Date {
-        let cal = Calendar.current
-        return cal.date(from: cal.dateComponents([.year, .month, .day], from: self))!
-    }
-    
-    var historyDateString: String {
-        let form = DateFormatter()
-        form.dateFormat = "dd.MM.YYYY"
         return form.string(from: self)
     }
 }

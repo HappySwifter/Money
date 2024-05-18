@@ -11,7 +11,8 @@ import SwiftData
 struct TransferMoneyView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CurrenciesApi.self) private var currenciesApi
-    
+    @Environment(SpendingsService.self) private var spendingsService
+
     @Query(filter: #Predicate<Account> { $0.isAccount },
            sort: \Account.orderIndex)
     private var accounts: [Account]
@@ -208,6 +209,7 @@ struct TransferMoneyView: View {
                                       destination: destination)
         modelContext.insert(transaction)
         try? modelContext.save()
+        try? spendingsService.calculateSpent()
         isSheetPresented.toggle()
     }
     
