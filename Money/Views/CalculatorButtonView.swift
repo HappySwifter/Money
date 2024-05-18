@@ -14,9 +14,9 @@ struct CalculatorButtonView: View {
     var body: some View {
         Text(button.rawValue)
             .font(.title)
-//            .foregroundColor(.black)
+            .foregroundColor(.black)
             .frame(minWidth: 0, maxWidth: size.width, minHeight: size.height, maxHeight: size.height)
-//            .background(button.backgroundColor)
+            .background(button.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 8.0))
     }
 }

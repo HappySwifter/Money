@@ -18,7 +18,7 @@ struct SpengingView: View {
                 .font(.title3)
             Spacer()
             Text(transaction.source.name)
-            Text("\(transaction.sign) \(transaction.sourceAmount.getString()) \(transaction.source.currency?.symbol ?? "")")
+            Text("- \(transaction.sourceAmount.getString()) \(transaction.source.currency?.symbol ?? "")")
                 .font(.title3)
         }
     }

@@ -9,35 +9,51 @@ import SwiftUI
 import SwiftData
 
 struct AccountDetailsView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @State var isTransferViewPresented = false
-    let account: Account
+//    @State var isTransferViewPresented = false
+    @State var account: Account
     
     var body: some View {
-        VStack {
-            Text("Details: \(account.name)")
-            Button {
-                isTransferViewPresented.toggle()
-            } label: {
-                Text("Transfer money to another account")
+        
+        ScrollView {
+            VStack(alignment: .leading, spacing: 30) {
+                AccountView(item: account,
+                            currency: .constant(account.currency),
+                            selected: .constant(false),
+                            longPressHandler: nil)
+                NewAccountEmojiAndNameView(account: $account)
+                NewAccountChooseColorView(account: $account)
+                
+                Spacer()
+                //                Button("Hide") {
+                //                    withAnimation {
+                //                        account.isHidden = true
+                //                        presentationMode.wrappedValue.dismiss()
+                //                    }
+                //                }
+                //                .buttonStyle(DeleteButton())
+                
+//                Button {
+//                    isTransferViewPresented.toggle()
+//                } label: {
+//                    Text("Transfer money to another account")
+//                }
             }
-
-            Spacer()
-            Button("Hide") {
-                withAnimation {
-                    account.isHidden = true
-                    presentationMode.wrappedValue.dismiss()
+            .padding()
+        }
+//        .fullScreenCover(isPresented: $isTransferViewPresented, content: {
+//            TransferMoneyView(source: account,
+//                              destination: getDestAccount(),
+//                              isSheetPresented: $isTransferViewPresented)
+//        })
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Close") {
+                    dismiss()
                 }
             }
-            .buttonStyle(DeleteButton())
         }
-        .sheet(isPresented: $isTransferViewPresented) {
-            TransferMoneyView(source: account,
-                              destination: getDestAccount(),
-                              isSheetPresented: $isTransferViewPresented)
-        }
-        .padding()
     }
     
     func getDestAccount() -> Account {

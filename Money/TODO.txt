@@ -1,4 +1,11 @@
 
 --- History View ---
 1. Delete/Undo record
+2. Show message if nothing to show
 
+
+--- Charts View ---
+1. Just do it
+
+--- Account / Category details ---
+1. Reuse create view

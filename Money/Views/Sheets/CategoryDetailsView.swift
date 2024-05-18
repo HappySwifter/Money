@@ -10,20 +10,21 @@ import SwiftUI
 struct CategoryDetailsView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var isSheetPresented: Bool
-    let category: Account
+    @State var category: Account
     
     var body: some View {
-        VStack {
-            Text("Details: \(category.name)")
-            Button("Delete") {
-                withAnimation {
-                    category.isHidden = true
-                    isSheetPresented = false
+        ScrollView {
+            VStack(alignment: .leading, spacing: 30) {
+                HStack {
+                    CategoryView(item: category, pressHandler: {_ in}, longPressHandler: {_ in} )
+                        .frame(width: 100)
+                    Spacer()
                 }
+                NewAccountEmojiAndNameView(account: $category)
+                NewAccountChooseColorView(account: $category)
             }
-            .buttonStyle(DeleteButton())
+            .padding()
         }
-        .padding()
     }
 }
 

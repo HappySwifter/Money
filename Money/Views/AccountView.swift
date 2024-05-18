@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AccountView: View {
     @State var item: Account
+    @Binding var currency: MyCurrency?
     @Binding var selected: Bool
     var longPressHandler: ((Account) -> ())?
     
@@ -27,7 +28,7 @@ struct AccountView: View {
                             .foregroundStyle(Color.gray)
                             HStack(spacing: 3) {
                                 Text(prettify(val: item.amount))
-                                Text(item.currency?.symbol ?? "")
+                                Text(currency?.symbol ?? "")
                             }
                             .font(.caption2)
                     }

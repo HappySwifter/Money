@@ -57,7 +57,7 @@ struct NewIncomeView: View {
                 CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
                                resultString: $destinationAmount)
             }
-            .navigationTitle(destination.isAccount ? "New transaction" : "New expense")
+            .navigationTitle("New income")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

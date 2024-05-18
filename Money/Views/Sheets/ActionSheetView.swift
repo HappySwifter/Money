@@ -27,7 +27,9 @@ struct ActionSheetView: View {
                     isSheetPresented: $isPresented)
             case .details(let item):
                 if item.isAccount {
-                    AccountDetailsView(account: item)
+                    NavigationStack {
+                        AccountDetailsView(account: item)
+                    }
                 } else {
                     CategoryDetailsView(
                         isSheetPresented: $isPresented,

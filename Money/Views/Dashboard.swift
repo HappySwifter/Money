@@ -85,28 +85,40 @@ struct Dashboard: View {
                     HStack {
                         ForEach(accounts) { item in
                             AccountView(item: item,
+                                        currency: .constant(item.currency),
                                         selected: Binding(
                                             get: { selectedAccount == item },
                                             set: { _ in selectedAccount = item }),
                                         longPressHandler: itemLongPressHandler(item:))
                         }
-//                        PlusView(buttonPressed: $createAccountPresented)
                     }
                 }
+                .scrollIndicators(.hidden)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Divider()
                     .padding(.vertical)
 
-                NavigationLink {
-                    HistoryView()
-                } label: {
-                    VStack(alignment: .leading) {
-                        Text("Spent today \(spendingsService.spentToday)")
-                        Text("Spent this month \(spendingsService.spentThisMonth)")
+                HStack {
+                    NavigationLink {
+                        HistoryView()
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text("Spent today: \(spendingsService.spentToday)")
+                            Text("Spent this month: \(spendingsService.spentThisMonth)")
+                        }
+                        .foregroundStyle(Color.gray)
+                        .font(.footnote)
                     }
-                    .foregroundStyle(Color.gray)
-                    .font(.footnote)
+                    Spacer()
+                    NavigationLink {
+                        ChartsView()
+                    } label: {
+                        Image("pie")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .opacity(0.5)
+                    }
                 }
                 .buttonStyle(.plain)
                 
@@ -117,7 +129,6 @@ struct Dashboard: View {
                                          pressHandler: itemPressHandler(item:),
                                          longPressHandler: itemLongPressHandler(item:))
                         }
-//                        PlusView(buttonPressed: $createCategoryPresented)
                     }
                 }
             }
@@ -180,10 +191,10 @@ struct Dashboard: View {
         }
     }
     
-    enum SpentType {
-        case today
-        case month
-    }
+//    enum SpentType {
+//        case today
+//        case month
+//    }
     
 //    private func updateTotal(type: SpentType) {
 //        Task {
@@ -205,7 +216,7 @@ struct Dashboard: View {
     
 //    private func calculateSpent(for transactions: [Transaction]) async throws -> Double {
 //        let userCode = preferences.getUserCurrency().code
-//        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date()) // TODO не использовать апи тут. В транзацияя есть source and destination, использовать это значение
+//        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date()) 
 //        return transactions.reduce(0.0) { total, tran in
 //            if let sourceCurrency = tran.source.currency {
 //                if userCode == sourceCurrency.code {

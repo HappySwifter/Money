@@ -31,8 +31,7 @@ final class Account {
          color: SwiftColor,
          isAccount: Bool,
          isHidden: Bool = false,
-         amount: Double,
-         currency: MyCurrency?)
+         amount: Double)
     {
         self.id = id
         self.orderIndex = orderIndex
@@ -43,7 +42,6 @@ final class Account {
         self.isAccount = isAccount
         self.isHidden = isHidden
         self.amount = amount
-        self.currency = currency
     }
     
     func isSameType(with acc: Account) -> Bool {

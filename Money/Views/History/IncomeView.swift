@@ -19,7 +19,7 @@ struct IncomeView: View {
                     .font(.title3)
                 Spacer()
                 Group {
-                    Text(transaction.sign)
+                    Text("+")
                     Text(transaction.destinationAmount?.getString() ?? "")
                     Text(transaction.destination.currency?.symbol ?? "")
                 }

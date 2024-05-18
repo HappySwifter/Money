@@ -22,59 +22,20 @@ struct NewCategoryView: View {
                                   icon: "🏦",
                                   color: SwiftColor.allCases.randomElement()!,
                                   isAccount: false,
-                                  amount: 0,
-                                  currency: nil)
+                                  amount: 0)
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading, spacing: 30, content: {
+                VStack(alignment: .leading, spacing: 30) {
                     HStack {
                         CategoryView(item: category, pressHandler: {_ in}, longPressHandler: {_ in} )
                             .frame(width: 100)
                         Spacer()
                     }
-                    
-                    
-                    HStack {
-                        Button(category.icon) {
-                            isEmojiPickerPresented.toggle()
-                        }
-                        .font(.title)
-                        .padding(10)
-                        .background(Color(red: 0.98, green: 0.96, blue: 1))
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .emojiPicker(
-                            isPresented: $isEmojiPickerPresented,
-                            selectedEmoji: $category.icon,
-                            arrowDirection: .up
-                        )
-                        .aspectRatio(1, contentMode: .fill)
-                        
-                        TextField("Name", text: $category.name)
-                            .font(.title3)
-                            .padding(15)
-                            .background(Color(red: 0.98, green: 0.96, blue: 1))
-                            .clipShape(RoundedRectangle(cornerRadius: 15.0))
-                            .keyboardType(.asciiCapable)
-                            .autocorrectionDisabled()
-                            .scrollDismissesKeyboard(.interactively)
-                    }
-                    
-                    ScrollView {
-                        LazyVGrid(columns: Array(repeating: .init(.flexible(minimum: 50)), count: 6), alignment: .center) {
-                            ForEach(SwiftColor.allCases, id: \.self) { color in
-                                color.value
-                                    .clipShape(Circle())
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
-                                    .opacity(category.color == color.rawValue ? 1 : 0.3)
-                                    .onTapGesture {
-                                        category.color = color.rawValue
-                                    }
-                            }
-                        }
-                    }
-                })
+                    NewAccountEmojiAndNameView(account: $category)
+                    NewAccountChooseColorView(account: $category)
+                }
                 .padding()
             }
             .toolbarTitleDisplayMode(.inline)

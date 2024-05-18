@@ -23,7 +23,6 @@ private struct TransactionsByDate {
 struct HistoryView: View {
     @Query(sort: \Transaction.date) var transactions: [Transaction]
     @State private var selectedTransType = HistoryType.all
-    @State private var filteredData = [Transaction]()
     @State private var groupedData = [TransactionsByDate]()
     
     var body: some View {
@@ -52,7 +51,7 @@ struct HistoryView: View {
                         .padding(.vertical, 5)
                     } header: {
                         Text(group.date.historyDateString)
-                            .font(.title2)
+                            .font(.title3)
                     }
                 }
             }
@@ -60,7 +59,6 @@ struct HistoryView: View {
         .navigationTitle("History")
         .onChange(of: transactions, initial: true) {
             groupedData = group(transactions: filterTransactions())
-            
         }
         .onChange(of: selectedTransType) {
             groupedData = group(transactions: filterTransactions())
