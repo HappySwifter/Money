@@ -69,6 +69,12 @@ extension Date {
         form.dateFormat = "MMM YYYY"
         return form.string(from: self)
     }
+    
+    var yearString: String {
+        let form = DateFormatter()
+        form.dateFormat = "YYYY"
+        return form.string(from: self)
+    }
 }
 
 func showImpact() {

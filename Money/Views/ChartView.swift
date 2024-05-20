@@ -19,6 +19,7 @@ struct PieChartValue: Equatable, Hashable, Identifiable {
 }
 
 struct ChartView: View {
+    @Environment(Preferences.self) private var preferences
     @State private var pieChartSelectedAngle: Int?
     @Binding var data: [PieChartValue]
     @Binding var selectedSector: PieChartValue?
@@ -46,9 +47,14 @@ struct ChartView: View {
                 VStack {
                     if let selectedSector {
                         Text(selectedSector.title)
-                            .font(.largeTitle)
-                        Text(String(selectedSector.amount))
-                            .font(.largeTitle)
+                            .foregroundStyle(.secondary)
+                        Text("\(String(selectedSector.amount)) \(getCurSymbol())")
+                            .foregroundStyle(.primary)
+                    } else {
+                        Text("Total")
+                            .foregroundStyle(.secondary)
+                        Text("\(getTotalAmount()) \(getCurSymbol())")
+                            .foregroundStyle(.primary)
                     }
                 }
                 .position(x: frame.midX, y: frame.midY)
@@ -67,6 +73,14 @@ struct ChartView: View {
                 }
             }
         }
+    }
+    
+    private func getCurSymbol() -> String {
+        preferences.getUserCurrency().symbol
+    }
+    
+    private func getTotalAmount() -> String {
+        return String(data.reduce(0, { $0 + $1.amount }))
     }
     
     private func findSelectedSector(value: Int) -> PieChartValue? {

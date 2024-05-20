@@ -12,3 +12,6 @@
 
 --- Account / Category details ---
 1. Reuse create view
+
+--- Enchantments ---
+1. Русификация

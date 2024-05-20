@@ -24,8 +24,8 @@ class ExpensesService {
     var spendings = [SpentAmountByDate]()
     var spentToday = ""
     var spentThisMonth = ""
-    var availableMonths = [String]()
-    var availableYears = [String]()
+    var availableMonths = [Date]()
+    var availableYears = [Date]()
     
     init(preferences: Preferences, modelContext: ModelContext, currenciesApi: CurrenciesApi) {
         self.preferences = preferences
@@ -50,8 +50,7 @@ class ExpensesService {
             let transactions = try fetchTransaction()
             let userCurrency = preferences.getUserCurrency()
             let groupedByDate = Dictionary(grouping: transactions, by: { $0.date.omittedTime })
-            let comp = calendar.dateComponents([.year, .month], from: Date())
-            let startOfMonth = calendar.date(from: comp)!
+            let startOfMonth = TransactionPeriodType.month(value: Date()).startDate
             
             var allData = [SpentAmountByDate]()
             var spentThisMonth = 0.0
@@ -71,11 +70,9 @@ class ExpensesService {
                     spentToday = prettify(val: totalForDate, fractionLength: 2, currencyCode: userCurrency.symbol)
                 }
                 if date >= startOfMonth {
-                    print(date, totalForDate)
                     spentThisMonth += totalForDate
                 }
-                let comp = calendar.dateComponents([.year, .month], from: date)
-                let yearMonth = calendar.date(from: comp)!
+                let yearMonth = TransactionPeriodType.month(value: date).startDate
                 availableMonths.insert(yearMonth)
                 
             }
@@ -85,15 +82,15 @@ class ExpensesService {
            
             self.availableMonths = availableMonths
                 .sorted(by: > )
-                .map { $0.monthYearString }
             
-            self.availableYears = self.availableMonths
-                .map { String($0.split(separator: " ").last ?? "") }
+            self.availableYears = Array(Set(self.availableMonths
+                .map { TransactionPeriodType.year(value: $0).startDate }))
         }
     }
-    
-    func getExpensesFor(timePeriod: PeriodType, value: Date) async throws -> [PieChartValue] {
-        let transactions = try fetchTransactionFor(date: value)
+        
+    func getExpensesFor(period: TransactionPeriodType) async throws -> [PieChartValue] {
+        let transactions = try fetchTransactionFor(period: period)
+
         let userCur = preferences.getUserCurrency()
         let groupedByName = Dictionary(grouping: transactions, by: { $0.destination.name })
         var retVal = [PieChartValue]()
@@ -117,31 +114,9 @@ class ExpensesService {
         return try modelContext.fetch(desc)
     }
     
-    private func fetchTransactionFor(date: Date) throws -> [Transaction] {
+    private func fetchTransactionFor(period: TransactionPeriodType) throws -> [Transaction] {
         var desc = FetchDescriptor<Money.Transaction>()
-        desc.predicate = Transaction.predicateFor(date: date)
+        desc.predicate = Transaction.predicateFor(period: period, calendar: calendar)
         return try modelContext.fetch(desc)
-    }
-}
-
-
-extension Transaction {
-
-    static func predicateFor(date: Date) -> Predicate<Transaction> {
-        let targetDate = Calendar.current.startOfDay(for: date)
-
-        return #Predicate<Transaction> { tran in
-            return tran.date >= targetDate && !tran.isIncome && !tran.destination.isAccount
-        }
-    }
-
-    static func thisMonthPredicate() -> Predicate<Transaction> {
-        let comp = Calendar.current
-            .dateComponents([.year, .month], from: Date())
-        let startOfMonth = Calendar.current.date(from: comp)!
-
-        return #Predicate<Transaction> { tran in
-            return tran.date >= startOfMonth && !tran.isIncome
-        }
     }
 }

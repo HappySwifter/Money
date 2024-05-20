@@ -31,6 +31,7 @@ class Transaction {
          destination: Account) 
     {
         self.id = id
+//        let d = Calendar.current.date(byAdding: .year, value: 1, to: date)
         self.date = date
         self.isIncome = isIncome
         self.sourceAmount = sourceAmount
@@ -55,23 +56,15 @@ class Transaction {
     }
 }
 
-//extension Transaction {
-//    
-//    static func todayPredicate() -> Predicate<Transaction> {
-//        let today = Calendar.current.startOfDay(for: Date())
-//        
-//        return #Predicate<Transaction> { tran in
-//            return tran.date >= today && !tran.isIncome
-//        }
-//    }
-//
-//    static func thisMonthPredicate() -> Predicate<Transaction> {
-//        let comp = Calendar.current
-//            .dateComponents([.year, .month], from: Date())
-//        let startOfMonth = Calendar.current.date(from: comp)!
-//        
-//        return #Predicate<Transaction> { tran in
-//            return tran.date >= startOfMonth && !tran.isIncome
-//        }
-//    }
-//}
+extension Transaction {
+    static func predicateFor(period: TransactionPeriodType, calendar: Calendar) -> Predicate<Transaction> {
+        let strart = period.startDate
+        let end = period.endDate
+        return #Predicate<Transaction> { tran in
+            tran.date >= strart &&
+            tran.date < end &&
+            !tran.isIncome &&
+            !tran.destination.isAccount
+        }
+    }
+}

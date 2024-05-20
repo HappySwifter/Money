@@ -23,22 +23,12 @@ struct ReportView: View {
     @Environment(Preferences.self) private var preferences
     
     @State private var selectedChartType = ChartType.expenses
-    
     @State private var selectedPeriodType = PeriodType.day
-    
     @State private var selectedDate = Date()
-    @State private var selectedMonth = ""
-    @State private var selectedYear = ""
-    
+    @State private var selectedMonth = TransactionPeriodType.month(value: Date()).startDate
+    @State private var selectedYear = TransactionPeriodType.year(value: Date()).startDate
     @State private var pieChartSelectedSector: PieChartValue?
-    
-    @State private var data = [
-        PieChartValue(amount: 50, title: "Lunches", data: []),
-        PieChartValue(amount: 20, title: "Food", data: []),
-        PieChartValue(amount: 100, title: "Rent", data: []),
-        PieChartValue(amount: 50, title: "Car", data: []),
-        PieChartValue(amount: 5, title: "Girl", data: [])
-    ]
+    @State private var data = [PieChartValue]()
     
     var body: some View {
         VStack {
@@ -65,20 +55,26 @@ struct ReportView: View {
                         DatePicker("", selection: $selectedDate, displayedComponents: [.date])
                     case .month:
                         Picker("", selection: $selectedMonth) {
-                            ForEach(expensesService.availableMonths, id: \.self) { Text($0) }
+                            ForEach(expensesService.availableMonths, id: \.self) { Text($0.monthYearString) }
                         }
                     case .year:
                         Picker("", selection: $selectedYear) {
-                            ForEach(expensesService.availableYears, id: \.self) { Text($0) }
+                            ForEach(expensesService.availableYears, id: \.self) { Text($0.yearString) }
                         }
                     }
                 }
             }
             .padding()
 
-            ChartView(data: $data, selectedSector: $pieChartSelectedSector)
+            switch selectedChartType {
+            case .expenses:
+                ChartView(data: $data, selectedSector: $pieChartSelectedSector)
+            case .incomes:
+                Color.white
+            }
             if let pieChartSelectedSector {
                 Button {
+                    showImpact()
                     withAnimation {
                         self.pieChartSelectedSector = nil
                     }
@@ -98,6 +94,7 @@ struct ReportView: View {
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
+                            showImpact()
                             withAnimation {
                                 pieChartSelectedSector = element
                             }
@@ -109,29 +106,28 @@ struct ReportView: View {
             Spacer()
         }
         .onAppear {
-            self.selectedMonth = expensesService.availableMonths.first ?? ""
-            self.selectedYear = expensesService.availableYears.first ?? ""
             updateChart()
         }
         .onChange(of: selectedChartType) {
-//            updateChart()
+            updateChart()
         }
         .onChange(of: selectedPeriodType) {
-//            updateChart()
+            updateChart()
         }
-        .onChange(of: selectedDate, initial: false) {
-//            updateChart()
+        .onChange(of: selectedDate) {
+            updateChart()
         }
-        .onChange(of: selectedMonth, initial: false) {
-//            updateChart()
+        .onChange(of: selectedMonth) {
+            updateChart()
         }
-        .onChange(of: selectedYear, initial: false) {
-//            updateChart()
+        .onChange(of: selectedYear) {
+            updateChart()
         }
         .navigationTitle("Report")
     }
     
-    func updateChart() {
+    func updateChart(caller: String = #function) {
+        print(#function, caller)
         switch selectedChartType {
         case .expenses:
             showExpensesChart()
@@ -143,7 +139,16 @@ struct ReportView: View {
     func showExpensesChart() {
         Task {
             do {
-                self.data = try await expensesService.getExpensesFor(timePeriod: .day, value: selectedDate.omittedTime)
+                let period: TransactionPeriodType
+                switch selectedPeriodType {
+                case .day:
+                    period = TransactionPeriodType.day(value: selectedDate)
+                case .month:
+                    period = TransactionPeriodType.month(value: selectedMonth)
+                case .year:
+                    period = TransactionPeriodType.year(value: selectedYear)
+                }
+                self.data = try await expensesService.getExpensesFor(period: period)
             } catch {
                 print(error)
             }

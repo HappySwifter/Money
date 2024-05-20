@@ -42,6 +42,7 @@
 		AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */; };
 		AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */; };
 		ACA246D12BFAFE0900EE12B9 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA246D02BFAFE0900EE12B9 /* ChartView.swift */; };
+		ACA246D32BFB832A00EE12B9 /* TransactionPeriodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */; };
 		ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */; };
 		ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF312B930DAB00403538 /* CalculatorButton.swift */; };
 		ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF332B9319A900403538 /* PresentingType.swift */; };
@@ -129,6 +130,7 @@
 		AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonStyle.swift; sourceTree = "<group>"; };
 		ACA246D02BFAFE0900EE12B9 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPeriodType.swift; sourceTree = "<group>"; };
 		ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonView.swift; sourceTree = "<group>"; };
 		ACA3AF312B930DAB00403538 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
 		ACA3AF332B9319A900403538 /* PresentingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingType.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */,
 				ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */,
 				AC5A16E82B997AB100B07D1A /* CorneredBorderModifier.swift */,
+				ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */,
 				AC5A16EA2B99E09C00B07D1A /* Preferences.swift */,
 				AC4080B72B8E34AB004D7575 /* ContentView.swift */,
 				AC4080B92B8E34AB004D7575 /* Item.swift */,
@@ -524,6 +527,7 @@
 				AC98AB782BF8779100B15A2F /* ExpensesService.swift in Sources */,
 				AC5A16EB2B99E09D00B07D1A /* Preferences.swift in Sources */,
 				AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */,
+				ACA246D32BFB832A00EE12B9 /* TransactionPeriodType.swift in Sources */,
 				ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */,
 				ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */,
 				AC98AB812BF8D76F00B15A2F /* NewAccountAmountView.swift in Sources */,
