@@ -8,13 +8,12 @@
 import SwiftUI
 import SwiftData
 import OSLog
-//@Environment(\.spendingsService) var spendingsService
 @main
 struct MoneyApp: App {
     let logger = Logger(subsystem: "Money", category: "MoneyApp")
     let currencyApi: CurrenciesApi
     let preferences: Preferences
-    let spendingsService: SpendingsService
+    let expensesService: ExpensesService
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -40,7 +39,7 @@ struct MoneyApp: App {
         currencyApi = CurrenciesApi(modelContext: context,
                                     preferences: preferences)
         
-        spendingsService = SpendingsService(preferences: preferences,
+        expensesService = ExpensesService(preferences: preferences,
                                             modelContext: context, currenciesApi: currencyApi)
         
         do {
@@ -74,7 +73,7 @@ struct MoneyApp: App {
         .modelContainer(sharedModelContainer)
         .environment(currencyApi)
         .environment(preferences)
-        .environment(spendingsService)
+        .environment(expensesService)
         //        .modelContainer(for: MyCurrency.self) { result in
         //
         //        }

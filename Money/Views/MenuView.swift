@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct PlusView: View {
+struct MenuView: View {
     @Environment(\.modelContext) private var modelContext
     let selectedAccount: Account?
     @Binding var buttonPressed: Bool

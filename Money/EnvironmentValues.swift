@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 //extension EnvironmentValues {
-//    var spendingsService: SpendingsService {
+//    var expensesService: SpendingsService {
 //        get { self[SpendingsServiceKey.self] }
 //        set { self[SpendingsServiceKey.self] = newValue }
 //    }

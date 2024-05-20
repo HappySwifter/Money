@@ -13,7 +13,7 @@ struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesApi.self) private var currenciesApi
-    @Environment(SpendingsService.self) private var spendingsService
+    @Environment(ExpensesService.self) private var expensesService
     
     @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
@@ -75,7 +75,7 @@ struct Dashboard: View {
                     .padding(.vertical)
                     
                     Spacer()
-                    PlusView(selectedAccount: selectedAccount,
+                    MenuView(selectedAccount: selectedAccount,
                              buttonPressed: $plusPressed,
                              presentingType: $presentingType)
                 }
@@ -104,15 +104,15 @@ struct Dashboard: View {
                         HistoryView()
                     } label: {
                         VStack(alignment: .leading) {
-                            Text("Spent today: \(spendingsService.spentToday)")
-                            Text("Spent this month: \(spendingsService.spentThisMonth)")
+                            Text("Spent today: \(expensesService.spentToday)")
+                            Text("Spent this month: \(expensesService.spentThisMonth)")
                         }
                         .foregroundStyle(Color.gray)
                         .font(.footnote)
                     }
                     Spacer()
                     NavigationLink {
-                        ChartsView()
+                        ReportView()
                     } label: {
                         Image("pie")
                             .resizable()

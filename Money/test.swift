@@ -63,6 +63,12 @@ extension Date {
         form.dateFormat = "YYYY-MM-dd"
         return form.string(from: self)
     }
+    
+    var monthYearString: String {
+        let form = DateFormatter()
+        form.dateFormat = "MMM YYYY"
+        return form.string(from: self)
+    }
 }
 
 func showImpact() {

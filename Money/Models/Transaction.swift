@@ -10,13 +10,17 @@ import SwiftData
 
 @Model
 class Transaction {
-    let id: UUID
+    @Attribute(.unique) let id: UUID
     let date: Date
     let isIncome: Bool
     let source: Account
     let destination: Account
     let sourceAmount: Double
     let destinationAmount: Double?
+    
+    var isExpense: Bool {
+        !isIncome && !destination.isAccount
+    }
     
     init(id: UUID = UUID(),
          date: Date = Date(),
@@ -33,6 +37,21 @@ class Transaction {
         self.source = source
         self.destinationAmount = destinationAmount
         self.destination = destination
+    }
+    
+    func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
+        guard let sourceCurrency = source.currency else { assert(false) }
+       
+        if currency.code == sourceCurrency.code {
+            return sourceAmount
+        } else {
+            if let exchRate = rates.value(for: sourceCurrency.code) {
+                return sourceAmount / exchRate
+            } else {
+                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
+                return 0
+            }
+        }
     }
 }
 

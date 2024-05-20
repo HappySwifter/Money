@@ -1,3 +1,6 @@
+--- Bugs ---
+1. With scaled fonts looks not good
+
 
 --- History View ---
 1. Delete/Undo record
