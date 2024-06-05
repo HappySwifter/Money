@@ -29,7 +29,7 @@ struct NewAccountView: View {
                                 currency: $currency,
                                 selected: .constant(false),
                                 longPressHandler: nil)
-                    NewAccountEmojiAndNameView(account: $account)
+                    NewAccountEmojiAndNameView(focusNameField: true, account: $account)
                     HStack {
                         NewAccountChooseCurrencyView(currency: $currency)
                         NewAccountAmountView(account: $account)

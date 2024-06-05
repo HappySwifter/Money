@@ -19,7 +19,7 @@ struct NewCategoryView: View {
     
     @State var category = Account(orderIndex: 0,
                                   name: "",
-                                  icon: "🏦",
+                                  icon: "🍔",
                                   color: SwiftColor.allCases.randomElement()!,
                                   isAccount: false,
                                   amount: 0)
@@ -33,7 +33,7 @@ struct NewCategoryView: View {
                             .frame(width: 100)
                         Spacer()
                     }
-                    NewAccountEmojiAndNameView(account: $category)
+                    NewAccountEmojiAndNameView(focusNameField: true, account: $category)
                     NewAccountChooseColorView(account: $category)
                 }
                 .padding()

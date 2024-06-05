@@ -9,6 +9,8 @@ import SwiftUI
 import MCEmojiPicker
 
 struct NewAccountEmojiAndNameView: View {
+    var focusNameField = false
+    @FocusState private var nameFieldIsFocused: Bool
     @Binding var account: Account
     @State private var isEmojiPickerPresented = false
     
@@ -36,6 +38,10 @@ struct NewAccountEmojiAndNameView: View {
                 .keyboardType(.asciiCapable)
                 .autocorrectionDisabled()
                 .scrollDismissesKeyboard(.interactively)
+                .focused($nameFieldIsFocused)
+        }
+        .onAppear {
+            nameFieldIsFocused = focusNameField
         }
     }
 }
