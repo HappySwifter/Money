@@ -11,7 +11,9 @@ import SwiftData
 struct AccountDetailsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-//    @State var isTransferViewPresented = false
+    @Environment(ExpensesService.self) private var expensesService
+
+    //    @State var isTransferViewPresented = false
     @State var account: Account
     
     var body: some View {
@@ -26,27 +28,28 @@ struct AccountDetailsView: View {
                 NewAccountChooseColorView(account: $account)
                 
                 Spacer()
-                //                Button("Hide") {
-                //                    withAnimation {
-                //                        account.isHidden = true
-                //                        presentationMode.wrappedValue.dismiss()
-                //                    }
-                //                }
-                //                .buttonStyle(DeleteButton())
+                Button("Delete") {
+                    withAnimation {
+                        modelContext.delete(account)
+                        try? expensesService.calculateSpent()
+                        dismiss()
+                    }
+                }
+                .buttonStyle(DeleteButton())
                 
-//                Button {
-//                    isTransferViewPresented.toggle()
-//                } label: {
-//                    Text("Transfer money to another account")
-//                }
+                //                Button {
+                //                    isTransferViewPresented.toggle()
+                //                } label: {
+                //                    Text("Transfer money to another account")
+                //                }
             }
             .padding()
         }
-//        .fullScreenCover(isPresented: $isTransferViewPresented, content: {
-//            TransferMoneyView(source: account,
-//                              destination: getDestAccount(),
-//                              isSheetPresented: $isTransferViewPresented)
-//        })
+        //        .fullScreenCover(isPresented: $isTransferViewPresented, content: {
+        //            TransferMoneyView(source: account,
+        //                              destination: getDestAccount(),
+        //                              isSheetPresented: $isTransferViewPresented)
+        //        })
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Close") {

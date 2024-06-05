@@ -13,15 +13,15 @@ struct IncomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(transaction.destination.icon)
+                Text(transaction.destination?.icon ?? "")
                     .font(.largeTitle)
-                Text(transaction.destination.name)
+                Text(transaction.destination?.name ?? "deleted")
                     .font(.title3)
                 Spacer()
                 Group {
                     Text("+")
                     Text(transaction.destinationAmount?.getString() ?? "")
-                    Text(transaction.destination.currency?.symbol ?? "")
+                    Text(transaction.destination?.currency?.symbol ?? "")
                 }
                 .foregroundStyle(Color.green)
             }

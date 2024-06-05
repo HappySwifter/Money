@@ -12,13 +12,13 @@ struct SpengingView: View {
     
     var body: some View {
         HStack {
-            Text(transaction.destination.icon)
+            Text(transaction.destination?.icon ?? "")
                 .font(.largeTitle)
-            Text(transaction.destination.name)
+            Text(transaction.destination?.name ?? "deleted")
                 .font(.title3)
             Spacer()
-            Text(transaction.source.name)
-            Text("- \(transaction.sourceAmount.getString()) \(transaction.source.currency?.symbol ?? "")")
+            Text(transaction.source?.name ?? "deleted")
+            Text("- \(transaction.sourceAmount.getString()) \(transaction.source?.currency?.symbol ?? "")")
                 .font(.title3)
         }
     }

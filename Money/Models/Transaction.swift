@@ -11,33 +11,33 @@ import SwiftData
 @Model
 class Transaction {
     @Attribute(.unique) let id: UUID
-    let date: Date
-    let isIncome: Bool
-    let source: Account
-    let destination: Account
-    let sourceAmount: Double
-    let destinationAmount: Double?
+    var date: Date
+    var isIncome: Bool
+    var source: Account?
+    var destination: Account?
+    var sourceAmount: Double
+    var destinationAmount: Double?
     
     var isExpense: Bool {
-        !isIncome && !destination.isAccount
+        !isIncome && !(destination?.isAccount ?? false)
     }
     var sourceAmountText: String {
-        prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source.currency?.symbol)
+        prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source?.currency?.symbol)
     }
     var destinationAmountText: String {
-        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination.currency?.symbol)
+        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.currency?.symbol)
     }
     
     init(id: UUID = UUID(),
          date: Date = Date(),
          isIncome: Bool,
          sourceAmount: Double,
-         source: Account,
+         source: Account?,
          destinationAmount: Double?,
-         destination: Account) 
+         destination: Account?) 
     {
         self.id = id
-//        let d = Calendar.current.date(byAdding: .year, value: 1, to: date)
+//        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
         self.date = date
         self.isIncome = isIncome
         self.sourceAmount = sourceAmount
@@ -47,7 +47,7 @@ class Transaction {
     }
     
     func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
-        guard let sourceCurrency = source.currency else { assert(false) }
+        guard let sourceCurrency = source?.currency else { assert(false) }
        
         if currency.code == sourceCurrency.code {
             return sourceAmount
@@ -70,7 +70,7 @@ extension Transaction {
             tran.date >= strart &&
             tran.date < end &&
             !tran.isIncome &&
-            !tran.destination.isAccount
+            !(tran.destination?.isAccount ?? false)
         }
     }
 }

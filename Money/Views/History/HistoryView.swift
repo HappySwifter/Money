@@ -44,7 +44,7 @@ struct HistoryView: View {
                     ForEach(group.transactions) { transaction in
                         if transaction.isIncome {
                             IncomeView(transaction: transaction)
-                        } else if transaction.destination.isAccount {
+                        } else if (transaction.destination?.isAccount ?? false) {
                             TransferView(transaction: transaction)
                         } else {
                             SpengingView(transaction: transaction)
@@ -105,9 +105,9 @@ struct HistoryView: View {
             case .income:
                 return trans.isIncome
             case .betweenAccounts:
-                return trans.destination.isAccount && !trans.isIncome
+                return (trans.destination?.isAccount ?? false) && !trans.isIncome
             case .spending:
-                return !trans.destination.isAccount
+                return !(trans.destination?.isAccount ?? false)
             }
         }
     }

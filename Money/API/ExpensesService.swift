@@ -96,7 +96,7 @@ class ExpensesService {
         let transactions = try fetchTransaction(for: period)
         
         let userCur = preferences.getUserCurrency()
-        let groupedByName = Dictionary(grouping: transactions, by: { $0.destination.name })
+        let groupedByName = Dictionary(grouping: transactions, by: { $0.destination?.name ?? "" })
         var retVal = [PieChartValue]()
         
         for (name, trans) in groupedByName {
@@ -110,7 +110,7 @@ class ExpensesService {
             }
             retVal.append(PieChartValue(amount: Int(round(totalForName)),
                                         title: name,
-                                        color: trans.first?.destination.color ?? "",
+                                        color: trans.first?.destination?.color ?? "",
                                         data: trans))
         }
         let sorted = retVal.sorted(by: { $0.amount > $1.amount })

@@ -13,20 +13,20 @@ struct TransferView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(transaction.source.icon)
-                Text(transaction.source.name)
+                Text(transaction.source?.icon ?? "")
+                Text(transaction.source?.name ?? "deleted")
                 Spacer()
                 Text(transaction.sourceAmount.getString())
-                Text(transaction.source.currency?.symbol ?? "")
+                Text(transaction.source?.currency?.symbol ?? "")
             }
             Spacer()
             HStack {
-                Text(transaction.destination.icon)
-                Text(transaction.destination.name)
+                Text(transaction.destination?.icon ?? "")
+                Text(transaction.destination?.name ?? "deleted")
                 Spacer()
-                if transaction.source.currency != transaction.destination.currency {
+                if transaction.source?.currency != transaction.destination?.currency {
                     Text(transaction.destinationAmount?.getString() ?? "")
-                    Text(transaction.destination.currency?.symbol ?? "")
+                    Text(transaction.destination?.currency?.symbol ?? "")
                 }
             }
             Text("Between accounts")

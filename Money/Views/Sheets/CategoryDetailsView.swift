@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategoryDetailsView: View {
+    @Environment(ExpensesService.self) private var expensesService
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Binding var isSheetPresented: Bool
@@ -27,6 +28,7 @@ struct CategoryDetailsView: View {
                 Button("Delete") {
                     withAnimation {
                         modelContext.delete(category)
+                        try? expensesService.calculateSpent()
                         dismiss()
                     }
                 }

@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import OSLog
+
 @main
 struct MoneyApp: App {
     let logger = Logger(subsystem: "Money", category: "MoneyApp")
@@ -43,7 +44,6 @@ struct MoneyApp: App {
                                             modelContext: context, currenciesApi: currencyApi)
         
         do {
-            let context = sharedModelContainer.mainContext
             let descriptor = FetchDescriptor<MyCurrency>()
             let existingCur = try context.fetchCount(descriptor)
             guard existingCur == 0 else { return }

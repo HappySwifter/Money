@@ -19,9 +19,11 @@ final class Account {
     var icon: String
     var color: String
     var isAccount: Bool
-    var isHidden: Bool
     private(set) var amount: Double
     var currency: MyCurrency?
+    
+    @Relationship(deleteRule: .cascade, inverse: \Money.Transaction.source) var sources: [Money.Transaction]
+    @Relationship(deleteRule: .cascade, inverse: \Money.Transaction.destination) var destinations: [Money.Transaction]
     
     init(id: UUID = UUID(),
          orderIndex: Int,
@@ -30,7 +32,6 @@ final class Account {
          icon: String,
          color: SwiftColor,
          isAccount: Bool,
-         isHidden: Bool = false,
          amount: Double)
     {
         self.id = id
@@ -40,8 +41,9 @@ final class Account {
         self.icon = icon
         self.color = color.rawValue
         self.isAccount = isAccount
-        self.isHidden = isHidden
         self.amount = amount
+        self.sources = []
+        self.destinations = []
     }
     
     func isSameType(with acc: Account) -> Bool {
@@ -56,13 +58,13 @@ final class Account {
     
     static func accountPredicate() -> Predicate<Account> {
         return #Predicate<Account> {
-             $0.isAccount/* && !$0.isHidden*/ // if uncomment then its freezes
+             $0.isAccount
         }
     }
     
     static func categoryPredicate() -> Predicate<Account> {
         return #Predicate<Account> {
-             !$0.isAccount && !$0.isHidden
+             !$0.isAccount
         }
     }
 }

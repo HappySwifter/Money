@@ -319,24 +319,24 @@
 			path = History;
 			sourceTree = "<group>";
 		};
-		AC98AB7B2BF8D65600B15A2F /* NewAccountView */ = {
+		AC98AB7B2BF8D65600B15A2F /* NewAccountCategory */ = {
 			isa = PBXGroup;
 			children = (
 				ACA3AF382B932FB800403538 /* NewAccountView.swift */,
+				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
 				AC98AB7C2BF8D67300B15A2F /* NewAccountEmojiAndNameView.swift */,
 				AC98AB822BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift */,
 				AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */,
 				AC98AB7E2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift */,
 			);
-			path = NewAccountView;
+			path = NewAccountCategory;
 			sourceTree = "<group>";
 		};
 		ACA3AF352B932F9100403538 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
 				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
-				AC98AB7B2BF8D65600B15A2F /* NewAccountView */,
-				ACA3AF492B93515600403538 /* NewCategoryView.swift */,
+				AC98AB7B2BF8D65600B15A2F /* NewAccountCategory */,
 				AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */,
 				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
 				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,

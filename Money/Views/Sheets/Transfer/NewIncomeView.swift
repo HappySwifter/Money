@@ -82,7 +82,7 @@ struct NewIncomeView: View {
         
         let transaction = Transaction(isIncome: true,
                                       sourceAmount: amount,
-                                      source: destination,
+                                      source: nil,
                                       destinationAmount: amount,
                                       destination: destination)
         modelContext.insert(transaction)

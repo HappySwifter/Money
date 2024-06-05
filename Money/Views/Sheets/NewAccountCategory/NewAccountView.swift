@@ -58,23 +58,16 @@ struct NewAccountView: View {
             }
             .navigationTitle("New account")
         }
-        
     }
     
     func saveAccount() {
-        guard !account.name.isEmpty else {
-            print("name is empty")
-            return
-        }
         do {
             let accDesc = FetchDescriptor<Account>()
             let accountsCount = try modelContext.fetchCount(accDesc)
             account.updateOrder(index: accountsCount)
             account.currency = self.currency
-            modelContext.insert(account)
         } catch {
             print(error)
         }
-
     }
 }
