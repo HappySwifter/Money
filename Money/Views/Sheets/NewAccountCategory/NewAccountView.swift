@@ -50,8 +50,7 @@ struct NewAccountView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        saveAccount()
-                        isSheetPresented.toggle()
+                        saveAccountAndClose()
                     }
                     .disabled(account.name.isEmpty)
                 }
@@ -60,12 +59,13 @@ struct NewAccountView: View {
         }
     }
     
-    func saveAccount() {
+    func saveAccountAndClose() {
         do {
             let accDesc = FetchDescriptor<Account>()
             let accountsCount = try modelContext.fetchCount(accDesc)
             account.updateOrder(index: accountsCount)
-            account.currency = self.currency
+            account.currency = currency
+            isSheetPresented.toggle()
         } catch {
             print(error)
         }

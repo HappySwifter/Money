@@ -10,11 +10,6 @@ import SwiftUI
 import SwiftData
 import OSLog
 
-//struct SpentAmountByDate {
-//    let date: Date
-//    let amount: Double
-//}
-
 @Observable
 class ExpensesService {
     private let preferences: Preferences
@@ -23,7 +18,7 @@ class ExpensesService {
     private let calendar = Calendar.current
     private let logger = Logger(subsystem: "Money", category: "ExpensesService")
     
-    //    var spendings = [SpentAmountByDate]()
+    var accountsTotalAmount = ""
     var spentToday = ""
     var spentThisMonth = ""
     var availableMonths = [Date]()
@@ -40,6 +35,28 @@ class ExpensesService {
         Task {
             do {
                 try calculateSpent()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func calculateAccountsTotal() {
+        Task {
+            do {
+                let accounts = try fetchAccounts()
+                let userCur = preferences.getUserCurrency()
+                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCur.code, date: Date())
+                
+                var totalAmount = 0.0
+                for account in accounts {
+                    if let changeRate = rates.value(for: account.currency!.code) {
+                        totalAmount += account.getAmountWith(changeRate: changeRate)
+                    } else {
+                        print("No conversation rate for \(account.currency!.code)")
+                    }
+                }
+                accountsTotalAmount = prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)
             } catch {
                 print(error)
             }
@@ -80,13 +97,19 @@ class ExpensesService {
                 availableMonths.insert(yearMonth)
                 
             }
-            self.spentThisMonth = prettify(val: spentThisMonth, fractionLength: 2, currencySymbol: userCurrency.symbol)
+            if spentThisMonth > 0 {
+                self.spentThisMonth = prettify(val: spentThisMonth, fractionLength: 2, currencySymbol: userCurrency.symbol)
+            } else {
+                self.spentThisMonth = ""
+            }
+
             
             self.availableMonths = availableMonths
                 .sorted(by: > )
             
             self.availableYears = Array(Set(self.availableMonths
                 .map { TransactionPeriodType.year(value: $0).startDate }))
+            self.calculateAccountsTotal()
             logger.warning("calculateSpent run time: \(Date().timeIntervalSince(logDate))")
         }
     }
@@ -123,6 +146,12 @@ class ExpensesService {
         if let period {
             desc.predicate = Transaction.predicateFor(period: period, calendar: calendar)
         }
+        return try modelContext.fetch(desc)
+    }
+    
+    private func fetchAccounts() throws -> [Account] {
+        var desc = FetchDescriptor<Money.Account>()
+        desc.predicate = Account.accountPredicate()
         return try modelContext.fetch(desc)
     }
 }

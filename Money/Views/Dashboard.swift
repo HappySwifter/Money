@@ -24,7 +24,6 @@ struct Dashboard: View {
         sort: \Account.orderIndex)
     private var categories: [Account]
     
-    @State var totalAmount = ""
     @State var selectedAccount: Account?
     @State var plusPressed = false
     @State var createAccountPresented = false
@@ -60,7 +59,7 @@ struct Dashboard: View {
                     NavigationLink {
                         AllAccountsView(userCurrency: preferences.getUserCurrency())
                     } label: {
-                        Text("Accounts: \(totalAmount)")
+                        Text("Accounts: \(expensesService.accountsTotalAmount)")
                             .foregroundStyle(Color.gray)
                     }
                     .buttonStyle(.plain)
@@ -99,7 +98,9 @@ struct Dashboard: View {
                             if !expensesService.spentToday.isEmpty {
                                 Text("Spent today: \(expensesService.spentToday)")
                             }
-                            Text("Spent this month: \(expensesService.spentThisMonth)")
+                            if !expensesService.spentThisMonth.isEmpty {
+                                Text("Spent this month: \(expensesService.spentThisMonth)")
+                            }
                         }
                         .foregroundStyle(Color.gray)
                         .font(.footnote)
@@ -127,20 +128,9 @@ struct Dashboard: View {
                 }
             }
             .padding()
-//            .onAppear {
-//                updateTotal(type: .today)
-//                updateTotal(type: .month)
-//            }
-            .onChange(of: accounts, initial: true, {
+            .onChange(of: accounts, initial: true) {
                 selectedAccount = accounts.first
-                calculateAccountsTotal(from: accounts)
-            })
-//            .onChange(of: todayTransactions) {
-//                updateTotal(type: .today)
-//            }
-//            .onChange(of: thisMonthTransactions) {
-//                updateTotal(type: .month)
-//            }
+            }
             .sheet(isPresented: sheetBinding) { ActionSheetView(
                 isPresented: sheetBinding,
                 presentingType: presentingType)
@@ -162,27 +152,6 @@ struct Dashboard: View {
     
     func itemLongPressHandler(item: Account) {
         presentingType = .details(item: item)
-    }
-    
-    private func calculateAccountsTotal(from accounts: [CurrencyConvertible]) {
-        Task {
-            do {
-                let userCur = preferences.getUserCurrency()
-                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCur.code, date: Date())
-                
-                var totalAmount = 0.0
-                for account in accounts {
-                    if let changeRate = rates.currency[userCur.code]?[account.currency!.code] {
-                        totalAmount += account.getAmountWith(changeRate: changeRate)
-                    } else {
-                        print("No conversation rate for \(account.currency!.code)")
-                    }
-                }
-                self.totalAmount = prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)
-            } catch {
-                print(error)
-            }
-        }
     }
 }
 
