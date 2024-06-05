@@ -25,6 +25,7 @@
 		AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A16EC2B99E75400B07D1A /* CurrencyError.swift */; };
 		AC5A16EF2B9A010900B07D1A /* CurrencySymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */; };
 		AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */; };
+		AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
 		AC98AB6F2BF863EA00B15A2F /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */; };
@@ -41,7 +42,7 @@
 		AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */; };
 		AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */; };
 		AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */; };
-		ACA246D12BFAFE0900EE12B9 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA246D02BFAFE0900EE12B9 /* ChartView.swift */; };
+		ACA246D12BFAFE0900EE12B9 /* SectorChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */; };
 		ACA246D32BFB832A00EE12B9 /* TransactionPeriodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */; };
 		ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */; };
 		ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF312B930DAB00403538 /* CalculatorButton.swift */; };
@@ -113,6 +114,8 @@
 		AC5A16EC2B99E75400B07D1A /* CurrencyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyError.swift; sourceTree = "<group>"; };
 		AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CurrencySymbols.json; sourceTree = "<group>"; };
 		AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbol.swift; sourceTree = "<group>"; };
+		AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableView.swift; sourceTree = "<group>"; };
+		AC619D782BFC73AD00B28E16 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
 		AC872B0F2BA846400034E147 /* NewIncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIncomeView.swift; sourceTree = "<group>"; };
 		AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
@@ -129,7 +132,7 @@
 		AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsView.swift; sourceTree = "<group>"; };
 		AC9AF85C2B9447CD005E9657 /* DeleteButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonStyle.swift; sourceTree = "<group>"; };
-		ACA246D02BFAFE0900EE12B9 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorChartView.swift; sourceTree = "<group>"; };
 		ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPeriodType.swift; sourceTree = "<group>"; };
 		ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonView.swift; sourceTree = "<group>"; };
 		ACA3AF312B930DAB00403538 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
@@ -210,7 +213,8 @@
 				ACF62AFF2B91E61A002CB75D /* MenuView.swift */,
 				ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */,
 				AC98AB842BF8E69500B15A2F /* ReportView.swift */,
-				ACA246D02BFAFE0900EE12B9 /* ChartView.swift */,
+				AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */,
+				ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */,
 				AC98AB742BF8652400B15A2F /* History */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
@@ -252,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				AC98AB752BF8673B00B15A2F /* TODO.txt */,
+				AC619D782BFC73AD00B28E16 /* TODO.md */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				ACC3EFAE2B958FE60069C2D1 /* API */,
 				ACC3EFAB2B958F500069C2D1 /* Files */,
@@ -535,6 +540,7 @@
 				AC98AB7F2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift in Sources */,
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
 				ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */,
+				AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */,
 				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
 				AC98AB832BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift in Sources */,
 				AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */,
@@ -546,7 +552,7 @@
 				ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
-				ACA246D12BFAFE0900EE12B9 /* ChartView.swift in Sources */,
+				ACA246D12BFAFE0900EE12B9 /* SectorChartView.swift in Sources */,
 				ACF62B002B91E61A002CB75D /* MenuView.swift in Sources */,
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
 				AC213FE52B986C2A0095846E /* Transaction.swift in Sources */,

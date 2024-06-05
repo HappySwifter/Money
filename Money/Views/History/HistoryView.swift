@@ -15,13 +15,16 @@ private enum HistoryType: String, CaseIterable {
     case spending = "Spendings"
 }
 
-private struct TransactionsByDate {
+struct TransactionsByDate {
     let date: Date
     let transactions: [Transaction]
 }
 
 struct HistoryView: View {
-    @Query(sort: \Transaction.date) var transactions: [Transaction]
+    @Environment(\.modelContext) private var modelContext
+    @Environment(ExpensesService.self) private var expensesService
+    
+    @State private var transactions = [Transaction]()
     @State private var selectedTransType = HistoryType.all
     @State private var groupedData = [TransactionsByDate]()
     
@@ -36,32 +39,55 @@ struct HistoryView: View {
                     }
                 } label: {}
             }
-            List {
-                ForEach(groupedData, id: \.date) { group in
-                    Section {
-                        ForEach(group.transactions) { transaction in
-                            if transaction.isIncome {
-                                IncomeView(transaction: transaction)
-                            } else if transaction.destination.isAccount {
-                                TransferView(transaction: transaction)
-                            } else {
-                                SpengingView(transaction: transaction)
-                            }
+            List(groupedData, id: \.date) { group in
+                Section {
+                    ForEach(group.transactions) { transaction in
+                        if transaction.isIncome {
+                            IncomeView(transaction: transaction)
+                        } else if transaction.destination.isAccount {
+                            TransferView(transaction: transaction)
+                        } else {
+                            SpengingView(transaction: transaction)
                         }
-                        .padding(.vertical, 5)
-                    } header: {
-                        Text(group.date.historyDateString)
-                            .font(.title3)
                     }
+                    .onDelete(perform: { indexSet in
+                        deleteTransaction(at: indexSet, date: group.date)
+                    })
+                    .padding(.vertical, 5)
+                } header: {
+                    Text(group.date.historyDateString)
+                        .font(.title3)
                 }
             }
         }
         .navigationTitle("History")
-        .onChange(of: transactions, initial: true) {
-            groupedData = group(transactions: filterTransactions())
+        .onAppear {
+            fetchTransactions()
         }
         .onChange(of: selectedTransType) {
-            groupedData = group(transactions: filterTransactions())
+            groupedData = group(transactions: filter(transactions: self.transactions))
+        }
+    }
+    
+    private func fetchTransactions() {
+        do {
+            let fetchDescriptor = FetchDescriptor<Transaction>(
+                sortBy: [SortDescriptor(\.date, order: .reverse)]
+            )
+            self.transactions = try modelContext.fetch(fetchDescriptor)
+            groupedData = group(transactions: filter(transactions: self.transactions))
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func deleteTransaction(at offsets: IndexSet, date: Date) {
+        if let trans = groupedData.first(where: { $0.date == date }) {
+            for i in offsets {
+                modelContext.delete(trans.transactions[i])
+            }
+            fetchTransactions()
+            try? expensesService.calculateSpent()
         }
     }
     
@@ -71,7 +97,7 @@ struct HistoryView: View {
             .sorted { $0.date > $1.date }
     }
     
-    private func filterTransactions() -> [Transaction] {
+    private func filter(transactions: [Transaction]) -> [Transaction] {
         return transactions.filter { trans in
             switch selectedTransType {
             case .all:
@@ -99,7 +125,7 @@ extension Date {
     
     var historyDateString: String {
         let form = DateFormatter()
-        form.dateFormat = "dd.MM.YYYY"
+        form.dateFormat = "dd MMM YYYY"
         return form.string(from: self)
     }
 }

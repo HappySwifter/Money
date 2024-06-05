@@ -24,15 +24,7 @@ struct Dashboard: View {
         sort: \Account.orderIndex)
     private var categories: [Account]
     
-//    @Query(filter: Transaction.todayPredicate())
-//    private var todayTransactions: [Transaction]
-//    
-//    @Query(filter: Transaction.thisMonthPredicate())
-//    private var thisMonthTransactions: [Transaction]
-    
     @State var totalAmount = ""
-//    @State var spentToday = ""
-//    @State var spentThisMonth = ""
     @State var selectedAccount: Account?
     @State var plusPressed = false
     @State var createAccountPresented = false
@@ -68,7 +60,7 @@ struct Dashboard: View {
                     NavigationLink {
                         AllAccountsView(userCurrency: preferences.getUserCurrency())
                     } label: {
-                        Text("Accounts: \(totalAmount) >")
+                        Text("Accounts: \(totalAmount)")
                             .foregroundStyle(Color.gray)
                     }
                     .buttonStyle(.plain)
@@ -104,7 +96,9 @@ struct Dashboard: View {
                         HistoryView()
                     } label: {
                         VStack(alignment: .leading) {
-                            Text("Spent today: \(expensesService.spentToday)")
+                            if !expensesService.spentToday.isEmpty {
+                                Text("Spent today: \(expensesService.spentToday)")
+                            }
                             Text("Spent this month: \(expensesService.spentThisMonth)")
                         }
                         .foregroundStyle(Color.gray)
@@ -173,68 +167,23 @@ struct Dashboard: View {
     private func calculateAccountsTotal(from accounts: [CurrencyConvertible]) {
         Task {
             do {
-                let userCode = preferences.getUserCurrency().code
-                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date())
+                let userCur = preferences.getUserCurrency()
+                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCur.code, date: Date())
                 
                 var totalAmount = 0.0
                 for account in accounts {
-                    if let changeRate = rates.currency[userCode]?[account.currency!.code] {
+                    if let changeRate = rates.currency[userCur.code]?[account.currency!.code] {
                         totalAmount += account.getAmountWith(changeRate: changeRate)
                     } else {
                         print("No conversation rate for \(account.currency!.code)")
                     }
                 }
-                self.totalAmount = getAmountStringWith(code: userCode, val: totalAmount)
+                self.totalAmount = prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)
             } catch {
                 print(error)
             }
         }
     }
-    
-//    enum SpentType {
-//        case today
-//        case month
-//    }
-    
-//    private func updateTotal(type: SpentType) {
-//        Task {
-//            do {
-//                let userCode = preferences.getUserCurrency().code
-//                switch type {
-//                case .today:
-//                    let total = try await calculateSpent(for: todayTransactions)
-//                    spentToday = total.getString() + " " + userCode
-//                case .month:
-//                    let total = try await calculateSpent(for: thisMonthTransactions)
-//                    spentThisMonth = total.getString() + " " + userCode
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//    }
-    
-//    private func calculateSpent(for transactions: [Transaction]) async throws -> Double {
-//        let userCode = preferences.getUserCurrency().code
-//        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCode, date: Date()) 
-//        return transactions.reduce(0.0) { total, tran in
-//            if let sourceCurrency = tran.source.currency {
-//                if userCode == sourceCurrency.code {
-//                    return total + tran.sourceAmount
-//                } else {
-//                    if let exchRate = rates.value(for: sourceCurrency.code) {
-//                        return total + tran.sourceAmount / exchRate
-//                    } else {
-//                        print("ERROR no rate for code", sourceCurrency.code)
-//                        return total
-//                    }
-//                }
-//            } else {
-//                return total
-//            }
-//        }
-//    }
-    
 }
 
 #Preview {

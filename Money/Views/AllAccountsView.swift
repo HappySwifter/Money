@@ -11,7 +11,9 @@ import SwiftData
 struct AllAccountsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(Preferences.self) private var preferences
-    @Environment(CurrenciesApi.self) private var currenciesApi
+//    @Environment(CurrenciesApi.self) private var currenciesApi
+    @Environment(ExpensesService.self) private var expensesService
+
     
     @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
@@ -66,6 +68,7 @@ struct AllAccountsView: View {
         }
         .onChange(of: userCurrency) {
             preferences.updateUser(currencyCode: userCurrency.code)
+            try? expensesService.calculateSpent()
         }
         .sheet(isPresented: $newAccountSheetPresend, content: {
             NewAccountView(isSheetPresented: $newAccountSheetPresend)

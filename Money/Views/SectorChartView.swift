@@ -8,17 +8,15 @@
 import SwiftUI
 import Charts
 
-struct PieChartValue: Equatable, Hashable, Identifiable {
-    var id: String {
-        title
-    }
-    
+struct PieChartValue: Equatable, Hashable {
+
     let amount: Int
     let title: String
+    let color: String
     let data: [Transaction]
 }
 
-struct ChartView: View {
+struct SectorChartView: View {
     @Environment(Preferences.self) private var preferences
     @State private var pieChartSelectedAngle: Int?
     @Binding var data: [PieChartValue]
@@ -32,8 +30,8 @@ struct ChartView: View {
                 angularInset: 2
             )
             .opacity(selectedSector == nil ? 1.0 : (selectedSector == element ? 1.0 : 0.5))
+            .foregroundStyle(SwiftColor(rawValue: element.color)!.colorWithOpacity)
             .cornerRadius(10)
-            .foregroundStyle(by: .value("Name", element.title))
             .annotation(position: .overlay) {
                 Text(element.title)
                     .foregroundStyle(Color.white)
@@ -50,11 +48,13 @@ struct ChartView: View {
                             .foregroundStyle(.secondary)
                         Text("\(String(selectedSector.amount)) \(getCurSymbol())")
                             .foregroundStyle(.primary)
-                    } else {
+                    } else if !data.isEmpty {
                         Text("Total")
                             .foregroundStyle(.secondary)
                         Text("\(getTotalAmount()) \(getCurSymbol())")
                             .foregroundStyle(.primary)
+                    } else {
+                        Text("No data")
                     }
                 }
                 .position(x: frame.midX, y: frame.midY)

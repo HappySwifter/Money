@@ -13,14 +13,13 @@ private enum ChartType: String, CaseIterable {
 }
 
 enum PeriodType: String, CaseIterable {
-    case day
-    case month
-    case year
+    case day = "Day"
+    case month = "Month"
+    case year = "Year"
 }
 
 struct ReportView: View {
     @Environment(ExpensesService.self) private var expensesService
-    @Environment(Preferences.self) private var preferences
     
     @State private var selectedChartType = ChartType.expenses
     @State private var selectedPeriodType = PeriodType.day
@@ -32,27 +31,31 @@ struct ReportView: View {
     
     var body: some View {
         VStack {
+            Picker(selection: $selectedChartType) {
+                ForEach(ChartType.allCases, id: \.self) {
+                    Text($0.rawValue)
+                }
+            } label: {}
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .disabled(true)
+            
             HStack {
-                Picker(selection: $selectedChartType) {
-                    ForEach(ChartType.allCases, id: \.self) {
-                        Text($0.rawValue)
-                    }
-                } label: {}
-                
                 if selectedChartType == .expenses {
                     Picker(selection: $selectedPeriodType) {
                         ForEach(PeriodType.allCases, id: \.self) {
                             Text($0.rawValue)
                         }
                     } label: {}
-                } else {
-                    Spacer()
                 }
                 
                 if selectedChartType == .expenses {
                     switch selectedPeriodType {
                     case .day:
-                        DatePicker("", selection: $selectedDate, displayedComponents: [.date])
+                        DatePicker("", selection: $selectedDate,
+                                   in: ...Date.now,
+                                   displayedComponents: [.date])
+                            .labelsHidden()
                     case .month:
                         Picker("", selection: $selectedMonth) {
                             ForEach(expensesService.availableMonths, id: \.self) { Text($0.monthYearString) }
@@ -62,47 +65,21 @@ struct ReportView: View {
                             ForEach(expensesService.availableYears, id: \.self) { Text($0.yearString) }
                         }
                     }
+                    Spacer()
                 }
+                
             }
             .padding()
 
             switch selectedChartType {
             case .expenses:
-                ChartView(data: $data, selectedSector: $pieChartSelectedSector)
+                SectorChartView(data: $data, 
+                                selectedSector: $pieChartSelectedSector)
             case .incomes:
                 Color.white
             }
-            if let pieChartSelectedSector {
-                Button {
-                    showImpact()
-                    withAnimation {
-                        self.pieChartSelectedSector = nil
-                    }
-                } label: {
-                    Text("Clear filter")
-                }
-
-                Text("show data for: \(pieChartSelectedSector.title)")
-            } else {
-                List {
-                    ForEach(data, id: \.title) { element in
-                        HStack {
-                            Text(element.title)
-                            Spacer()
-                            Text(String(element.amount))
-                            Text(preferences.getUserCurrency().symbol)
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            showImpact()
-                            withAnimation {
-                                pieChartSelectedSector = element
-                            }
-                            
-                        }
-                    }
-                }
-            }
+            ReportTableView(data: $data,
+                            selectedSector: $pieChartSelectedSector)
             Spacer()
         }
         .onAppear {
@@ -128,6 +105,7 @@ struct ReportView: View {
     
     func updateChart(caller: String = #function) {
         print(#function, caller)
+        pieChartSelectedSector = nil
         switch selectedChartType {
         case .expenses:
             showExpensesChart()
@@ -163,5 +141,17 @@ struct ReportView: View {
 }
 
 #Preview {
-    ReportView()
+    let context = MoneyApp().sharedModelContainer.mainContext
+    let pref = Preferences(userDefaults: UserDefaults.standard,
+                           modelContext: context)
+    let curr = CurrenciesApi(modelContext: context, preferences: pref)
+    let exp = ExpensesService(preferences: pref,
+                              modelContext: context,
+                              currenciesApi: curr)
+    return NavigationStack {
+         ReportView()
+            .environment(exp)
+            .navigationBarTitleDisplayMode(.inline)
+    }
+
 }

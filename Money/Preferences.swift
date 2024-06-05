@@ -10,8 +10,8 @@ import SwiftData
 
 @Observable
 class Preferences {
-    @ObservationIgnored private let userDefaults: UserDefaults
-    @ObservationIgnored private let modelContext: ModelContext
+    private let userDefaults: UserDefaults
+    private let modelContext: ModelContext
     
     init(userDefaults: UserDefaults, modelContext: ModelContext) {
         self.userDefaults = userDefaults

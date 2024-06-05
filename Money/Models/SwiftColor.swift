@@ -50,4 +50,8 @@ enum SwiftColor: String, CaseIterable {
             return .teal
         }
     }
+    
+    var colorWithOpacity: Color {
+        value.opacity(0.7)
+    }
 }

@@ -21,6 +21,12 @@ class Transaction {
     var isExpense: Bool {
         !isIncome && !destination.isAccount
     }
+    var sourceAmountText: String {
+        prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source.currency?.symbol)
+    }
+    var destinationAmountText: String {
+        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination.currency?.symbol)
+    }
     
     init(id: UUID = UUID(),
          date: Date = Date(),

@@ -13,14 +13,14 @@ func prettify(location: CGPoint?) -> String {
     return "\(String(format: "%.0f", location.x)) \(String(format: "%.0f", location.y))"
 }
 
-func prettify(val: Double?, fractionLength: Int = 0, currencyCode: String? = nil) -> String {
+func prettify(val: Double?, fractionLength: Int = 0, currencySymbol: String? = nil) -> String {
     guard let val = val else { return "" }
     let formatted = val.formatted(
         .number
         .precision(.fractionLength(fractionLength))
     )
-    if let currencyCode {
-        return formatted + " " + currencyCode
+    if let currencySymbol {
+        return formatted + " " + currencySymbol
     } else {
         return formatted
     }

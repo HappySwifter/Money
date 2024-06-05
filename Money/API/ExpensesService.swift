@@ -8,11 +8,12 @@
 import Foundation
 import SwiftUI
 import SwiftData
+import OSLog
 
-struct SpentAmountByDate {
-    let date: Date
-    let amount: Double
-}
+//struct SpentAmountByDate {
+//    let date: Date
+//    let amount: Double
+//}
 
 @Observable
 class ExpensesService {
@@ -20,8 +21,9 @@ class ExpensesService {
     private let modelContext: ModelContext
     private let currenciesApi: CurrenciesApi
     private let calendar = Calendar.current
+    private let logger = Logger(subsystem: "Money", category: "ExpensesService")
     
-    var spendings = [SpentAmountByDate]()
+    //    var spendings = [SpentAmountByDate]()
     var spentToday = ""
     var spentThisMonth = ""
     var availableMonths = [Date]()
@@ -31,7 +33,6 @@ class ExpensesService {
         self.preferences = preferences
         self.modelContext = modelContext
         self.currenciesApi = currenciesApi
-        
         loadData()
     }
     
@@ -46,55 +47,58 @@ class ExpensesService {
     }
     
     func calculateSpent() throws {
+        spentToday = ""
         Task {
+            let logDate = Date()
             let transactions = try fetchTransaction()
             let userCurrency = preferences.getUserCurrency()
-            let groupedByDate = Dictionary(grouping: transactions, by: { $0.date.omittedTime })
             let startOfMonth = TransactionPeriodType.month(value: Date()).startDate
-            
-            var allData = [SpentAmountByDate]()
+            let groupedByDate = Dictionary(grouping: transactions, by: { $0.date.omittedTime })
             var spentThisMonth = 0.0
             var availableMonths = Set<Date>()
             
             for (date, trans) in groupedByDate {
-                let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCurrency.code, date: date)
-                
-                let totalForDate = trans.reduce(0.0) { total, tran in
-                    guard tran.isExpense else { return total }
-                    return total + tran.convertAmount(to: userCurrency,
-                                                      rates: rates)
- 
-                }
-                allData.append(SpentAmountByDate(date: date, amount: totalForDate))
-                if calendar.isDateInToday(date) {
-                    spentToday = prettify(val: totalForDate, fractionLength: 2, currencyCode: userCurrency.symbol)
-                }
                 if date >= startOfMonth {
+                    let rates = try await currenciesApi.getExchangeRateFor(
+                        currencyCode: userCurrency.code, date: date
+                    )
+                    
+                    let totalForDate = trans.reduce(0.0) { total, tran in
+                        guard tran.isExpense else { return total }
+                        return total + tran.convertAmount(to: userCurrency,
+                                                          rates: rates)
+                        
+                    }
+                    if calendar.isDateInToday(date) {
+                        self.spentToday = prettify(val: totalForDate,
+                                                   fractionLength: 2,
+                                                   currencySymbol: userCurrency.symbol)
+                    }
                     spentThisMonth += totalForDate
                 }
                 let yearMonth = TransactionPeriodType.month(value: date).startDate
                 availableMonths.insert(yearMonth)
                 
             }
-            self.spendings = allData
+            self.spentThisMonth = prettify(val: spentThisMonth, fractionLength: 2, currencySymbol: userCurrency.symbol)
             
-            self.spentThisMonth = prettify(val: spentThisMonth, fractionLength: 2, currencyCode: userCurrency.symbol)
-           
             self.availableMonths = availableMonths
                 .sorted(by: > )
             
             self.availableYears = Array(Set(self.availableMonths
                 .map { TransactionPeriodType.year(value: $0).startDate }))
+            logger.warning("calculateSpent run time: \(Date().timeIntervalSince(logDate))")
         }
     }
-        
+    
     func getExpensesFor(period: TransactionPeriodType) async throws -> [PieChartValue] {
-        let transactions = try fetchTransactionFor(period: period)
-
+        let logDate = Date()
+        let transactions = try fetchTransaction(for: period)
+        
         let userCur = preferences.getUserCurrency()
         let groupedByName = Dictionary(grouping: transactions, by: { $0.destination.name })
         var retVal = [PieChartValue]()
-
+        
         for (name, trans) in groupedByName {
             var totalForName = 0.0
             for tran in trans where tran.isExpense {
@@ -104,19 +108,21 @@ class ExpensesService {
                 )
                 totalForName += tran.convertAmount(to: userCur, rates: rates)
             }
-            retVal.append(PieChartValue(amount: Int(round(totalForName)), title: name, data: trans))
+            retVal.append(PieChartValue(amount: Int(round(totalForName)),
+                                        title: name,
+                                        color: trans.first?.destination.color ?? "",
+                                        data: trans))
         }
-        return retVal.sorted(by: { $0.amount > $1.amount })
-    }
-
-    private func fetchTransaction() throws -> [Transaction] {
-        let desc = FetchDescriptor<Transaction>()
-        return try modelContext.fetch(desc)
+        let sorted = retVal.sorted(by: { $0.amount > $1.amount })
+        logger.warning("getExpenses run time: \(Date().timeIntervalSince(logDate))")
+        return sorted
     }
     
-    private func fetchTransactionFor(period: TransactionPeriodType) throws -> [Transaction] {
+    private func fetchTransaction(for period: TransactionPeriodType? = nil) throws -> [Transaction] {
         var desc = FetchDescriptor<Money.Transaction>()
-        desc.predicate = Transaction.predicateFor(period: period, calendar: calendar)
+        if let period {
+            desc.predicate = Transaction.predicateFor(period: period, calendar: calendar)
+        }
         return try modelContext.fetch(desc)
     }
 }

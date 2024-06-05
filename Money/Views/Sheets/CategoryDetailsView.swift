@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryDetailsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @Binding var isSheetPresented: Bool
     @State var category: Account
     
@@ -22,6 +23,14 @@ struct CategoryDetailsView: View {
                 }
                 NewAccountEmojiAndNameView(account: $category)
                 NewAccountChooseColorView(account: $category)
+                
+                Button("Delete") {
+                    withAnimation {
+                        modelContext.delete(category)
+                        dismiss()
+                    }
+                }
+                .buttonStyle(DeleteButton())
             }
             .padding()
         }
