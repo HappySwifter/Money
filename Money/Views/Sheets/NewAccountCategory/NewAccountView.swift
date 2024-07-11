@@ -19,7 +19,7 @@ struct NewAccountView: View {
                                  color: SwiftColor.allCases.randomElement()!,
                                  isAccount: true,
                                  amount: 0)
-    @State var icon = Icon(name: "banknote", color: .blue, isFill: true, isMulticolor: true)
+    @State var icon = Icon(name: "banknote.fill", color: .blue, isMulticolor: true)
     
     var body: some View {
         NavigationView {

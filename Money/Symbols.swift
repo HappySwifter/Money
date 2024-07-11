@@ -13,12 +13,13 @@ import Foundation
 struct Symbols {
     
     static let accounts = [
-        "creditcard.and.123",
         "creditcard",
+        "creditcard.and.123",
         "giftcard",
-        "banknote"]
+        "banknote"
+    ]
     
-    static let currencies = [
+    static let currencies = Array(Set([
         "australsign",
         "australiandollarsign",
         "bahtsign",
@@ -43,61 +44,15 @@ struct Symbols {
         "larisign",
         "lirasign",
         "manatsign",
-        "malaysianringgitsign",
         "millsign",
         "nairasign",
         "norwegiankronesign",
-        "peruviansolessign",
         "pesetasign",
         "pesosign",
         "polishzlotysign",
         "rublesign",
         "rupeesign",
         "shekelsign",
-        "singaporedollarsign",
-        "sterlingsign",
-        "swedishkronasign",
-        "tengesign",
-        "tugriksign",
-        "turkishlirasign",
-        "yensign",
-        "wonsign",
-        "australsign",
-        "australiandollarsign",
-        "bahtsign",
-        "bitcoinsign",
-        "brazilianrealsign",
-        "cedisign",
-        "centsign",
-        "chineseyuanrenminbisign",
-        "coloncurrencysign",
-        "cruzeirosign",
-        "danishkronesign",
-        "dongsign",
-        "dollarsign",
-        "eurosign",
-        "eurozonesign",
-        "florinsign",
-        "francsign",
-        "guaranisign",
-        "hryvniasign",
-        "indianrupeesign",
-        "kipsign",
-        "larisign",
-        "lirasign",
-        "manatsign",
-        "malaysianringgitsign",
-        "millsign",
-        "nairasign",
-        "norwegiankronesign",
-        "peruviansolessign",
-        "pesetasign",
-        "pesosign",
-        "polishzlotysign",
-        "rublesign",
-        "rupeesign",
-        "shekelsign",
-        "singaporedollarsign",
         "sterlingsign",
         "swedishkronasign",
         "tengesign",
@@ -105,7 +60,7 @@ struct Symbols {
         "turkishlirasign",
         "yensign",
         "wonsign"
-    ]
+    ]))
     
     static let objectAndTools = [
         "trash",

@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+enum CurrencyViewMode: String, CaseIterable {
+    case normal
+    case circle
+    case square
+    
+    var modifierName: String? {
+        switch self {
+        case .normal:
+            return nil
+        case .circle, .square:
+            return rawValue
+        }
+    }
+}
+
 struct SymbolPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showModifiersList = true
@@ -16,11 +31,17 @@ struct SymbolPickerView: View {
     @State private var isMultiColor = false
     @State private var selectedType = IconType.all
     @State private var iconsToShow = IconType.all.getIcons()
-    
+    @State private var currencyViewMode = CurrencyViewMode.normal
+
     @Binding var selectedIcon: Icon
     
     private var columns: [GridItem] {
         return Array(repeating: .init(.flexible(minimum: 30, maximum: 80)), count: 4)
+    }
+    
+    private var canBeFilled: Bool {
+        selectedType != .currencies ||
+        selectedType == .currencies && currencyViewMode != .normal
     }
     
     var body: some View {
@@ -42,33 +63,40 @@ struct SymbolPickerView: View {
             
             if showModifiersList {
                 ChooseColorView(color: $selectedColor)
-                HStack {
-                    Toggle("Fill", isOn: $isFill)
-                }
-                HStack {
+                
+                if selectedType == .currencies {
+                    Picker(selection: $currencyViewMode) {
+                        ForEach(CurrencyViewMode.allCases, id: \.self) { cur in
+                            Text(cur.rawValue.capitalized)
+                        }
+                    } label: {}
+                    .pickerStyle(.segmented)
+                } else {
                     Toggle("Multicolor", isOn: $isMultiColor)
+                }
+                if canBeFilled {
+                    Toggle("Fill", isOn: $isFill)
                 }
             }
             
             ScrollView {
                 LazyVGrid(columns: columns) {
                     ForEach(iconsToShow, id: \.self) { icon in
-                        IconView(icon: Icon(name: icon,
+                        IconView(icon: Icon(name: getModifiedName(icon),
                                             color: selectedColor,
-                                            isFill: isFill,
                                             isMulticolor: isMultiColor))
                         .onTapGesture {
-                            selectedName = icon
+                            selectedName = getModifiedName(icon)
                         }
                         .padding(15)
-                        .cornerRadiusWithBorder(radius: 5, borderLineWidth: selectedName == icon ? 1 : 0, borderColor: selectedColor.value)
+                        .cornerRadiusWithBorder(radius: 5, borderLineWidth: selectedName == getModifiedName(icon) ? 1 : 0, borderColor: selectedColor.value)
                     }
                 }
             }
             Spacer()
         }
         .onAppear {
-            isFill = selectedIcon.isFill
+            isFill = selectedIcon.contains(modifier: .fill)
             selectedName = selectedIcon.name
             selectedColor = selectedIcon.color
             isMultiColor = selectedIcon.isMulticolor
@@ -89,18 +117,35 @@ struct SymbolPickerView: View {
             }
         }
     }
+        
+    private func getModifiedName(_ name: String) -> String {
+        var name = name
+        if selectedType == .currencies {
+            appendUniqueModifier(name: &name, mod: currencyViewMode.modifierName)
+        }
+        if isFill && canBeFilled {
+            appendUniqueModifier(name: &name, mod: Icon.Modifiers.fill.rawValue)
+        }
+        print(name)
+        return name
+    }
+    
+    private func appendUniqueModifier(name: inout String, mod: String?) {
+        if let mod, !name.contains(".\(mod)") {
+            name += ".\(mod)"
+        }
+    }
     
     private func saveIcon() {
         selectedIcon.name = selectedName
         selectedIcon.color = selectedColor
-        selectedIcon.isFill = isFill
         selectedIcon.isMulticolor = isMultiColor
     }
 }
 
 #Preview {
     NavigationStack {
-        SymbolPickerView(selectedIcon: .constant(Icon(name: "doc", color: .blue, isFill: true, isMulticolor: true)))
+        SymbolPickerView(selectedIcon: .constant(Icon(name: "doc", color: .blue, isMulticolor: true)))
     }
     
 }

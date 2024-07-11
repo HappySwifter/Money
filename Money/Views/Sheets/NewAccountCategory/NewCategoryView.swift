@@ -21,7 +21,7 @@ struct NewCategoryView: View {
                                   color: SwiftColor.allCases.randomElement()!,
                                   isAccount: false,
                                   amount: 0)
-    @State var icon = Icon(name: "basket", color: .green, isFill: true, isMulticolor: true)
+    @State var icon = Icon(name: "basket.fill", color: .green, isMulticolor: true)
 
     var body: some View {
         NavigationView {

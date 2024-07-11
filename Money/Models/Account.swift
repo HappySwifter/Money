@@ -22,7 +22,6 @@ final class Account {
     
     private var iconName: String?
     private var iconColor: String?
-    private var iconIsFilled: Bool
     private var iconIsMulticolor: Bool
 
     var currency: MyCurrency?
@@ -35,7 +34,6 @@ final class Account {
             if let iconName, let iconColor {
                 return Icon(name: iconName,
                             color: SwiftColor(rawValue: iconColor) ?? .black,
-                            isFill: iconIsFilled,
                             isMulticolor: iconIsMulticolor)
             } else {
                 return nil
@@ -44,7 +42,6 @@ final class Account {
         set {
             iconName = newValue?.name
             iconColor = newValue?.color.rawValue
-            iconIsFilled = newValue?.isFill ?? false
             iconIsMulticolor = newValue?.isMulticolor ?? false
         }
     }
@@ -67,7 +64,6 @@ final class Account {
         
         self.iconName = nil
         self.iconColor = nil
-        self.iconIsFilled = false
         self.iconIsMulticolor = false
         
         self.sources = []
