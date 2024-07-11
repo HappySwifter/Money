@@ -97,19 +97,7 @@ struct SymbolPickerView: View {
             Spacer()
         }
         .onAppear {
-            let baseIconName = selectedIcon.removed(modifiers: Icon.Modifiers.allCases)
-            selectedType = IconType.findTypeBy(baseIconName: baseIconName)
-            selectedName = baseIconName
-
-            isFill = selectedIcon.contains(modifier: .fill)
-            if selectedIcon.contains(modifier: .circle) {
-                currencyViewMode = .circle
-            } else if selectedIcon.contains(modifier: .square) {
-                currencyViewMode = .square
-            }
-            
-            selectedColor = selectedIcon.color
-            isMultiColor = selectedIcon.isMulticolor
+            fillDefailtValues()
         }
         .onChange(of: selectedType) {
             iconsToShow = selectedType.getIcons()
@@ -126,6 +114,22 @@ struct SymbolPickerView: View {
                 })
             }
         }
+    }
+    
+    private func fillDefailtValues() {
+        let baseIconName = selectedIcon.removed(modifiers: Icon.Modifiers.allCases)
+        selectedType = IconType.findTypeBy(baseIconName: baseIconName)
+        selectedName = baseIconName
+
+        isFill = selectedIcon.contains(modifier: .fill)
+        if selectedIcon.contains(modifier: .circle) {
+            currencyViewMode = .circle
+        } else if selectedIcon.contains(modifier: .square) {
+            currencyViewMode = .square
+        }
+        
+        selectedColor = selectedIcon.color
+        isMultiColor = selectedIcon.isMulticolor
     }
         
     private func getModifiedName(_ name: String) -> String {

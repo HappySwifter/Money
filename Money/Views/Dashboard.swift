@@ -53,8 +53,6 @@ struct Dashboard: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                
-                
                 HStack {
                     NavigationLink {
                         AllAccountsView(userCurrency: preferences.getUserCurrency())
@@ -70,7 +68,6 @@ struct Dashboard: View {
                              buttonPressed: $plusPressed,
                              presentingType: $presentingType)
                 }
-
                 
                 ScrollView(.horizontal) {
                     HStack {
@@ -89,7 +86,7 @@ struct Dashboard: View {
                 
                 Divider()
                     .padding(.vertical)
-
+                
                 HStack {
                     NavigationLink {
                         HistoryView()
@@ -106,13 +103,15 @@ struct Dashboard: View {
                         .font(.footnote)
                     }
                     Spacer()
-                    NavigationLink {
-                        ReportView()
-                    } label: {
-                        Image("pie")
-                            .resizable()
-                            .frame(width: 35, height: 35)
-                            .opacity(0.5)
+                    if !expensesService.availableYears.isEmpty {
+                        NavigationLink {
+                            ReportView()
+                        } label: {
+                            Image("pie")
+                                .resizable()
+                                .frame(width: 35, height: 35)
+                                .opacity(0.5)
+                        }
                     }
                 }
                 .buttonStyle(.plain)
@@ -127,6 +126,8 @@ struct Dashboard: View {
                     }
                 }
             }
+            
+            
             .padding()
             .onChange(of: accounts, initial: true) {
                 selectedAccount = accounts.first

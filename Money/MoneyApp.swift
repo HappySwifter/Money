@@ -11,11 +11,13 @@ import OSLog
 
 @main
 struct MoneyApp: App {
+    @State private var appRootManager: AppRootManager
+    
     let logger = Logger(subsystem: "Money", category: "MoneyApp")
     let currencyApi: CurrenciesApi
     let preferences: Preferences
     let expensesService: ExpensesService
-    
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -34,6 +36,7 @@ struct MoneyApp: App {
     
     init() {
         let context = sharedModelContainer.mainContext
+        appRootManager = AppRootManager(modelContext: context)
         preferences = Preferences(userDefaults: UserDefaults.standard,
                                   modelContext: context)
         
@@ -68,14 +71,19 @@ struct MoneyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Dashboard()
+            Group {
+                switch appRootManager.currentRoot {
+                case .dashboard:
+                    Dashboard()
+                case .addDataHelperView:
+                    AddDataHelperView()
+                }
+            }
         }
         .modelContainer(sharedModelContainer)
         .environment(currencyApi)
         .environment(preferences)
         .environment(expensesService)
-        //        .modelContainer(for: MyCurrency.self) { result in
-        //
-        //        }
+        .environment(appRootManager)
     }
 }

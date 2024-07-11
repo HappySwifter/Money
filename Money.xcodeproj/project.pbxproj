@@ -73,6 +73,8 @@
 		ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */; };
 		ACE15CE92C3F9802003340B8 /* IconType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE15CE82C3F9802003340B8 /* IconType.swift */; };
 		ACE15CEB2C3F981F003340B8 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE15CEA2C3F981F003340B8 /* Icon.swift */; };
+		ACE15CEF2C3FBC6E003340B8 /* AddDataHelperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE15CEE2C3FBC6E003340B8 /* AddDataHelperView.swift */; };
+		ACE15CF12C3FBD29003340B8 /* AppRootManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE15CF02C3FBD29003340B8 /* AppRootManager.swift */; };
 		ACF62B002B91E61A002CB75D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* MenuView.swift */; };
 		ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* ActionSheetView.swift */; };
 		ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */; };
@@ -122,7 +124,6 @@
 		AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CurrencySymbols.json; sourceTree = "<group>"; };
 		AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbol.swift; sourceTree = "<group>"; };
 		AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableView.swift; sourceTree = "<group>"; };
-		AC619D782BFC73AD00B28E16 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		AC690C3A2C3D6E59006E284E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
 		AC872B0F2BA846400034E147 /* NewIncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIncomeView.swift; sourceTree = "<group>"; };
@@ -167,6 +168,8 @@
 		ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationModifier.swift; sourceTree = "<group>"; };
 		ACE15CE82C3F9802003340B8 /* IconType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconType.swift; sourceTree = "<group>"; };
 		ACE15CEA2C3F981F003340B8 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		ACE15CEE2C3FBC6E003340B8 /* AddDataHelperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataHelperView.swift; sourceTree = "<group>"; };
+		ACE15CF02C3FBD29003340B8 /* AppRootManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootManager.swift; sourceTree = "<group>"; };
 		ACF62AFF2B91E61A002CB75D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		ACF62B012B91EB09002CB75D /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
@@ -228,6 +231,7 @@
 				AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */,
 				ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */,
 				AC690C3A2C3D6E59006E284E /* IconView.swift */,
+				ACE15CEE2C3FBC6E003340B8 /* AddDataHelperView.swift */,
 				AC98AB742BF8652400B15A2F /* History */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
@@ -270,10 +274,10 @@
 			isa = PBXGroup;
 			children = (
 				AC98AB752BF8673B00B15A2F /* TODO.txt */,
-				AC619D782BFC73AD00B28E16 /* TODO.md */,
 				AC04B76E2C3CF51800B02078 /* Symbols.swift */,
 				AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
+				ACE15CF02C3FBD29003340B8 /* AppRootManager.swift */,
 				ACC3EFAE2B958FE60069C2D1 /* API */,
 				ACC3EFAB2B958F500069C2D1 /* Files */,
 				AC213FE32B9868D40095846E /* Styles */,
@@ -550,6 +554,7 @@
 				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
 				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				AC98AB732BF8648F00B15A2F /* SpengingView.swift in Sources */,
+				ACE15CEF2C3FBC6E003340B8 /* AddDataHelperView.swift in Sources */,
 				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,
 				ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */,
 				AC98AB782BF8779100B15A2F /* ExpensesService.swift in Sources */,
@@ -600,6 +605,7 @@
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
 				AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */,
+				ACE15CF12C3FBD29003340B8 /* AppRootManager.swift in Sources */,
 				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC98AB852BF8E69500B15A2F /* ReportView.swift in Sources */,
 				AC031EE12B918684006A3A8C /* Account.swift in Sources */,

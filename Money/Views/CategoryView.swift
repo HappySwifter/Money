@@ -29,8 +29,9 @@ struct CategoryView: View {
 
                     Text(item.name.isEmpty ? "Name" : item.name)
                         .font(.body)
+                        .lineLimit(1)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: 100)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
         )
         .supportsLongPress {
