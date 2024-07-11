@@ -23,10 +23,13 @@ struct Icon: Equatable {
     var color: SwiftColor
     var isMulticolor: Bool
     
+    static func isBaseNameSame(lhs: String, rhs: String) -> Bool {
+        lhs.components(separatedBy: ".").first == rhs.components(separatedBy: ".").first
+    }
+    
     func contains(modifier: Modifiers) -> Bool {
         name.contains(modifier.withDot)
     }
-    
     
     func removed(modifiers: [Modifiers]) -> String {
         var modified = name

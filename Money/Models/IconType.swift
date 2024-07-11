@@ -38,8 +38,7 @@ enum IconType: String, CaseIterable {
             Symbols.home +
             Symbols.nature +
             Symbols.health +
-            Symbols.accounts +
-            Symbols.currencies
+            Symbols.accounts
         case .objectAndTools:
             return Symbols.objectAndTools
         case .devices:
@@ -59,5 +58,16 @@ enum IconType: String, CaseIterable {
         case .currencies:
             return Symbols.currencies
         }
+    }
+    
+    static func findTypeBy(baseIconName: String) -> IconType {
+        for type in IconType.allCases where type != .all {
+            for icon in type.getIcons() {
+                if baseIconName == icon {
+                    return type
+                }
+            }
+        }
+        return .all
     }
 }

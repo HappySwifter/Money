@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum CurrencyViewMode: String, CaseIterable {
+private enum CurrencyViewMode: String, CaseIterable {
     case normal
     case circle
     case square
@@ -52,7 +52,6 @@ struct SymbolPickerView: View {
                 } label: {
                     Text("Modifiers >")
                 }
-                
                 Spacer()
                 Picker(selection: $selectedType) {
                     ForEach(IconType.allCases, id: \.self) { type in
@@ -86,18 +85,29 @@ struct SymbolPickerView: View {
                                             color: selectedColor,
                                             isMulticolor: isMultiColor))
                         .onTapGesture {
-                            selectedName = getModifiedName(icon)
+                            selectedName = icon
                         }
                         .padding(15)
-                        .cornerRadiusWithBorder(radius: 5, borderLineWidth: selectedName == getModifiedName(icon) ? 1 : 0, borderColor: selectedColor.value)
+                        .cornerRadiusWithBorder(radius: 5,
+                                                borderLineWidth: Icon.isBaseNameSame(lhs: selectedName, rhs: icon) ? 1 : 0,
+                                                borderColor: selectedColor.value)
                     }
                 }
             }
             Spacer()
         }
         .onAppear {
+            let baseIconName = selectedIcon.removed(modifiers: Icon.Modifiers.allCases)
+            selectedType = IconType.findTypeBy(baseIconName: baseIconName)
+            selectedName = baseIconName
+
             isFill = selectedIcon.contains(modifier: .fill)
-            selectedName = selectedIcon.name
+            if selectedIcon.contains(modifier: .circle) {
+                currencyViewMode = .circle
+            } else if selectedIcon.contains(modifier: .square) {
+                currencyViewMode = .square
+            }
+            
             selectedColor = selectedIcon.color
             isMultiColor = selectedIcon.isMulticolor
         }
@@ -137,7 +147,7 @@ struct SymbolPickerView: View {
     }
     
     private func saveIcon() {
-        selectedIcon.name = selectedName
+        selectedIcon.name = getModifiedName(selectedName)
         selectedIcon.color = selectedColor
         selectedIcon.isMulticolor = isMultiColor
     }
