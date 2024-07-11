@@ -12,19 +12,20 @@ struct AccountDetailsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Environment(ExpensesService.self) private var expensesService
-
-    //    @State var isTransferViewPresented = false
     @State var account: Account
     
     var body: some View {
-        
         ScrollView {
             VStack(alignment: .leading, spacing: 30) {
                 AccountView(item: account,
                             currency: .constant(account.currency),
                             selected: .constant(false),
                             longPressHandler: nil)
-                NewAccountEmojiAndNameView(account: $account)
+                NewAccountEmojiAndNameView(account: $account, icon: Binding(get: {
+                    account.icon!
+                }, set: {
+                    account.icon = $0
+                }))
                 NewAccountChooseColorView(account: $account)
                 
                 Spacer()

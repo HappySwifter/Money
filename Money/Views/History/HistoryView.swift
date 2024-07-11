@@ -91,6 +91,14 @@ struct HistoryView: View {
         }
     }
     
+//    private func group(transactions: [Transaction]) -> [[Transaction]] {
+//        let cal = Calendar.current
+//        return  transactions
+//            .sorted { $0.date > $1.date }
+//            .chunked { cal.isDate($0.date, equalTo: $1.date, toGranularity: .month) }
+//            .map { Array($0) }
+//    }
+    
     private func group(transactions: [Transaction]) -> [TransactionsByDate] {
         return Dictionary(grouping: transactions) { $0.date.omittedTime }
             .map { TransactionsByDate(date: $0.key, transactions: $0.value) }

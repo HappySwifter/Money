@@ -18,12 +18,15 @@ struct CategoryView: View {
             },
             label: {
                 VStack(spacing: 2) {
-                    Text(item.icon)
-                        .font(.system(size: 35))
-                        .padding(15)
-                        .background(SwiftColor(rawValue: item.color)!.value.opacity(0.3))
-                        .clipShape(Circle())
-                    
+                    if let icon = item.icon {
+                        IconView(icon: icon)
+                            .padding(15)
+                            .background(SwiftColor(rawValue: item.color)!.value.opacity(0.3))
+                            .clipShape(Circle())
+                    } else {
+                        // TODO user image
+                    }
+
                     Text(item.name.isEmpty ? "Name" : item.name)
                         .font(.body)
                 }

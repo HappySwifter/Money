@@ -13,7 +13,9 @@ struct TransferView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(transaction.source?.icon ?? "")
+                if let icon = transaction.source?.icon {
+                    IconView(icon: icon, font: .title2)
+                }
                 Text(transaction.source?.name ?? "deleted")
                 Spacer()
                 Text(transaction.sourceAmount.getString())
@@ -21,7 +23,9 @@ struct TransferView: View {
             }
             Spacer()
             HStack {
-                Text(transaction.destination?.icon ?? "")
+                if let icon = transaction.destination?.icon {
+                    IconView(icon: icon, font: .title2)
+                }
                 Text(transaction.destination?.name ?? "deleted")
                 Spacer()
                 if transaction.source?.currency != transaction.destination?.currency {

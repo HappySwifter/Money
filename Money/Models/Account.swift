@@ -16,20 +16,43 @@ final class Account {
     private(set) var orderIndex: Int
     let date: Date
     var name: String
-    var icon: String
     var color: String
     var isAccount: Bool
     private(set) var amount: Double
+    
+    private var iconName: String?
+    private var iconColor: String?
+    private var iconIsFilled: Bool
+    private var iconIsMulticolor: Bool
+
     var currency: MyCurrency?
     
     @Relationship(deleteRule: .cascade, inverse: \Money.Transaction.source) var sources: [Money.Transaction]
     @Relationship(deleteRule: .cascade, inverse: \Money.Transaction.destination) var destinations: [Money.Transaction]
     
+    var icon: Icon? {
+        get {
+            if let iconName, let iconColor {
+                return Icon(name: iconName,
+                            color: SwiftColor(rawValue: iconColor) ?? .black,
+                            isFill: iconIsFilled,
+                            isMulticolor: iconIsMulticolor)
+            } else {
+                return nil
+            }
+        }
+        set {
+            iconName = newValue?.name
+            iconColor = newValue?.color.rawValue
+            iconIsFilled = newValue?.isFill ?? false
+            iconIsMulticolor = newValue?.isMulticolor ?? false
+        }
+    }
+    
     init(id: UUID = UUID(),
          orderIndex: Int,
          date: Date = Date(),
          name: String,
-         icon: String,
          color: SwiftColor,
          isAccount: Bool,
          amount: Double)
@@ -38,10 +61,15 @@ final class Account {
         self.orderIndex = orderIndex
         self.date = date
         self.name = name
-        self.icon = icon
         self.color = color.rawValue
         self.isAccount = isAccount
         self.amount = amount
+        
+        self.iconName = nil
+        self.iconColor = nil
+        self.iconIsFilled = false
+        self.iconIsMulticolor = false
+        
         self.sources = []
         self.destinations = []
     }

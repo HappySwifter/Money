@@ -26,3 +26,24 @@ struct NewAccountChooseColorView: View {
         }
     }
 }
+
+struct ChooseColorView: View {
+    @Binding var color: SwiftColor
+    
+    var body: some View {
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach(SwiftColor.allCases, id: \.self) { color in
+                    color.value
+                        .clipShape(Circle())
+                        .frame(width: 40, height: 40)
+                        .opacity(self.color == color ? 1 : 0.3)
+                        .onTapGesture {
+                            self.color = color
+                        }
+                }
+            }
+        }
+        .scrollIndicators(.hidden)
+    }
+}

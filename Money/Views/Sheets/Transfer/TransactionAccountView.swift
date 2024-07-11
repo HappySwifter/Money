@@ -20,8 +20,9 @@ struct TransactionAccountView: View {
                 Text("\(item.name)")
                     .lineLimit(1)
                     .font(item.isAccount ? .title3 : .title2)
-                Text("\(item.icon)")
-                    .font(item.isAccount ? .title3 : .largeTitle)
+                if let icon = item.icon {
+                    IconView(icon: icon, font: item.isAccount ? .title3 : .largeTitle)
+                }
             }
             .opacity(item.isAccount ? 0.7 : 1)
             

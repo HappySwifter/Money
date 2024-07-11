@@ -12,8 +12,9 @@ struct SpengingView: View {
     
     var body: some View {
         HStack {
-            Text(transaction.destination?.icon ?? "")
-                .font(.largeTitle)
+            if let icon = transaction.destination?.icon {
+                IconView(icon: icon, font: .largeTitle)
+            }
             Text(transaction.destination?.name ?? "deleted")
                 .font(.title3)
             Spacer()

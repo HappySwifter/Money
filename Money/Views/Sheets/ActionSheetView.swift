@@ -31,9 +31,11 @@ struct ActionSheetView: View {
                         AccountDetailsView(account: item)
                     }
                 } else {
-                    CategoryDetailsView(
-                        isSheetPresented: $isPresented,
-                        category: item)
+                    NavigationStack {
+                        CategoryDetailsView(
+                            isSheetPresented: $isPresented,
+                            category: item)
+                    }
                 }
             case .addAccount:
                 NewAccountView(isSheetPresented: $isPresented)

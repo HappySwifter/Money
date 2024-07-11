@@ -184,6 +184,7 @@ struct TransferMoneyView: View {
             return
         }
         guard source.credit(amount: sourceAmount) else {
+            print("Not enough of money")
             return
         }
         

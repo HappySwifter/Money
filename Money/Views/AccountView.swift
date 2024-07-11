@@ -21,8 +21,12 @@ struct AccountView: View {
             label: {
                 VStack {
                     VStack {
-                        Text(item.icon)
-                            .font(.system(size: 45))
+                        if let icon = item.icon {
+                            IconView(icon: icon)
+                        } else {
+                            // TODO user image
+                        }
+                        
                         Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.subheadline)
                             .foregroundStyle(Color.gray)

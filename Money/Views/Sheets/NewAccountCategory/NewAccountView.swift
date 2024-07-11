@@ -16,10 +16,10 @@ struct NewAccountView: View {
     @State var currency: MyCurrency?
     @State var account = Account(orderIndex: 0,
                                  name: "",
-                                 icon: "🏦",
                                  color: SwiftColor.allCases.randomElement()!,
                                  isAccount: true,
                                  amount: 0)
+    @State var icon = Icon(name: "banknote", color: .blue, isFill: true, isMulticolor: true)
     
     var body: some View {
         NavigationView {
@@ -29,7 +29,7 @@ struct NewAccountView: View {
                                 currency: $currency,
                                 selected: .constant(false),
                                 longPressHandler: nil)
-                    NewAccountEmojiAndNameView(focusNameField: true, account: $account)
+                    NewAccountEmojiAndNameView(focusNameField: true, account: $account, icon: $icon)
                     HStack {
                         NewAccountChooseCurrencyView(currency: $currency)
                         NewAccountAmountView(account: $account)
@@ -40,6 +40,7 @@ struct NewAccountView: View {
             }
             .onAppear {
                 currency = preferences.getUserCurrency()
+                account.icon = icon
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {

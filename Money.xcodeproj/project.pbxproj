@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AC031EE12B918684006A3A8C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* Account.swift */; };
+		AC04B76F2C3CF51800B02078 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04B76E2C3CF51800B02078 /* Symbols.swift */; };
+		AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */; };
 		AC213FE02B9827100095846E /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FDF2B9827100095846E /* CategoryView.swift */; };
 		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
 		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
@@ -26,6 +28,8 @@
 		AC5A16EF2B9A010900B07D1A /* CurrencySymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */; };
 		AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */; };
 		AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */; };
+		AC690C392C3D5505006E284E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = AC690C382C3D5505006E284E /* Algorithms */; };
+		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
 		AC98AB6F2BF863EA00B15A2F /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */; };
@@ -48,7 +52,6 @@
 		ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF312B930DAB00403538 /* CalculatorButton.swift */; };
 		ACA3AF342B9319A900403538 /* PresentingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF332B9319A900403538 /* PresentingType.swift */; };
 		ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF382B932FB800403538 /* NewAccountView.swift */; };
-		ACA3AF442B933A2A00403538 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = ACA3AF432B933A2A00403538 /* MCEmojiPicker */; };
 		ACA3AF462B933DAA00403538 /* TransferMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */; };
 		ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF472B9342E100403538 /* DoneButtonStyle.swift */; };
 		ACA3AF4A2B93515600403538 /* NewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA3AF492B93515600403538 /* NewCategoryView.swift */; };
@@ -68,6 +71,8 @@
 		ACD4C9412B8F2A950087F632 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9402B8F2A950087F632 /* test.swift */; };
 		ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9442B8F421E0087F632 /* AccountView.swift */; };
 		ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */; };
+		ACE15CE92C3F9802003340B8 /* IconType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE15CE82C3F9802003340B8 /* IconType.swift */; };
+		ACE15CEB2C3F981F003340B8 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE15CEA2C3F981F003340B8 /* Icon.swift */; };
 		ACF62B002B91E61A002CB75D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62AFF2B91E61A002CB75D /* MenuView.swift */; };
 		ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B012B91EB09002CB75D /* ActionSheetView.swift */; };
 		ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */; };
@@ -92,6 +97,8 @@
 
 /* Begin PBXFileReference section */
 		AC031EE02B918684006A3A8C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		AC04B76E2C3CF51800B02078 /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
+		AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPickerView.swift; sourceTree = "<group>"; };
 		AC213FDF2B9827100095846E /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
 		AC213FE42B986C2A0095846E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
@@ -116,6 +123,7 @@
 		AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbol.swift; sourceTree = "<group>"; };
 		AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableView.swift; sourceTree = "<group>"; };
 		AC619D782BFC73AD00B28E16 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		AC690C3A2C3D6E59006E284E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
 		AC872B0F2BA846400034E147 /* NewIncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIncomeView.swift; sourceTree = "<group>"; };
 		AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
@@ -157,6 +165,8 @@
 		ACD4C9402B8F2A950087F632 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		ACD4C9442B8F421E0087F632 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		ACD4C9462B8F636E0087F632 /* GetLocationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationModifier.swift; sourceTree = "<group>"; };
+		ACE15CE82C3F9802003340B8 /* IconType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconType.swift; sourceTree = "<group>"; };
+		ACE15CEA2C3F981F003340B8 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		ACF62AFF2B91E61A002CB75D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		ACF62B012B91EB09002CB75D /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
@@ -167,7 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACA3AF442B933A2A00403538 /* MCEmojiPicker in Frameworks */,
+				AC690C392C3D5505006E284E /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +210,8 @@
 				AC5A16EC2B99E75400B07D1A /* CurrencyError.swift */,
 				AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */,
 				ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */,
+				ACE15CEA2C3F981F003340B8 /* Icon.swift */,
+				ACE15CE82C3F9802003340B8 /* IconType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -215,6 +227,7 @@
 				AC98AB842BF8E69500B15A2F /* ReportView.swift */,
 				AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */,
 				ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */,
+				AC690C3A2C3D6E59006E284E /* IconView.swift */,
 				AC98AB742BF8652400B15A2F /* History */,
 				ACA3AF352B932F9100403538 /* Sheets */,
 				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
@@ -239,6 +252,7 @@
 				AC4080C92B8E34AD004D7575 /* MoneyTests */,
 				AC4080D32B8E34AD004D7575 /* MoneyUITests */,
 				AC4080B32B8E34AB004D7575 /* Products */,
+				AC690C372C3D5505006E284E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -257,6 +271,8 @@
 			children = (
 				AC98AB752BF8673B00B15A2F /* TODO.txt */,
 				AC619D782BFC73AD00B28E16 /* TODO.md */,
+				AC04B76E2C3CF51800B02078 /* Symbols.swift */,
+				AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
 				ACC3EFAE2B958FE60069C2D1 /* API */,
 				ACC3EFAB2B958F500069C2D1 /* Files */,
@@ -306,6 +322,13 @@
 				AC4080D62B8E34AD004D7575 /* MoneyUITestsLaunchTests.swift */,
 			);
 			path = MoneyUITests;
+			sourceTree = "<group>";
+		};
+		AC690C372C3D5505006E284E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		AC98AB742BF8652400B15A2F /* History */ = {
@@ -400,7 +423,7 @@
 			);
 			name = Money;
 			packageProductDependencies = (
-				ACA3AF432B933A2A00403538 /* MCEmojiPicker */,
+				AC690C382C3D5505006E284E /* Algorithms */,
 			);
 			productName = Money;
 			productReference = AC4080B22B8E34AB004D7575 /* Money.app */;
@@ -450,7 +473,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					AC4080B12B8E34AB004D7575 = {
 						CreatedOnToolsVersion = 15.2;
@@ -475,7 +498,7 @@
 			);
 			mainGroup = AC4080A92B8E34AB004D7575;
 			packageReferences = (
-				ACA3AF422B933A2A00403538 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
+				AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = AC4080B32B8E34AB004D7575 /* Products */;
 			projectDirPath = "";
@@ -539,6 +562,7 @@
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				AC98AB7F2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift in Sources */,
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
+				AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */,
 				ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */,
 				AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */,
 				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
@@ -548,10 +572,14 @@
 				AC98AB7A2BF8A50E00B15A2F /* EnvironmentValues.swift in Sources */,
 				ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,
+				ACE15CE92C3F9802003340B8 /* IconType.swift in Sources */,
+				ACE15CEB2C3F981F003340B8 /* Icon.swift in Sources */,
+				AC04B76F2C3CF51800B02078 /* Symbols.swift in Sources */,
 				AC98AB712BF8645E00B15A2F /* TransferView.swift in Sources */,
 				ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */,
 				ACA3AF392B932FB800403538 /* NewAccountView.swift in Sources */,
 				ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */,
+				AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */,
 				ACA246D12BFAFE0900EE12B9 /* SectorChartView.swift in Sources */,
 				ACF62B002B91E61A002CB75D /* MenuView.swift in Sources */,
 				ACD4C9472B8F636E0087F632 /* GetLocationModifier.swift in Sources */,
@@ -647,6 +675,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -708,6 +737,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -735,6 +765,7 @@
 				CODE_SIGN_ENTITLEMENTS = Money/Money.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Money/Preview Content\"";
 				DEVELOPMENT_TEAM = YZ7WQPG9RM;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -775,6 +806,7 @@
 				CODE_SIGN_ENTITLEMENTS = Money/Money.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Money/Preview Content\"";
 				DEVELOPMENT_TEAM = YZ7WQPG9RM;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -814,6 +846,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YZ7WQPG9RM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -837,6 +870,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YZ7WQPG9RM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -859,6 +893,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YZ7WQPG9RM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -881,6 +916,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YZ7WQPG9RM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -939,21 +975,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		ACA3AF422B933A2A00403538 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
+		AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker?tab=readme-ov-file#feedback-generator-style";
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.3;
+				minimumVersion = 1.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		ACA3AF432B933A2A00403538 /* MCEmojiPicker */ = {
+		AC690C382C3D5505006E284E /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = ACA3AF422B933A2A00403538 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
-			productName = MCEmojiPicker;
+			package = AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

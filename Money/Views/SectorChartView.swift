@@ -40,26 +40,27 @@ struct SectorChartView: View {
         .aspectRatio(1, contentMode: .fit )
         .frame(height: 300)
         .chartBackground { chartProxy in
-            GeometryReader { geometry in
-                let frame = geometry[chartProxy.plotAreaFrame]
-                VStack {
-                    if let selectedSector {
-                        Text(selectedSector.title)
-                            .foregroundStyle(.secondary)
-                        Text("\(String(selectedSector.amount)) \(getCurSymbol())")
-                            .foregroundStyle(.primary)
-                    } else if !data.isEmpty {
-                        Text("Total")
-                            .foregroundStyle(.secondary)
-                        Text("\(getTotalAmount()) \(getCurSymbol())")
-                            .foregroundStyle(.primary)
-                    } else {
-                        Text("No data")
+            if let rect = chartProxy.plotFrame {
+                GeometryReader { geometry in
+                    let frame = geometry[rect]
+                    VStack {
+                        if let selectedSector {
+                            Text(selectedSector.title)
+                                .foregroundStyle(.secondary)
+                            Text("\(String(selectedSector.amount)) \(getCurSymbol())")
+                                .foregroundStyle(.primary)
+                        } else if !data.isEmpty {
+                            Text("Total")
+                                .foregroundStyle(.secondary)
+                            Text("\(getTotalAmount()) \(getCurSymbol())")
+                                .foregroundStyle(.primary)
+                        } else {
+                            Text("No data")
+                        }
                     }
+                    .position(x: frame.midX, y: frame.midY)
                 }
-                .position(x: frame.midX, y: frame.midY)
             }
-            
         }
         .chartAngleSelection(value: $pieChartSelectedAngle)
         .onChange(of: pieChartSelectedAngle) { oldValue, newValue in

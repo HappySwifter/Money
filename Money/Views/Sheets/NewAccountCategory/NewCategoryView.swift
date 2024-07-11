@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import MCEmojiPicker
 import SwiftData
 
 struct NewCategoryView: View {
@@ -19,11 +18,11 @@ struct NewCategoryView: View {
     
     @State var category = Account(orderIndex: 0,
                                   name: "",
-                                  icon: "🍔",
                                   color: SwiftColor.allCases.randomElement()!,
                                   isAccount: false,
                                   amount: 0)
-    
+    @State var icon = Icon(name: "basket", color: .green, isFill: true, isMulticolor: true)
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -33,10 +32,15 @@ struct NewCategoryView: View {
                             .frame(width: 100)
                         Spacer()
                     }
-                    NewAccountEmojiAndNameView(focusNameField: true, account: $category)
+                    NewAccountEmojiAndNameView(focusNameField: true,
+                                               account: $category,
+                                               icon: $icon)
                     NewAccountChooseColorView(account: $category)
                 }
                 .padding()
+            }
+            .onAppear {
+                category.icon = icon
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {

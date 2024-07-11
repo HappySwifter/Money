@@ -22,7 +22,11 @@ struct CategoryDetailsView: View {
                         .frame(width: 100)
                     Spacer()
                 }
-                NewAccountEmojiAndNameView(account: $category)
+                NewAccountEmojiAndNameView(account: $category, icon: Binding(get: {
+                    category.icon!
+                }, set: {
+                    category.icon = $0
+                }))
                 NewAccountChooseColorView(account: $category)
                 
                 Button("Delete") {
@@ -35,6 +39,13 @@ struct CategoryDetailsView: View {
                 .buttonStyle(DeleteButton())
             }
             .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Close") {
+                    dismiss()
+                }
+            }
         }
     }
 }

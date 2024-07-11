@@ -6,29 +6,24 @@
 //
 
 import SwiftUI
-import MCEmojiPicker
 
 struct NewAccountEmojiAndNameView: View {
     var focusNameField = false
     @FocusState private var nameFieldIsFocused: Bool
     @Binding var account: Account
-    @State private var isEmojiPickerPresented = false
+    @Binding var icon: Icon
     
     var body: some View {
         HStack {
-            Button(account.icon) {
-                isEmojiPickerPresented.toggle()
+            NavigationLink {
+                SymbolPickerView(selectedIcon: $icon)
+            } label: {
+                IconView(icon: icon, font: .title)
+                    .padding(10)
+                    .background(Color(red: 0.98, green: 0.96, blue: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .aspectRatio(1, contentMode: .fill)
             }
-            .font(.title)
-            .padding(10)
-            .background(Color(red: 0.98, green: 0.96, blue: 1))
-            .clipShape(RoundedRectangle(cornerRadius: 15))
-            .emojiPicker(
-                isPresented: $isEmojiPickerPresented,
-                selectedEmoji: $account.icon,
-                arrowDirection: .up
-            )
-            .aspectRatio(1, contentMode: .fill)
             
             TextField("Name", text: $account.name)
                 .font(.title3)
