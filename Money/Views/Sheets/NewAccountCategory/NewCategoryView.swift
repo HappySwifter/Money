@@ -35,10 +35,11 @@ struct NewCategoryView: View {
                             .frame(width: 100)
                         Spacer()
                     }
-                    NewAccountEmojiAndNameView(focusNameField: true,
+                    IconAndNameView(focusNameField: true,
                                                account: $category,
                                                icon: $icon)
-                    NewAccountChooseColorView(account: $category)
+                    NewAccountChooseColorView(account: $category,
+                                              isCategory: true)
                 }
                 .padding()
             }

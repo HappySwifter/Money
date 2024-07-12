@@ -24,9 +24,10 @@ struct CategoryDetailsView: View {
                     Spacer()
                 }
                 if let _ = icon {
-                    NewAccountEmojiAndNameView(account: $category, icon: Binding($icon)!)
+                    IconAndNameView(account: $category, icon: Binding($icon)!)
                 }
-                NewAccountChooseColorView(account: $category)
+                NewAccountChooseColorView(account: $category, 
+                                          isCategory: true)
                 
                 Button("Delete") {
                     withAnimation {

@@ -17,7 +17,7 @@ struct AddDataHelperView: View {
                 .fontWeight(.bold)
                 .padding(.vertical)
             
-            IconView(icon: Icon(name: "tree.fill", color: .black, isMulticolor: true), font: .system(size: 200))
+            IconView(icon: Icon(name: "tree.fill", color: .green, isMulticolor: true), font: .system(size: 200))
             
             Spacer()
             

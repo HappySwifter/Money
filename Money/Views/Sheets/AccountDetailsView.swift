@@ -21,12 +21,12 @@ struct AccountDetailsView: View {
                             currency: .constant(account.currency),
                             selected: .constant(false),
                             longPressHandler: nil)
-                NewAccountEmojiAndNameView(account: $account, icon: Binding(get: {
+                IconAndNameView(account: $account, icon: Binding(get: {
                     account.icon!
                 }, set: {
                     account.icon = $0
                 }))
-                NewAccountChooseColorView(account: $account)
+                NewAccountChooseColorView(account: $account, isCategory: false)
                 
                 Spacer()
                 Button("Delete") {
@@ -37,20 +37,9 @@ struct AccountDetailsView: View {
                     }
                 }
                 .buttonStyle(DeleteButton())
-                
-                //                Button {
-                //                    isTransferViewPresented.toggle()
-                //                } label: {
-                //                    Text("Transfer money to another account")
-                //                }
             }
             .padding()
         }
-        //        .fullScreenCover(isPresented: $isTransferViewPresented, content: {
-        //            TransferMoneyView(source: account,
-        //                              destination: getDestAccount(),
-        //                              isSheetPresented: $isTransferViewPresented)
-        //        })
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Close") {
