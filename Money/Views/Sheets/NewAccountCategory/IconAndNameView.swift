@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewAccountEmojiAndNameView: View {
+struct IconAndNameView: View {
     var focusNameField = false
     @FocusState private var nameFieldIsFocused: Bool
     @Binding var account: Account
@@ -24,6 +24,7 @@ struct NewAccountEmojiAndNameView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     .aspectRatio(1, contentMode: .fill)
             }
+            .accessibilityIdentifier("_NewAccountEmojiAndNameView_NavigationLink")
             
             TextField("Name", text: $account.name)
                 .font(.title3)

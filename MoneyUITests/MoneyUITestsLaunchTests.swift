@@ -15,6 +15,11 @@ final class MoneyUITestsLaunchTests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        XCUIApplication().launch()
+    }
+    
+    func test() {
+        
     }
 
     func testLaunch() throws {

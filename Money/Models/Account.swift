@@ -33,7 +33,7 @@ final class Account {
         get {
             if let iconName, let iconColor {
                 return Icon(name: iconName,
-                            color: SwiftColor(rawValue: iconColor) ?? .black,
+                            color: SwiftColor(rawValue: iconColor) ?? .gray,
                             isMulticolor: iconIsMulticolor)
             } else {
                 return nil

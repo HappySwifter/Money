@@ -42,7 +42,6 @@ struct AllAccountsView: View {
                 .padding(.vertical)
             } else {
                 List {
-                    
                     ForEach(accounts) { acc in
                         NavigationLink {
                             AccountDetailsView(account: acc)
@@ -54,6 +53,7 @@ struct AllAccountsView: View {
                                 Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
                             }
                         }
+                        .accessibilityIdentifier("_AccountDetailsViewLink")
                     }
                     .onMove(perform: updateOrder)
                     .onDelete(perform: deleteAccount)

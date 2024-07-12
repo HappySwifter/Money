@@ -20,7 +20,7 @@ struct CategoryView: View {
                 VStack(spacing: 2) {
                     if let icon = item.icon {
                         IconView(icon: icon)
-                            .padding(15)
+                            .padding(10)
                             .background(SwiftColor(rawValue: item.color)!.value.opacity(0.3))
                             .clipShape(Circle())
                     } else {
@@ -34,6 +34,7 @@ struct CategoryView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
         )
+        .accessibilityIdentifier("_CategoryView_Button")
         .supportsLongPress {
             longPressHandler(item)
         }
