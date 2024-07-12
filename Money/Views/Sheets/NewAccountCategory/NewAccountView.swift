@@ -13,14 +13,17 @@ struct NewAccountView: View {
     @Environment(Preferences.self) private var preferences
     
     @Binding var isSheetPresented: Bool
-    @State var currency: MyCurrency?
-    @State var account = Account(orderIndex: 0,
+    var isClosable = true
+    var completion: (() -> ())?
+    
+    @State private var currency: MyCurrency?
+    @State private var account = Account(orderIndex: 0,
                                  name: "",
                                  color: SwiftColor.allCases.randomElement()!,
                                  isAccount: true,
                                  amount: 0)
-    @State var icon = Icon(name: "banknote.fill", color: .blue, isMulticolor: true)
-    
+    @State private var icon = Icon(name: "banknote.fill", color: .blue, isMulticolor: true)
+        
     var body: some View {
         NavigationView {
             ScrollView {
@@ -44,9 +47,11 @@ struct NewAccountView: View {
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
-                        isSheetPresented.toggle()
+                if isClosable {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") {
+                            isSheetPresented.toggle()
+                        }
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
@@ -66,6 +71,7 @@ struct NewAccountView: View {
             let accountsCount = try modelContext.fetchCount(accDesc)
             account.updateOrder(index: accountsCount)
             account.currency = currency
+            completion?()
             isSheetPresented.toggle()
         } catch {
             print(error)

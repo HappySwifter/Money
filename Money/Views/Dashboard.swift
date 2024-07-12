@@ -28,6 +28,7 @@ struct Dashboard: View {
     @State var plusPressed = false
     @State var createAccountPresented = false
     @State var createCategoryPresented = false
+    @State var settingsPresented = false
     @State var presentingType = PresentingType.none
     
     var sheetBinding: Binding<Bool> {
@@ -125,9 +126,11 @@ struct Dashboard: View {
                         }
                     }
                 }
+                
+                Button("", systemImage: "gearshape") {
+                    settingsPresented.toggle()
+                }
             }
-            
-            
             .padding()
             .onChange(of: accounts, initial: true) {
                 selectedAccount = accounts.first
@@ -141,6 +144,9 @@ struct Dashboard: View {
             }
             .sheet(isPresented: $createCategoryPresented) {
                 ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
+            }
+            .sheet(isPresented: $settingsPresented) {
+                SettingsView()
             }
         }
     }

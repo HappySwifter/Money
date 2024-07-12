@@ -14,14 +14,17 @@ struct NewCategoryView: View {
     @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Binding var isSheetPresented: Bool
+    var isClosable = true
+    var completion: (() -> ())?
+
     @State private var isEmojiPickerPresented = false
     
-    @State var category = Account(orderIndex: 0,
+    @State private var category = Account(orderIndex: 0,
                                   name: "",
                                   color: SwiftColor.allCases.randomElement()!,
                                   isAccount: false,
                                   amount: 0)
-    @State var icon = Icon(name: "basket.fill", color: .green, isMulticolor: true)
+    @State private var icon = Icon(name: "basket.fill", color: .green, isMulticolor: true)
 
     var body: some View {
         NavigationView {
@@ -44,14 +47,17 @@ struct NewCategoryView: View {
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
-                        isSheetPresented.toggle()
+                if isClosable {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") {
+                            isSheetPresented.toggle()
+                        }
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         saveCategory()
+                        completion?()
                         isSheetPresented.toggle()
                     }
                     .disabled(category.name.isEmpty)

@@ -73,10 +73,18 @@ struct MoneyApp: App {
         WindowGroup {
             Group {
                 switch appRootManager.currentRoot {
+                case .addDataHelper:
+                    AddDataHelperView()
+                case .addAccount:
+                    NewAccountView(isSheetPresented: .constant(true),
+                                   isClosable: false,
+                                   completion: appRootManager.updateRoot)
+                case .addCategory:
+                    NewCategoryView(isSheetPresented: .constant(true), 
+                                    isClosable: false,
+                                    completion: appRootManager.updateRoot)
                 case .dashboard:
                     Dashboard()
-                case .addDataHelperView:
-                    AddDataHelperView()
                 }
             }
         }
