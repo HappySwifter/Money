@@ -28,7 +28,6 @@
 		AC5A16EF2B9A010900B07D1A /* CurrencySymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */; };
 		AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */; };
 		AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */; };
-		AC690C392C3D5505006E284E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = AC690C382C3D5505006E284E /* Algorithms */; };
 		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
@@ -184,7 +183,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC690C392C3D5505006E284E /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +431,6 @@
 			);
 			name = Money;
 			packageProductDependencies = (
-				AC690C382C3D5505006E284E /* Algorithms */,
 			);
 			productName = Money;
 			productReference = AC4080B22B8E34AB004D7575 /* Money.app */;
@@ -998,14 +995,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		AC690C382C3D5505006E284E /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AC4080AA2B8E34AB004D7575 /* Project object */;
 }

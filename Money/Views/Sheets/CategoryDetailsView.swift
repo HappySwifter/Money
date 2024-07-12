@@ -13,7 +13,8 @@ struct CategoryDetailsView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var isSheetPresented: Bool
     @State var category: Account
-    
+    @State private var icon: Icon?
+        
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 30) {
@@ -22,11 +23,9 @@ struct CategoryDetailsView: View {
                         .frame(width: 100)
                     Spacer()
                 }
-                NewAccountEmojiAndNameView(account: $category, icon: Binding(get: {
-                    category.icon!
-                }, set: {
-                    category.icon = $0
-                }))
+                if let _ = icon {
+                    NewAccountEmojiAndNameView(account: $category, icon: Binding($icon)!)
+                }
                 NewAccountChooseColorView(account: $category)
                 
                 Button("Delete") {
@@ -39,6 +38,12 @@ struct CategoryDetailsView: View {
                 .buttonStyle(DeleteButton())
             }
             .padding()
+        }
+        .onAppear(perform: {
+            self.icon = category.icon!
+        })
+        .onChange(of: icon) {
+            category.icon = icon
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

@@ -47,7 +47,10 @@ class Transaction {
     }
     
     func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
-        guard let sourceCurrency = source?.currency else { assert(false) }
+        guard let sourceCurrency = source?.currency else {
+            assert(false)
+            return 0
+        }
        
         if currency.code == sourceCurrency.code {
             return sourceAmount
