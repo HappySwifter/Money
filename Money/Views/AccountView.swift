@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    private let settings = SettingsRepository.getSettings()
+    @Environment(SettingsService.self) private var settings
     @State var item: Account
     @Binding var currency: MyCurrency?
     @Binding var selected: Bool
@@ -28,7 +28,7 @@ struct AccountView: View {
                             } else {
                                 // TODO user image
                             }
-                            if settings.isAccountNameInside {
+                            if settings.appSettings.isAccountNameInside {
                                 Text(item.name.isEmpty ? "Name" : item.name)
                                     .font(.subheadline)
                                     .foregroundStyle(Color.gray)
@@ -45,7 +45,7 @@ struct AccountView: View {
                     .background(SwiftColor(rawValue: item.color)!.value.opacity(0.2))
                     .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
                     
-                    if !settings.isAccountNameInside {
+                    if !settings.appSettings.isAccountNameInside {
                         Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.subheadline)
                             .foregroundStyle(Color.gray)

@@ -7,42 +7,11 @@
 
 import SwiftUI
 
-struct AppSettings: Codable {
-    let isAccountNameInside: Bool
-}
-
-class SettingsRepository {
-    private static let key = "AppSettings"
-    private static let defaults = UserDefaults.standard
-   
-    private static var defaultSettings: AppSettings {
-        AppSettings(isAccountNameInside: true)
-    }
-    
-    static func save(settings: AppSettings) {
-        let data = try? JSONEncoder().encode(settings)
-        defaults.setValue(data, forKey: key)
-        defaults.synchronize()
-    }
-    
-    static func getSettings() -> AppSettings {
-        if let data = defaults.data(forKey: key),
-           let settings = try? JSONDecoder().decode(AppSettings.self, from: data) {
-            return settings
-        } else {
-            return defaultSettings
-        }
-    }
-}
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var accountNameIsInside: Bool
-    
-    init() {
-        let settings = SettingsRepository.getSettings()
-        accountNameIsInside = settings.isAccountNameInside
-    }
+    @Environment(SettingsService.self) private var settings
+    @State private var accountNameIsInside = true
     
     var body: some View {
         NavigationStack {
@@ -62,12 +31,15 @@ struct SettingsView: View {
                     }
                 }
             }
+            .onAppear {
+                accountNameIsInside = settings.appSettings.isAccountNameInside
+            }
         }
     }
         
     private func save() {
-        let settings = AppSettings(isAccountNameInside: accountNameIsInside)
-        SettingsRepository.save(settings: settings)
+        let appSettings = AppSettings(isAccountNameInside: accountNameIsInside)
+        settings.save(settings: appSettings)
     }
 }
 

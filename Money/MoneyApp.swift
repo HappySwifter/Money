@@ -17,6 +17,7 @@ struct MoneyApp: App {
     let currencyApi: CurrenciesApi
     let preferences: Preferences
     let expensesService: ExpensesService
+    let settingsService: SettingsService
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -45,6 +46,8 @@ struct MoneyApp: App {
         
         expensesService = ExpensesService(preferences: preferences,
                                             modelContext: context, currenciesApi: currencyApi)
+        
+        settingsService = SettingsService()
         
         do {
             let descriptor = FetchDescriptor<MyCurrency>()
@@ -93,5 +96,6 @@ struct MoneyApp: App {
         .environment(preferences)
         .environment(expensesService)
         .environment(appRootManager)
+        .environment(settingsService)
     }
 }
