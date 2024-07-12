@@ -13,6 +13,9 @@ struct IconView: View {
     
     var body: some View {
         Image(systemName: safeSystemImage(icon))
+//            .resizable()
+            .frame(height: 50)
+//            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .symbolRenderingMode(icon.isMulticolor ? .multicolor : .monochrome)
             .font(font)
             .foregroundStyle(icon.color.value)

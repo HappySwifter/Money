@@ -25,6 +25,7 @@ struct AccountView: View {
                         VStack {
                             if let icon = item.icon {
                                 IconView(icon: icon)
+//                                    .background(.red.opacity(0.2))
                             } else {
                                 // TODO user image
                             }
@@ -32,6 +33,7 @@ struct AccountView: View {
                                 Text(item.name.isEmpty ? "Name" : item.name)
                                     .font(.subheadline)
                                     .foregroundStyle(Color.gray)
+                                    .lineLimit(1)
                             }
                             HStack(spacing: 3) {
                                 Text(prettify(val: item.amount))
@@ -39,9 +41,9 @@ struct AccountView: View {
                             }
                             .font(.caption2)
                         }
-                        .padding(10)
+                        .padding(15)
                     }
-                    .frame(width: 100, height: 120)
+                    .frame(width: 100)
                     .background(SwiftColor(rawValue: item.color)!.value.opacity(0.2))
                     .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
                     
@@ -49,6 +51,8 @@ struct AccountView: View {
                         Text(item.name.isEmpty ? "Name" : item.name)
                             .font(.subheadline)
                             .foregroundStyle(Color.gray)
+                            .lineLimit(1)
+                            .frame(width: 100)
                     }
                 }
                 
