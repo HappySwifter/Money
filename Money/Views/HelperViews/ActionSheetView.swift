@@ -11,8 +11,6 @@ struct ActionSheetView: View {
     @Binding var isPresented: Bool
     let presentingType: PresentingType
     
-    
-    
     var body: some View {
         VStack {
             switch presentingType {

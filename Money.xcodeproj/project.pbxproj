@@ -39,7 +39,6 @@
 		AC98AB732BF8648F00B15A2F /* SpengingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB722BF8648F00B15A2F /* SpengingView.swift */; };
 		AC98AB762BF8673B00B15A2F /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = AC98AB752BF8673B00B15A2F /* TODO.txt */; };
 		AC98AB782BF8779100B15A2F /* ExpensesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB772BF8779100B15A2F /* ExpensesService.swift */; };
-		AC98AB7A2BF8A50E00B15A2F /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */; };
 		AC98AB7D2BF8D67300B15A2F /* IconAndNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB7C2BF8D67300B15A2F /* IconAndNameView.swift */; };
 		AC98AB7F2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB7E2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift */; };
 		AC98AB812BF8D76F00B15A2F /* NewAccountAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */; };
@@ -137,7 +136,6 @@
 		AC98AB722BF8648F00B15A2F /* SpengingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpengingView.swift; sourceTree = "<group>"; };
 		AC98AB752BF8673B00B15A2F /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AC98AB772BF8779100B15A2F /* ExpensesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesService.swift; sourceTree = "<group>"; };
-		AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		AC98AB7C2BF8D67300B15A2F /* IconAndNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAndNameView.swift; sourceTree = "<group>"; };
 		AC98AB7E2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountChooseColorView.swift; sourceTree = "<group>"; };
 		AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountAmountView.swift; sourceTree = "<group>"; };
@@ -232,18 +230,13 @@
 				ACD4C93E2B8F09F00087F632 /* Dashboard.swift */,
 				ACD4C9442B8F421E0087F632 /* AccountView.swift */,
 				AC213FDF2B9827100095846E /* CategoryView.swift */,
-				ACF62AFF2B91E61A002CB75D /* MenuView.swift */,
-				ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */,
-				AC98AB842BF8E69500B15A2F /* ReportView.swift */,
-				AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */,
-				ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */,
-				AC690C3A2C3D6E59006E284E /* IconView.swift */,
-				ACE15CEE2C3FBC6E003340B8 /* AddDataHelperView.swift */,
-				ACE15CF62C3FFE5D003340B8 /* SettingsView.swift */,
+				AC8ECAE62C4269C10079F806 /* Details */,
+				AC98AB7B2BF8D65600B15A2F /* NewAccount */,
+				ACCD11072B9C76BA000EF710 /* Transfer */,
 				AC98AB742BF8652400B15A2F /* History */,
-				ACA3AF352B932F9100403538 /* Sheets */,
-				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
-				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
+				AC8ECAE52C42698B0079F806 /* Report */,
+				AC8ECAE72C4269E60079F806 /* Calculator */,
+				AC8ECAE82C426A250079F806 /* HelperViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,7 +295,6 @@
 				ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */,
 				AC5A16EA2B99E09C00B07D1A /* Preferences.swift */,
 				ACD4C9402B8F2A950087F632 /* test.swift */,
-				AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */,
 				AC4080BB2B8E34AD004D7575 /* Assets.xcassets */,
 				AC4080BD2B8E34AD004D7575 /* Money.entitlements */,
 				ACA3AF4B2B93677900403538 /* Screenshot 2024-03-02 at 19.09.39.png */,
@@ -344,6 +336,48 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AC8ECAE52C42698B0079F806 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				AC98AB842BF8E69500B15A2F /* ReportView.swift */,
+				AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */,
+				ACA246D02BFAFE0900EE12B9 /* SectorChartView.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		AC8ECAE62C4269C10079F806 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
+				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		AC8ECAE72C4269E60079F806 /* Calculator */ = {
+			isa = PBXGroup;
+			children = (
+				ACF62B0A2B9225BB002CB75D /* CalculatorView.swift */,
+				ACA3AF2F2B92DF5B00403538 /* CalculatorButtonView.swift */,
+			);
+			path = Calculator;
+			sourceTree = "<group>";
+		};
+		AC8ECAE82C426A250079F806 /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				ACE15CEE2C3FBC6E003340B8 /* AddDataHelperView.swift */,
+				ACF62AFF2B91E61A002CB75D /* MenuView.swift */,
+				ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */,
+				ACE15CF62C3FFE5D003340B8 /* SettingsView.swift */,
+				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
+				AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */,
+				AC690C3A2C3D6E59006E284E /* IconView.swift */,
+			);
+			path = HelperViews;
+			sourceTree = "<group>";
+		};
 		AC98AB742BF8652400B15A2F /* History */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,7 +389,7 @@
 			path = History;
 			sourceTree = "<group>";
 		};
-		AC98AB7B2BF8D65600B15A2F /* NewAccountCategory */ = {
+		AC98AB7B2BF8D65600B15A2F /* NewAccount */ = {
 			isa = PBXGroup;
 			children = (
 				ACA3AF382B932FB800403538 /* NewAccountView.swift */,
@@ -365,20 +399,7 @@
 				AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */,
 				AC98AB7E2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift */,
 			);
-			path = NewAccountCategory;
-			sourceTree = "<group>";
-		};
-		ACA3AF352B932F9100403538 /* Sheets */ = {
-			isa = PBXGroup;
-			children = (
-				ACF62B012B91EB09002CB75D /* ActionSheetView.swift */,
-				AC98AB7B2BF8D65600B15A2F /* NewAccountCategory */,
-				AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */,
-				AC9AF85A2B944402005E9657 /* AccountDetailsView.swift */,
-				AC9AF8582B9443D3005E9657 /* CategoryDetailsView.swift */,
-				ACCD11072B9C76BA000EF710 /* Transfer */,
-			);
-			path = Sheets;
+			path = NewAccount;
 			sourceTree = "<group>";
 		};
 		ACC3EFAB2B958F500069C2D1 /* Files */ = {
@@ -584,7 +605,6 @@
 				AC98AB832BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift in Sources */,
 				AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */,
 				ACD4C9412B8F2A950087F632 /* test.swift in Sources */,
-				AC98AB7A2BF8A50E00B15A2F /* EnvironmentValues.swift in Sources */,
 				ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */,
 				AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */,
 				ACE15CE92C3F9802003340B8 /* IconType.swift in Sources */,
@@ -791,6 +811,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Money/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Income;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -832,6 +854,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Money/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Income;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
