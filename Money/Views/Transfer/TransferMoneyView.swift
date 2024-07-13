@@ -70,7 +70,7 @@ struct TransferMoneyView: View {
                             }
                         } label: {
                             TransactionAccountView(
-                                viewType: ItemType.source,
+                                viewType: .source,
                                 item: source
                             )
                         }
@@ -308,4 +308,31 @@ private extension Binding {
             }
         )
     }
+}
+
+#Preview {
+    
+    let preferences = Preferences(userDefaults: UserDefaults.standard,
+                              modelContext: previewContainer.mainContext)
+    
+    let currencyApi = CurrenciesApi(modelContext: previewContainer.mainContext,
+                                preferences: preferences)
+    
+    let expensesService = ExpensesService(preferences: preferences,
+                                        modelContext: previewContainer.mainContext, currenciesApi: currencyApi)
+    
+    
+    var desc = FetchDescriptor<Account>()
+    desc.predicate = Account.accountPredicate()
+    let accounts = try! previewContainer.mainContext.fetch(desc)
+    
+    desc.predicate = Account.categoryPredicate()
+    let categories = try! previewContainer.mainContext.fetch(desc)
+    
+    return TransferMoneyView(source: accounts[0],
+                             destination: categories[1],
+                             isSheetPresented: .constant(true))
+        .modelContainer(previewContainer)
+        .environment(currencyApi)
+        .environment(expensesService)
 }

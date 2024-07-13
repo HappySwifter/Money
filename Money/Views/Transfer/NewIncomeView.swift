@@ -89,3 +89,37 @@ struct NewIncomeView: View {
         isSheetPresented.toggle()
     }
 }
+
+#Preview {
+    var desc = FetchDescriptor<Account>()
+    desc.predicate = Account.accountPredicate()
+    let accounts = try? previewContainer.mainContext.fetch(desc)
+    
+    return NewIncomeView(destination: accounts!.first!, isSheetPresented: .constant(true))
+        .modelContainer(previewContainer)
+}
+
+@MainActor
+let previewContainer: ModelContainer = {
+    do {
+        let container = try ModelContainer(for: Account.self,
+                                           configurations: .init(isStoredInMemoryOnly: true))
+        for name in ["Bank", "Cash", "X", "Loooooooooooon account"] {
+            let acc = Account(orderIndex: 0, name: name, color: SwiftColor.allCases.randomElement()!, isAccount: true, amount: 1000)
+            acc.currency = MyCurrency(code: "RUB", name: "Ruble", symbol: "R")
+            acc.icon = Icon(name: "banknote", color: SwiftColor.allCases.randomElement()!, isMulticolor: false)
+            container.mainContext.insert(acc)
+        }
+        
+        for name in ["Food", "Clothes", "X", "Looooooooooooong cat"] {
+            let acc = Account(orderIndex: 0, name: name, color: .clear, isAccount: false, amount: 0)
+            acc.icon = Icon(name: "basket", color: SwiftColor.allCases.randomElement()!, isMulticolor: false)
+            container.mainContext.insert(acc)
+        }
+
+        return container
+    } catch {
+        fatalError("Failed to create container")
+    }
+}()
+
