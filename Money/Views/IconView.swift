@@ -10,12 +10,11 @@ import SwiftUI
 struct IconView: View {
     var icon: Icon
     var font = Font.system(size: 44)
+    var heightLimit: CGFloat? = 50
     
     var body: some View {
         Image(systemName: safeSystemImage(icon))
-//            .resizable()
-            .frame(height: 50)
-//            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            .frame(height: heightLimit)
             .symbolRenderingMode(icon.isMulticolor ? .multicolor : .monochrome)
             .font(font)
             .foregroundStyle(icon.color.value)
