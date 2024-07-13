@@ -155,11 +155,13 @@ struct Dashboard: View {
     
     func itemPressHandler(item: Account) {
         if let selectedAccount {
+            showImpact()
             presentingType = .transfer(source: selectedAccount, destination: item)
         }
     }
     
     func itemLongPressHandler(item: Account) {
+        showImpact()
         presentingType = .details(item: item)
     }
 }

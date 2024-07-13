@@ -18,6 +18,7 @@ struct AccountView: View {
         Button(
             action: {
                 selected = true
+                showImpact()
             },
             label: {
                 VStack {
