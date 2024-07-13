@@ -19,7 +19,7 @@ struct IconView: View {
             .symbolRenderingMode(icon.isMulticolor ? .multicolor : .monochrome)
             .font(font)
             .foregroundStyle(icon.color.value)
-            .accessibilityIdentifier("_IconView_Image")
+            .accessibilityIdentifier(IconViewImage)
     }
     
     private func safeSystemImage(_ icon: Icon) -> String {

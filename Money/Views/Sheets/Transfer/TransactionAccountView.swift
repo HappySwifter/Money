@@ -36,8 +36,8 @@ struct TransactionAccountView: View {
             }
         }
         .padding()
-        .frame(minHeight: 100, maxHeight: 100)
+        .frame(minHeight: 100, maxHeight: 120)
         .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .cornerRadiusWithBorder(radius: 10, borderColor: (SwiftColor(rawValue: item.color) == .clear) ? item.icon!.color.value : .clear)
     }
 }

@@ -58,7 +58,7 @@ struct AccountView: View {
                 
             }
         )
-        .accessibilityIdentifier("_AccountView_Button")
+        .accessibilityIdentifier(AccountViewButton)
         .supportsLongPress {
             longPressHandler?(item)
         }

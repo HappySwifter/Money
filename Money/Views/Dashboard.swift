@@ -63,7 +63,7 @@ struct Dashboard: View {
                     }
                     .buttonStyle(.plain)
                     .padding(.vertical)
-                    .accessibilityIdentifier("_AllAccountButton")
+                    .accessibilityIdentifier(AllAccountButton)
                     
                     Spacer()
                     MenuView(selectedAccount: selectedAccount,
@@ -127,7 +127,7 @@ struct Dashboard: View {
                         }
                     }
                 }
-                .accessibilityIdentifier("_ScrollView")
+                .accessibilityIdentifier(CategoriesScrollView)
                 
                 Button("", systemImage: "gearshape") {
                     settingsPresented.toggle()

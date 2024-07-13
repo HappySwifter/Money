@@ -21,7 +21,6 @@ struct MoneyApp: App {
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
             MyCurrency.self,
             Account.self,
             Transaction.self

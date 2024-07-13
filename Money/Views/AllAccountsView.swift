@@ -53,7 +53,7 @@ struct AllAccountsView: View {
                                 Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
                             }
                         }
-                        .accessibilityIdentifier("_AccountDetailsViewLink")
+                        .accessibilityIdentifier(AccountDetailsViewLink)
                     }
                     .onMove(perform: updateOrder)
                     .onDelete(perform: deleteAccount)

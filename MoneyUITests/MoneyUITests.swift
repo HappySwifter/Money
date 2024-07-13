@@ -28,7 +28,7 @@ final class MoneyUITests: XCTestCase {
     
     func test_Dashboard_shouldOpenPaymentView() {
         let app = XCUIApplication()
-        app.scrollViews["_ScrollView"].otherElements.buttons["_CategoryView_Button"].images["_IconView_Image"].tap()
+        app.scrollViews[CategoriesScrollView].otherElements.buttons[CategoryViewButton].images[IconViewImage].tap()
         let newExpenseNavigationBar = app.navigationBars["New expense"]
         newExpenseNavigationBar.staticTexts["New expense"].tap()
         newExpenseNavigationBar.buttons["Close"].tap()
@@ -37,27 +37,39 @@ final class MoneyUITests: XCTestCase {
     func test_Category_IconAndNameView_NavigationLink_SymbolPickerView_shouldOpen() {
         let app = XCUIApplication()
         let elementsQuery = app.scrollViews.otherElements
-        elementsQuery.buttons["_CategoryView_Button"].images["_IconView_Image"].press(forDuration: 1.4);
-        elementsQuery.buttons["_NewAccountEmojiAndNameView_NavigationLink"].tap()
+        
+        // if there is more than one cell in the list, select first one
+        let firstButtonInList = elementsQuery.buttons.matching(identifier: CategoryViewButton).element(boundBy: 0)
+        
+        firstButtonInList.images[IconViewImage].press(forDuration: 1.4);
+        elementsQuery.buttons[SymbolPickerViewLink].tap()
         app.navigationBars["Icon"].buttons["Save"].tap()
         app.navigationBars["_TtGC7SwiftUI32NavigationStackHosting"].buttons["Close"].tap()
         
     }
     
     func test_Account_IconAndNameView_NavigationLink_SymbolPickerView_shouldOpen() {
-        
         let app = XCUIApplication()
         let elementsQuery = app.scrollViews.otherElements
-        elementsQuery.buttons["_AccountView_Button"].images["_IconView_Image"].press(forDuration: 1.4);
-        elementsQuery.buttons["_NewAccountEmojiAndNameView_NavigationLink"].tap()
+        
+        // if there is more than one cell in the list, select first one
+        let firstButtonInList = elementsQuery.buttons.matching(identifier: AccountViewButton).element(boundBy: 0)
+        
+        firstButtonInList.images[IconViewImage].press(forDuration: 1.4);
+        elementsQuery.buttons[SymbolPickerViewLink].tap()
         app.navigationBars["Icon"].buttons["Save"].tap()
         app.navigationBars["_TtGC7SwiftUI32NavigationStackHosting"].buttons["Close"].tap()
     }
     
     func test_Dashboard_shouldOpenAccountsList() {
         let app = XCUIApplication()
-        app.buttons["_AllAccountButton"].tap()
-        app.collectionViews.buttons["_AccountDetailsViewLink"].tap()
+        app.buttons[AllAccountButton].tap()
+        
+        // if there is more than one cell in the list, select first one
+        let firstButtonInList = app.collectionViews.buttons.matching(identifier: AccountDetailsViewLink).element(boundBy: 0)
+        
+        firstButtonInList.tap()
+        
         let backButton = app.navigationBars["_TtGC7SwiftUI32NavigationStackHosting"].buttons["Back"]
         backButton.tap()
         backButton.tap()
@@ -71,4 +83,5 @@ final class MoneyUITests: XCTestCase {
             }
         }
     }
+
 }

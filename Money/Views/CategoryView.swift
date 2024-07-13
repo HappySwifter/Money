@@ -34,7 +34,7 @@ struct CategoryView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
         )
-        .accessibilityIdentifier("_CategoryView_Button")
+        .accessibilityIdentifier(CategoryViewButton)
         .supportsLongPress {
             longPressHandler(item)
         }

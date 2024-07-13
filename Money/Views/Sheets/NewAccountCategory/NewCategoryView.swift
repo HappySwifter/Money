@@ -21,7 +21,7 @@ struct NewCategoryView: View {
     
     @State private var category = Account(orderIndex: 0,
                                   name: "",
-                                  color: SwiftColor.allCases.randomElement()!,
+                                  color: SwiftColor.clear,
                                   isAccount: false,
                                   amount: 0)
     @State private var icon = Icon(name: "basket.fill", color: .green, isMulticolor: true)
