@@ -133,7 +133,7 @@ class ExpensesService {
             }
             retVal.append(PieChartValue(amount: Int(round(totalForName)),
                                         title: name,
-                                        color: trans.first?.destination?.color ?? "",
+                                        color: trans.first?.destination?.icon?.color.rawValue ?? "",
                                         data: trans))
         }
         let sorted = retVal.sorted(by: { $0.amount > $1.amount })
