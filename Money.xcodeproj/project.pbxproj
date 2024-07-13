@@ -15,7 +15,6 @@
 		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
 		AC213FEB2B987E0D0095846E /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
-		AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B72B8E34AB004D7575 /* ContentView.swift */; };
 		AC4080BC2B8E34AD004D7575 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4080BB2B8E34AD004D7575 /* Assets.xcassets */; };
 		AC4080C02B8E34AD004D7575 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4080BF2B8E34AD004D7575 /* Preview Assets.xcassets */; };
 		AC4080CB2B8E34AD004D7575 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080CA2B8E34AD004D7575 /* MoneyTests.swift */; };
@@ -112,7 +111,6 @@
 		AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
-		AC4080B72B8E34AB004D7575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AC4080BB2B8E34AD004D7575 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC4080BD2B8E34AD004D7575 /* Money.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Money.entitlements; sourceTree = "<group>"; };
 		AC4080BF2B8E34AD004D7575 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -303,7 +301,6 @@
 				AC5A16E82B997AB100B07D1A /* CorneredBorderModifier.swift */,
 				ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */,
 				AC5A16EA2B99E09C00B07D1A /* Preferences.swift */,
-				AC4080B72B8E34AB004D7575 /* ContentView.swift */,
 				ACD4C9402B8F2A950087F632 /* test.swift */,
 				AC98AB792BF8A50E00B15A2F /* EnvironmentValues.swift */,
 				AC4080BB2B8E34AD004D7575 /* Assets.xcassets */,
@@ -563,7 +560,6 @@
 			files = (
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
-				AC4080B82B8E34AB004D7575 /* ContentView.swift in Sources */,
 				AC98AB732BF8648F00B15A2F /* SpengingView.swift in Sources */,
 				ACE15CEF2C3FBC6E003340B8 /* AddDataHelperView.swift in Sources */,
 				AC213FE02B9827100095846E /* CategoryView.swift in Sources */,

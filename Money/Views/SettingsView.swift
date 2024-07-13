@@ -9,8 +9,11 @@ import SwiftUI
 
 
 struct SettingsView: View {
+    @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Environment(SettingsService.self) private var settings
+    @Environment(AppRootManager.self) private var rootManager
+    
     @State private var accountNameIsInside = true
     
     var body: some View {
@@ -20,6 +23,12 @@ struct SettingsView: View {
                     Toggle(isOn: $accountNameIsInside, label: {
                         Text("Name is inside")
                     })
+                }
+                Section("App data") {
+                    Button("Delete data") {
+                        deleteAllData()
+                    }
+                    .foregroundStyle(.red)
                 }
             }
             .navigationTitle("Settings")
@@ -40,6 +49,19 @@ struct SettingsView: View {
     private func save() {
         let appSettings = AppSettings(isAccountNameInside: accountNameIsInside)
         settings.save(settings: appSettings)
+    }
+    
+    private func deleteAllData() {
+        do {
+            try context.delete(model: Account.self)
+            try context.delete(model: MyCurrency.self)
+            try context.delete(model: Transaction.self)
+            
+            rootManager.updateRoot()
+        } catch {
+            print(error)
+        }
+        
     }
 }
 

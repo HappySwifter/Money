@@ -8,6 +8,7 @@
 import Foundation
 
 @Observable final class SettingsService {
+    
     private let key = "AppSettings"
     private let defaults = UserDefaults.standard
     var appSettings: AppSettings
