@@ -32,12 +32,10 @@ class ExpensesService {
     }
     
     private func loadData() {
-        Task {
-            do {
-                try calculateSpent()
-            } catch {
-                print(error)
-            }
+        do {
+            try calculateSpent()
+        } catch {
+            print(error)
         }
     }
     

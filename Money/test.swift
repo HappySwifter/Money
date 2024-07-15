@@ -76,9 +76,9 @@ extension Date {
         return form.string(from: self)
     }
 }
-
-func showImpact() {
-    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+@MainActor private let impact = UIImpactFeedbackGenerator(style: .light)
+@MainActor func showImpact() {
+    impact.impactOccurred()
 }
 
 extension Collection {

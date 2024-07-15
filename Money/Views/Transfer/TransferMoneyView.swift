@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+@MainActor
 struct TransferMoneyView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CurrenciesApi.self) private var currenciesApi

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct CalculatorView: View {
     let viewModel: CalculatorViewModel
     @Binding var resultString: String

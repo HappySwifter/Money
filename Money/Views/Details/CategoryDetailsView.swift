@@ -29,14 +29,14 @@ struct CategoryDetailsView: View {
                 NewAccountChooseColorView(account: $category, 
                                           isCategory: true)
                 
-                Button("Delete") {
-                    withAnimation {
-                        modelContext.delete(category)
-                        try? expensesService.calculateSpent()
-                        dismiss()
-                    }
-                }
-                .buttonStyle(DeleteButton())
+//                Button("Delete") {
+//                    withAnimation {
+//                        modelContext.delete(category)
+//                        try? expensesService.calculateSpent()
+//                        dismiss()
+//                    }
+//                }
+//                .buttonStyle(DeleteButton())
             }
             .padding()
         }

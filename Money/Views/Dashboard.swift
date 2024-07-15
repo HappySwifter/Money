@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+@MainActor
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(Preferences.self) private var preferences
@@ -137,6 +138,9 @@ struct Dashboard: View {
             .onChange(of: accounts, initial: true) {
                 selectedAccount = accounts.first
             }
+//            .task(id: accounts) {
+//                
+//            }
             .sheet(isPresented: sheetBinding) { ActionSheetView(
                 isPresented: sheetBinding,
                 presentingType: presentingType)

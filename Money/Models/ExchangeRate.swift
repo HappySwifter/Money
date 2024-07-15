@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ExchangeRate: Codable {
+struct ExchangeRate: Codable {
     public let date : String
     public var currency: [String: [String: Double]]
 

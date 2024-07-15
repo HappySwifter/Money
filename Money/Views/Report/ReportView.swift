@@ -18,6 +18,7 @@ enum PeriodType: String, CaseIterable {
     case year = "Year"
 }
 
+@MainActor
 struct ReportView: View {
     @Environment(ExpensesService.self) private var expensesService
     

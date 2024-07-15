@@ -28,6 +28,7 @@
 		AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */; };
 		AC6308A32C416B2E002C40D0 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6308A22C416B2E002C40D0 /* SettingsManager.swift */; };
 		AC6308A52C416EAA002C40D0 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6308A42C416EAA002C40D0 /* AppSettings.swift */; };
+		AC6642642C43EEFC00B1FA00 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = AC6642632C43EEFC00B1FA00 /* Testing */; };
 		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
@@ -196,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC6642642C43EEFC00B1FA00 /* Testing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +499,9 @@
 				AC4080C82B8E34AD004D7575 /* PBXTargetDependency */,
 			);
 			name = MoneyTests;
+			packageProductDependencies = (
+				AC6642632C43EEFC00B1FA00 /* Testing */,
+			);
 			productName = MoneyTests;
 			productReference = AC4080C62B8E34AD004D7575 /* MoneyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -553,6 +558,7 @@
 			mainGroup = AC4080A92B8E34AB004D7575;
 			packageReferences = (
 				AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				AC6642622C43E8DA00B1FA00 /* XCRemoteSwiftPackageReference "swift-testing" */,
 			);
 			productRefGroup = AC4080B32B8E34AB004D7575 /* Products */;
 			projectDirPath = "";
@@ -843,6 +849,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -858,6 +865,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -886,6 +894,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -901,6 +910,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1042,6 +1052,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AC6642622C43E8DA00B1FA00 /* XCRemoteSwiftPackageReference "swift-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-testing";
+			requirement = {
+				kind = versionRange;
+				maximumVersion = 2.0.0;
+				minimumVersion = 0.10.0;
+			};
+		};
 		AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -1051,6 +1070,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AC6642632C43EEFC00B1FA00 /* Testing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC6642622C43E8DA00B1FA00 /* XCRemoteSwiftPackageReference "swift-testing" */;
+			productName = Testing;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AC4080AA2B8E34AB004D7575 /* Project object */;
 }
