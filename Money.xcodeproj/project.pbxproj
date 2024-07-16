@@ -31,6 +31,7 @@
 		AC6642642C43EEFC00B1FA00 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = AC6642632C43EEFC00B1FA00 /* Testing */; };
 		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
+		AC711D3A2C463A9200C04828 /* HistoryErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC711D392C463A9200C04828 /* HistoryErrorView.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
 		AC8ECAE02C4234330079F806 /* AccessibilityIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */; };
 		AC8ECAE32C4235E70079F806 /* AccessibilityIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */; };
@@ -133,6 +134,7 @@
 		AC6308A42C416EAA002C40D0 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		AC690C3A2C3D6E59006E284E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
+		AC711D392C463A9200C04828 /* HistoryErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryErrorView.swift; sourceTree = "<group>"; };
 		AC872B0F2BA846400034E147 /* NewIncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIncomeView.swift; sourceTree = "<group>"; };
 		AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIDs.swift; sourceTree = "<group>"; };
 		AC8ECAEB2C426DF20079F806 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				ACCD11012B9C2278000EF710 /* HistoryView.swift */,
+				AC711D392C463A9200C04828 /* HistoryErrorView.swift */,
 				AC98AB6E2BF863EA00B15A2F /* IncomeView.swift */,
 				AC98AB702BF8645E00B15A2F /* TransferView.swift */,
 				AC98AB722BF8648F00B15A2F /* SpengingView.swift */,
@@ -656,6 +659,7 @@
 				AC98AB7D2BF8D67300B15A2F /* IconAndNameView.swift in Sources */,
 				ACA3AF322B930DAB00403538 /* CalculatorButton.swift in Sources */,
 				ACA3AF302B92DF5B00403538 /* CalculatorButtonView.swift in Sources */,
+				AC711D3A2C463A9200C04828 /* HistoryErrorView.swift in Sources */,
 				AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */,
 				AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */,
 				AC5A16E92B997AB100B07D1A /* CorneredBorderModifier.swift in Sources */,

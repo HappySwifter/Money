@@ -20,13 +20,25 @@ struct TransactionsByDate {
     let transactions: [Transaction]
 }
 
+private enum PaginationState {
+    case isLoading
+    case error(error: Error)
+}
+
 struct HistoryView: View {
+    private let fetchChunkSize = 15
+    
     @Environment(\.modelContext) private var modelContext
     @Environment(ExpensesService.self) private var expensesService
     
-    @State private var transactions = [Transaction]()
     @State private var selectedTransType = HistoryType.all
+    @State private var transactions = [Transaction]()
     @State private var groupedData = [TransactionsByDate]()
+        
+    @State private var paginationState = PaginationState.isLoading
+    @State private var allDataCount = 0
+    
+    private var isMoreDataAvailable: Bool { transactions.count < allDataCount }
     
     var body: some View {
         VStack {
@@ -39,54 +51,107 @@ struct HistoryView: View {
                     }
                 } label: {}
             }
-            List(groupedData, id: \.date) { group in
-                Section {
-                    ForEach(group.transactions) { transaction in
-                        if transaction.isIncome {
-                            IncomeView(transaction: transaction)
-                        } else if (transaction.destination?.isAccount ?? false) {
-                            TransferView(transaction: transaction)
-                        } else {
-                            SpengingView(transaction: transaction)
+            List {
+                ForEach(groupedData, id: \.date) { group in
+                    Section {
+                        ForEach(group.transactions) { transaction in
+                            if transaction.isIncome {
+                                IncomeView(transaction: transaction)
+                            } else if (transaction.destination?.isAccount ?? false) {
+                                TransferView(transaction: transaction)
+                            } else {
+                                SpengingView(transaction: transaction)
+                            }
                         }
+                        .onDelete(perform: { indexSet in
+                            deleteTransaction(at: indexSet, date: group.date)
+                        })
+                        .padding(.vertical, 5)
+                    } header: {
+                        Text(group.date.historyDateString)
+                            .font(.title3)
                     }
-                    .onDelete(perform: { indexSet in
-                        deleteTransaction(at: indexSet, date: group.date)
-                    })
-                    .padding(.vertical, 5)
-                } header: {
-                    Text(group.date.historyDateString)
-                        .font(.title3)
+
+                }
+                if isMoreDataAvailable {
+                    lastRowView
                 }
             }
         }
         .navigationTitle("History")
         .onAppear {
-            fetchTransactions()
+            transactions.removeAll()
+            fetchCount(type: selectedTransType)
         }
         .onChange(of: selectedTransType) {
-            groupedData = group(transactions: filter(transactions: self.transactions))
+            transactions.removeAll()
+            fetchCount(type: selectedTransType)
+        }
+    }
+        
+    var lastRowView: some View {
+        ZStack(alignment: .center) {
+            switch paginationState {
+            case .isLoading:
+                ProgressView()
+            case .error(let error):
+                HistoryErrorView(error: error)
+            }
+        }
+        .frame(height: 50)
+        .onAppear {
+            fetchTransactions(type: selectedTransType,
+                              offset: transactions.count)
         }
     }
     
-    private func fetchTransactions() {
+    private func fetchCount(type: HistoryType) {
         do {
-            let fetchDescriptor = FetchDescriptor<Transaction>(
-                sortBy: [SortDescriptor(\.date, order: .reverse)]
-            )
-            self.transactions = try modelContext.fetch(fetchDescriptor)
-            groupedData = group(transactions: filter(transactions: self.transactions))
+            var fetchDescriptor = FetchDescriptor<Transaction>()
+            fetchDescriptor.predicate = getPredicateFor(type: type)
+            self.allDataCount = try modelContext.fetchCount(fetchDescriptor)
         } catch {
             print(error)
+        }
+    }
+
+    private func fetchTransactions(type: HistoryType, offset: Int) {
+        do {
+            paginationState = .isLoading
+            var fetchDescriptor = FetchDescriptor<Transaction>()
+            fetchDescriptor.predicate = getPredicateFor(type: type)
+            fetchDescriptor.sortBy = [SortDescriptor(\.date, order: .reverse)]
+            fetchDescriptor.fetchLimit = fetchChunkSize
+            fetchDescriptor.fetchOffset = offset
+            let newChunk = try modelContext.fetch(fetchDescriptor)
+            transactions.append(contentsOf: newChunk)
+            groupedData = group(transactions: transactions)
+        } catch {
+            paginationState = .error(error: error)
+        }
+    }
+    
+    private func getPredicateFor(type: HistoryType) -> Predicate<Transaction>? {
+        switch type {
+        case .all:
+            return nil
+        case .income:
+            return #Predicate<Transaction> { $0.isIncome }
+        case .betweenAccounts:
+            return #Predicate<Transaction> { ($0.destination?.isAccount ?? false) && !$0.isIncome }
+        case .spending:
+            return #Predicate<Transaction> { !($0.destination?.isAccount ?? false) }
         }
     }
     
     private func deleteTransaction(at offsets: IndexSet, date: Date) {
         if let trans = groupedData.first(where: { $0.date == date }) {
             for i in offsets {
-                modelContext.delete(trans.transactions[i])
+                let model = trans.transactions[i]
+                transactions.removeAll(where: { $0.id == model.id })
+                modelContext.delete(model)
             }
-            fetchTransactions()
+            groupedData = group(transactions: transactions)
             try? expensesService.calculateSpent()
         }
     }
@@ -104,26 +169,11 @@ struct HistoryView: View {
             .map { TransactionsByDate(date: $0.key, transactions: $0.value) }
             .sorted { $0.date > $1.date }
     }
-    
-    private func filter(transactions: [Transaction]) -> [Transaction] {
-        return transactions.filter { trans in
-            switch selectedTransType {
-            case .all:
-                return true
-            case .income:
-                return trans.isIncome
-            case .betweenAccounts:
-                return (trans.destination?.isAccount ?? false) && !trans.isIncome
-            case .spending:
-                return !(trans.destination?.isAccount ?? false)
-            }
-        }
-    }
 }
 
-#Preview {
-    HistoryView()
-}
+//#Preview {
+//    HistoryView()
+//}
 
 extension Date {
     var omittedTime: Date {
