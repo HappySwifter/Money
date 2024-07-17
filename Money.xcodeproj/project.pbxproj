@@ -32,6 +32,7 @@
 		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
 		AC6EC30A2B96FB94006DB482 /* SwiftColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EC3092B96FB94006DB482 /* SwiftColor.swift */; };
 		AC711D3A2C463A9200C04828 /* HistoryErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC711D392C463A9200C04828 /* HistoryErrorView.swift */; };
+		AC711D3C2C465C6600C04828 /* TransactionsByDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC711D3B2C465C6600C04828 /* TransactionsByDate.swift */; };
 		AC872B102BA846400034E147 /* NewIncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC872B0F2BA846400034E147 /* NewIncomeView.swift */; };
 		AC8ECAE02C4234330079F806 /* AccessibilityIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */; };
 		AC8ECAE32C4235E70079F806 /* AccessibilityIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */; };
@@ -135,6 +136,7 @@
 		AC690C3A2C3D6E59006E284E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
 		AC711D392C463A9200C04828 /* HistoryErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryErrorView.swift; sourceTree = "<group>"; };
+		AC711D3B2C465C6600C04828 /* TransactionsByDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsByDate.swift; sourceTree = "<group>"; };
 		AC872B0F2BA846400034E147 /* NewIncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIncomeView.swift; sourceTree = "<group>"; };
 		AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIDs.swift; sourceTree = "<group>"; };
 		AC8ECAEB2C426DF20079F806 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */,
 				ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */,
 				ACA246D22BFB832A00EE12B9 /* TransactionPeriodType.swift */,
+				AC711D3B2C465C6600C04828 /* TransactionsByDate.swift */,
 				ACE15CEA2C3F981F003340B8 /* Icon.swift */,
 				ACE15CE82C3F9802003340B8 /* IconType.swift */,
 				AC6308A42C416EAA002C40D0 /* AppSettings.swift */,
@@ -630,6 +633,7 @@
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
 				AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */,
 				ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */,
+				AC711D3C2C465C6600C04828 /* TransactionsByDate.swift in Sources */,
 				AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */,
 				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
 				ACE15CF72C3FFE5D003340B8 /* SettingsView.swift in Sources */,

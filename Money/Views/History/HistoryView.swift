@@ -15,18 +15,13 @@ private enum HistoryType: String, CaseIterable {
     case spending = "Spendings"
 }
 
-struct TransactionsByDate {
-    let date: Date
-    let transactions: [Transaction]
-}
-
 private enum PaginationState {
     case isLoading
     case error(error: Error)
 }
 
 struct HistoryView: View {
-    private let fetchChunkSize = 15
+    private let fetchChunkSize = 20
     
     @Environment(\.modelContext) private var modelContext
     @Environment(ExpensesService.self) private var expensesService
@@ -47,7 +42,6 @@ struct HistoryView: View {
                 Picker(selection: $selectedTransType) {
                     ForEach(HistoryType.allCases, id: \.self) { type in
                         Text(type.rawValue)
-                        
                     }
                 } label: {}
             }
@@ -71,7 +65,6 @@ struct HistoryView: View {
                         Text(group.date.historyDateString)
                             .font(.title3)
                     }
-
                 }
                 if isMoreDataAvailable {
                     lastRowView
@@ -122,6 +115,7 @@ struct HistoryView: View {
             fetchDescriptor.predicate = getPredicateFor(type: type)
             fetchDescriptor.sortBy = [SortDescriptor(\.date, order: .reverse)]
             fetchDescriptor.fetchLimit = fetchChunkSize
+//            fetchDescriptor.propertiesToFetch = 
             fetchDescriptor.fetchOffset = offset
             let newChunk = try modelContext.fetch(fetchDescriptor)
             transactions.append(contentsOf: newChunk)

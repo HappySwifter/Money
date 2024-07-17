@@ -25,21 +25,21 @@ struct Dashboard: View {
         sort: \Account.orderIndex)
     private var categories: [Account]
     
-    @State var selectedAccount: Account?
-    @State var plusPressed = false
-    @State var createAccountPresented = false
-    @State var createCategoryPresented = false
-    @State var settingsPresented = false
-    @State var presentingType = PresentingType.none
+    @State private var selectedAccount: Account?
+    @State private var plusPressed = false
+    @State private var createAccountPresented = false
+    @State private var createCategoryPresented = false
+    @State private var settingsPresented = false
+    @State private var presentingType = PresentingType.none
     
-    var sheetBinding: Binding<Bool> {
+    private var sheetBinding: Binding<Bool> {
         Binding(
             get: { return self.presentingType != .none },
             set: { (newValue) in return self.presentingType = .none }
         )
     }
     
-    var columns: [GridItem] {
+    private var columns: [GridItem] {
         let count: Int
         switch horizontalSizeClass {
         case .compact:
@@ -157,14 +157,14 @@ struct Dashboard: View {
         }
     }
     
-    func itemPressHandler(item: Account) {
+    private func itemPressHandler(item: Account) {
         if let selectedAccount {
             showImpact()
             presentingType = .transfer(source: selectedAccount, destination: item)
         }
     }
     
-    func itemLongPressHandler(item: Account) {
+    private func itemLongPressHandler(item: Account) {
         showImpact()
         presentingType = .details(item: item)
     }
