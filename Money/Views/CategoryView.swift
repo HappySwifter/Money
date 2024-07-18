@@ -30,6 +30,7 @@ struct CategoryView: View {
                     Text(item.name.isEmpty ? "Name" : item.name)
                         .font(.body)
                         .lineLimit(1)
+                        .dynamicTypeSize(.xSmall ... .accessibility3)
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }

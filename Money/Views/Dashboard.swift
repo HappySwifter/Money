@@ -11,6 +11,7 @@ import SwiftData
 
 @MainActor
 struct Dashboard: View {
+    @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesApi.self) private var currenciesApi
@@ -43,9 +44,17 @@ struct Dashboard: View {
         let count: Int
         switch horizontalSizeClass {
         case .compact:
-            count = 4
+            if sizeCategory == .extraSmall {
+                count = 5
+            } else if sizeCategory == .accessibilityMedium {
+                count = 3
+            } else if sizeCategory.isAccessibilityCategory {
+                count = 2
+            } else {
+                count = 4
+            }
         case .regular:
-            count = 8
+            count = sizeCategory.isAccessibilityCategory ? 4 : 8
         default:
             count = 0
         }
@@ -61,6 +70,7 @@ struct Dashboard: View {
                     } label: {
                         Text("Accounts: \(expensesService.accountsTotalAmount)")
                             .foregroundStyle(Color.gray)
+                            .truncationMode(.head)
                     }
                     .buttonStyle(.plain)
                     .padding(.vertical)
@@ -71,6 +81,7 @@ struct Dashboard: View {
                              buttonPressed: $plusPressed,
                              presentingType: $presentingType)
                 }
+                .dynamicTypeSize(.xSmall ... .accessibility1)
                 
                 ScrollView(.horizontal) {
                     HStack {
@@ -88,7 +99,7 @@ struct Dashboard: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Divider()
-                    .padding(.vertical)
+                    .padding(.vertical, 5)
                 
                 HStack {
                     NavigationLink {
@@ -97,13 +108,16 @@ struct Dashboard: View {
                         VStack(alignment: .leading) {
                             if !expensesService.spentToday.isEmpty {
                                 Text("Spent today: \(expensesService.spentToday)")
+                                    .truncationMode(.head)
                             }
                             if !expensesService.spentThisMonth.isEmpty {
-                                Text("Spent this month: \(expensesService.spentThisMonth)")
+                                Text("This month: \(expensesService.spentThisMonth)")
+                                    .truncationMode(.head)
                             }
                         }
+                        .lineLimit(1)
                         .foregroundStyle(Color.gray)
-                        .font(.footnote)
+                        .font(.callout)
                     }
                     Spacer()
                     if !expensesService.availableYears.isEmpty {
@@ -118,6 +132,7 @@ struct Dashboard: View {
                     }
                 }
                 .buttonStyle(.plain)
+                .dynamicTypeSize(.xSmall ... .accessibility2)
                 
                 ScrollView {
                     LazyVGrid(columns: columns, alignment: .leading) {
@@ -133,6 +148,7 @@ struct Dashboard: View {
                 Button("", systemImage: "gearshape") {
                     settingsPresented.toggle()
                 }
+                .dynamicTypeSize(.large ... .accessibility1)
             }
             .padding()
             .onChange(of: accounts, initial: true) {

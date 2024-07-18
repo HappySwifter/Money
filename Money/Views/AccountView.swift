@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AccountView: View {
+    private let minWidth = 110.0
+    @ScaledMetric private var scaledMetric: CGFloat = 100
+    
     @Environment(SettingsService.self) private var settings
     @State var item: Account
     @Binding var currency: MyCurrency?
@@ -26,34 +29,28 @@ struct AccountView: View {
                         VStack {
                             if let icon = item.icon {
                                 IconView(icon: icon)
-//                                    .background(.red.opacity(0.2))
                             } else {
                                 // TODO user image
                             }
                             if settings.appSettings.isAccountNameInside {
-                                Text(item.name.isEmpty ? "Name" : item.name)
-                                    .font(.subheadline)
-                                    .foregroundStyle(Color.gray)
-                                    .lineLimit(1)
+                                accountName
                             }
                             HStack(spacing: 3) {
                                 Text(prettify(val: item.amount))
+                                    .lineLimit(1)
                                 Text(currency?.symbol ?? "")
                             }
                             .font(.caption2)
                         }
-                        .padding(15)
+                        .padding(10)
                     }
-                    .frame(width: 100)
+                    .frame(width: max(scaledMetric, minWidth))
                     .background(SwiftColor(rawValue: item.color)!.value.opacity(0.2))
                     .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
                     
                     if !settings.appSettings.isAccountNameInside {
-                        Text(item.name.isEmpty ? "Name" : item.name)
-                            .font(.subheadline)
-                            .foregroundStyle(Color.gray)
-                            .lineLimit(1)
-                            .frame(width: 100)
+                        accountName
+                            .frame(width: max(scaledMetric, minWidth))
                     }
                 }
                 
@@ -63,5 +60,14 @@ struct AccountView: View {
         .supportsLongPress {
             longPressHandler?(item)
         }
+    }
+    
+    private var accountName: some View {
+        Text(item.name.isEmpty ? "Name" : item.name)
+            .dynamicTypeSize(.xSmall ... .accessibility1)
+            .font(.subheadline)
+            .foregroundStyle(Color.gray)
+            .lineLimit(1)
+            .frame(width: max(scaledMetric, minWidth))
     }
 }
