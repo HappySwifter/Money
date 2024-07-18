@@ -24,7 +24,7 @@ struct AccountView: View {
                 showImpact()
             },
             label: {
-                VStack {
+                VStack(spacing: 5) {
                     VStack {
                         VStack {
                             if let icon = item.icon {
@@ -41,6 +41,7 @@ struct AccountView: View {
                                 Text(currency?.symbol ?? "")
                             }
                             .font(.caption2)
+                            .dynamicTypeSize(.xSmall ... .accessibility3)
                         }
                         .padding(10)
                     }
@@ -64,10 +65,46 @@ struct AccountView: View {
     
     private var accountName: some View {
         Text(item.name.isEmpty ? "Name" : item.name)
-            .dynamicTypeSize(.xSmall ... .accessibility1)
+            .dynamicTypeSize(.xSmall ... .accessibility3)
             .font(.subheadline)
             .foregroundStyle(Color.gray)
             .lineLimit(1)
             .frame(width: max(scaledMetric, minWidth))
     }
 }
+
+#Preview(body: {
+    let icons = ["trash", "banknote", "paperplane", "doc", "clipboard"]
+
+    var acc = Account(orderIndex: 0, name: "Super Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
+    acc.icon = Icon(name: icons[0], color: .green, isMulticolor: true)
+    
+    var acc2 = Account(orderIndex: 0, name: "Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
+    acc2.icon = Icon(name: icons[1], color: .green, isMulticolor: true)
+    
+    var acc3 = Account(orderIndex: 0, name: "Tinkoff", color: SwiftColor.blue, isAccount: true, amount: 999)
+    acc3.icon = Icon(name: icons[2], color: .green, isMulticolor: true)
+        
+    var accounts = [Account]()
+    accounts.append(acc)
+    accounts.append(acc2)
+    accounts.append(acc3)
+    
+    let set = SettingsService()
+    set.save(settings: AppSettings(isAccountNameInside: false))
+
+    return ScrollView(.horizontal) {
+        HStack {
+            ForEach(accounts) { item in
+                AccountView(item: item,
+                            currency: .constant(item.currency),
+                            selected: .constant(false),
+                            longPressHandler: nil)
+                .environment(set)
+            }
+        }
+    }
+    .scrollIndicators(.hidden)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding()
+})

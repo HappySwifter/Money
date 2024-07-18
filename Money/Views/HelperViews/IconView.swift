@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct IconView: View {
+    @ScaledMetric(relativeTo: .largeTitle) var height: CGFloat = 50
+
     var icon: Icon
-    var font = Font.system(size: 44)
-    var heightLimit: CGFloat? = 50
+    var font = Font.largeTitle
     
     var body: some View {
         Image(systemName: safeSystemImage(icon))
-            .frame(height: heightLimit)
+            .frame(height: height)
             .symbolRenderingMode(icon.isMulticolor ? .multicolor : .monochrome)
             .font(font)
             .foregroundStyle(icon.color.value)
             .accessibilityIdentifier(IconViewImage)
+            .dynamicTypeSize(.xSmall ... .accessibility3)
     }
     
     private func safeSystemImage(_ icon: Icon) -> String {
@@ -33,5 +35,5 @@ struct IconView: View {
 }
 
 #Preview {
-    IconView(icon: Icon(name: "doc", color: .blue, isMulticolor: true))
+    IconView(icon: Icon(name: "doc", color: .blue, isMulticolor: true), font: .largeTitle)
 }

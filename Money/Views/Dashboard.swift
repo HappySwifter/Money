@@ -63,7 +63,7 @@ struct Dashboard: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     NavigationLink {
                         AllAccountsView(userCurrency: preferences.getUserCurrency())
@@ -148,7 +148,7 @@ struct Dashboard: View {
                 Button("", systemImage: "gearshape") {
                     settingsPresented.toggle()
                 }
-                .dynamicTypeSize(.large ... .accessibility1)
+                .dynamicTypeSize(.xxLarge ... .accessibility1)
             }
             .padding()
             .onChange(of: accounts, initial: true) {
