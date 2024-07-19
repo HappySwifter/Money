@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct AppSettings: Codable {
-    let isAccountNameInside: Bool
+enum AppSettings {
+    static let isAccountNameInside = "isAccountNameInside"
 }

@@ -26,7 +26,6 @@
 		AC5A16EF2B9A010900B07D1A /* CurrencySymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */; };
 		AC5A16F12B9A01BE00B07D1A /* CurrencySymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */; };
 		AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */; };
-		AC6308A32C416B2E002C40D0 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6308A22C416B2E002C40D0 /* SettingsManager.swift */; };
 		AC6308A52C416EAA002C40D0 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6308A42C416EAA002C40D0 /* AppSettings.swift */; };
 		AC6642642C43EEFC00B1FA00 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = AC6642632C43EEFC00B1FA00 /* Testing */; };
 		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
@@ -131,7 +130,6 @@
 		AC5A16EE2B9A010900B07D1A /* CurrencySymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CurrencySymbols.json; sourceTree = "<group>"; };
 		AC5A16F02B9A01BE00B07D1A /* CurrencySymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbol.swift; sourceTree = "<group>"; };
 		AC619D722BFC5E9F00B28E16 /* ReportTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableView.swift; sourceTree = "<group>"; };
-		AC6308A22C416B2E002C40D0 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		AC6308A42C416EAA002C40D0 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		AC690C3A2C3D6E59006E284E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		AC6EC3092B96FB94006DB482 /* SwiftColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftColor.swift; sourceTree = "<group>"; };
@@ -401,7 +399,6 @@
 			children = (
 				AC5A16EA2B99E09C00B07D1A /* Preferences.swift */,
 				ACE15CF02C3FBD29003340B8 /* AppRootManager.swift */,
-				AC6308A22C416B2E002C40D0 /* SettingsManager.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -674,7 +671,6 @@
 				ACE15CF12C3FBD29003340B8 /* AppRootManager.swift in Sources */,
 				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC98AB852BF8E69500B15A2F /* ReportView.swift in Sources */,
-				AC6308A32C416B2E002C40D0 /* SettingsManager.swift in Sources */,
 				AC031EE12B918684006A3A8C /* Account.swift in Sources */,
 				ACA3AF462B933DAA00403538 /* TransferMoneyView.swift in Sources */,
 				AC9AF85D2B9447CD005E9657 /* DeleteButtonStyle.swift in Sources */,

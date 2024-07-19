@@ -11,12 +11,12 @@ import SwiftData
 
 
 struct SettingsView: View {
+    private let defaults = UserDefaults.standard
+        
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @Environment(SettingsService.self) private var settings
     @Environment(AppRootManager.self) private var rootManager
     @Environment(Preferences.self) private var preferences
-    
     @State private var accountNameIsInside = true
     
     var body: some View {
@@ -48,14 +48,13 @@ struct SettingsView: View {
                 }
             }
             .onAppear {
-                accountNameIsInside = settings.appSettings.isAccountNameInside
+                accountNameIsInside = defaults.bool(forKey: AppSettings.isAccountNameInside)
             }
         }
     }
         
     private func save() {
-        let appSettings = AppSettings(isAccountNameInside: accountNameIsInside)
-        settings.save(settings: appSettings)
+        defaults.setValue(accountNameIsInside, forKey: AppSettings.isAccountNameInside)
     }
     
     private func deleteAllData() {

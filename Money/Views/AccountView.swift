@@ -10,8 +10,8 @@ import SwiftUI
 struct AccountView: View {
     private let minWidth = 110.0
     @ScaledMetric private var scaledMetric: CGFloat = 100
-    
-    @Environment(SettingsService.self) private var settings
+    @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = false
+
     @State var item: Account
     @Binding var currency: MyCurrency?
     @Binding var selected: Bool
@@ -32,7 +32,7 @@ struct AccountView: View {
                             } else {
                                 // TODO user image
                             }
-                            if settings.appSettings.isAccountNameInside {
+                            if isAccountNameInside {
                                 accountName
                             }
                             HStack(spacing: 3) {
@@ -49,7 +49,7 @@ struct AccountView: View {
                     .background(SwiftColor(rawValue: item.color)!.value.opacity(0.2))
                     .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
                     
-                    if !settings.appSettings.isAccountNameInside {
+                    if !isAccountNameInside {
                         accountName
                             .frame(width: max(scaledMetric, minWidth))
                     }
@@ -90,9 +90,9 @@ struct AccountView: View {
     accounts.append(acc2)
     accounts.append(acc3)
     
-    let set = SettingsService()
-    set.save(settings: AppSettings(isAccountNameInside: false))
 
+    UserDefaults.standard.setValue(false, forKey: AppSettings.isAccountNameInside)
+    
     return ScrollView(.horizontal) {
         HStack {
             ForEach(accounts) { item in
@@ -100,7 +100,6 @@ struct AccountView: View {
                             currency: .constant(item.currency),
                             selected: .constant(false),
                             longPressHandler: nil)
-                .environment(set)
             }
         }
     }
