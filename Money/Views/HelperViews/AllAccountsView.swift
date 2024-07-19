@@ -11,71 +11,71 @@ import SwiftData
 struct AllAccountsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(Preferences.self) private var preferences
-//    @Environment(CurrenciesApi.self) private var currenciesApi
     @Environment(ExpensesService.self) private var expensesService
-
     
-    @Query(filter: Account.accountPredicate(),
-           sort: \Account.orderIndex)
-    private var accounts: [Account]
+//    @Query(
+//        filter: Account.accountPredicate(),
+//        sort: \Account.orderIndex)
+    @State private var accounts = [Account]()
+    @State private var userCurrencies = [MyCurrency]()
+    @State var selectedCurrency: MyCurrency
     
-    @State var userCurrency: MyCurrency
-    @State var newAccountSheetPresend = false
-    
-    var userCurrencies: [MyCurrency] {
-        var set = Set<MyCurrency>()
-        accounts.forEach { set.insert($0.currency!) }
-        set.insert(userCurrency)
-        return Array(set)
-    }
     
     var body: some View {
         VStack {
-            if accounts.isEmpty {
-                Button {
-                    newAccountSheetPresend.toggle()
-                } label: {
-                    HStack {
-                        Text("Create new account")
-                    }
-                }
-                .padding(.vertical)
-            } else {
-                List {
-                    ForEach(accounts) { acc in
-                        NavigationLink {
-                            AccountDetailsView(account: acc)
-                        } label: {
-                            HStack {
-                                Text(acc.name)
-                                Text(acc.currency?.symbol ?? "")
-                                Spacer()
-                                Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
-                            }
+            List {
+                ForEach(accounts) { acc in
+                    NavigationLink {
+                        AccountDetailsView(account: acc)
+                    } label: {
+                        HStack {
+                            Text(acc.name)
+                            Text(acc.currency?.symbol ?? "")
+                            Spacer()
+                            Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
                         }
-                        .accessibilityIdentifier(AccountDetailsViewLink)
                     }
-                    .onMove(perform: updateOrder)
-                    .onDelete(perform: deleteAccount)
+                    .accessibilityIdentifier(AccountDetailsViewLink)
                 }
+                .onMove(perform: updateOrder)
+                .onDelete(perform: deleteAccount)
             }
             Spacer()
             NavigationLink {
-                CurrencyPicker(selectedCurrency: $userCurrency, currenciesToShow: userCurrencies)
+                CurrencyPicker(selectedCurrency: $selectedCurrency, currenciesToShow: userCurrencies)
             } label: {
-                Text("Selected currency: \(userCurrency.name)")
+                Text("Selected currency: \(selectedCurrency.name)")
             }
         }
-        .onChange(of: userCurrency) {
-            preferences.updateUser(currencyCode: userCurrency.code)
+        .onAppear {
+            fetchAccounts()
+            userCurrencies = getUserCurrencies()
+        }
+        .onChange(of: selectedCurrency) {
+            preferences.updateUser(currencyCode: selectedCurrency.code)
             try? expensesService.calculateSpent()
         }
-        .sheet(isPresented: $newAccountSheetPresend, content: {
-            NewAccountView(isSheetPresented: $newAccountSheetPresend)
-        })
         .toolbar {
             EditButton()
         }
+    }
+    
+    private func fetchAccounts() {
+        var desc = FetchDescriptor<Account>()
+        desc.predicate = Account.accountPredicate()
+        desc.sortBy = [SortDescriptor(\.orderIndex)]
+        self.accounts = (try? modelContext.fetch(desc)) ?? []
+    }
+    
+    private func getUserCurrencies() -> [MyCurrency] {
+        var set = Set<MyCurrency>()
+        accounts.forEach {
+            if let cur = $0.currency {
+                set.insert(cur)
+            }
+        }
+        set.insert(selectedCurrency)
+        return Array(set)
     }
     
     private func deleteAccount(at offsets: IndexSet) {

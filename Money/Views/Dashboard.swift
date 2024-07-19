@@ -66,7 +66,7 @@ struct Dashboard: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     NavigationLink {
-                        AllAccountsView(userCurrency: preferences.getUserCurrency())
+                        AllAccountsView(selectedCurrency: preferences.getUserCurrency())
                     } label: {
                         Text("Accounts: \(expensesService.accountsTotalAmount)")
                             .foregroundStyle(Color.gray)
