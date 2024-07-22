@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
 private enum HistoryType: String, CaseIterable {
     case all = "Show all"
@@ -20,14 +20,14 @@ private enum PaginationState {
     case error(error: Error)
 }
 
+@MainActor
 struct HistoryView: View {
-    private let fetchChunkSize = 20
-    
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
-    
+    private let fetchChunkSize = 20
+
     @State private var selectedTransType = HistoryType.all
-    @State private var transactions = [Transaction]()
+    @State private var transactions = [MyTransaction]()
     @State private var groupedData = [TransactionsByDate]()
         
     @State private var paginationState = PaginationState.isLoading
@@ -72,13 +72,14 @@ struct HistoryView: View {
             }
         }
         .navigationTitle("History")
-        .onAppear {
-            transactions.removeAll()
-            fetchCount(type: selectedTransType)
+        .task {
+            await fetchCount(type: selectedTransType)
         }
-        .onChange(of: selectedTransType) {
+        .task(id: selectedTransType) {
             transactions.removeAll()
-            fetchCount(type: selectedTransType)
+            groupedData.removeAll()
+            await fetchCount(type: selectedTransType)
+            await fetchTransactions(type: selectedTransType, offset: 0)
         }
     }
         
@@ -92,61 +93,71 @@ struct HistoryView: View {
             }
         }
         .frame(height: 50)
-        .onAppear {
-            fetchTransactions(type: selectedTransType,
+        .task {
+            await fetchTransactions(type: selectedTransType,
                               offset: transactions.count)
         }
     }
     
-    private func fetchCount(type: HistoryType) {
+    private func fetchCount(type: HistoryType) async {
         do {
-            var fetchDescriptor = FetchDescriptor<Transaction>()
-            fetchDescriptor.predicate = getPredicateFor(type: type)
-            self.allDataCount = try modelContext.fetchCount(fetchDescriptor)
+            let predicate = getPredicateFor(type: type)
+            if let dataHandler = await dataHandler() {
+                self.allDataCount = try await dataHandler.getTransactionsCount(with: predicate)
+            }
         } catch {
             print(error)
         }
     }
 
-    private func fetchTransactions(type: HistoryType, offset: Int) {
+    private func fetchTransactions(type: HistoryType, offset: Int) async {
+        print("fetchTransactions", offset)
         do {
             paginationState = .isLoading
-            var fetchDescriptor = FetchDescriptor<Transaction>()
-            fetchDescriptor.predicate = getPredicateFor(type: type)
-            fetchDescriptor.sortBy = [SortDescriptor(\.date, order: .reverse)]
-            fetchDescriptor.fetchLimit = fetchChunkSize
-//            fetchDescriptor.propertiesToFetch = 
-            fetchDescriptor.fetchOffset = offset
-            let newChunk = try modelContext.fetch(fetchDescriptor)
-            transactions.append(contentsOf: newChunk)
-            groupedData = group(transactions: transactions)
+//            fetchDescriptor.propertiesToFetch =
+            if let dataHandler = await dataHandler() {
+                let predicate = getPredicateFor(type: type)
+                let sortBy = [SortDescriptor(\MyTransaction.date, order: .reverse)]
+                let newChunk = try await dataHandler.getTransactions(with: predicate,
+                                               sortBy: sortBy,
+                                               offset: offset,
+                                               fetchLimit: fetchChunkSize)
+                transactions.append(contentsOf: newChunk)
+                groupedData = group(transactions: transactions)
+            }
         } catch {
             paginationState = .error(error: error)
         }
     }
     
-    private func getPredicateFor(type: HistoryType) -> Predicate<Transaction>? {
+    private func getPredicateFor(type: HistoryType) -> Predicate<MyTransaction>? {
         switch type {
         case .all:
             return nil
         case .income:
-            return #Predicate<Transaction> { $0.isIncome }
+            return #Predicate<MyTransaction> { $0.isIncome }
         case .betweenAccounts:
-            return #Predicate<Transaction> { ($0.destination?.isAccount ?? false) && !$0.isIncome }
+            return #Predicate<MyTransaction> { ($0.destination?.isAccount ?? false) && !$0.isIncome }
         case .spending:
-            return #Predicate<Transaction> { !($0.destination?.isAccount ?? false) }
+            return #Predicate<MyTransaction> { !($0.destination?.isAccount ?? false) }
         }
     }
     
     private func deleteTransaction(at offsets: IndexSet, date: Date) {
-        if let trans = groupedData.first(where: { $0.date == date }) {
-            for i in offsets {
-                let model = trans.transactions[i]
-                transactions.removeAll(where: { $0.id == model.id })
-                modelContext.delete(model)
+        Task { @MainActor in
+            do {
+                if let trans = groupedData.first(where: { $0.date == date }) {
+                    for i in offsets {
+                        let model = trans.transactions[i]
+                        transactions.removeAll(where: { $0.id == model.id })
+                        try await dataHandler()?.delete(transation: model)
+                    }
+                    groupedData = group(transactions: transactions)
+                    try await expensesService.calculateSpent()
+                }
+            } catch {
+                print(error)
             }
-            groupedData = group(transactions: transactions)
-            try? expensesService.calculateSpent()
         }
     }
     
@@ -158,7 +169,7 @@ struct HistoryView: View {
 //            .map { Array($0) }
 //    }
     
-    private func group(transactions: [Transaction]) -> [TransactionsByDate] {
+    private func group(transactions: [MyTransaction]) -> [TransactionsByDate] {
         return Dictionary(grouping: transactions) { $0.date.omittedTime }
             .map { TransactionsByDate(date: $0.key, transactions: $0.value) }
             .sorted { $0.date > $1.date }

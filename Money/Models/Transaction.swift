@@ -6,18 +6,40 @@
 //
 
 import Foundation
-import SwiftData
+import DataProvider
 
-@Model
-class Transaction {
-    @Attribute(.unique) let id: UUID
-    var date: Date
-    var isIncome: Bool
-    var source: Account?
-    var destination: Account?
-    var sourceAmount: Double
-    var destinationAmount: Double?
-    
+//@Model
+//class Transaction {
+//    @Attribute(.unique) let id: UUID
+//    var date: Date
+//    var isIncome: Bool
+//    var source: Account?
+//    var destination: Account?
+//    var sourceAmount: Double
+//    var destinationAmount: Double?
+//    
+//    
+//    init(id: UUID = UUID(),
+//         date: Date = Date(),
+//         isIncome: Bool,
+//         sourceAmount: Double,
+//         source: Account?,
+//         destinationAmount: Double?,
+//         destination: Account?) 
+//    {
+//        self.id = id
+////        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
+//        self.date = date
+//        self.isIncome = isIncome
+//        self.sourceAmount = sourceAmount
+//        self.source = source
+//        self.destinationAmount = destinationAmount
+//        self.destination = destination
+//    }
+//    
+//}
+
+extension MyTransaction {
     var isExpense: Bool {
         !isIncome && !(destination?.isAccount ?? false)
     }
@@ -26,24 +48,6 @@ class Transaction {
     }
     var destinationAmountText: String {
         prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.currency?.symbol)
-    }
-    
-    init(id: UUID = UUID(),
-         date: Date = Date(),
-         isIncome: Bool,
-         sourceAmount: Double,
-         source: Account?,
-         destinationAmount: Double?,
-         destination: Account?) 
-    {
-        self.id = id
-//        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
-        self.date = date
-        self.isIncome = isIncome
-        self.sourceAmount = sourceAmount
-        self.source = source
-        self.destinationAmount = destinationAmount
-        self.destination = destination
     }
     
     func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
@@ -58,22 +62,10 @@ class Transaction {
             if let exchRate = rates.value(for: sourceCurrency.code) {
                 return sourceAmount / exchRate
             } else {
-                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
+//                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
                 return 0
             }
         }
     }
 }
 
-extension Transaction {
-    static func predicateFor(period: TransactionPeriodType, calendar: Calendar) -> Predicate<Transaction> {
-        let strart = period.startDate
-        let end = period.endDate
-        return #Predicate<Transaction> { tran in
-            tran.date >= strart &&
-            tran.date < end &&
-            !tran.isIncome &&
-            !(tran.destination?.isAccount ?? false)
-        }
-    }
-}

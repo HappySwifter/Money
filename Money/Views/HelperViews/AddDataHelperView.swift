@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
+@MainActor
 struct AddDataHelperView: View {
     @Environment(AppRootManager.self) private var appRootManager
     @Environment(Preferences.self) private var preferences
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dataHandlerWithMainContext) private var dataHandler
     
     var body: some View {
         ZStack {
@@ -55,62 +56,31 @@ struct AddDataHelperView: View {
     }
     
     private func addTestData() {
-        let userCurrency = preferences.getUserCurrency()
-        
-        let accDesc = FetchDescriptor<Account>()
-        let accountsCount = (try? modelContext.fetchCount(accDesc)) ?? 0
-        
-        let accountCash = Account(orderIndex: accountsCount,
-                                  name: "Cash",
-                                  color: .blue,
-                                  isAccount: true,
-                                  amount: 1000)
-        
-        let accountBank = Account(orderIndex: accountsCount + 1,
-                                  name: "Bank",
-                                  color: .blue,
-                                  isAccount: true,
-                                  amount: 10000)
-        
-        let categoryFood = Account(orderIndex: accountsCount + 2,
-                                   name: "Food",
-                                   color: .clear,
-                                   isAccount: false,
-                                   amount: 0)
-        
-        let categoryClothes = Account(orderIndex: accountsCount + 3,
-                                      name: "Clothes",
-                                      color: .clear,
-                                      isAccount: false,
-                                      amount: 0)
-        
-        
-        
-        accountCash.currency = userCurrency
-        accountCash.icon = Icon(name: "banknote", color: .green, isMulticolor: false)
-        
-        accountBank.currency = userCurrency
-        accountBank.icon = Icon(name: "creditcard", color: .blue, isMulticolor: false)
-        
-        categoryFood.icon = Icon(name: "basket", color: .indigo, isMulticolor: false)
-        categoryClothes.icon = Icon(name: "tshirt", color: .orange, isMulticolor: false)
-        modelContext.insert(categoryFood)
-        modelContext.insert(categoryClothes)
-        
-        appRootManager.currentRoot = .dashboard
+        let dataHandler = dataHandler
+        Task { @MainActor in
+            do {
+                if let dataHandler = await dataHandler() {
+                    let userCurrency = try await preferences.getUserCurrency()
+                    try await dataHandler.addTestData(userCurrency: userCurrency)
+                    appRootManager.currentRoot = .dashboard
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: MyCurrency.self, Account.self, Transaction.self, configurations: config)
-    
-    let rootManager = AppRootManager(modelContext: container.mainContext)
-    
-    let pref = Preferences(userDefaults: .standard, modelContext: container.mainContext)
-    
-    return AddDataHelperView()
-        .modelContainer(container)
-        .environment(rootManager)
-        .environment(pref)
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: MyCurrency.self, Account.self, MyTransaction.self, configurations: config)
+//    
+//    let rootManager = AppRootManager()
+//    
+//    let pref = Preferences(userDefaults: .standard)
+//    
+//    return AddDataHelperView()
+//        .modelContainer(container)
+//        .environment(rootManager)
+//        .environment(pref)
+//}

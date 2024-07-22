@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct SpengingView: View {
-    @State var transaction: Transaction
+    @State var transaction: MyTransaction
     
     var body: some View {
         HStack {

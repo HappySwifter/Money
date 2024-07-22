@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DataProvider
 
 protocol CurrencyConvertible {
     var amount: Double { get }

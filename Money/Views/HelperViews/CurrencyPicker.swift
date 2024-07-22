@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
 struct CurrencyPicker: View {
-    @Environment(CurrenciesApi.self) private var currenciesApi
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     
     @Binding var selectedCurrency: MyCurrency
     @State private var searchText = ""
@@ -37,13 +37,9 @@ struct CurrencyPicker: View {
                 }
             }
             .searchable(text: $searchText, prompt: "Search")
-            .onAppear {
+            .task {
                 searchText = ""
-                do {
-                    currencies = try currenciesApi.getCurrencies()
-                } catch {
-                    print(error)
-                }
+                currencies = (try? await dataHandlerMainContext()?.getCurrencies()) ?? []
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

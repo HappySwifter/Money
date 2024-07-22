@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import DataProvider
 
 struct TransactionsByDate {
     let date: Date
-    let transactions: [Transaction]
+    let transactions: [MyTransaction]
 }

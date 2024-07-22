@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
+@MainActor
 struct NewAccountView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(Preferences.self) private var preferences
     
     @Binding var isSheetPresented: Bool
@@ -17,12 +18,12 @@ struct NewAccountView: View {
     var completion: (() -> ())?
     
     @State private var currency: MyCurrency?
-    @State private var account = Account(orderIndex: 0,
-                                         name: "",
-                                         color: SwiftColor.green,
-                                         isAccount: true,
-                                         amount: 0)
-    @State private var icon = Icon(name: "banknote.fill", color: .blue, isMulticolor: true)
+    @State private var account = SchemaV1.Account(orderIndex: 0,
+                                                  name: "",
+                                                  color: SwiftColor.green,
+                                                  isAccount: true,
+                                                  amount: 0)
+    @State private var icon = Icon(name: "banknote.fill", color: SwiftColor.blue, isMulticolor: true)
     
     var body: some View {
         NavigationView {
@@ -41,9 +42,11 @@ struct NewAccountView: View {
                 }
                 .padding()
             }
-            .onAppear {
-                currency = preferences.getUserCurrency()
-                account.icon = icon
+            .task {
+                currency = try? await preferences.getUserCurrency()
+                await MainActor.run {
+                    account.icon = icon
+                }
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
@@ -66,15 +69,28 @@ struct NewAccountView: View {
     }
     
     func saveAccountAndClose() {
-        do {
-            let accDesc = FetchDescriptor<Account>()
-            let accountsCount = try modelContext.fetchCount(accDesc)
-            account.updateOrder(index: accountsCount)
-            account.currency = currency
-            completion?()
-            isSheetPresented.toggle()
-        } catch {
-            print(error)
+        Task { @MainActor in
+            do {
+                if let accountsCount = try await dataHandlerMainContext()?.getAccountsCount() {
+                    account.updateOrder(index: accountsCount)
+                }
+                account.currency = currency
+                completion?()
+                isSheetPresented.toggle()
+            } catch {
+                print(error)
+            }
         }
+        
     }
+    
+    //    @MainActor
+    //    private func addItem() {
+    //      let createDataHandler = createDataHandler
+    //      Task.detached {
+    //        if let dataHandler = await createDataHandler() {
+    //            try await dataHandler.new(account: account)
+    //        }
+    //      }
+    //    }
 }

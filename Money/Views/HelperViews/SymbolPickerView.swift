@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 private enum CurrencyViewMode: String, CaseIterable {
     case normal

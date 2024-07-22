@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct CurrencyMenuListView: View {
     @Binding var selectedItem: Account

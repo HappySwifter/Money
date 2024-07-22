@@ -11,55 +11,61 @@ struct ReportTableView: View {
     @Environment(Preferences.self) private var preferences
     @Binding var data: [PieChartValue]
     @Binding var selectedSector: PieChartValue?
-
+    @State private var userCurrencySymbol = ""
+    
     var body: some View {
-        if let selectedSector {
-            Button {
-                showImpact()
-                withAnimation {
-                    self.selectedSector = nil
-                }
-            } label: {
-                Text("Clear filter")
-            }
-            List(groupByDate(for: selectedSector), id: \.date) { tranByDate in
-                Section {
-                    ForEach(tranByDate.transactions) { tran in
-                        SpengingView(transaction: tran)
-//                        HStack {
-//                            VStack(alignment: .leading) {
-//                                Text("\(tran.source.icon) \(tran.source.name)")
-//                                    .foregroundStyle(.primary)
-//                                Text(tran.date.historyDateString)
-//                                    .foregroundStyle(.secondary)
-//                            }
-//                            Spacer()
-//                            Text(tran.sourceAmountText)
-//                                .foregroundStyle(.primary)
-//                        }
-                    }
-                } header: {
-                    Text(tranByDate.date.historyDateString)
-                }
-            }
-            
-        } else {
-            List(data, id: \.title) { element in
-                HStack {
-                    Text(element.title)
-                    Spacer()
-                    Text(String(element.amount))
-                    Text(preferences.getUserCurrency().symbol)
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
+        VStack {
+            if let selectedSector {
+                Button {
                     showImpact()
                     withAnimation {
-                        selectedSector = element
+                        self.selectedSector = nil
                     }
-                    
+                } label: {
+                    Text("Clear filter")
+                }
+                List(groupByDate(for: selectedSector), id: \.date) { tranByDate in
+                    Section {
+                        ForEach(tranByDate.transactions) { tran in
+                            SpengingView(transaction: tran)
+    //                        HStack {
+    //                            VStack(alignment: .leading) {
+    //                                Text("\(tran.source.icon) \(tran.source.name)")
+    //                                    .foregroundStyle(.primary)
+    //                                Text(tran.date.historyDateString)
+    //                                    .foregroundStyle(.secondary)
+    //                            }
+    //                            Spacer()
+    //                            Text(tran.sourceAmountText)
+    //                                .foregroundStyle(.primary)
+    //                        }
+                        }
+                    } header: {
+                        Text(tranByDate.date.historyDateString)
+                    }
+                }
+                
+            } else {
+                List(data, id: \.title) { element in
+                    HStack {
+                        Text(element.title)
+                        Spacer()
+                        Text(String(element.amount))
+                        Text(userCurrencySymbol)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        showImpact()
+                        withAnimation {
+                            selectedSector = element
+                        }
+                        
+                    }
                 }
             }
+        }
+        .task {
+            self.userCurrencySymbol = (try? await preferences.getUserCurrency().symbol) ?? ""
         }
     }
     

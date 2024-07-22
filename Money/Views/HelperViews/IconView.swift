@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct IconView: View {
     @ScaledMetric(relativeTo: .largeTitle) var height: CGFloat = 50

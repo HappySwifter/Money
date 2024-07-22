@@ -7,11 +7,11 @@
 
 import SwiftUI
 import SwiftData
+import DataProvider
 
 @MainActor
 struct TransferMoneyView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Environment(CurrenciesApi.self) private var currenciesApi
+    @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
 
     @Query(filter: #Predicate<Account> { $0.isAccount },
@@ -180,40 +180,45 @@ struct TransferMoneyView: View {
     }
     
     private func makeTransfer() {
-        guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
-            print("Enter source amount")
-            return
-        }
-        guard source.credit(amount: sourceAmount) else {
-            print("Not enough of money")
-            return
-        }
-        
-        var destAmount: Double?
-        if destination.isAccount {
-            if source.currency?.code == destination.currency?.code {
-                destination.deposit(amount: sourceAmount)
-                destAmount = sourceAmount
-            } else {
-                guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
-                    assert(false)
+        Task { @MainActor in
+            do {
+                guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
+                    print("Enter source amount")
                     return
                 }
-                destination.deposit(amount: destinationAmount)
-                destAmount = destinationAmount
+                guard source.credit(amount: sourceAmount) else {
+                    print("Not enough of money")
+                    return
+                }
+                
+                var destAmount: Double?
+                if destination.isAccount {
+                    if source.currency?.code == destination.currency?.code {
+                        destination.deposit(amount: sourceAmount)
+                        destAmount = sourceAmount
+                    } else {
+                        guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
+                            assert(false)
+                            return
+                        }
+                        destination.deposit(amount: destinationAmount)
+                        destAmount = destinationAmount
+                    }
+                }
+                
+                let transaction = MyTransaction(isIncome: false,
+                                              sourceAmount: sourceAmount,
+                                              source: source,
+                                              destinationAmount: destAmount,
+                                              destination: destination)
+                print(transaction.id)
+                try await dataHandler()?.new(transaction: transaction)
+                try await expensesService.calculateSpent()
+                isSheetPresented.toggle()
+            } catch {
+                print(error)
             }
         }
-        
-        let transaction = Transaction(isIncome: false,
-                                      sourceAmount: sourceAmount,
-                                      source: source,
-                                      destinationAmount: destAmount,
-                                      destination: destination)
-        print(transaction.id)
-        modelContext.insert(transaction)
-        try? modelContext.save()
-        try? expensesService.calculateSpent()
-        isSheetPresented.toggle()
     }
     
     private func swapItemsIfNeededAndUpdateRate(
@@ -236,7 +241,7 @@ struct TransferMoneyView: View {
             }
         }
         if destination.isAccount {
-            updateRate()
+//            updateRate()
         } else {
             focusedField = .source
             destinationAmount = "0"
@@ -244,18 +249,18 @@ struct TransferMoneyView: View {
         }
     }
     
-    private func updateRate() {
-        guard let sourceCode = source.currency?.code,
-              let destCode = destination.currency?.code else {
-            return
-        }
-        Task {
-            exchangeRate = try await loadRates(
-                sourceCode: sourceCode,
-                destinationCode: destCode) ?? 0
-            //                updateDestinationAmount(from: sourceAmount)
-        }
-    }
+//    private func updateRate() {
+//        guard let sourceCode = source.currency?.code,
+//              let destCode = destination.currency?.code else {
+//            return
+//        }
+//        Task {
+//            exchangeRate = try await loadRates(
+//                sourceCode: sourceCode,
+//                destinationCode: destCode) ?? 0
+//            //                updateDestinationAmount(from: sourceAmount)
+//        }
+//    }
     
     //    private func updateSourceAmount(from destination: String) {
     //        if sourceAmount == "0" {
@@ -293,10 +298,10 @@ struct TransferMoneyView: View {
     //        }
     //    }
     
-    private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
-        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode, date: Date())
-        return rates.value(for: destinationCode)
-    }
+//    private func loadRates(sourceCode: String, destinationCode: String) async throws -> Double? {
+//        let rates = try await currenciesApi.getExchangeRateFor(currencyCode: sourceCode, date: Date())
+//        return rates.value(for: destinationCode)
+//    }
 }
 
 private extension Binding {
@@ -311,29 +316,22 @@ private extension Binding {
     }
 }
 
-#Preview {
-    
-    let preferences = Preferences(userDefaults: UserDefaults.standard,
-                              modelContext: previewContainer.mainContext)
-    
-    let currencyApi = CurrenciesApi(modelContext: previewContainer.mainContext,
-                                preferences: preferences)
-    
-    let expensesService = ExpensesService(preferences: preferences,
-                                        modelContext: previewContainer.mainContext, currenciesApi: currencyApi)
-    
-    
-    var desc = FetchDescriptor<Account>()
-    desc.predicate = Account.accountPredicate()
-    let accounts = try! previewContainer.mainContext.fetch(desc)
-    
-    desc.predicate = Account.categoryPredicate()
-    let categories = try! previewContainer.mainContext.fetch(desc)
-    
-    return TransferMoneyView(source: accounts[0],
-                             destination: categories[1],
-                             isSheetPresented: .constant(true))
-        .modelContainer(previewContainer)
-        .environment(currencyApi)
-        .environment(expensesService)
-}
+//#Preview {
+//    
+//    let preferences = Preferences(userDefaults: UserDefaults.standard)
+//    let expensesService = ExpensesService(preferences: preferences)
+//    
+//    
+//    var desc = FetchDescriptor<Account>()
+//    desc.predicate = Account.accountPredicate()
+//    let accounts = try! previewContainer.mainContext.fetch(desc)
+//    
+//    desc.predicate = Account.categoryPredicate()
+//    let categories = try! previewContainer.mainContext.fetch(desc)
+//    
+//    return TransferMoneyView(source: accounts[0],
+//                             destination: categories[1],
+//                             isSheetPresented: .constant(true))
+//        .modelContainer(previewContainer)
+//        .environment(expensesService)
+//}

@@ -7,20 +7,23 @@
 
 import SwiftUI
 import Charts
+import DataProvider
 
 struct PieChartValue: Equatable, Hashable {
 
     let amount: Int
     let title: String
     let color: String
-    let data: [Transaction]
+    let data: [MyTransaction]
 }
 
+@MainActor
 struct SectorChartView: View {
     @Environment(Preferences.self) private var preferences
     @State private var pieChartSelectedAngle: Int?
     @Binding var data: [PieChartValue]
     @Binding var selectedSector: PieChartValue?
+    @State private var userCurrencySymbol = ""
     
     var body: some View {
         Chart(data, id: \.title) { element in
@@ -47,12 +50,12 @@ struct SectorChartView: View {
                         if let selectedSector {
                             Text(selectedSector.title)
                                 .foregroundStyle(.secondary)
-                            Text("\(String(selectedSector.amount)) \(getCurSymbol())")
+                            Text("\(String(selectedSector.amount)) \(userCurrencySymbol)")
                                 .foregroundStyle(.primary)
                         } else if !data.isEmpty {
                             Text("Total")
                                 .foregroundStyle(.secondary)
-                            Text("\(getTotalAmount()) \(getCurSymbol())")
+                            Text("\(getTotalAmount()) \(userCurrencySymbol)")
                                 .foregroundStyle(.primary)
                         } else {
                             Text("No data")
@@ -74,10 +77,9 @@ struct SectorChartView: View {
                 }
             }
         }
-    }
-    
-    private func getCurSymbol() -> String {
-        preferences.getUserCurrency().symbol
+        .task {
+            userCurrencySymbol = (try? await preferences.getUserCurrency().symbol) ?? ""
+        }
     }
     
     private func getTotalAmount() -> String {

@@ -12,7 +12,7 @@ struct CurrencySymbol: Codable {
     let abbreviation: String
     let symbol: String?
     
-    static func getAll() throws -> [CurrencySymbol] {
+    static func loadFromJson() throws -> [CurrencySymbol] {
         guard let jsonUrl = Bundle.main.url(forResource: "CurrencySymbols", withExtension: "json") else {
             return []
         }

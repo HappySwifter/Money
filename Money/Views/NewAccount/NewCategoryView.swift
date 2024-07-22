@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
+@MainActor
 struct NewCategoryView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(Preferences.self) private var preferences
-    @Environment(CurrenciesApi.self) private var currenciesApi
     
     @Binding var isSheetPresented: Bool
     var isClosable = true
@@ -24,7 +24,7 @@ struct NewCategoryView: View {
                                   color: SwiftColor.clear,
                                   isAccount: false,
                                   amount: 0)
-    @State private var icon = Icon(name: "basket.fill", color: .green, isMulticolor: true)
+    @State private var icon = Icon(name: "basket.fill", color: SwiftColor.green, isMulticolor: true)
 
     var body: some View {
         NavigationView {
@@ -74,15 +74,17 @@ struct NewCategoryView: View {
             print("name is empty")
             return
         }
-        do {
-            let catDesc = FetchDescriptor<Account>()
-            let catCount = try modelContext.fetchCount(catDesc)
-            category.updateOrder(index: catCount)
-            modelContext.insert(category)
-        } catch {
-            print(error)
+        Task { @MainActor in
+            do {
+                if let dataHandler = await dataHandlerMainContext() {
+                    let catCount = try await dataHandler.getCategoriesCount()
+                    category.updateOrder(index: catCount)
+                    try await dataHandler.new(account: category)
+                }
+            } catch {
+                print(error)
+            }
         }
-
     }
 }
 

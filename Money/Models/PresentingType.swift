@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DataProvider
 
 enum PresentingType: Equatable {
     

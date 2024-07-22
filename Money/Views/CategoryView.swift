@@ -5,6 +5,7 @@
 //  Created by Artem on 06.03.2024.
 //
 import SwiftUI
+import DataProvider
 
 struct CategoryView: View {
     @State var item: Account

@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct TransferView: View {
-    @State var transaction: Transaction
+    @State var transaction: MyTransaction
     
     var body: some View {
         VStack(alignment: .leading) {

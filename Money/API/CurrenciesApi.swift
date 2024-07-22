@@ -6,24 +6,17 @@
 //
 
 import Foundation
-import SwiftData
 import OSLog
-import Observation
 
-@Observable
-class CurrenciesApi {
-    @ObservationIgnored
-    private var logger = Logger(subsystem: "Money", category: "CurrenciesApi")
-    @ObservationIgnored
-    private var preferences: Preferences
-    private let modelContext: ModelContext
+
+actor CurrenciesApi {
+    private let logger = Logger(subsystem: "Money", category: "CurrenciesApi")
+    private let preferences: Preferences
     
-    init(modelContext: ModelContext, preferences: Preferences) {
-        self.modelContext = modelContext
+    init(preferences: Preferences) {
         self.preferences = preferences
     }
     
-
     enum ExchangeRateUrlType {
         case main
         case fallback
@@ -46,14 +39,9 @@ class CurrenciesApi {
         }
     }
     
-    func getCurrencies() throws -> [MyCurrency] {
-        let fetchDesc = FetchDescriptor<MyCurrency>()
-        return try modelContext.fetch(fetchDesc)
-    }
-        
     func getExchangeRateFor(currencyCode: String, date: Date, urlType: ExchangeRateUrlType = .main) async throws -> ExchangeRate {
-        if let data = preferences.getRates(date: date.ratesDateString, currency: currencyCode) {
-//            logger.info("Using rates from cache")
+        if let data = await preferences.getRates(date: date.ratesDateString, currency: currencyCode) {
+            //            logger.info("Using rates from cache")
             return try decodeRates(from: data)
         }
         logger.info("Loading rates")
@@ -63,7 +51,7 @@ class CurrenciesApi {
             if (200..<300).contains(response.statusCode) {
                 let rate = try decodeRates(from: data)
                 
-                preferences.setRates(data: data,
+                await preferences.setRates(data: data,
                                      date: date.ratesDateString,
                                      currency: currencyCode)
                 return rate

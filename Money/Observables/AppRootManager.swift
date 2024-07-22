@@ -6,36 +6,37 @@
 //
 
 import Foundation
-import SwiftData
+import DataProvider
 
+@MainActor
 @Observable final class AppRootManager {
-    private let modelContext: ModelContext
     var currentRoot: appRoots = .dashboard
+    private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
     
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
+    init() {
         updateRoot()
     }
     
     func updateRoot() {
-        var desc = FetchDescriptor<Account>()
-        desc.predicate = Account.accountPredicate()
-        let accountsCount = try? modelContext.fetchCount(desc)
-        
-        desc.predicate = Account.categoryPredicate()
-        let categoriesCount = try? modelContext.fetchCount(desc)
-        
-        if accountsCount == 0 &&
-            categoriesCount == 0 ||
-            accountsCount == nil ||
-            categoriesCount == nil {
-            currentRoot = .addDataHelper
-        } else if accountsCount == 0  {
-            currentRoot = .addAccount
-        } else if categoriesCount == 0 {
-            currentRoot = .addCategory
-        } else {
-            currentRoot = .dashboard
+        Task { @MainActor in
+            do {
+                let accountsCount = try await dataHandler.getAccountsCount()
+                let categoriesCount = try await dataHandler.getCategoriesCount()
+                
+                if accountsCount == 0 &&
+                    categoriesCount == 0 {
+                    currentRoot = .addDataHelper
+                } else if accountsCount == 0  {
+                    currentRoot = .addAccount
+                } else if categoriesCount == 0 {
+                    currentRoot = .addCategory
+                } else {
+                    currentRoot = .dashboard
+                }
+            } catch {
+                print(error)
+                currentRoot = .addDataHelper
+            }
         }
     }
     

@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct AccountView: View {
     private let minWidth = 110.0
     @ScaledMetric private var scaledMetric: CGFloat = 100
     @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = false
 
-    @State var item: Account
+    @State var item: SchemaV1.Account
     @Binding var currency: MyCurrency?
     @Binding var selected: Bool
     var longPressHandler: ((Account) -> ())?
@@ -76,13 +77,13 @@ struct AccountView: View {
 #Preview(body: {
     let icons = ["trash", "banknote", "paperplane", "doc", "clipboard"]
 
-    var acc = Account(orderIndex: 0, name: "Super Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
+    let acc = Account(orderIndex: 0, name: "Super Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
     acc.icon = Icon(name: icons[0], color: .green, isMulticolor: true)
     
-    var acc2 = Account(orderIndex: 0, name: "Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
+    let acc2 = Account(orderIndex: 0, name: "Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
     acc2.icon = Icon(name: icons[1], color: .green, isMulticolor: true)
     
-    var acc3 = Account(orderIndex: 0, name: "Tinkoff", color: SwiftColor.blue, isAccount: true, amount: 999)
+    let acc3 = Account(orderIndex: 0, name: "Tinkoff", color: SwiftColor.blue, isAccount: true, amount: 999)
     acc3.icon = Icon(name: icons[2], color: .green, isMulticolor: true)
         
     var accounts = [Account]()

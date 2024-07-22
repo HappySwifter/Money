@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct NewAccountChooseColorView: View {
     @Binding var account: Account

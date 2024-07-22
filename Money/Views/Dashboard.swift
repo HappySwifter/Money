@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 import SwiftData
+import DataProvider
 
 @MainActor
 struct Dashboard: View {
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(Preferences.self) private var preferences
-    @Environment(CurrenciesApi.self) private var currenciesApi
     @Environment(ExpensesService.self) private var expensesService
     
     @Query(filter: Account.accountPredicate(),
@@ -27,7 +27,7 @@ struct Dashboard: View {
     private var categories: [Account]
     
     @State private var selectedAccount: Account?
-    @State private var plusPressed = false
+//    @State private var plusPressed = false
     @State private var createAccountPresented = false
     @State private var createCategoryPresented = false
     @State private var settingsPresented = false
@@ -66,7 +66,7 @@ struct Dashboard: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     NavigationLink {
-                        AllAccountsView(selectedCurrency: preferences.getUserCurrency())
+                        AllAccountsView()
                     } label: {
                         Text("Accounts: \(expensesService.accountsTotalAmount)")
                             .foregroundStyle(Color.gray)
@@ -78,7 +78,7 @@ struct Dashboard: View {
                     
                     Spacer()
                     MenuView(selectedAccount: selectedAccount,
-                             buttonPressed: $plusPressed,
+//                             buttonPressed: $plusPressed,
                              presentingType: $presentingType)
                 }
                 .dynamicTypeSize(.xSmall ... .accessibility1)
@@ -186,6 +186,30 @@ struct Dashboard: View {
     }
 }
 
-#Preview {
-    Dashboard()
-}
+//#Preview {
+//    let pref = Preferences(userDefaults: UserDefaults.standard,
+//                           modelContext: previewContainer1.mainContext)
+//    let exp = ExpensesService(preferences: pref,
+//                              modelContext: previewContainer1.mainContext)
+//    
+//    return Dashboard()
+//        .modelContainer(DataProvider.shared.previewContainer)
+//        .environment(pref)
+//        .environment(exp)
+//}
+
+//@MainActor
+//private let previewContainer1: ModelContainer = {
+//    do {
+//        let icons = ["doc", "basket", "paperplane", "trash", "banknote"]
+//        for (index, name) in ["Food", "Clothes", "X", "Looooooooooooong cat", "Short"].enumerated() {
+//            let acc = Account(orderIndex: index + 4, name: name, color: .clear, isAccount: false, amount: 0)
+//            acc.icon = Icon(name: icons[index], color: SwiftColor.allCases.randomElement()!, isMulticolor: false)
+//            container.mainContext.insert(acc)
+//        }
+//
+//        return container
+//    } catch {
+//        fatalError("Failed to create container")
+//    }
+//}()

@@ -6,67 +6,40 @@
 //
 
 import SwiftUI
-import SwiftData
 import OSLog
+import DataProvider
 
 @main
 struct MoneyApp: App {
     @State private var appRootManager: AppRootManager
-    
-    let logger = Logger(subsystem: "Money", category: "MoneyApp")
-    let currencyApi: CurrenciesApi
-    let preferences: Preferences
-    let expensesService: ExpensesService
-
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            MyCurrency.self,
-            Account.self,
-            Transaction.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    private let logger = Logger(subsystem: "Money", category: "MoneyApp")
+    private let dataProvider = DataProvider.shared
+    private let preferences: Preferences
+    private let expensesService: ExpensesService
     
     init() {
-        let context = sharedModelContainer.mainContext
-        appRootManager = AppRootManager(modelContext: context)
-        preferences = Preferences(userDefaults: UserDefaults.standard,
-                                  modelContext: context)
-        
-        currencyApi = CurrenciesApi(modelContext: context,
-                                    preferences: preferences)
-        
-        expensesService = ExpensesService(preferences: preferences,
-                                            modelContext: context, currenciesApi: currencyApi)
+        appRootManager = AppRootManager()
+        preferences = Preferences(userDefaults: UserDefaults.standard)
+        expensesService = ExpensesService(preferences: preferences)
+               
+        Task {
+            do {
+                let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
+                let count = try await dataHandler.getCurrenciesCount()
+                guard count == 0 else { return }
                 
-        do {
-            let descriptor = FetchDescriptor<MyCurrency>()
-            let existingCur = try context.fetchCount(descriptor)
-            guard existingCur == 0 else { return }
-            
-            guard let url = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
-                throw CurrencyError.jsonFileIsMissing
+                let currenciesFromJson = try MyCurrency.loadFromJson()
+                let symbols = try CurrencySymbol.loadFromJson()
+                
+                for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
+                    let symbol = symbols.findWith(code: code)?.symbol
+                    try await dataHandler.newCurrency(name: name, code: code, symbol: symbol)
+                }
+            } catch {
+                print("Failed to pre-seed database.")
             }
-            let data = try Data(contentsOf: url)
-            let dict = try JSONDecoder().decode([String: String].self, from: data)
-            let symbols = try CurrencySymbol.getAll()
-            
-            for (code, name) in dict where !code.isEmpty && !name.isEmpty {
-                let symbol = symbols.findWith(code: code)?.symbol
-                let currency = MyCurrency(code: code, name: name, symbol: symbol)
-                context.insert(currency)
-            }
-        } catch {
-            print("Failed to pre-seed database.")
         }
     }
-    
     
     var body: some Scene {
         WindowGroup {
@@ -87,8 +60,9 @@ struct MoneyApp: App {
                 }
             }
         }
-        .modelContainer(sharedModelContainer)
-        .environment(currencyApi)
+        .modelContainer(dataProvider.sharedModelContainer)
+        .environment(\.dataHandler, dataProvider.dataHandlerCreator())
+        .environment(\.dataHandlerWithMainContext, dataProvider.dataHandlerWithMainContextCreator())
         .environment(preferences)
         .environment(expensesService)
         .environment(appRootManager)

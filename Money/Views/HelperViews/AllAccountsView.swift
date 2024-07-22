@@ -6,19 +6,18 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
+@MainActor
 struct AllAccountsView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(Preferences.self) private var preferences
     @Environment(ExpensesService.self) private var expensesService
     
-//    @Query(
-//        filter: Account.accountPredicate(),
-//        sort: \Account.orderIndex)
+
     @State private var accounts = [Account]()
     @State private var userCurrencies = [MyCurrency]()
-    @State var selectedCurrency: MyCurrency
+    @State var selectedCurrency = MyCurrency(code: "", name: "", symbol: nil)
     
     
     var body: some View {
@@ -47,26 +46,24 @@ struct AllAccountsView: View {
                 Text("Selected currency: \(selectedCurrency.name)")
             }
         }
-        .onAppear {
-            fetchAccounts()
-            userCurrencies = getUserCurrencies()
+        .task {
+            self.accounts = (try? await dataHandlerMainContext()?.getAccounts()) ?? []
+            self.userCurrencies = getUserCurrencies()
+            if let cur = try? await preferences.getUserCurrency() {
+                selectedCurrency = cur
+            }
         }
         .onChange(of: selectedCurrency) {
             preferences.updateUser(currencyCode: selectedCurrency.code)
-            try? expensesService.calculateSpent()
+            Task {
+                try? await expensesService.calculateSpent()
+            }
         }
         .toolbar {
             EditButton()
         }
     }
-    
-    private func fetchAccounts() {
-        var desc = FetchDescriptor<Account>()
-        desc.predicate = Account.accountPredicate()
-        desc.sortBy = [SortDescriptor(\.orderIndex)]
-        self.accounts = (try? modelContext.fetch(desc)) ?? []
-    }
-    
+
     private func getUserCurrencies() -> [MyCurrency] {
         var set = Set<MyCurrency>()
         accounts.forEach {
@@ -79,8 +76,13 @@ struct AllAccountsView: View {
     }
     
     private func deleteAccount(at offsets: IndexSet) {
-        for i in offsets {
-            modelContext.delete(accounts[i])
+        let dataHandler = dataHandlerMainContext
+        Task { @MainActor in
+            if let dataHandler = await dataHandler() {
+                for i in offsets {
+                    try? await dataHandler.deleteAccount(accounts[i])
+                }
+            }
         }
     }
     

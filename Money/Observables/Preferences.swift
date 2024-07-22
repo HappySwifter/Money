@@ -6,64 +6,47 @@
 //
 
 import Foundation
-import SwiftData
+import DataProvider
 
+@MainActor
 @Observable
 class Preferences {
     private let userDefaults: UserDefaults
-    private let modelContext: ModelContext
+    private let handler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
+
     
-    init(userDefaults: UserDefaults, modelContext: ModelContext) {
+    init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
-        self.modelContext = modelContext
     }
     
     func updateUser(currencyCode: String) {
         userDefaults.setValue(currencyCode, forKey: Keys.userCurrency.rawValue)
     }
     
-    private func getUserCurrency() -> MyCurrency? {
+    private func findUserCurrency() async -> MyCurrency? {
         if let code = userDefaults.string(forKey: Keys.userCurrency.rawValue) {
-            return fetchCurrencyBy(code: code)
+            return try? await handler.getCurrencyWith(code: code)
         } else {
             return nil
         }
     }
     
-    func getUserCurrency() -> MyCurrency {
-        let locale = Locale.current
-        if let userCurrency = getUserCurrency() {
+    
+    func getUserCurrency() async throws -> MyCurrency {        
+        if let userCurrency = await findUserCurrency() {
             return userCurrency
-        } else if let currencyId = locale.currency?.identifier,
-                  let currency = fetchCurrencyBy(code: currencyId)  {
-//            let currencyName = locale.localizedString(forCurrencyCode: currencyId)
+        } else if let currencyId = Locale.current.currency?.identifier,
+                  let currency = try await handler.getCurrencyWith(code: currencyId)  {
             updateUser(currencyCode: currency.code)
             return currency
-        } else if let usd = fetchCurrencyBy(code: "usd") {
+        } else if let usd = try await handler.getCurrencyWith(code: "usd") {
             updateUser(currencyCode: usd.code)
             return usd
         } else {
-            let usd = MyCurrency(code: "usd", name: "US Dollar", symbol: "$")
-            updateUser(currencyCode: usd.code)
-            modelContext.insert(usd)
-            return usd
+            let currency = try await handler.newCurrency(name: "US Dollar", code: "usd", symbol: "$")
+            updateUser(currencyCode: currency.code)
+            return currency
         }
-    }
-        
-    private func fetchCurrencyBy(code: String) -> MyCurrency? {
-        var desc = FetchDescriptor<MyCurrency>()
-        let pred = #Predicate<MyCurrency> { val in
-            val.code == code
-        }
-        desc.fetchLimit = 1
-        desc.predicate = pred
-        do {
-            return try modelContext.fetch(desc).first
-        } catch {
-            print("Error fetchCurrencyBy: ", error)
-            return nil
-        }
-        
     }
     
     func setRates(data: Data, date: String, currency: String) {

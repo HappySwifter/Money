@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct IconAndNameView: View {
     var focusNameField = false

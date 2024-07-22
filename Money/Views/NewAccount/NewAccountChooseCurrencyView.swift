@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct NewAccountChooseCurrencyView: View {
     @State private var isCurrencyPickerPresented = false

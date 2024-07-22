@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataProvider
 
 private enum ChartType: String, CaseIterable {
     case expenses = "Expenses"
@@ -142,16 +143,14 @@ struct ReportView: View {
 }
 
 #Preview {
-    let context = MoneyApp().sharedModelContainer.mainContext
-    let pref = Preferences(userDefaults: UserDefaults.standard,
-                           modelContext: context)
-    let curr = CurrenciesApi(modelContext: context, preferences: pref)
-    let exp = ExpensesService(preferences: pref,
-                              modelContext: context,
-                              currenciesApi: curr)
+//    let pref = Preferences(userDefaults: UserDefaults.standard,
+//                           modelContext: context)
+//    let exp = ExpensesService(preferences: pref,
+//                              modelContext: context)
     return NavigationStack {
          ReportView()
-            .environment(exp)
+            .modelContainer(DataProvider.shared.previewContainer)
+//            .environment(exp)
             .navigationBarTitleDisplayMode(.inline)
     }
 

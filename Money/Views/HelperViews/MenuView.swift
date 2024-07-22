@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
+@MainActor
 struct MenuView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dataHandlerWithMainContext) private var dataHandler
     let selectedAccount: Account?
-    @Binding var buttonPressed: Bool
     @Binding var presentingType: PresentingType
+    @State private var firstAccount: Account?
+    @State private var firstCategory: Account?
     
     enum ButtonType: String, CaseIterable {
         case newIncome = "🏦 New income"
@@ -53,6 +55,15 @@ struct MenuView: View {
         }
         .menuOrder(.fixed)
         .menuStyle(RedBorderMenuStyle())
+        .task {
+            guard let selectedAccountId = selectedAccount?.id else { return }
+            do {
+                try await self.firstAccount = getDestination(isAccount: true, notId: selectedAccountId)
+                try await self.firstCategory = getDestination(isAccount: false, notId: selectedAccountId)
+            } catch {
+                print( error)
+            }
+        }
     }
     
     private func press(type: ButtonType) {
@@ -63,14 +74,14 @@ struct MenuView: View {
             }
         case .accountToCategory:
             if let selectedAccount {
-                if let dest = getDestination(isAccount: false, notId: selectedAccount.id) {
+                if let dest = firstCategory {
                     presentingType = .transfer(source: selectedAccount, destination: dest)
                 } else {
                     presentingType = .addCategory
                 }
             }
         case .accountToAccount:
-            if let selectedAccount, let dest = getDestination(isAccount: true, notId: selectedAccount.id) {
+            if let selectedAccount, let dest = firstAccount {
                 presentingType = .transfer(source: selectedAccount, destination: dest)
             }
         case .newAccount:
@@ -79,15 +90,17 @@ struct MenuView: View {
             presentingType = .addCategory
         }
     }
-    
-    private func getDestination(isAccount: Bool, notId: UUID) -> Account? {
-        var desc = FetchDescriptor<Account>()
-        let pred = #Predicate<Account> {
-            $0.isAccount == isAccount &&
-            $0.id != notId
+
+    private func getDestination(isAccount: Bool, notId: UUID) async throws -> Account? {
+        if let dataHandler = await dataHandler() {
+            let pred = #Predicate<Account> {
+                $0.isAccount == isAccount &&
+                $0.id != notId
+            }
+            return try await dataHandler.getAccounts(with: pred, fetchLimit: 1).first
+        } else {
+            return nil
         }
-        desc.predicate = pred
-        return try? modelContext.fetch(desc).first
     }
 }
 

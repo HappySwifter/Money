@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
+import DataProvider
 
 struct AccountDetailsView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var modelContext
     @Environment(ExpensesService.self) private var expensesService
     @State var account: Account
     
@@ -47,13 +46,5 @@ struct AccountDetailsView: View {
                 }
             }
         }
-    }
-    
-    func getDestAccount() -> Account {
-        var desc = FetchDescriptor<Account>()
-        desc.fetchLimit = 1
-        let predicate = #Predicate<Account> { $0.isAccount }
-        desc.predicate = predicate
-        return try! modelContext.fetch(desc).first!
     }
 }
