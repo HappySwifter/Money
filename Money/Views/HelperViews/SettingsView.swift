@@ -12,7 +12,6 @@ import DataProvider
 struct SettingsView: View {
     private let defaults = UserDefaults.standard
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
-    @Environment(\.dataHandler) private var backGroundDataHandler
     @Environment(\.dismiss) private var dismiss
     @Environment(AppRootManager.self) private var rootManager
     @Environment(Preferences.self) private var preferences
@@ -71,8 +70,10 @@ struct SettingsView: View {
         Task {
             do {
                 let userCurrency = try await preferences.getUserCurrency()
-                try await backGroundDataHandler()?.populateWithMockData(userCurrency: userCurrency,
-                                                                        iconNames: IconType.all.getIcons())
+                try await dataHandler()?.populateWithMockData(
+                    userCurrency: userCurrency,
+                    iconNames: IconType.all.getIcons()
+                )
                 dismiss()
             } catch {
                 print(error)
@@ -81,11 +82,3 @@ struct SettingsView: View {
         }
     }
 }
-
-//#Preview {
-//    let pref = Preferences(userDefaults: .standard)
-//
-//    return SettingsView()
-//        .environment(pref)
-//        .modelContainer(previewContainer)
-//}

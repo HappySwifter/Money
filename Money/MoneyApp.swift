@@ -21,9 +21,11 @@ struct MoneyApp: App {
         appRootManager = AppRootManager()
         preferences = Preferences(userDefaults: UserDefaults.standard)
         expensesService = ExpensesService(preferences: preferences)
-               
-        Task {
+        
+        Task { [expensesService] in
             do {
+                try await expensesService.calculateSpent()
+
                 let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
                 let count = try await dataHandler.getCurrenciesCount()
                 guard count == 0 else { return }

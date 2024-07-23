@@ -105,8 +105,7 @@ struct ReportView: View {
         .navigationTitle("Report")
     }
     
-    func updateChart(caller: String = #function) {
-        print(#function, caller)
+    func updateChart() {
         pieChartSelectedSector = nil
         switch selectedChartType {
         case .expenses:
@@ -133,25 +132,9 @@ struct ReportView: View {
                 print(error)
             }
         }
-        
     }
     
     func showIncomesChart() {
         
-    }
-    
+    }    
 }
-
-//#Preview {
-////    let pref = Preferences(userDefaults: UserDefaults.standard,
-////                           modelContext: context)
-////    let exp = ExpensesService(preferences: pref,
-////                              modelContext: context)
-//    return NavigationStack {
-//         ReportView()
-//            .modelContainer(DataProvider.shared.previewContainer)
-////            .environment(exp)
-//            .navigationBarTitleDisplayMode(.inline)
-//    }
-//
-//}

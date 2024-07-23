@@ -10,13 +10,13 @@ import SwiftUI
 import OSLog
 import DataProvider
 
+@MainActor
 @Observable final class ExpensesService {
     private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
     private let preferences: Preferences
     private let currenciesApi: CurrenciesApi
     private let calculateManager: CalculateManager
     private let calendar = Calendar.current
-    private let logger = Logger(subsystem: "Money", category: "ExpensesService")
     
     private(set) var accountsTotalAmount = ""
     private(set) var spentToday = ""
@@ -26,25 +26,10 @@ import DataProvider
     
     init(preferences: Preferences) {
         self.preferences = preferences
-        let currenciesApi = CurrenciesApi(preferences: preferences)
-        self.currenciesApi = currenciesApi
-        self.calculateManager = CalculateManager(preferences: preferences,
-                                                 currenciesApi: currenciesApi)
-        loadData()
+        currenciesApi = CurrenciesApi(preferences: preferences)
+        calculateManager = CalculateManager(preferences: preferences, currenciesApi: currenciesApi)
     }
-    
-    private func loadData() {
-        Task {
-            do {
-                try await calculateSpent()
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
 
-    @MainActor
     func calculateSpent() async throws {
         let expenses = try await calculateManager.calculateSpent()
         accountsTotalAmount = expenses.accountsTotalAmount
@@ -56,8 +41,6 @@ import DataProvider
     }
     
     func getExpensesFor(period: TransactionPeriodType) async throws -> [PieChartValue] {
-        
-
         let logDate = Date()
         let transactions = try await dataHandler.getTransaction(for: period)
         
@@ -80,7 +63,7 @@ import DataProvider
                                         data: trans))
         }
         let sorted = retVal.sorted(by: { $0.amount > $1.amount })
-        logger.warning("getExpenses run time: \(Date().timeIntervalSince(logDate))")
+        print("getExpenses run time: \(Date().timeIntervalSince(logDate))")
         return sorted
     }
 }

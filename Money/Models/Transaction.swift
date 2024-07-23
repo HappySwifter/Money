@@ -8,37 +8,6 @@
 import Foundation
 import DataProvider
 
-//@Model
-//class Transaction {
-//    @Attribute(.unique) let id: UUID
-//    var date: Date
-//    var isIncome: Bool
-//    var source: Account?
-//    var destination: Account?
-//    var sourceAmount: Double
-//    var destinationAmount: Double?
-//    
-//    
-//    init(id: UUID = UUID(),
-//         date: Date = Date(),
-//         isIncome: Bool,
-//         sourceAmount: Double,
-//         source: Account?,
-//         destinationAmount: Double?,
-//         destination: Account?) 
-//    {
-//        self.id = id
-////        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
-//        self.date = date
-//        self.isIncome = isIncome
-//        self.sourceAmount = sourceAmount
-//        self.source = source
-//        self.destinationAmount = destinationAmount
-//        self.destination = destination
-//    }
-//    
-//}
-
 extension MyTransaction {
     var isExpense: Bool {
         !isIncome && !(destination?.isAccount ?? false)

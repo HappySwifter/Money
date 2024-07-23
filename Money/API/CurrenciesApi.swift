@@ -8,7 +8,6 @@
 import Foundation
 import OSLog
 
-
 actor CurrenciesApi {
     private let logger = Logger(subsystem: "Money", category: "CurrenciesApi")
     private let preferences: Preferences
@@ -69,5 +68,11 @@ actor CurrenciesApi {
     
     private func decodeRates(from data: Data) throws -> ExchangeRate {
         return try JSONDecoder().decode(ExchangeRate.self, from: data)
+    }
+}
+
+private extension URLSession {
+    func data(from url: URL) async throws -> (Data, URLResponse) {
+        try await URLSession.shared.data(from: url, delegate: nil)
     }
 }
