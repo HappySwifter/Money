@@ -142,16 +142,16 @@ struct ReportView: View {
     
 }
 
-#Preview {
-//    let pref = Preferences(userDefaults: UserDefaults.standard,
-//                           modelContext: context)
-//    let exp = ExpensesService(preferences: pref,
-//                              modelContext: context)
-    return NavigationStack {
-         ReportView()
-            .modelContainer(DataProvider.shared.previewContainer)
-//            .environment(exp)
-            .navigationBarTitleDisplayMode(.inline)
-    }
-
-}
+//#Preview {
+////    let pref = Preferences(userDefaults: UserDefaults.standard,
+////                           modelContext: context)
+////    let exp = ExpensesService(preferences: pref,
+////                              modelContext: context)
+//    return NavigationStack {
+//         ReportView()
+//            .modelContainer(DataProvider.shared.previewContainer)
+////            .environment(exp)
+//            .navigationBarTitleDisplayMode(.inline)
+//    }
+//
+//}

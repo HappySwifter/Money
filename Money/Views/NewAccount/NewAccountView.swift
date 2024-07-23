@@ -18,7 +18,7 @@ struct NewAccountView: View {
     var completion: (() -> ())?
     
     @State private var currency: MyCurrency?
-    @State private var account = SchemaV1.Account(orderIndex: 0,
+    @State private var account = Account(orderIndex: 0,
                                                   name: "",
                                                   color: SwiftColor.green,
                                                   isAccount: true,

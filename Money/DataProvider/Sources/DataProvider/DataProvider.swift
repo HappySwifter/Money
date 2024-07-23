@@ -22,15 +22,16 @@ public final class DataProvider: Sendable {
         }
     }()
     
-    public let previewContainer: ModelContainer = {
-        let schema = Schema(CurrentScheme.models)
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+//    public let previewContainer: ModelContainer = {
+//        let schema = Schema(SchemaV1.models)
+//        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+//        do {
+//            print("!!!!  previewContainer")
+//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+//        } catch {
+//            fatalError("Could not create ModelContainer: \(error)")
+//        }
+//    }()
     
     public init() {}
 
@@ -42,13 +43,13 @@ public final class DataProvider: Sendable {
 //    let x = test()(0)
 
     
-    public func dataHandlerCreator(preview: Bool = false) -> @Sendable () async -> DataHandler {
-        let container = preview ? previewContainer : sharedModelContainer
+    public func dataHandlerCreator() -> @Sendable () async -> DataHandler {
+        let container = sharedModelContainer
         return { DataHandler(modelContainer: container) }
     }
     
-    public func dataHandlerWithMainContextCreator(preview: Bool = false) -> @Sendable @MainActor () async -> DataHandler {
-        let container = preview ? previewContainer : sharedModelContainer
+    public func dataHandlerWithMainContextCreator() -> @Sendable @MainActor () async -> DataHandler {
+        let container = sharedModelContainer
         return { DataHandler(modelContainer: container, mainActor: true) }
     }
 }

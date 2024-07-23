@@ -13,7 +13,7 @@ struct AccountView: View {
     @ScaledMetric private var scaledMetric: CGFloat = 100
     @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = false
 
-    @State var item: SchemaV1.Account
+    @State var item: Account
     @Binding var currency: MyCurrency?
     @Binding var selected: Bool
     var longPressHandler: ((Account) -> ())?
