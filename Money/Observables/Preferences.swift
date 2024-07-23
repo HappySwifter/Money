@@ -11,14 +11,9 @@ import DataProvider
 @MainActor
 @Observable
 class Preferences {
-    private let userDefaults: UserDefaults
+    private let userDefaults = UserDefaults.standard
     private let handler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
 
-    
-    init(userDefaults: UserDefaults) {
-        self.userDefaults = userDefaults
-    }
-    
     func updateUser(currencyCode: String) {
         userDefaults.setValue(currencyCode, forKey: Keys.userCurrency.rawValue)
     }
@@ -43,7 +38,7 @@ class Preferences {
             updateUser(currencyCode: usd.code)
             return usd
         } else {
-            let currency = try await handler.newCurrency(name: "US Dollar", code: "usd", symbol: "$")
+            let currency = await handler.newCurrency(name: "US Dollar", code: "usd", symbol: "$")
             updateUser(currencyCode: currency.code)
             return currency
         }

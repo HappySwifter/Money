@@ -88,7 +88,7 @@ struct NewIncomeView: View {
                                             source: nil,
                                             destinationAmount: amount,
                                             destination: destination)
-            try? await dataHandler()?.new(transaction: transaction)
+            await dataHandler()?.new(transaction: transaction)
             isSheetPresented.toggle()
         }
     }

@@ -30,60 +30,71 @@ struct ReportView: View {
     @State private var selectedYear = TransactionPeriodType.year(value: Date()).startDate
     @State private var pieChartSelectedSector: PieChartValue?
     @State private var data = [PieChartValue]()
+    @State private var networkError: NetworkError?
     
     var body: some View {
-        VStack {
-            Picker(selection: $selectedChartType) {
-                ForEach(ChartType.allCases, id: \.self) {
-                    Text($0.rawValue)
-                }
-            } label: {}
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .disabled(true)
-            
-            HStack {
-                if selectedChartType == .expenses {
-                    Picker(selection: $selectedPeriodType) {
-                        ForEach(PeriodType.allCases, id: \.self) {
-                            Text($0.rawValue)
-                        }
-                    } label: {}
-                }
-                
-                if selectedChartType == .expenses {
-                    switch selectedPeriodType {
-                    case .day:
-                        DatePicker("", selection: $selectedDate,
-                                   in: ...Date.now,
-                                   displayedComponents: [.date])
-                            .labelsHidden()
-                    case .month:
-                        Picker("", selection: $selectedMonth) {
-                            ForEach(expensesService.availableMonths, id: \.self) { Text($0.monthYearString) }
-                        }
-                    case .year:
-                        Picker("", selection: $selectedYear) {
-                            ForEach(expensesService.availableYears, id: \.self) { Text($0.yearString) }
-                        }
+        ZStack {
+            VStack {
+                Picker(selection: $selectedChartType) {
+                    ForEach(ChartType.allCases, id: \.self) {
+                        Text($0.rawValue)
                     }
-                    Spacer()
-                }
+                } label: {}
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .disabled(true)
                 
-            }
-            .padding()
+                HStack {
+                    if selectedChartType == .expenses {
+                        Picker(selection: $selectedPeriodType) {
+                            ForEach(PeriodType.allCases, id: \.self) {
+                                Text($0.rawValue)
+                            }
+                        } label: {}
+                    }
+                    
+                    if selectedChartType == .expenses {
+                        switch selectedPeriodType {
+                        case .day:
+                            DatePicker("", selection: $selectedDate,
+                                       in: ...Date.now,
+                                       displayedComponents: [.date])
+                                .labelsHidden()
+                        case .month:
+                            Picker("", selection: $selectedMonth) {
+                                ForEach(expensesService.availableMonths, id: \.self) { Text($0.monthYearString) }
+                            }
+                        case .year:
+                            Picker("", selection: $selectedYear) {
+                                ForEach(expensesService.availableYears, id: \.self) { Text($0.yearString) }
+                            }
+                        }
+                        Spacer()
+                    }
+                    
+                }
+                .padding()
 
-            switch selectedChartType {
-            case .expenses:
-                SectorChartView(data: $data, 
+                switch selectedChartType {
+                case .expenses:
+                    SectorChartView(data: $data,
+                                    selectedSector: $pieChartSelectedSector)
+                case .incomes:
+                    Color.white
+                }
+                ReportTableView(data: $data,
                                 selectedSector: $pieChartSelectedSector)
-            case .incomes:
-                Color.white
+                Spacer()
             }
-            ReportTableView(data: $data,
-                            selectedSector: $pieChartSelectedSector)
-            Spacer()
+            
+            if let networkError {
+                ErrorView(networkError: networkError) {
+                    self.networkError = nil
+                    updateChart()
+                }
+            }
         }
+
         .onAppear {
             updateChart()
         }
@@ -128,6 +139,8 @@ struct ReportView: View {
                     period = TransactionPeriodType.year(value: selectedYear)
                 }
                 self.data = try await expensesService.getExpensesFor(period: period)
+            } catch let error as NetworkError {
+                self.networkError = error
             } catch {
                 print(error)
             }

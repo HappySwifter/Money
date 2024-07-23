@@ -181,43 +181,50 @@ struct TransferMoneyView: View {
     
     private func makeTransfer() {
         Task { @MainActor in
-            do {
-                guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
-                    print("Enter source amount")
-                    return
-                }
-                guard source.credit(amount: sourceAmount) else {
-                    print("Not enough of money")
-                    return
-                }
-                
-                var destAmount: Double?
-                if destination.isAccount {
-                    if source.currency?.code == destination.currency?.code {
-                        destination.deposit(amount: sourceAmount)
-                        destAmount = sourceAmount
-                    } else {
-                        guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
-                            assert(false)
-                            return
-                        }
-                        destination.deposit(amount: destinationAmount)
-                        destAmount = destinationAmount
-                    }
-                }
-                
-                let transaction = MyTransaction(isIncome: false,
-                                              sourceAmount: sourceAmount,
-                                              source: source,
-                                              destinationAmount: destAmount,
-                                              destination: destination)
-                print(transaction.id)
-                try await dataHandler()?.new(transaction: transaction)
-                try await expensesService.calculateSpent()
-                isSheetPresented.toggle()
-            } catch {
-                print(error)
+            guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
+                print("Enter source amount")
+                return
             }
+            guard source.credit(amount: sourceAmount) else {
+                print("Not enough of money")
+                return
+            }
+            
+            var destAmount: Double?
+            if destination.isAccount {
+                if source.currency?.code == destination.currency?.code {
+                    destination.deposit(amount: sourceAmount)
+                    destAmount = sourceAmount
+                } else {
+                    guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
+                        assert(false)
+                        return
+                    }
+                    destination.deposit(amount: destinationAmount)
+                    destAmount = destinationAmount
+                }
+            }
+            
+            let transaction = MyTransaction(isIncome: false,
+                                          sourceAmount: sourceAmount,
+                                          source: source,
+                                          destinationAmount: destAmount,
+                                          destination: destination)
+            print(transaction.id)
+            await dataHandler()?.new(transaction: transaction)
+            await calculateSpent()
+            isSheetPresented.toggle()
+ 
+        }
+    }
+    
+    private func calculateSpent() async {
+        do {
+            try await expensesService.calculateSpent()
+        } catch let error as NetworkError {
+            print(error.description)
+        } catch {
+            print(error)
         }
     }
     

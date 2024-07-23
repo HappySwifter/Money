@@ -14,7 +14,6 @@ public final class DataProvider: Sendable {
     public let sharedModelContainer: ModelContainer = {
         let schema = Schema(CurrentScheme.models)
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {

@@ -21,7 +21,6 @@ actor CalculateManager {
         self.currenciesApi = currenciesApi
     }
 
-    
     struct Expenses {
         var accountsTotalAmount = ""
         var spentToday = ""
@@ -51,7 +50,6 @@ actor CalculateManager {
                     guard tran.isExpense else { return total }
                     return total + tran.convertAmount(to: userCurrency,
                                                       rates: rates)
-                    
                 }
                 if calendar.isDateInToday(date) {
                     expenses.spentToday = prettify(val: totalForDate,

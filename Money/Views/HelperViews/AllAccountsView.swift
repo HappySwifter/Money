@@ -48,10 +48,10 @@ struct AllAccountsView: View {
         }
         .task {
             self.accounts = (try? await dataHandlerMainContext()?.getAccounts()) ?? []
-            self.userCurrencies = getUserCurrencies()
             if let cur = try? await preferences.getUserCurrency() {
                 selectedCurrency = cur
             }
+            self.userCurrencies = getUserCurrencies()
         }
         .onChange(of: selectedCurrency) {
             preferences.updateUser(currencyCode: selectedCurrency.code)
@@ -80,7 +80,7 @@ struct AllAccountsView: View {
         Task { @MainActor in
             if let dataHandler = await dataHandler() {
                 for i in offsets {
-                    try? await dataHandler.deleteAccount(accounts[i])
+                    await dataHandler.deleteAccount(accounts[i])
                 }
             }
         }

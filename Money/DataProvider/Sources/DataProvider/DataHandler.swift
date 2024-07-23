@@ -19,9 +19,8 @@ public actor DataHandler {
     }
     
     @discardableResult
-    public func new(account: Account) throws -> PersistentIdentifier {
+    public func new(account: Account) -> PersistentIdentifier {
         modelContext.insert(account)
-        try modelContext.save()
         return account.persistentModelID
     }
     
@@ -64,10 +63,9 @@ public actor DataHandler {
 //        try modelContext.save()
 //    }
 //    
-    public func deleteAccount(_ account: Account) throws {
+    public func deleteAccount(_ account: Account) {
 //        guard let item = self[id, as: Account.self] else { return }
         modelContext.delete(account)
-        try modelContext.save()
     }
     
 
@@ -75,9 +73,8 @@ public actor DataHandler {
 
 //MARK: Transactions
 extension DataHandler {
-    public func new(transaction: MyTransaction) throws {
+    public func new(transaction: MyTransaction) {
         modelContext.insert(transaction)
-        try modelContext.save()
     }
     
     public func getTransactionsCount(with predicate: Predicate<MyTransaction>?) throws -> Int {
@@ -116,9 +113,8 @@ extension DataHandler {
         return try modelContext.fetch(desc)
     }
     
-    public func delete(transation: MyTransaction) throws {
+    public func delete(transation: MyTransaction) {
         modelContext.delete(transation)
-        try modelContext.save()
     }
 }
 
@@ -126,10 +122,9 @@ extension DataHandler {
 extension DataHandler {
     
     @discardableResult
-    public func newCurrency(name: String, code: String, symbol: String?) throws -> MyCurrency {
+    public func newCurrency(name: String, code: String, symbol: String?) -> MyCurrency {
         let currency = MyCurrency(code: code, name: name, symbol: symbol)
         modelContext.insert(currency)
-        try modelContext.save()
         return currency
     }
     

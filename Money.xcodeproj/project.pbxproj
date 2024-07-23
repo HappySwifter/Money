@@ -10,6 +10,7 @@
 		AC031EE12B918684006A3A8C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* Account.swift */; };
 		AC04B76F2C3CF51800B02078 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04B76E2C3CF51800B02078 /* Symbols.swift */; };
 		AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */; };
+		AC20CC5C2C4FF1C000BCED90 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC20CC5B2C4FF1C000BCED90 /* ErrorView.swift */; };
 		AC213FE02B9827100095846E /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FDF2B9827100095846E /* CategoryView.swift */; };
 		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
 		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
@@ -108,6 +109,7 @@
 		AC031EE02B918684006A3A8C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		AC04B76E2C3CF51800B02078 /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
 		AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPickerView.swift; sourceTree = "<group>"; };
+		AC20CC5B2C4FF1C000BCED90 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		AC213FDF2B9827100095846E /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
 		AC213FE42B986C2A0095846E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				AC690C3A2C3D6E59006E284E /* IconView.swift */,
 				AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */,
 				AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */,
+				AC20CC5B2C4FF1C000BCED90 /* ErrorView.swift */,
 			);
 			path = HelperViews;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 				AC6308A52C416EAA002C40D0 /* AppSettings.swift in Sources */,
 				AC98AB812BF8D76F00B15A2F /* NewAccountAmountView.swift in Sources */,
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
+				AC20CC5C2C4FF1C000BCED90 /* ErrorView.swift in Sources */,
 				AC98AB7F2BF8D6EF00B15A2F /* NewAccountChooseColorView.swift in Sources */,
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
 				AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */,

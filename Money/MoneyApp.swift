@@ -12,20 +12,28 @@ import DataProvider
 @main
 struct MoneyApp: App {
     @State private var appRootManager: AppRootManager
-    private let logger = Logger(subsystem: "Money", category: "MoneyApp")
+//    private let logger = Logger(subsystem: "Money", category: "MoneyApp")
     private let dataProvider = DataProvider.shared
     private let preferences: Preferences
     private let expensesService: ExpensesService
     
     init() {
         appRootManager = AppRootManager()
-        preferences = Preferences(userDefaults: UserDefaults.standard)
+        preferences = Preferences()
         expensesService = ExpensesService(preferences: preferences)
         
         Task { [expensesService] in
             do {
                 try await expensesService.calculateSpent()
-
+            } catch let error as NetworkError {
+                print(error.description)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        Task {
+            do {
                 let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
                 let count = try await dataHandler.getCurrenciesCount()
                 guard count == 0 else { return }
@@ -35,10 +43,10 @@ struct MoneyApp: App {
                 
                 for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
                     let symbol = symbols.findWith(code: code)?.symbol
-                    try await dataHandler.newCurrency(name: name, code: code, symbol: symbol)
+                    await dataHandler.newCurrency(name: name, code: code, symbol: symbol)
                 }
             } catch {
-                print("Failed to pre-seed database.")
+                print(error.localizedDescription)
             }
         }
     }

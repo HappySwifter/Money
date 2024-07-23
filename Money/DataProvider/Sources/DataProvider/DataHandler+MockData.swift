@@ -129,17 +129,6 @@ extension DataHandler {
         
         
         try modelContext.transaction {
-//                for obj in accounts {
-//                    if obj.name == accountNames.first {
-//                        obj.currency = preferences.getUserCurrency()
-//                    } else {
-//                        obj.currency = currencies.randomElement()
-//                    }
-//                    context.insert(obj)
-//                }
-//                for obj in categories {
-//                    context.insert(obj)
-//                }
             for obj in incomes {
                 modelContext.insert(obj)
             }

@@ -79,7 +79,7 @@ struct NewCategoryView: View {
                 if let dataHandler = await dataHandlerMainContext() {
                     let catCount = try await dataHandler.getCategoriesCount()
                     category.updateOrder(index: catCount)
-                    try await dataHandler.new(account: category)
+                    await dataHandler.new(account: category)
                 }
             } catch {
                 print(error)
