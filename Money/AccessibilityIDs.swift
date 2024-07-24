@@ -7,17 +7,17 @@
 
 import Foundation
 
-public let AccountViewButton:     String = "AccountViewButton"
+public let AccountViewButton:      String = "AccountViewButton"
 
-public let IconViewImage:         String = "IconViewImage"
+public let IconViewImage:          String = "IconViewImage"
 
-public let CategoriesScrollView:  String = "CategoriesScrollView"
+public let CategoriesScrollView:   String = "CategoriesScrollView"
 
-public let CategoryViewButton:    String = "CategoryViewButton"
+public let CategoryViewButton:     String = "CategoryViewButton"
 
-public let SymbolPickerViewLink:  String = "SymbolPickerViewLink"
+public let SymbolPickerViewLink:   String = "SymbolPickerViewLink"
 
-public let AllAccountButton:      String = "AllAccountButton"
+public let AllAccountButton:       String = "AllAccountButton"
 
 public let AccountDetailsViewLink: String = "AccountDetailsViewLink"
 

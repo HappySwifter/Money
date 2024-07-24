@@ -106,21 +106,21 @@ struct Dashboard: View {
                         HistoryView()
                     } label: {
                         VStack(alignment: .leading) {
-                            if !expensesService.spentToday.isEmpty {
+//                            if !expensesService.spentToday.isEmpty {
                                 Text("Spent today: \(expensesService.spentToday)")
                                     .truncationMode(.head)
-                            }
-                            if !expensesService.spentThisMonth.isEmpty {
+//                            }
+//                            if !expensesService.spentThisMonth.isEmpty {
                                 Text("This month: \(expensesService.spentThisMonth)")
                                     .truncationMode(.head)
-                            }
+//                            }
                         }
                         .lineLimit(1)
                         .foregroundStyle(Color.gray)
                         .font(.callout)
                     }
                     Spacer()
-                    if !expensesService.availableYears.isEmpty {
+//                    if !expensesService.availableYears.isEmpty {
                         NavigationLink {
                             ReportView()
                         } label: {
@@ -129,7 +129,7 @@ struct Dashboard: View {
                                 .frame(width: 35, height: 35)
                                 .opacity(0.5)
                         }
-                    }
+//                    }
                 }
                 .buttonStyle(.plain)
                 .dynamicTypeSize(.xSmall ... .accessibility2)

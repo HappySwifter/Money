@@ -31,7 +31,7 @@ actor CalculateManager {
     
     func calculateSpent() async throws -> Expenses {
         var expenses = Expenses()
-        expenses.spentToday = ""
+        expenses.spentToday = "0.0"
         let logDate = Date()
         let transactions = try await dataHandler.getTransaction()
         let userCurrency = try await preferences.getUserCurrency()
@@ -60,20 +60,18 @@ actor CalculateManager {
             }
             let yearMonth = TransactionPeriodType.month(value: date).startDate
             availableMonths.insert(yearMonth)
-            
-        }
-        if spentThisMonth > 0 {
-            expenses.spentThisMonth = prettify(val: spentThisMonth, fractionLength: 2, currencySymbol: userCurrency.symbol)
-        } else {
-            expenses.spentThisMonth = ""
         }
         
-        expenses.availableMonths = availableMonths
-            .sorted(by: > )
+        expenses.spentThisMonth = prettify(val: spentThisMonth, 
+                                           fractionLength: 2,
+                                           currencySymbol: userCurrency.symbol)
+        
+        expenses.availableMonths = availableMonths.sorted(by: > )
         
         expenses.availableYears = Array(Set(expenses.availableMonths
             .map { TransactionPeriodType.year(value: $0).startDate }))
         expenses.accountsTotalAmount = try await calculateAccountsTotal()
+       
         logger.warning("calculateSpent run time: \(Date().timeIntervalSince(logDate))")
         return expenses
     }

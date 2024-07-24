@@ -113,8 +113,34 @@ extension DataHandler {
         return try modelContext.fetch(desc)
     }
     
-    public func delete(transation: MyTransaction) {
-        modelContext.delete(transation)
+    public func undo(transaction: MyTransaction) throws {
+        switch transaction.type {
+        case .income:
+            guard let destination = transaction.destination else {
+                throw DataProviderError.transactionDestinationMissing
+            }
+            destination.credit(amount: transaction.sourceAmount)
+        case .betweenAccounts:
+            guard let source = transaction.source else {
+                throw DataProviderError.transactionSourceMissing
+            }
+            guard let destination = transaction.destination else {
+                throw DataProviderError.transactionDestinationMissing
+            }
+            guard let destinationAmount = transaction.destinationAmount else {
+                throw DataProviderError.transactionDestinationAmountMissing
+            }
+            source.deposit(amount: transaction.sourceAmount)
+            destination.credit(amount: destinationAmount)
+        case .spending:
+            guard let source = transaction.source else {
+                throw DataProviderError.transactionSourceMissing
+            }
+            source.deposit(amount: transaction.sourceAmount)
+        case .unknown:
+            throw DataProviderError.unknownTransactionType
+        }
+        modelContext.delete(transaction)
     }
 }
 

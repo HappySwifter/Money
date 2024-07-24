@@ -150,11 +150,14 @@ struct HistoryView: View {
                     for i in offsets {
                         let model = trans.transactions[i]
                         transactions.removeAll(where: { $0.id == model.id })
-                        try await dataHandler()?.delete(transation: model)
+                        try await dataHandler()?.undo(transaction: model)
                     }
                     groupedData = group(transactions: transactions)
                     try await expensesService.calculateSpent()
                 }
+            } catch let error as DataProviderError {
+                print("ERROR: ", error.rawValue)
+                assert(false)
             } catch {
                 print(error)
             }

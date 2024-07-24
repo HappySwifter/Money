@@ -33,16 +33,21 @@ struct ReportView: View {
     @State private var networkError: NetworkError?
     
     var body: some View {
-        ZStack {
-            VStack {
+        VStack {
+            if let networkError {
+                ErrorView(networkError: networkError) {
+                    self.networkError = nil
+                    updateChart()
+                }
+            } else {
                 Picker(selection: $selectedChartType) {
                     ForEach(ChartType.allCases, id: \.self) {
                         Text($0.rawValue)
                     }
                 } label: {}
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .disabled(true)
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal)
+                    .disabled(true)
                 
                 HStack {
                     if selectedChartType == .expenses {
@@ -59,7 +64,7 @@ struct ReportView: View {
                             DatePicker("", selection: $selectedDate,
                                        in: ...Date.now,
                                        displayedComponents: [.date])
-                                .labelsHidden()
+                            .labelsHidden()
                         case .month:
                             Picker("", selection: $selectedMonth) {
                                 ForEach(expensesService.availableMonths, id: \.self) { Text($0.monthYearString) }
@@ -74,7 +79,7 @@ struct ReportView: View {
                     
                 }
                 .padding()
-
+                
                 switch selectedChartType {
                 case .expenses:
                     SectorChartView(data: $data,
@@ -86,15 +91,7 @@ struct ReportView: View {
                                 selectedSector: $pieChartSelectedSector)
                 Spacer()
             }
-            
-            if let networkError {
-                ErrorView(networkError: networkError) {
-                    self.networkError = nil
-                    updateChart()
-                }
-            }
         }
-
         .onAppear {
             updateChart()
         }
@@ -149,5 +146,5 @@ struct ReportView: View {
     
     func showIncomesChart() {
         
-    }    
+    }
 }

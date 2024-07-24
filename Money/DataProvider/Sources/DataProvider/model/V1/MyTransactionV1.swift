@@ -21,17 +21,7 @@ extension SchemaV1 {
         public var destination: Account?
         public var sourceAmount: Double
         public var destinationAmount: Double?
-        
-//        public var isExpense: Bool {
-//            !isIncome && !(destination?.isAccount ?? false)
-//        }
-//        public var sourceAmountText: String {
-//            prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source?.currency?.symbol)
-//        }
-//        public var destinationAmountText: String {
-//            prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.currency?.symbol)
-//        }
-        
+                
         public init(id: UUID = UUID(),
              date: Date = Date(),
              isIncome: Bool,
@@ -49,39 +39,21 @@ extension SchemaV1 {
             self.destinationAmount = destinationAmount
             self.destination = destination
         }
-        
-//        public func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
-//            guard let sourceCurrency = source?.currency else {
-//                assert(false)
-//                return 0
-//            }
-//           
-//            if currency.code == sourceCurrency.code {
-//                return sourceAmount
-//            } else {
-//                if let exchRate = rates.value(for: sourceCurrency.code) {
-//                    return sourceAmount / exchRate
-//                } else {
-//    //                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
-//                    return 0
-//                }
-//            }
-//        }
     }
 }
-//
-//private func prettify(val: Double?, fractionLength: Int = 0, currencySymbol: String? = nil) -> String {
-//    guard let val = val else { return "" }
-//    let formatted = val.formatted(
-//        .number
-//        .precision(.fractionLength(fractionLength))
-//    )
-//    if let currencySymbol {
-//        return formatted + " " + currencySymbol
-//    } else {
-//        return formatted
-//    }
-//}
+
+enum TransactionType {
+    case income, betweenAccounts, spending, unknown
+}
+
+extension MyTransaction {
+    var type: TransactionType {
+        if isIncome { return .income }
+        guard let destination else { return .unknown }
+        return destination.isAccount ? .betweenAccounts : .spending
+    }
+}
+
 extension MyTransaction {
     static func predicateFor(period: TransactionPeriodType, calendar: Calendar) -> Predicate<MyTransaction> {
         let strart = period.startDate

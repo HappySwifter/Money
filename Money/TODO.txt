@@ -4,7 +4,7 @@
 
 --- History View ---
 1. Delete/Undo record
-2. Show message if nothing to show
+2. Show message if nothing to show, dont show loading indicator
 
 
 --- Charts View ---
