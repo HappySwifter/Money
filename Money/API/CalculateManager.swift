@@ -15,65 +15,51 @@ actor CalculateManager {
     private let preferences: Preferences
     private let currenciesApi: CurrenciesApi
     private let calendar = Calendar.current
-        
+    
     init(preferences: Preferences, currenciesApi: CurrenciesApi) {
         self.preferences = preferences
         self.currenciesApi = currenciesApi
     }
-
+    
     struct Expenses {
         var accountsTotalAmount = ""
         var spentToday = ""
         var spentThisMonth = ""
-        var availableMonths = [Date]()
-        var availableYears = [Date]()
     }
     
     func calculateSpent() async throws -> Expenses {
-        var expenses = Expenses()
-        expenses.spentToday = "0.0"
         let logDate = Date()
-        let transactions = try await dataHandler.getTransaction()
+        
+        // fetching only this month transactions that is isExpenses
+        let thisMonthPeriod = TransactionPeriodType.month(value: Date())
+        let transactions = try await dataHandler.getTransaction(for: thisMonthPeriod)
         let userCurrency = try await preferences.getUserCurrency()
-        let startOfMonth = TransactionPeriodType.month(value: Date()).startDate
-        let groupedByDate = Dictionary(grouping: transactions, by: { $0.date.omittedTime })
-        var spentThisMonth = 0.0
-        var availableMonths = Set<Date>()
+        var thisMonthTotal = 0.0
+        var todayTotal = 0.0
         
-        for (date, trans) in groupedByDate {
-            if date >= startOfMonth {
-                let rates = try await currenciesApi.getExchangeRateFor(
-                    currencyCode: userCurrency.code, date: date
-                )
-                
-                let totalForDate = trans.reduce(0.0) { total, tran in
-                    guard tran.isExpense else { return total }
-                    return total + tran.convertAmount(to: userCurrency,
-                                                      rates: rates)
-                }
-                if calendar.isDateInToday(date) {
-                    expenses.spentToday = prettify(val: totalForDate,
-                                                   fractionLength: 2,
-                                                   currencySymbol: userCurrency.symbol)
-                }
-                spentThisMonth += totalForDate
-            }
-            let yearMonth = TransactionPeriodType.month(value: date).startDate
-            availableMonths.insert(yearMonth)
+        for tran in transactions where tran.isExpense {
+            let rates = try await currenciesApi.getExchangeRateFor(
+                currencyCode: userCurrency.code,
+                date: tran.date
+            )
+            let amount = tran.convertAmount(to: userCurrency, rates: rates)
+            thisMonthTotal += amount
+            if calendar.isDateInToday(tran.date) { todayTotal += amount }
         }
+        let thisMonthString = prettify(val: thisMonthTotal,
+                                       fractionLength: 2,
+                                       currencySymbol: userCurrency.symbol)
+        let todayString = prettify(val: todayTotal,
+                                   fractionLength: 2,
+                                   currencySymbol: userCurrency.symbol)
         
-        expenses.spentThisMonth = prettify(val: spentThisMonth, 
-                                           fractionLength: 2,
-                                           currencySymbol: userCurrency.symbol)
+        let accountsTotalAmount = try await calculateAccountsTotal()
         
-        expenses.availableMonths = availableMonths.sorted(by: > )
-        
-        expenses.availableYears = Array(Set(expenses.availableMonths
-            .map { TransactionPeriodType.year(value: $0).startDate }))
-        expenses.accountsTotalAmount = try await calculateAccountsTotal()
-       
         logger.warning("calculateSpent run time: \(Date().timeIntervalSince(logDate))")
-        return expenses
+        
+        return Expenses(accountsTotalAmount: accountsTotalAmount,
+                        spentToday: todayString,
+                        spentThisMonth: thisMonthString)
     }
     
     private func calculateAccountsTotal() async throws -> String {

@@ -55,16 +55,8 @@ public actor DataHandler {
         return try modelContext.fetchCount(desc)
     }
     
-
-//
-//    public func updateItem(id: PersistentIdentifier, timestamp: Date) throws {
-//        guard let item = self[id, as: Item.self] else { return }
-//        item.timestamp = timestamp
-//        try modelContext.save()
-//    }
-//    
     public func deleteAccount(_ account: Account) {
-//        guard let item = self[id, as: Account.self] else { return }
+        //        guard let item = self[id, as: Account.self] else { return }
         modelContext.delete(account)
     }
     
@@ -86,9 +78,10 @@ extension DataHandler {
     }
     
     public func getTransactions(with predicate: Predicate<MyTransaction>?,
-                                     sortBy: [SortDescriptor<MyTransaction>]?,
-                                     offset: Int?,
-                                     fetchLimit: Int?) throws -> [MyTransaction] {
+                                sortBy: [SortDescriptor<MyTransaction>]?,
+                                propertiesToFetch: [PartialKeyPath<MyTransaction>]? = nil,
+                                offset: Int?,
+                                fetchLimit: Int?) throws -> [MyTransaction] {
         var desc = FetchDescriptor<MyTransaction>()
         if let predicate {
             desc.predicate = predicate
@@ -101,6 +94,9 @@ extension DataHandler {
         }
         if let fetchLimit {
             desc.fetchLimit = fetchLimit
+        }
+        if let propertiesToFetch {
+            desc.propertiesToFetch = propertiesToFetch
         }
         return try modelContext.fetch(desc)
     }

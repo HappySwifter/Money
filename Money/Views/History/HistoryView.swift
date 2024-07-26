@@ -25,11 +25,11 @@ struct HistoryView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
     private let fetchChunkSize = 20
-
+    
     @State private var selectedTransType = HistoryType.all
     @State private var transactions = [MyTransaction]()
     @State private var groupedData = [TransactionsByDate]()
-        
+    
     @State private var paginationState = PaginationState.isLoading
     @State private var allDataCount = 0
     
@@ -82,7 +82,7 @@ struct HistoryView: View {
             await fetchTransactions(type: selectedTransType, offset: 0)
         }
     }
-        
+    
     var lastRowView: some View {
         ZStack(alignment: .center) {
             switch paginationState {
@@ -95,7 +95,7 @@ struct HistoryView: View {
         .frame(height: 50)
         .task {
             await fetchTransactions(type: selectedTransType,
-                              offset: transactions.count)
+                                    offset: transactions.count)
         }
     }
     
@@ -109,19 +109,20 @@ struct HistoryView: View {
             print(error)
         }
     }
-
+    
     private func fetchTransactions(type: HistoryType, offset: Int) async {
         print("fetchTransactions", offset)
         do {
             paginationState = .isLoading
-//            fetchDescriptor.propertiesToFetch =
+            //            fetchDescriptor.propertiesToFetch =
             if let dataHandler = await dataHandler() {
                 let predicate = getPredicateFor(type: type)
                 let sortBy = [SortDescriptor(\MyTransaction.date, order: .reverse)]
-                let newChunk = try await dataHandler.getTransactions(with: predicate,
-                                               sortBy: sortBy,
-                                               offset: offset,
-                                               fetchLimit: fetchChunkSize)
+                let newChunk = try await dataHandler.getTransactions(
+                    with: predicate,
+                    sortBy: sortBy,
+                    offset: offset,
+                    fetchLimit: fetchChunkSize)
                 transactions.append(contentsOf: newChunk)
                 groupedData = group(transactions: transactions)
             }
@@ -164,13 +165,13 @@ struct HistoryView: View {
         }
     }
     
-//    private func group(transactions: [Transaction]) -> [[Transaction]] {
-//        let cal = Calendar.current
-//        return  transactions
-//            .sorted { $0.date > $1.date }
-//            .chunked { cal.isDate($0.date, equalTo: $1.date, toGranularity: .month) }
-//            .map { Array($0) }
-//    }
+    //    private func group(transactions: [Transaction]) -> [[Transaction]] {
+    //        let cal = Calendar.current
+    //        return  transactions
+    //            .sorted { $0.date > $1.date }
+    //            .chunked { cal.isDate($0.date, equalTo: $1.date, toGranularity: .month) }
+    //            .map { Array($0) }
+    //    }
     
     private func group(transactions: [MyTransaction]) -> [TransactionsByDate] {
         return Dictionary(grouping: transactions) { $0.date.omittedTime }

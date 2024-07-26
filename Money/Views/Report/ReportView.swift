@@ -31,6 +31,8 @@ struct ReportView: View {
     @State private var pieChartSelectedSector: PieChartValue?
     @State private var data = [PieChartValue]()
     @State private var networkError: NetworkError?
+    @State private var monthsAndYears = (months: [Date](), years: [Date]())
+
     
     var body: some View {
         VStack {
@@ -67,11 +69,11 @@ struct ReportView: View {
                             .labelsHidden()
                         case .month:
                             Picker("", selection: $selectedMonth) {
-                                ForEach(expensesService.availableMonths, id: \.self) { Text($0.monthYearString) }
+                                ForEach(monthsAndYears.months, id: \.self) { Text($0.monthYearString) }
                             }
                         case .year:
                             Picker("", selection: $selectedYear) {
-                                ForEach(expensesService.availableYears, id: \.self) { Text($0.yearString) }
+                                ForEach(monthsAndYears.years, id: \.self) { Text($0.yearString) }
                             }
                         }
                         Spacer()
@@ -90,6 +92,11 @@ struct ReportView: View {
                 ReportTableView(data: $data,
                                 selectedSector: $pieChartSelectedSector)
                 Spacer()
+            }
+        }
+        .task {
+            if let monthsAndYears = try? await expensesService.getSpendingMonthsAndYears() {
+                self.monthsAndYears = monthsAndYears
             }
         }
         .onAppear {

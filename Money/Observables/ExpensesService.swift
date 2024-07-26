@@ -21,24 +21,39 @@ import DataProvider
     private(set) var accountsTotalAmount = ""
     private(set) var spentToday = ""
     private(set) var spentThisMonth = ""
-    private(set) var availableMonths = [Date]()
-    private(set) var availableYears = [Date]()
     
     init(preferences: Preferences) {
         self.preferences = preferences
         currenciesApi = CurrenciesApi(preferences: preferences)
         calculateManager = CalculateManager(preferences: preferences, currenciesApi: currenciesApi)
     }
-
+    
     func calculateSpent() async throws {
         let expenses = try await calculateManager.calculateSpent()
         accountsTotalAmount = expenses.accountsTotalAmount
         spentToday = expenses.spentToday
         spentThisMonth = expenses.spentThisMonth
-        availableMonths = expenses.availableMonths
-        availableYears = expenses.availableYears
-        
     }
+    
+    func getSpendingMonthsAndYears() async throws -> (months: [Date], years: [Date]) {
+        let trans = try await dataHandler.getTransactions(with: nil,
+                                                          sortBy: nil,
+                                                          propertiesToFetch: [\MyTransaction.date],
+                                                          offset: 0,
+                                                          fetchLimit: 0)
+        let datesWithNoTime = trans
+            .map { TransactionPeriodType.month(value: $0.date).startDate }
+            .uniqued()
+            .sorted(by: > )
+        
+        let availableYears = datesWithNoTime
+            .map { TransactionPeriodType.year(value: $0).startDate }
+            .uniqued()
+            .sorted(by: > )
+        
+        return (months: datesWithNoTime, years: availableYears)
+    }
+    
     
     func getExpensesFor(period: TransactionPeriodType) async throws -> [PieChartValue] {
         let logDate = Date()
@@ -57,13 +72,21 @@ import DataProvider
                 )
                 totalForName += tran.convertAmount(to: userCur, rates: rates)
             }
-            retVal.append(PieChartValue(amount: Int(round(totalForName)),
-                                        title: name,
-                                        color: trans.first?.destination?.icon?.color.rawValue ?? "",
-                                        data: trans))
+            if totalForName > 0 {
+                retVal.append(PieChartValue(amount: Int(round(totalForName)),
+                                            title: name,
+                                            color: trans.first?.destination?.icon?.color.rawValue ?? "",
+                                            data: trans))
+            }
         }
         let sorted = retVal.sorted(by: { $0.amount > $1.amount })
         print("getExpenses run time: \(Date().timeIntervalSince(logDate))")
         return sorted
+    }
+}
+
+private extension Collection where Element: Hashable {
+    func uniqued() -> [Element] {
+        Array(Set(self))
     }
 }
