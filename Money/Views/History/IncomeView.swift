@@ -9,7 +9,7 @@ import SwiftUI
 import DataProvider
 
 struct IncomeView: View {
-    let amount: String
+    let amount: Double
     let account: Account
     
     var body: some View {
@@ -20,11 +20,11 @@ struct IncomeView: View {
                 }
                 Text(account.name)
                     .font(.title3)
-                    .foregroundStyle(account.hid ? Color.gray : Color.black)
+                    .foregroundStyle(account.nameColor)
                 Spacer()
                 Group {
                     Text("+")
-                    Text(amount)
+                    Text(amount.getString())
                     Text(account.currency?.symbol ?? "")
                 }
                 .foregroundStyle(Color.green)

@@ -27,10 +27,10 @@ struct ReportTableView: View {
                 List(groupByDate(for: selectedSector), id: \.date) { tranByDate in
                     Section {
                         ForEach(tranByDate.transactions) { tran in
-                            if let destination = tran.destination, let source = tran.source {
+                            if let source = tran.source {
                                 SpengingView(transaction: tran,
                                              source: source,
-                                             destination: destination)
+                                             destination: tran.destination)
                             }
     //                        HStack {
     //                            VStack(alignment: .leading) {

@@ -20,8 +20,10 @@ struct SpengingView: View {
             }
             Text(destination.name)
                 .font(.title3)
+                .foregroundStyle(destination.nameColor)
             Spacer()
             Text(source.name)
+                .foregroundStyle(source.nameColor)
             Text("- \(transaction.sourceAmount.getString()) \(source.currency?.symbol ?? "")")
                 .font(.title3)
         }

@@ -10,3 +10,10 @@ import SwiftUI
 import DataProvider
 
 extension Account : CurrencyConvertible {}
+
+//MARK: for views
+extension Account {
+    var nameColor: Color {
+        hid ? .gray.opacity(0.5) : .black
+    }
+}

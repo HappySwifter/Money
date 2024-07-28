@@ -72,28 +72,26 @@ struct HistoryView: View {
                     ForEach(groupedData, id: \.date) { group in
                         Section {
                             ForEach(group.transactions) { transaction in
-                                if let destination = transaction.destination {
-                                    switch transaction.type {
-                                    case .income:
-                                        if let amount = transaction.destinationAmount?.getString() {
-                                            IncomeView(amount: amount,
-                                                       account: destination)
-                                        }
-                                    case .betweenAccounts:
-                                        if let source = transaction.source {
-                                            TransferView(transaction: transaction,
-                                                         source: source,
-                                                         destination: destination)
-                                        }
-                                    case .spending:
-                                        if let source = transaction.source {
-                                            SpengingView(transaction: transaction,
-                                                         source: source,
-                                                         destination: destination)
-                                        }
-                                    case .unknown:
-                                        Color.white
+                                switch transaction.type {
+                                case .income:
+                                    if let amount = transaction.destinationAmount {
+                                        IncomeView(amount: amount,
+                                                   account: transaction.destination)
                                     }
+                                case .betweenAccounts:
+                                    if let source = transaction.source {
+                                        TransferView(transaction: transaction,
+                                                     source: source,
+                                                     destination: transaction.destination)
+                                    }
+                                case .spending:
+                                    if let source = transaction.source {
+                                        SpengingView(transaction: transaction,
+                                                     source: source,
+                                                     destination: transaction.destination)
+                                    }
+                                case .unknown:
+                                    Color.white
                                 }
                             }
                             .onDelete(perform: { indexSet in
@@ -186,9 +184,9 @@ struct HistoryView: View {
         case .income:
             return #Predicate<MyTransaction> { $0.isIncome }
         case .betweenAccounts:
-            return #Predicate<MyTransaction> { ($0.destination?.isAccount ?? false) && !$0.isIncome }
+            return #Predicate<MyTransaction> { $0.destination.isAccount && !$0.isIncome }
         case .spending:
-            return #Predicate<MyTransaction> { !($0.destination?.isAccount ?? false) }
+            return #Predicate<MyTransaction> { !$0.destination.isAccount }
         }
     }
     

@@ -112,17 +112,13 @@ extension DataHandler {
     public func undo(transaction: MyTransaction) throws {
         switch transaction.type {
         case .income:
-            guard let destination = transaction.destination else {
-                throw DataProviderError.transactionDestinationMissing
-            }
+            let destination = transaction.destination
             destination.credit(amount: transaction.sourceAmount)
         case .betweenAccounts:
             guard let source = transaction.source else {
                 throw DataProviderError.transactionSourceMissing
             }
-            guard let destination = transaction.destination else {
-                throw DataProviderError.transactionDestinationMissing
-            }
+            let destination = transaction.destination
             guard let destinationAmount = transaction.destinationAmount else {
                 throw DataProviderError.transactionDestinationAmountMissing
             }

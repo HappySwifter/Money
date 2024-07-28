@@ -75,7 +75,7 @@ extension DataHandler {
                                          sourceAmount: amount,
                                          source: nil,
                                          destinationAmount: amount,
-                                         destination: accounts.randomElement())
+                                         destination: accounts.randomElement()!)
             incomes.append(tran)
         }
         print("Incomes finished")
@@ -85,7 +85,7 @@ extension DataHandler {
         for _ in (0..<50) {
             let ramdomSeconds = Double((0...31560100).randomElement()!)
             let sourseAcc = accounts.randomElement()!
-            let destAcc = accounts.filter { $0 != sourseAcc }.randomElement()
+            let destAcc = accounts.filter { $0 != sourseAcc }.randomElement()!
             let sourceaAmount = Double((1...Int(sourseAcc.amount / 10)).randomElement()!)
             let destAmount = Double((Int(sourceaAmount / 1.5)...Int(sourceaAmount)).randomElement()!)
             
@@ -93,7 +93,7 @@ extension DataHandler {
                 print("Cant transfer. Not enough of funds")
                 continue
             }
-            destAcc?.deposit(amount: destAmount)
+            destAcc.deposit(amount: destAmount)
             
             let tran = MyTransaction(date: Date(timeIntervalSinceNow: -ramdomSeconds),
                                          isIncome: false,
@@ -121,7 +121,7 @@ extension DataHandler {
                                          sourceAmount: sourceaAmount,
                                          source: sourseAcc,
                                          destinationAmount: nil,
-                                         destination: categories.randomElement())
+                                         destination: categories.randomElement()!)
             spendinds.append(tran)
             
         }

@@ -23,16 +23,11 @@ extension SchemaV1 {
         public var isAccount: Bool
         public var hid: Bool
         public private(set) var amount: Double
-        
         private var iconName: String?
         private var iconColor: String?
         private var iconIsMulticolor: Bool
-        
         public var currency: MyCurrency?
-        
-        @Relationship(deleteRule: .cascade, inverse: \MyTransaction.source) var sources: [MyTransaction]
-        @Relationship(deleteRule: .cascade, inverse: \MyTransaction.destination) var destinations: [MyTransaction]
-                
+      
         public init(id: UUID = UUID(),
              orderIndex: Int,
              date: Date = Date(),
@@ -49,13 +44,9 @@ extension SchemaV1 {
             self.isAccount = isAccount
             self.hid = false
             self.amount = amount
-            
             self.iconName = nil
             self.iconColor = nil
             self.iconIsMulticolor = false
-            
-            self.sources = []
-            self.destinations = []
         }
         
         public var icon: Icon? {

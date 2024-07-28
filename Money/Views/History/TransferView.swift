@@ -20,7 +20,7 @@ struct TransferView: View {
                     IconView(icon: icon, font: .title2)
                 }
                 Text(source.name)
-                    .foregroundStyle(source.hid ? Color.gray : Color.black)
+                    .foregroundStyle(source.nameColor)
                 Spacer()
                 Text(transaction.sourceAmount.getString())
                 Text(source.currency?.symbol ?? "")
@@ -31,7 +31,7 @@ struct TransferView: View {
                     IconView(icon: icon, font: .title2)
                 }
                 Text(destination.name)
-                    .foregroundStyle(destination.hid ? Color.gray : Color.black)
+                    .foregroundStyle(destination.nameColor)
                 Spacer()
                 if source.currency != destination.currency {
                     Text(transaction.destinationAmount?.getString() ?? "")

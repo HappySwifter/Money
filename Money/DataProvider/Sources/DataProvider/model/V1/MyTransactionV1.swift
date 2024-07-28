@@ -17,8 +17,12 @@ extension SchemaV1 {
         @Attribute(.unique) public let id: UUID
         public var date: Date
         public var isIncome: Bool
+        
+        @Relationship(deleteRule: .noAction)
         public var source: Account?
-        public var destination: Account?
+        
+        @Relationship(deleteRule: .noAction)
+        public var destination: Account
         public var sourceAmount: Double
         public var destinationAmount: Double?
                 
@@ -28,7 +32,7 @@ extension SchemaV1 {
              sourceAmount: Double,
              source: Account?,
              destinationAmount: Double?,
-             destination: Account?)
+             destination: Account)
         {
             self.id = id
     //        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
@@ -49,7 +53,6 @@ public enum TransactionType {
 extension MyTransaction {
     public var type: TransactionType {
         if isIncome { return .income }
-        guard let destination else { return .unknown }
         return destination.isAccount ? .betweenAccounts : .spending
     }
 }
@@ -62,7 +65,7 @@ extension MyTransaction {
             tran.date >= strart &&
             tran.date < end &&
             !tran.isIncome &&
-            !(tran.destination?.isAccount ?? false)
+            !tran.destination.isAccount
         }
     }
 }
