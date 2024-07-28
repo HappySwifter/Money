@@ -28,7 +28,11 @@ final class MoneyUITests: XCTestCase {
     
     func test_Dashboard_shouldOpenPaymentView() {
         let app = XCUIApplication()
-        app.scrollViews[CategoriesScrollView].otherElements.buttons[CategoryViewButton].images[IconViewImage].tap()
+        let elementsQuery = app.scrollViews[CategoriesScrollView].otherElements
+
+        let firstButtonInList = elementsQuery.buttons.matching(identifier: CategoryViewButton).element(boundBy: 0)
+        firstButtonInList.images[IconViewImage].tap()
+        
         let newExpenseNavigationBar = app.navigationBars["New expense"]
         newExpenseNavigationBar.staticTexts["New expense"].tap()
         newExpenseNavigationBar.buttons["Close"].tap()
