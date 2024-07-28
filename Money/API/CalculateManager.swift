@@ -62,7 +62,7 @@ actor CalculateManager {
                         spentThisMonth: thisMonthString)
     }
     
-    private func calculateAccountsTotal() async throws -> String {
+    func calculateAccountsTotal() async throws -> String {
         let accounts = try await dataHandler.getAccounts()
         let userCur = try await preferences.getUserCurrency()
         let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCur.code, date: Date())

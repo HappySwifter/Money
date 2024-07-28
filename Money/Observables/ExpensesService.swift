@@ -35,6 +35,10 @@ import DataProvider
         spentThisMonth = expenses.spentThisMonth
     }
     
+    func calculateAccountsTotal() async throws {
+        accountsTotalAmount = try await calculateManager.calculateAccountsTotal()
+    }
+    
     func getSpendingMonthsAndYears() async throws -> (months: [Date], years: [Date]) {
         let trans = try await dataHandler.getTransactions(with: nil,
                                                           sortBy: nil,

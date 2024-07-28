@@ -13,7 +13,7 @@ import DataProvider
 struct NewIncomeView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     
-    @Query(filter: #Predicate<Account> { $0.isAccount },
+    @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
     private var accounts: [Account]
     

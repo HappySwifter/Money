@@ -27,7 +27,6 @@ struct Dashboard: View {
     private var categories: [Account]
     
     @State private var selectedAccount: Account?
-//    @State private var plusPressed = false
     @State private var createAccountPresented = false
     @State private var createCategoryPresented = false
     @State private var settingsPresented = false
@@ -77,8 +76,7 @@ struct Dashboard: View {
                     .accessibilityIdentifier(AllAccountButton)
                     
                     Spacer()
-                    MenuView(selectedAccount: selectedAccount,
-//                             buttonPressed: $plusPressed,
+                    MenuView(selectedAccount: $selectedAccount,
                              presentingType: $presentingType)
                 }
                 .dynamicTypeSize(.xSmall ... .accessibility1)
@@ -154,12 +152,8 @@ struct Dashboard: View {
             .onChange(of: accounts, initial: true) {
                 selectedAccount = accounts.first
             }
-//            .task(id: accounts) {
-//                
-//            }
-            .sheet(isPresented: sheetBinding) { ActionSheetView(
-                isPresented: sheetBinding,
-                presentingType: presentingType)
+            .sheet(isPresented: sheetBinding) {
+                ActionSheetView(isPresented: sheetBinding, presentingType: presentingType)
             }
             .sheet(isPresented: $createAccountPresented) {
                 ActionSheetView(isPresented: $createAccountPresented, presentingType: .addAccount)

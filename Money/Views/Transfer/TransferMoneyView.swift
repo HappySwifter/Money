@@ -14,12 +14,12 @@ struct TransferMoneyView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
 
-    @Query(filter: #Predicate<Account> { $0.isAccount },
+    @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
     private var accounts: [Account]
     
     @Query(
-        filter: #Predicate<Account> { !$0.isAccount },
+        filter: Account.categoryPredicate(),
         sort: \Account.orderIndex)
     private var categories: [Account]
     
