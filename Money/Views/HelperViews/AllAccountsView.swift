@@ -56,7 +56,7 @@ struct AllAccountsView: View {
         .onChange(of: selectedCurrency) {
             preferences.updateUser(currencyCode: selectedCurrency.code)
             Task {
-                try? await expensesService.calculateSpent()
+                try? await expensesService.calculateSpentAndAccountsTotal()
             }
         }
         .toolbar {

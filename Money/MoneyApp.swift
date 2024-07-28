@@ -24,7 +24,7 @@ struct MoneyApp: App {
         
         Task { [expensesService] in
             do {
-                try await expensesService.calculateSpent()
+                try await expensesService.calculateSpentAndAccountsTotal()
             } catch let error as NetworkError {
                 print(error.description)
             } catch {

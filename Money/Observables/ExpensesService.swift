@@ -28,7 +28,7 @@ import DataProvider
         calculateManager = CalculateManager(preferences: preferences, currenciesApi: currenciesApi)
     }
     
-    func calculateSpent() async throws {
+    func calculateSpentAndAccountsTotal() async throws {
         let expenses = try await calculateManager.calculateSpent()
         accountsTotalAmount = expenses.accountsTotalAmount
         spentToday = expenses.spentToday

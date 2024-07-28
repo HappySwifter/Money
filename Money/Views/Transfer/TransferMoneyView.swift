@@ -214,13 +214,12 @@ struct TransferMoneyView: View {
             await dataHandler()?.new(transaction: transaction)
             await calculateSpent()
             isSheetPresented.toggle()
- 
         }
     }
     
     private func calculateSpent() async {
         do {
-            try await expensesService.calculateSpent()
+            try await expensesService.calculateSpentAndAccountsTotal()
         } catch let error as NetworkError {
             print(error.description)
         } catch {

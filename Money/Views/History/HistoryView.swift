@@ -201,7 +201,7 @@ struct HistoryView: View {
                 await fetchCount(type: selectedTransType)
                 transactions.removeAll(where: { $0.id == model.id })
                 groupedData = group(transactions: transactions)
-                try await expensesService.calculateSpent()
+                try await expensesService.calculateSpentAndAccountsTotal()
             } catch let error as DataProviderError {
                 print("ERROR: ", error.rawValue)
                 assert(false)
