@@ -9,7 +9,9 @@ import SwiftUI
 import DataProvider
 
 struct TransferView: View {
-    @State var transaction: MyTransaction
+    let transaction: MyTransaction
+    let source: Account
+    let destination: Account
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -17,21 +19,23 @@ struct TransferView: View {
                 if let icon = transaction.source?.icon {
                     IconView(icon: icon, font: .title2)
                 }
-                Text(transaction.source?.name ?? "deleted")
+                Text(source.name)
+                    .foregroundStyle(source.hid ? Color.gray : Color.black)
                 Spacer()
                 Text(transaction.sourceAmount.getString())
-                Text(transaction.source?.currency?.symbol ?? "")
+                Text(source.currency?.symbol ?? "")
             }
             Spacer()
             HStack {
-                if let icon = transaction.destination?.icon {
+                if let icon = destination.icon {
                     IconView(icon: icon, font: .title2)
                 }
-                Text(transaction.destination?.name ?? "deleted")
+                Text(destination.name)
+                    .foregroundStyle(destination.hid ? Color.gray : Color.black)
                 Spacer()
-                if transaction.source?.currency != transaction.destination?.currency {
+                if source.currency != destination.currency {
                     Text(transaction.destinationAmount?.getString() ?? "")
-                    Text(transaction.destination?.currency?.symbol ?? "")
+                    Text(destination.currency?.symbol ?? "")
                 }
             }
             Text("Between accounts")

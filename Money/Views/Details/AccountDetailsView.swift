@@ -8,8 +8,10 @@
 import SwiftUI
 import DataProvider
 
+@MainActor
 struct AccountDetailsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(ExpensesService.self) private var expensesService
     @State var account: Account
     
@@ -28,14 +30,13 @@ struct AccountDetailsView: View {
                 NewAccountChooseColorView(account: $account, isCategory: false)
                 
                 Spacer()
-//                Button("Delete") {
-//                    withAnimation {
-//                        modelContext.delete(account)
-//                        try? expensesService.calculateSpent()
-//                        dismiss()
-//                    }
-//                }
-//                .buttonStyle(DeleteButton())
+                Button("Hide account") {
+                    withAnimation {
+                        deleteAccountAndUpdateTotalAmount()
+                        dismiss()
+                    }
+                }
+                .buttonStyle(DeleteButton())
             }
             .padding()
         }
@@ -44,6 +45,21 @@ struct AccountDetailsView: View {
                 Button("Close") {
                     dismiss()
                 }
+            }
+        }
+    }
+    
+    private func deleteAccountAndUpdateTotalAmount() {
+        let dataHandler = dataHandlerMainContext
+        Task { @MainActor in
+            if let dataHandler = await dataHandler() {
+                await dataHandler.hide(account: account)
+                do {
+                    try await expensesService.calculateAccountsTotal()
+                } catch {
+                    print("!!! error: ", error)
+                }
+                
             }
         }
     }

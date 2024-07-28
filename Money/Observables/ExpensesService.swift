@@ -69,7 +69,7 @@ import DataProvider
         
         for (name, trans) in groupedByName {
             var totalForName = 0.0
-            for tran in trans where tran.isExpense {
+            for tran in trans where tran.type == .spending {
                 let rates = try await currenciesApi.getExchangeRateFor(
                     currencyCode: userCur.code,
                     date: tran.date

@@ -8,8 +8,10 @@
 import SwiftUI
 import DataProvider
 
+@MainActor
 struct CategoryDetailsView: View {
     @Environment(ExpensesService.self) private var expensesService
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(\.dismiss) private var dismiss
     @Binding var isSheetPresented: Bool
     @State var category: Account
@@ -29,14 +31,13 @@ struct CategoryDetailsView: View {
                 NewAccountChooseColorView(account: $category, 
                                           isCategory: true)
                 
-//                Button("Delete") {
-//                    withAnimation {
-//                        modelContext.delete(category)
-//                        try? expensesService.calculateSpent()
-//                        dismiss()
-//                    }
-//                }
-//                .buttonStyle(DeleteButton())
+                Button("Hide cattegory") {
+                    withAnimation {
+                        deleteCategory()
+                        dismiss()
+                    }
+                }
+                .buttonStyle(DeleteButton())
             }
             .padding()
         }
@@ -51,6 +52,20 @@ struct CategoryDetailsView: View {
                 Button("Close") {
                     dismiss()
                 }
+            }
+        }
+    }
+    
+    private func deleteCategory() {
+        let dataHandler = dataHandlerMainContext
+        Task { @MainActor in
+            if let dataHandler = await dataHandler() {
+                await dataHandler.hide(account: category)
+//                do {
+//                    try await expensesService.
+//                } catch {
+//                    print("!!! error: ", error)
+//                }
             }
         }
     }

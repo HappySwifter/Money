@@ -9,9 +9,6 @@ import Foundation
 import DataProvider
 
 extension MyTransaction {
-    var isExpense: Bool {
-        !isIncome && !(destination?.isAccount ?? false)
-    }
     var sourceAmountText: String {
         prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source?.currency?.symbol)
     }
@@ -31,7 +28,7 @@ extension MyTransaction {
             if let exchRate = rates.value(for: sourceCurrency.code) {
                 return sourceAmount / exchRate
             } else {
-//                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
+                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
                 return 0
             }
         }

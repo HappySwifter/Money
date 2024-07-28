@@ -27,7 +27,11 @@ struct ReportTableView: View {
                 List(groupByDate(for: selectedSector), id: \.date) { tranByDate in
                     Section {
                         ForEach(tranByDate.transactions) { tran in
-                            SpengingView(transaction: tran)
+                            if let destination = tran.destination, let source = tran.source {
+                                SpengingView(transaction: tran,
+                                             source: source,
+                                             destination: destination)
+                            }
     //                        HStack {
     //                            VStack(alignment: .leading) {
     //                                Text("\(tran.source.icon) \(tran.source.name)")
@@ -64,6 +68,7 @@ struct ReportTableView: View {
                 }
             }
         }
+        .dynamicTypeSize(.xSmall ... .accessibility1)
         .task {
             self.userCurrencySymbol = (try? await preferences.getUserCurrency().symbol) ?? ""
         }

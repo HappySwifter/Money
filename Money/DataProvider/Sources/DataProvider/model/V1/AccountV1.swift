@@ -21,6 +21,7 @@ extension SchemaV1 {
         public var name: String
         public var color: String
         public var isAccount: Bool
+        public var hid: Bool
         public private(set) var amount: Double
         
         private var iconName: String?
@@ -46,6 +47,7 @@ extension SchemaV1 {
             self.name = name
             self.color = color.rawValue
             self.isAccount = isAccount
+            self.hid = false
             self.amount = amount
             
             self.iconName = nil
@@ -88,13 +90,23 @@ extension Account {
     
     public static func accountPredicate() -> Predicate<Account> {
         return #Predicate<Account> {
-            $0.isAccount
+            $0.isAccount && 
+            !$0.hid
         }
     }
     
     public static func categoryPredicate() -> Predicate<Account> {
         return #Predicate<Account> {
-            !$0.isAccount
+            !$0.isAccount && 
+            !$0.hid
+        }
+    }
+    
+    public static func menuListDestinationAccountPredicate(isAccount: Bool, notId: UUID) -> Predicate<Account> {
+         #Predicate<Account> {
+            $0.isAccount == isAccount &&
+            $0.id != notId &&
+            !$0.hid
         }
     }
 }

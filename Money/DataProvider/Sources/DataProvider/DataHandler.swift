@@ -55,9 +55,9 @@ public actor DataHandler {
         return try modelContext.fetchCount(desc)
     }
     
-    public func deleteAccount(_ account: Account) {
-        //        guard let item = self[id, as: Account.self] else { return }
-        modelContext.delete(account)
+    public func hide(account: Account) {
+        //guard let item = self[id, as: Account.self] else { return }
+        account.hid = true
     }
     
 

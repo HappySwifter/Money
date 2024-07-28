@@ -37,7 +37,7 @@ actor CalculateManager {
         var thisMonthTotal = 0.0
         var todayTotal = 0.0
         
-        for tran in transactions where tran.isExpense {
+        for tran in transactions where tran.type == .spending {
             let rates = try await currenciesApi.getExchangeRateFor(
                 currencyCode: userCurrency.code,
                 date: tran.date

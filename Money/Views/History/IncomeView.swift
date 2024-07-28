@@ -9,21 +9,23 @@ import SwiftUI
 import DataProvider
 
 struct IncomeView: View {
-    @State var transaction: MyTransaction
+    let amount: String
+    let account: Account
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                if let icon = transaction.destination?.icon {
+                if let icon = account.icon {
                     IconView(icon: icon, font: .largeTitle)
                 }
-                Text(transaction.destination?.name ?? "deleted")
+                Text(account.name)
                     .font(.title3)
+                    .foregroundStyle(account.hid ? Color.gray : Color.black)
                 Spacer()
                 Group {
                     Text("+")
-                    Text(transaction.destinationAmount?.getString() ?? "")
-                    Text(transaction.destination?.currency?.symbol ?? "")
+                    Text(amount)
+                    Text(account.currency?.symbol ?? "")
                 }
                 .foregroundStyle(Color.green)
             }

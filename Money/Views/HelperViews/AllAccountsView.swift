@@ -47,7 +47,7 @@ struct AllAccountsView: View {
             }
         }
         .task {
-            self.accounts = (try? await dataHandlerMainContext()?.getAccounts()) ?? []
+            self.accounts = await getAccounts()
             if let cur = try? await preferences.getUserCurrency() {
                 selectedCurrency = cur
             }
@@ -62,6 +62,11 @@ struct AllAccountsView: View {
         .toolbar {
             EditButton()
         }
+    }
+    
+    private func getAccounts() async -> [Account] {
+        (try? await dataHandlerMainContext()?.getAccounts()) ?? []
+
     }
 
     private func getUserCurrencies() -> [MyCurrency] {
@@ -80,8 +85,9 @@ struct AllAccountsView: View {
         Task { @MainActor in
             if let dataHandler = await dataHandler() {
                 for i in offsets {
-                    await dataHandler.deleteAccount(accounts[i])
+                    await dataHandler.hide(account: accounts[i])
                 }
+                self.accounts = await getAccounts()
             }
         }
     }

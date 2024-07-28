@@ -37,6 +37,8 @@ struct SectorChartView: View {
             .cornerRadius(10)
             .annotation(position: .overlay) {
                 Text(element.title)
+                    .font(.caption)
+                    .dynamicTypeSize(.xSmall ... .medium)
                     .foregroundStyle(Color.white)
             }
         }
@@ -61,6 +63,7 @@ struct SectorChartView: View {
                             Text("No data")
                         }
                     }
+                    .dynamicTypeSize(.xSmall ... .accessibility1)
                     .position(x: frame.midX, y: frame.midY)
                 }
             }

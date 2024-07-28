@@ -72,12 +72,28 @@ struct HistoryView: View {
                     ForEach(groupedData, id: \.date) { group in
                         Section {
                             ForEach(group.transactions) { transaction in
-                                if transaction.isIncome {
-                                    IncomeView(transaction: transaction)
-                                } else if (transaction.destination?.isAccount ?? false) {
-                                    TransferView(transaction: transaction)
-                                } else {
-                                    SpengingView(transaction: transaction)
+                                if let destination = transaction.destination {
+                                    switch transaction.type {
+                                    case .income:
+                                        if let amount = transaction.destinationAmount?.getString() {
+                                            IncomeView(amount: amount,
+                                                       account: destination)
+                                        }
+                                    case .betweenAccounts:
+                                        if let source = transaction.source {
+                                            TransferView(transaction: transaction,
+                                                         source: source,
+                                                         destination: destination)
+                                        }
+                                    case .spending:
+                                        if let source = transaction.source {
+                                            SpengingView(transaction: transaction,
+                                                         source: source,
+                                                         destination: destination)
+                                        }
+                                    case .unknown:
+                                        Color.white
+                                    }
                                 }
                             }
                             .onDelete(perform: { indexSet in
@@ -97,6 +113,7 @@ struct HistoryView: View {
                 }
             }
         }
+        .dynamicTypeSize(.xSmall ... .accessibility1)
         .navigationTitle("History")
         .task {
             await fetchCount(type: selectedTransType)

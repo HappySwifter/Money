@@ -9,18 +9,20 @@ import SwiftUI
 import DataProvider
 
 struct SpengingView: View {
-    @State var transaction: MyTransaction
+    let transaction: MyTransaction
+    let source: Account
+    let destination: Account
     
     var body: some View {
         HStack {
-            if let icon = transaction.destination?.icon {
+            if let icon = destination.icon {
                 IconView(icon: icon, font: .largeTitle)
             }
-            Text(transaction.destination?.name ?? "deleted")
+            Text(destination.name)
                 .font(.title3)
             Spacer()
-            Text(transaction.source?.name ?? "deleted")
-            Text("- \(transaction.sourceAmount.getString()) \(transaction.source?.currency?.symbol ?? "")")
+            Text(source.name)
+            Text("- \(transaction.sourceAmount.getString()) \(source.currency?.symbol ?? "")")
                 .font(.title3)
         }
     }

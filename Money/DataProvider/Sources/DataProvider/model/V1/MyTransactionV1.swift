@@ -42,12 +42,12 @@ extension SchemaV1 {
     }
 }
 
-enum TransactionType {
+public enum TransactionType {
     case income, betweenAccounts, spending, unknown
 }
 
 extension MyTransaction {
-    var type: TransactionType {
+    public var type: TransactionType {
         if isIncome { return .income }
         guard let destination else { return .unknown }
         return destination.isAccount ? .betweenAccounts : .spending
