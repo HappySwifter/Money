@@ -12,6 +12,7 @@ import DataProvider
 @MainActor
 struct NewIncomeView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
+    @Environment(ExpensesService.self) private var expensesService
     
     @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
@@ -91,6 +92,17 @@ struct NewIncomeView: View {
                                             destination: destination)
             await dataHandler()?.new(transaction: transaction)
             isSheetPresented.toggle()
+            await calculateTotal()
+        }
+    }
+    
+    private func calculateTotal() async {
+        do {
+            try await expensesService.calculateAccountsTotal()
+        } catch let error as NetworkError {
+            print(error.description)
+        } catch {
+            print(error)
         }
     }
 }

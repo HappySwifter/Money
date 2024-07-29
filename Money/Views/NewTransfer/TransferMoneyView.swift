@@ -213,8 +213,8 @@ struct TransferMoneyView: View {
                                           destination: destination)
             print(transaction.id)
             await dataHandler()?.new(transaction: transaction)
-            await calculateSpent()
             isSheetPresented.toggle()
+            await calculateSpent()
         }
     }
     

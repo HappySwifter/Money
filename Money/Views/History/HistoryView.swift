@@ -54,20 +54,20 @@ struct HistoryView: View {
     
     var body: some View {
         VStack() {
-            HStack {
-                Spacer()
-                Picker(selection: $selectedTransType) {
-                    ForEach(HistoryType.allCases, id: \.self) { type in
-                        Text(type.rawValue)
-                    }
-                } label: {}
-            }
             if groupedData.isEmpty {
                 Spacer()
                 Text("No data available")
                     .font(.title)
                 Spacer()
             } else {
+                HStack {
+                    Spacer()
+                    Picker(selection: $selectedTransType) {
+                        ForEach(HistoryType.allCases, id: \.self) { type in
+                            Text(type.rawValue)
+                        }
+                    } label: {}
+                }
                 List {
                     ForEach(groupedData, id: \.date) { group in
                         Section {
@@ -127,7 +127,9 @@ struct HistoryView: View {
             await fetchTransactions(type: selectedTransType, offset: 0)
         }
         .toolbar {
-            EditButton()
+            if !groupedData.isEmpty {
+                EditButton()
+            }
         }
     }
     
