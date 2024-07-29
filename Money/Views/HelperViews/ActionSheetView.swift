@@ -31,8 +31,8 @@ struct ActionSheetView: View {
                 } else {
                     NavigationStack {
                         CategoryDetailsView(
-                            isSheetPresented: $isPresented,
-                            category: item)
+                            category: item, 
+                            isSheetPresented: $isPresented)
                     }
                 }
             case .addAccount:

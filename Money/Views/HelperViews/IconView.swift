@@ -10,7 +10,6 @@ import DataProvider
 
 struct IconView: View {
     @ScaledMetric(relativeTo: .largeTitle) var height: CGFloat = 50
-
     var icon: Icon
     var font = Font.largeTitle
     

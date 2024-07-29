@@ -23,6 +23,7 @@ struct EnterAmountView: View {
 
             Spacer()
         }
+        .dynamicTypeSize(.xSmall ... .accessibility3)
         .padding()
         .frame(maxHeight: 50)
         .background(Color.gray.opacity(0.1))

@@ -78,7 +78,6 @@ struct SettingsView: View {
             } catch {
                 print(error)
             }
-            
         }
     }
 }

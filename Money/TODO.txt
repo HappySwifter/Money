@@ -1,17 +1,20 @@
 --- Bugs ---
 1. With scaled fonts looks not good
 
+--- Dashboard ---
+1. Reorder categories. All categories view?
+
+--- All accounts view ---
+- on top show total
 
 --- History View ---
-1. Delete/Undo record
-2. Show message if nothing to show, dont show loading indicator
-
 
 --- Charts View ---
 1. Incomes
 
 --- Account / Category details ---
-1. Reuse create view
 
 --- Enchantments ---
 1. Русификация
+2. Use logger
+3. Dark mode fix

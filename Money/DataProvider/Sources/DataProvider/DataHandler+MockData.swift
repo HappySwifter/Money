@@ -36,11 +36,11 @@ extension DataHandler {
                               amount: amount)
             acc.icon = icon
             
-            if name == accountNames.first {
-                acc.currency = userCurrency
-            } else {
+//            if name == accountNames.first {
+//                acc.currency = userCurrency
+//            } else {
                 acc.currency = currencies.randomElement()
-            }
+//            }
             
             accountsCount += 1
             accounts.append(acc)
@@ -55,7 +55,7 @@ extension DataHandler {
                             isMulticolor: true)
             let category = Account(orderIndex: categoriesCount,
                               name: name,
-                              color: SwiftColor.allCases.randomElement()!,
+                              color: SwiftColor.clear,
                               isAccount: false,
                               amount: 0)
             category.icon = icon

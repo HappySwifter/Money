@@ -26,7 +26,6 @@ class Preferences {
         }
     }
     
-    
     func getUserCurrency() async throws -> MyCurrency {        
         if let userCurrency = await findUserCurrency() {
             return userCurrency

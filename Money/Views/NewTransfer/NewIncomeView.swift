@@ -51,6 +51,7 @@ struct NewIncomeView: View {
                         }
                         .disabled(destinationAmount.toDouble() == 0)
                         .buttonStyle(DoneButtonStyle())
+                        .dynamicTypeSize(.xSmall ... .accessibility2)
                     }
                     .padding(.horizontal)
                 }

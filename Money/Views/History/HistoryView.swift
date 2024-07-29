@@ -122,6 +122,9 @@ struct HistoryView: View {
             await fetchCount(type: selectedTransType)
             await fetchTransactions(type: selectedTransType, offset: 0)
         }
+        .toolbar {
+            EditButton()
+        }
     }
     
     var lastRowView: some View {

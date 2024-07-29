@@ -22,7 +22,6 @@ enum PeriodType: String, CaseIterable {
 @MainActor
 struct ReportView: View {
     @Environment(ExpensesService.self) private var expensesService
-    
     @State private var selectedChartType = ChartType.expenses
     @State private var selectedPeriodType = PeriodType.day
     @State private var selectedDate = Date()

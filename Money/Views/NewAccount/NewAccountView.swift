@@ -15,15 +15,15 @@ struct NewAccountView: View {
     
     @Binding var isSheetPresented: Bool
     var isClosable = true
-    var completion: (() -> ())?
+    var completion: (() -> Void)?
     
-    @State private var currency: MyCurrency?
     @State private var account = Account(orderIndex: 0,
-                                                  name: "",
-                                                  color: SwiftColor.green,
-                                                  isAccount: true,
-                                                  amount: 0)
+                                         name: "",
+                                         color: SwiftColor.green,
+                                         isAccount: true,
+                                         amount: 0)
     @State private var icon = Icon(name: "banknote.fill", color: SwiftColor.blue, isMulticolor: true)
+    @State private var currency: MyCurrency?
     
     var body: some View {
         NavigationView {
@@ -83,14 +83,4 @@ struct NewAccountView: View {
         }
         
     }
-    
-    //    @MainActor
-    //    private func addItem() {
-    //      let createDataHandler = createDataHandler
-    //      Task.detached {
-    //        if let dataHandler = await createDataHandler() {
-    //            try await dataHandler.new(account: account)
-    //        }
-    //      }
-    //    }
 }

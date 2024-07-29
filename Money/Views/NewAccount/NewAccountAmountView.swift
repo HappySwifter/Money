@@ -13,7 +13,6 @@ struct NewAccountAmountView: View {
     @State private var amount = "0"
     
     var body: some View {
-        
         TextField("placeholder", text: $amount)
         .onChange(of: amount, {
             var formatted = formatCardNumber(amount)

@@ -43,6 +43,16 @@ struct AddDataHelperView: View {
                 .buttonStyle(StretchedRoundedButtonStyle())
                 .padding(.bottom)
                 
+                #if DEBUG
+                Button {
+                    populateWithMockRandomData()
+                } label: {
+                    Text("Get bunch of random data")
+                }
+                .buttonStyle(StretchedRoundedButtonStyle())
+                .padding(.bottom)
+                #endif
+                
                 Button {
                     appRootManager.currentRoot = .addAccount
                 } label: {
@@ -64,6 +74,21 @@ struct AddDataHelperView: View {
                     try await dataHandler.addTestData(userCurrency: userCurrency)
                     appRootManager.currentRoot = .dashboard
                 }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func populateWithMockRandomData() {
+        Task {
+            do {
+                let userCurrency = try await preferences.getUserCurrency()
+                try await dataHandler()?.populateWithMockData(
+                    userCurrency: userCurrency,
+                    iconNames: IconType.all.getIcons()
+                )
+                appRootManager.currentRoot = .dashboard
             } catch {
                 print(error)
             }

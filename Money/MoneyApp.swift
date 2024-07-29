@@ -12,7 +12,6 @@ import DataProvider
 @main
 struct MoneyApp: App {
     @State private var appRootManager: AppRootManager
-//    private let logger = Logger(subsystem: "Money", category: "MoneyApp")
     private let dataProvider = DataProvider.shared
     private let preferences: Preferences
     private let expensesService: ExpensesService

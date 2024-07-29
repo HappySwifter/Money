@@ -10,9 +10,9 @@ import DataProvider
 
 @MainActor
 struct AccountDetailsView: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(ExpensesService.self) private var expensesService
+    @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
+    @Environment(\.dismiss) private var dismiss
     @State var account: Account
     
     var body: some View {
@@ -27,7 +27,8 @@ struct AccountDetailsView: View {
                 }, set: {
                     account.icon = $0
                 }))
-                NewAccountChooseColorView(account: $account, isCategory: false)
+                NewAccountChooseColorView(account: $account,
+                                          isCategory: false)
                 
                 Spacer()
                 Button("Hide account") {
@@ -59,7 +60,6 @@ struct AccountDetailsView: View {
                 } catch {
                     print("!!! error: ", error)
                 }
-                
             }
         }
     }

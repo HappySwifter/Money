@@ -16,7 +16,7 @@ struct AccountView: View {
     @State var item: Account
     @Binding var currency: MyCurrency?
     @Binding var selected: Bool
-    var longPressHandler: ((Account) -> ())?
+    var longPressHandler: ((Account) -> Void)?
     
     var body: some View {
         Button(

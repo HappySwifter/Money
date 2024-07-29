@@ -9,13 +9,13 @@ import DataProvider
 
 struct CategoryView: View {
     @State var item: Account
-    var pressHandler: ((Account) -> ())
-    var longPressHandler: ((Account) -> ())
+    var pressHandler: ((Account) -> Void)?
+    var longPressHandler: ((Account) -> Void)?
     
     var body: some View {
         Button(
             action: {
-                pressHandler(item)
+                pressHandler?(item)
             },
             label: {
                 VStack(spacing: 2) {
@@ -38,7 +38,7 @@ struct CategoryView: View {
         )
         .accessibilityIdentifier(CategoryViewButton)
         .supportsLongPress {
-            longPressHandler(item)
+            longPressHandler?(item)
         }
     }
     

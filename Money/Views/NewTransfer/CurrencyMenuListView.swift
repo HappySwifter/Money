@@ -11,7 +11,7 @@ import DataProvider
 struct CurrencyMenuListView: View {
     @Binding var selectedItem: Account
     let data: [Account]
-    var changeHandler: ((_ oldValue: Account) -> ())?
+    var changeHandler: ((_ oldValue: Account) -> Void)?
         
     var body: some View {
         ForEach(data) { acc in

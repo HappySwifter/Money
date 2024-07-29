@@ -148,6 +148,7 @@ struct TransferMoneyView: View {
                     }
                     .disabled(doneButtonIsDisabled)
                     .buttonStyle(DoneButtonStyle())
+                    .dynamicTypeSize(.xSmall ... .accessibility2)
                 }
                 .padding(.horizontal)
                 

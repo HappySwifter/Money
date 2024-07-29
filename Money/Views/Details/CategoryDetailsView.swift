@@ -13,8 +13,9 @@ struct CategoryDetailsView: View {
     @Environment(ExpensesService.self) private var expensesService
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(\.dismiss) private var dismiss
-    @Binding var isSheetPresented: Bool
     @State var category: Account
+
+    @Binding var isSheetPresented: Bool
     @State private var icon: Icon?
         
     var body: some View {
@@ -59,19 +60,7 @@ struct CategoryDetailsView: View {
     private func deleteCategory() {
         let dataHandler = dataHandlerMainContext
         Task { @MainActor in
-            if let dataHandler = await dataHandler() {
-                await dataHandler.hide(account: category)
-//                do {
-//                    try await expensesService.
-//                } catch {
-//                    print("!!! error: ", error)
-//                }
-            }
+            await dataHandler()?.hide(account: category)
         }
     }
 }
-
-//#Preview {
-//    let item = SpendCategory(orderIndex: 0, name: "Dollar", icon: "", color: SwiftColor.purple)
-//    return CategoryDetailsView(isSheetPresented: .constant(true), item: item)
-//}

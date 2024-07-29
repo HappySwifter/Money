@@ -15,9 +15,7 @@ struct NewCategoryView: View {
     
     @Binding var isSheetPresented: Bool
     var isClosable = true
-    var completion: (() -> ())?
-
-    @State private var isEmojiPickerPresented = false
+    var completion: (() -> Void)?
     
     @State private var category = Account(orderIndex: 0,
                                   name: "",
@@ -38,8 +36,8 @@ struct NewCategoryView: View {
                     IconAndNameView(focusNameField: true,
                                                account: $category,
                                                icon: $icon)
-                    NewAccountChooseColorView(account: $category,
-                                              isCategory: true)
+//                    NewAccountChooseColorView(account: $category,
+//                                              isCategory: true)
                 }
                 .padding()
             }
@@ -66,7 +64,6 @@ struct NewCategoryView: View {
             }
             .navigationTitle("New category")
         }
-        
     }
     
     func saveCategory() {
@@ -86,8 +83,4 @@ struct NewCategoryView: View {
             }
         }
     }
-}
-
-#Preview {
-    NewCategoryView(isSheetPresented: .constant(true))
 }

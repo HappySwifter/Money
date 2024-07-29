@@ -14,11 +14,9 @@ struct AllAccountsView: View {
     @Environment(Preferences.self) private var preferences
     @Environment(ExpensesService.self) private var expensesService
     
-
     @State private var accounts = [Account]()
     @State private var userCurrencies = [MyCurrency]()
     @State var selectedCurrency = MyCurrency(code: "", name: "", symbol: nil)
-    
     
     var body: some View {
         VStack {
@@ -93,9 +91,9 @@ struct AllAccountsView: View {
     }
     
     private func updateOrder(from: IndexSet, to: Int) {
-        var updatedAccounts = accounts
-        updatedAccounts.move(fromOffsets: from, toOffset: to)
-        for (index, item) in updatedAccounts.enumerated() {
+//        var updatedAccounts = accounts
+        accounts.move(fromOffsets: from, toOffset: to)
+        for (index, item) in accounts.enumerated() {
             item.updateOrder(index: index)
         }
     }

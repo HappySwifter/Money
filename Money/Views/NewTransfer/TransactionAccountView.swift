@@ -9,7 +9,6 @@ import SwiftUI
 import DataProvider
 
 struct TransactionAccountView: View {
-    
     let viewType: TransferMoneyView.ItemType
     let item: Account
         
@@ -35,9 +34,10 @@ struct TransactionAccountView: View {
             .font(.title3)
             .opacity(item.isAccount ? 1 : 0.01)
         }
-        .padding()
         .frame(height: 120)
+        .padding()
         .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
         .cornerRadiusWithBorder(radius: 10, borderColor: (SwiftColor(rawValue: item.color) == .clear) ? item.icon!.color.value : .clear)
+        .dynamicTypeSize(.xSmall ... .xxLarge)
     }
 }
