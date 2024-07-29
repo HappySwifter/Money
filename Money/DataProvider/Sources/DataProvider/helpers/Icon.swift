@@ -30,7 +30,7 @@ public struct Icon: Equatable {
     }
     
     public static func isBaseNameSame(lhs: String, rhs: String) -> Bool {
-        lhs.components(separatedBy: ".").first == rhs.components(separatedBy: ".").first
+        removeModifiers(from: lhs, modifiers: Icon.Modifiers.allCases) == removeModifiers(from: rhs, modifiers: Icon.Modifiers.allCases)
     }
     
     public func contains(modifier: Modifiers) -> Bool {
@@ -38,6 +38,10 @@ public struct Icon: Equatable {
     }
     
     public func removed(modifiers: [Modifiers]) -> String {
+        Icon.removeModifiers(from: name, modifiers: modifiers)
+    }
+    
+    private static func removeModifiers(from name: String, modifiers: [Modifiers]) -> String {
         var modified = name
         for mod in modifiers {
             modified = modified.replacingOccurrences(of: mod.withDot, with: "")

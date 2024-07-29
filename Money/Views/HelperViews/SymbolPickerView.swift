@@ -89,9 +89,10 @@ struct SymbolPickerView: View {
                             selectedName = icon
                         }
                         .padding(15)
-                        .cornerRadiusWithBorder(radius: 5,
-                                                borderLineWidth: Icon.isBaseNameSame(lhs: selectedName, rhs: icon) ? 1 : 0,
-                                                borderColor: selectedColor.value)
+                        .cornerRadiusWithBorder(
+                            radius: 5,
+                            borderLineWidth: Icon.isBaseNameSame(lhs: selectedName, rhs: icon) ? 1 : 0,
+                            borderColor: selectedColor.value)
                     }
                 }
             }
