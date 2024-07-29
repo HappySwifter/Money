@@ -23,7 +23,7 @@ struct AllAccountsView: View {
             List {
                 ForEach(accounts) { acc in
                     NavigationLink {
-                        AccountDetailsView(account: acc)
+                        AccountDetailsView(account: acc, isPresentedModally: false)
                     } label: {
                         HStack {
                             Text(acc.name)

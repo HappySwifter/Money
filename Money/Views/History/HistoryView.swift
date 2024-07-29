@@ -53,7 +53,7 @@ struct HistoryView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack() {
             HStack {
                 Spacer()
                 Picker(selection: $selectedTransType) {
@@ -109,6 +109,10 @@ struct HistoryView: View {
                         lastRowView
                     }
                 }
+            }
+            NavigationLink(destination: AllCategoriesView()) {
+                Text("Manage categories")
+                    .padding()
             }
         }
         .dynamicTypeSize(.xSmall ... .accessibility1)

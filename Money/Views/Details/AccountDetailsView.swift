@@ -14,6 +14,7 @@ struct AccountDetailsView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(\.dismiss) private var dismiss
     @State var account: Account
+    var isPresentedModally = true
     
     var body: some View {
         ScrollView {
@@ -42,9 +43,11 @@ struct AccountDetailsView: View {
             .padding()
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Close") {
-                    dismiss()
+            if isPresentedModally {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") {
+                        dismiss()
+                    }
                 }
             }
         }

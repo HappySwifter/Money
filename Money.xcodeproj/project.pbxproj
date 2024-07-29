@@ -39,6 +39,7 @@
 		AC683A252C57374E00678B6F /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC683A242C57374E00678B6F /* AppIntent.swift */; };
 		AC683A272C57374F00678B6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC683A262C57374F00678B6F /* Assets.xcassets */; };
 		AC683A2B2C57374F00678B6F /* MoneyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AC683A1A2C57374E00678B6F /* MoneyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AC683A302C576EC500678B6F /* AllCategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC683A2F2C576EC500678B6F /* AllCategoriesView.swift */; };
 		AC690C3B2C3D6E59006E284E /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC690C3A2C3D6E59006E284E /* IconView.swift */; };
 		AC711D3A2C463A9200C04828 /* HistoryErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC711D392C463A9200C04828 /* HistoryErrorView.swift */; };
 		AC711D3C2C465C6600C04828 /* TransactionsByDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC711D3B2C465C6600C04828 /* TransactionsByDate.swift */; };
@@ -171,6 +172,7 @@
 		AC683A242C57374E00678B6F /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
 		AC683A262C57374F00678B6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC683A282C57374F00678B6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC683A2F2C576EC500678B6F /* AllCategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesView.swift; sourceTree = "<group>"; };
 		AC690C3A2C3D6E59006E284E /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		AC711D392C463A9200C04828 /* HistoryErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryErrorView.swift; sourceTree = "<group>"; };
 		AC711D3B2C465C6600C04828 /* TransactionsByDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsByDate.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */,
+				AC683A2F2C576EC500678B6F /* AllCategoriesView.swift */,
 				ACE15CEE2C3FBC6E003340B8 /* AddDataHelperView.swift */,
 				ACF62AFF2B91E61A002CB75D /* MenuView.swift */,
 				ACE15CF62C3FFE5D003340B8 /* SettingsView.swift */,
@@ -706,6 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACA3AF482B9342E100403538 /* DoneButtonStyle.swift in Sources */,
+				AC683A302C576EC500678B6F /* AllCategoriesView.swift in Sources */,
 				ACD4C9452B8F421E0087F632 /* AccountView.swift in Sources */,
 				AC98AB732BF8648F00B15A2F /* SpengingView.swift in Sources */,
 				ACE15CEF2C3FBC6E003340B8 /* AddDataHelperView.swift in Sources */,

@@ -14,9 +14,8 @@ struct CategoryDetailsView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(\.dismiss) private var dismiss
     @State var category: Account
-
-    @Binding var isSheetPresented: Bool
     @State private var icon: Icon?
+    var isPresentedModally = true
         
     var body: some View {
         ScrollView {
@@ -49,9 +48,11 @@ struct CategoryDetailsView: View {
             category.icon = icon
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Close") {
-                    dismiss()
+            if isPresentedModally {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") {
+                        dismiss()
+                    }
                 }
             }
         }

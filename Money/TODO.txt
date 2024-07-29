@@ -18,3 +18,4 @@
 1. Русификация
 2. Use logger
 3. Dark mode fix
+4. Upload custom icon?

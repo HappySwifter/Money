@@ -43,6 +43,13 @@ public actor DataHandler {
         return try modelContext.fetch(desc)
     }
     
+    public func getCategories() throws -> [Account] {
+        var desc = FetchDescriptor<Account>()
+        desc.predicate = Account.categoryPredicate()
+        desc.sortBy = [SortDescriptor(\.orderIndex)]
+        return try modelContext.fetch(desc)
+    }
+    
     public func getAccountsCount() throws -> Int {
         var desc = FetchDescriptor<Account>()
         desc.predicate = Account.accountPredicate()
