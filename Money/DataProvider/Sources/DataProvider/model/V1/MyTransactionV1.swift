@@ -25,23 +25,26 @@ extension SchemaV1 {
         public var destination: Account
         public var sourceAmount: Double
         public var destinationAmount: Double?
-                
+        public var comment: String?
+        
         public init(id: UUID = UUID(),
-             date: Date = Date(),
-             isIncome: Bool,
-             sourceAmount: Double,
-             source: Account?,
-             destinationAmount: Double?,
-             destination: Account)
+                    date: Date = Date(),
+                    isIncome: Bool,
+                    sourceAmount: Double,
+                    source: Account?,
+                    destinationAmount: Double?,
+                    destination: Account,
+                    comment: String?)
         {
             self.id = id
-    //        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
+            //        let date = Calendar.current.date(byAdding: .year, value: -1, to: date)!
             self.date = date
             self.isIncome = isIncome
             self.sourceAmount = sourceAmount
             self.source = source
             self.destinationAmount = destinationAmount
             self.destination = destination
+            self.comment = comment
         }
     }
 }

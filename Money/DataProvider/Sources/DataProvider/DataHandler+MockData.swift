@@ -75,7 +75,8 @@ extension DataHandler {
                                          sourceAmount: amount,
                                          source: nil,
                                          destinationAmount: amount,
-                                         destination: accounts.randomElement()!)
+                                     destination: accounts.randomElement()!,
+                                     comment: nil)
             incomes.append(tran)
         }
         print("Incomes finished")
@@ -100,7 +101,8 @@ extension DataHandler {
                                          sourceAmount: sourceaAmount,
                                          source: sourseAcc,
                                          destinationAmount: destAmount,
-                                         destination: destAcc)
+                                     destination: destAcc, 
+                                     comment: nil)
             transfers.append(tran)
         }
         print("Transfers finished")
@@ -121,7 +123,8 @@ extension DataHandler {
                                          sourceAmount: sourceaAmount,
                                          source: sourseAcc,
                                          destinationAmount: nil,
-                                         destination: categories.randomElement()!)
+                                     destination: categories.randomElement()!,
+                                     comment: nil)
             spendinds.append(tran)
             
         }

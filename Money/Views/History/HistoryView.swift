@@ -72,28 +72,46 @@ struct HistoryView: View {
                     ForEach(groupedData, id: \.date) { group in
                         Section {
                             ForEach(group.transactions) { transaction in
-                                switch transaction.type {
-                                case .income:
-                                    if let amount = transaction.destinationAmount {
-                                        IncomeView(amount: amount,
-                                                   account: transaction.destination)
+                                VStack(alignment: .leading) {
+                                    switch transaction.type {
+                                    case .income:
+                                        if let amount = transaction.destinationAmount {
+                                            IncomeView(amount: amount,
+                                                       account: transaction.destination)
+                                        }
+                                    case .betweenAccounts:
+                                        if let source = transaction.source {
+                                            TransferView(transaction: transaction,
+                                                         source: source,
+                                                         destination: transaction.destination)
+                                        }
+                                    case .spending:
+                                        if let source = transaction.source {
+                                            SpengingView(transaction: transaction,
+                                                         source: source,
+                                                         destination: transaction.destination)
+                                        }
+                                    case .unknown:
+                                        Color.white
                                     }
-                                case .betweenAccounts:
-                                    if let source = transaction.source {
-                                        TransferView(transaction: transaction,
-                                                     source: source,
-                                                     destination: transaction.destination)
+                                    if let comment = transaction.comment {
+                                        HStack(alignment: .top) {
+                                            Image(systemName: "note")
+                                            Text(comment)
+                                        }
+                                        .font(.caption2)
+                                        .foregroundStyle(Color.gray)
                                     }
-                                case .spending:
-                                    if let source = transaction.source {
-                                        SpengingView(transaction: transaction,
-                                                     source: source,
-                                                     destination: transaction.destination)
-                                    }
-                                case .unknown:
-                                    Color.white
                                 }
+//                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+//                                    Button("Undo", systemImage: "arrow.uturn.backward") {
+//                                        print(transaction)
+//                                        deleteTransaction(at: transaction, date: group.date)
+//                                    }
+//                                }
                             }
+                            
+
                             .onDelete(perform: { indexSet in
                                 if let index = indexSet.first {
                                     deleteTransaction(at: index, date: group.date)
@@ -200,15 +218,20 @@ struct HistoryView: View {
     }
     
     private func deleteTransaction(at index: Int, date: Date) {
+        guard let trans = groupedData.first(where: { $0.date == date }) else {
+            return
+        }
+        let transaction = trans.transactions[index]
+        delete(transaction: transaction)
+    }
+    
+    private func delete(transaction: MyTransaction) {
         Task { @MainActor in
             do {
-                guard let trans = groupedData.first(where: { $0.date == date }) else {
-                    return
-                }
-                let model = trans.transactions[index]
-                try await dataHandler()?.undo(transaction: model)
+
+                try await dataHandler()?.undo(transaction: transaction)
                 await fetchCount(type: selectedTransType)
-                transactions.removeAll(where: { $0.id == model.id })
+                transactions.removeAll(where: { $0.id == transaction.id })
                 groupedData = group(transactions: transactions)
                 try await expensesService.calculateSpentAndAccountsTotal()
             } catch let error as DataProviderError {
@@ -219,6 +242,7 @@ struct HistoryView: View {
             }
         }
     }
+
     
     //    private func group(transactions: [Transaction]) -> [[Transaction]] {
     //        let cal = Calendar.current
