@@ -38,7 +38,7 @@ struct NewAccountView: View {
                         NewAccountChooseCurrencyView(currency: $currency)
                         NewAccountAmountView(account: $account)
                     }
-                    NewAccountChooseColorView(account: $account, isCategory: false)
+                    AccountChooseColorView(account: $account)
                 }
                 .padding()
             }

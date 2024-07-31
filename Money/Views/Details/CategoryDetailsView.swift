@@ -28,8 +28,8 @@ struct CategoryDetailsView: View {
                 if let _ = icon {
                     IconAndNameView(account: $category, icon: Binding($icon)!)
                 }
-                NewAccountChooseColorView(account: $category, 
-                                          isCategory: true)
+//                AccountChooseColorView(account: $category, 
+//                                          isCategory: true)
                 
                 Button("Hide cattegory") {
                     withAnimation {

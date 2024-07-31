@@ -20,7 +20,7 @@ public enum SwiftColor: String, CaseIterable {
          red,
          brown,
          gray,
-         black,
+//         black,
          clear
     
     public var value: Color {
@@ -35,8 +35,8 @@ public enum SwiftColor: String, CaseIterable {
             return .gray
         case .green:
             return .green
-        case .black:
-            return .black
+//        case .black:
+//            return .black
         case .brown:
             return .brown
         case .indigo:

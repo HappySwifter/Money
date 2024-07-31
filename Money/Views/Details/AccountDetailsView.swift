@@ -28,8 +28,7 @@ struct AccountDetailsView: View {
                 }, set: {
                     account.icon = $0
                 }))
-                NewAccountChooseColorView(account: $account,
-                                          isCategory: false)
+                AccountChooseColorView(account: $account)
                 
                 Spacer()
                 Button("Hide account") {

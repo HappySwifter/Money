@@ -1,5 +1,5 @@
 //
-//  NewAccountChooseColorView.swift
+//  AccountChooseColorView.swift
 //  Money
 //
 //  Created by Artem on 18.05.2024.
@@ -8,9 +8,8 @@
 import SwiftUI
 import DataProvider
 
-struct NewAccountChooseColorView: View {
+struct AccountChooseColorView: View {
     @Binding var account: Account
-    let isCategory: Bool
     @State private var colorsArray = [SwiftColor]()
     
     var body: some View {
@@ -36,7 +35,7 @@ struct NewAccountChooseColorView: View {
             }
         }
         .onAppear {
-            colorsArray = SwiftColor.allCases.filter { isCategory ? $0 != .black : $0 != .clear }
+            colorsArray = SwiftColor.allCases.filter { $0 != .clear }
         }
     }
 }

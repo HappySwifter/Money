@@ -36,7 +36,7 @@ struct NewCategoryView: View {
                     IconAndNameView(focusNameField: true,
                                                account: $category,
                                                icon: $icon)
-//                    NewAccountChooseColorView(account: $category,
+//                    AccountChooseColorView(account: $category,
 //                                              isCategory: true)
                 }
                 .padding()
