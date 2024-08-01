@@ -21,24 +21,29 @@ struct IconAndNameView: View {
             } label: {
                 IconView(icon: icon, font: .title)
                     .padding(10)
-                    .background(Color(red: 0.98, green: 0.96, blue: 1))
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .aspectRatio(1, contentMode: .fill)
+                    .frame(maxHeight: .infinity)
+                    .cornerRadiusWithBorder(radius: 15)
+
             }
             .accessibilityIdentifier(SymbolPickerViewLink)
             
             TextField("Name", text: $account.name)
                 .font(.title3)
                 .padding(15)
-                .background(Color(red: 0.98, green: 0.96, blue: 1))
-                .clipShape(RoundedRectangle(cornerRadius: 15.0))
                 .keyboardType(.asciiCapable)
                 .autocorrectionDisabled()
                 .scrollDismissesKeyboard(.interactively)
                 .focused($nameFieldIsFocused)
+                .frame(maxHeight: .infinity)
+                .cornerRadiusWithBorder(radius: 15)
         }
+        .fixedSize(horizontal: false, vertical: true)
         .onAppear {
             nameFieldIsFocused = focusNameField
         }
     }
+}
+
+#Preview {
+    IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "banknote", color: .green, isMulticolor: true)))
 }
