@@ -33,7 +33,7 @@ struct NewAccountView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     AccountView(item: account,
-                                currency: $currency,
+                                currencySymbol: currency?.symbol,
                                 selected: .constant(false),
                                 longPressHandler: nil)
                     IconAndNameView(focusNameField: true, account: $account, icon: $icon)

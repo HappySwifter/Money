@@ -85,7 +85,7 @@ struct Dashboard: View {
                     HStack {
                         ForEach(accounts) { item in
                             AccountView(item: item,
-                                        currency: .constant(item.currency),
+                                        currencySymbol: item.currency?.symbol,
                                         selected: Binding(
                                             get: { selectedAccount == item },
                                             set: { _ in selectedAccount = item }),

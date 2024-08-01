@@ -14,7 +14,7 @@ struct AccountView: View {
     @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = false
 
     @State var item: Account
-    @Binding var currency: MyCurrency?
+    let currencySymbol: String?
     @Binding var selected: Bool
     var longPressHandler: ((Account) -> Void)?
     
@@ -39,7 +39,7 @@ struct AccountView: View {
                             HStack(spacing: 3) {
                                 Text(prettify(val: item.amount))
                                     .lineLimit(1)
-                                Text(currency?.symbol ?? "")
+                                Text(currencySymbol ?? "")
                             }
                             .font(.caption2)
                             .dynamicTypeSize(.xSmall ... .accessibility3)
@@ -98,7 +98,7 @@ struct AccountView: View {
         HStack {
             ForEach(accounts) { item in
                 AccountView(item: item,
-                            currency: .constant(item.currency),
+                            currencySymbol: item.currency?.symbol,
                             selected: .constant(false),
                             longPressHandler: nil)
             }
