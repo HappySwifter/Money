@@ -25,11 +25,8 @@ struct AccountDetailsView: View {
                             currency: .constant(account.currency),
                             selected: .constant(false),
                             longPressHandler: nil)
-                IconAndNameView(account: $account, icon: Binding(get: {
-                    account.icon!
-                }, set: {
-                    account.icon = $0
-                }))
+                IconAndNameView(account: $account,
+                                icon: Binding($account.icon)!)
                 AccountChooseColorView(account: $account)
                 
                 Spacer()
