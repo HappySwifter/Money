@@ -7,9 +7,11 @@
 
 import SwiftUI
 import DataProvider
+import OSLog
 
 @MainActor
 struct AccountDetailsView: View {
+    private let logger = Logger(subsystem: "Money", category: #file)
     @Environment(ExpensesService.self) private var expensesService
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(\.dismiss) private var dismiss
@@ -60,7 +62,7 @@ struct AccountDetailsView: View {
                 do {
                     try await expensesService.calculateAccountsTotal()
                 } catch {
-                    print("!!! error: ", error)
+                    logger.error("!!! error: \(error)")
                 }
             }
         }

@@ -12,6 +12,7 @@ import DataProvider
 
 @MainActor
 @Observable final class ExpensesService {
+    private let logger = Logger(subsystem: "Money", category: #file)
     private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
     private let preferences: Preferences
     private let currenciesApi: CurrenciesApi
@@ -84,7 +85,7 @@ import DataProvider
             }
         }
         let sorted = retVal.sorted(by: { $0.amount > $1.amount })
-        print("getExpenses run time: \(Date().timeIntervalSince(logDate))")
+        logger.info("getExpenses run time: \(Date().timeIntervalSince(logDate))")
         return sorted
     }
 }

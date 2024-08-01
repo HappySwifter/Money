@@ -7,20 +7,11 @@
 
 import SwiftUI
 import DataProvider
-
-private enum ChartType: String, CaseIterable {
-    case expenses = "Expenses"
-    case incomes = "Incomes"
-}
-
-enum PeriodType: String, CaseIterable {
-    case day = "Day"
-    case month = "Month"
-    case year = "Year"
-}
+import OSLog
 
 @MainActor
 struct ReportView: View {
+    private let logger = Logger(subsystem: "Money", category: "ReportView")
     @Environment(ExpensesService.self) private var expensesService
     @State private var selectedChartType = ChartType.expenses
     @State private var selectedPeriodType = PeriodType.day
@@ -146,12 +137,25 @@ struct ReportView: View {
             } catch let error as NetworkError {
                 self.networkError = error
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }
     
     func showIncomesChart() {
         
+    }
+}
+
+extension ReportView {
+    private enum ChartType: String, CaseIterable {
+        case expenses = "Expenses"
+        case incomes = "Incomes"
+    }
+
+    enum PeriodType: String, CaseIterable {
+        case day = "Day"
+        case month = "Month"
+        case year = "Year"
     }
 }

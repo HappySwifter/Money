@@ -44,12 +44,10 @@ actor CurrenciesApi {
         logger.info("Loading rates")
         let url = urlType.getUrl(for: currencyCode)
         let (data, response) = try await URLSession.shared.data(from: url)
-        print("response", response)
 
         guard let response = response as? HTTPURLResponse  else {
             throw NetworkError.internalError
         }
-        print("response.statusCode", response)
         
         if (200..<300).contains(response.statusCode) {
             let rate = try decodeRates(from: data)

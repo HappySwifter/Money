@@ -7,9 +7,11 @@
 
 import SwiftUI
 import DataProvider
+import OSLog
 
 @MainActor
 struct SettingsView: View {
+    private let logger = Logger(subsystem: "Money", category: "SettingsView")
     private let defaults = UserDefaults.standard
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(\.dismiss) private var dismiss
@@ -61,7 +63,7 @@ struct SettingsView: View {
                 try await dataHandler()?.clearDB()
                 rootManager.updateRoot()
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }
@@ -76,7 +78,7 @@ struct SettingsView: View {
                 )
                 dismiss()
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }

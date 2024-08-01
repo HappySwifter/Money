@@ -7,12 +7,13 @@
 
 import SwiftUI
 import DataProvider
+import OSLog
 
 @MainActor
 struct NewAccountView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(Preferences.self) private var preferences
-    
+    private let logger = Logger(subsystem: "Money", category: "NewAccountView")
     @Binding var isSheetPresented: Bool
     var isClosable = true
     var completion: (() -> Void)?
@@ -78,7 +79,7 @@ struct NewAccountView: View {
                 completion?()
                 isSheetPresented.toggle()
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
         

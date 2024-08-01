@@ -8,9 +8,11 @@
 import SwiftUI
 import SwiftData
 import DataProvider
+import OSLog
 
 @MainActor
 struct TransferMoneyView: View {
+    private let logger = Logger(subsystem: "Money", category: "TransferMoneyView")
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
 

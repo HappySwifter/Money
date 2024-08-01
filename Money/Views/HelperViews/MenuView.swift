@@ -90,9 +90,6 @@ struct MenuView: View {
         let pred = Account.menuListDestinationAccountPredicate(
             isAccount: isAccount,
             notId: notId)
-        if !isAccount {
-            print("get category not id: ", notId)
-        }
         return try await dataHandler.getAccounts(with: pred, fetchLimit: 1).first
     }
 }

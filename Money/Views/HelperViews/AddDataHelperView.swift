@@ -7,9 +7,11 @@
 
 import SwiftUI
 import DataProvider
+import OSLog
 
 @MainActor
 struct AddDataHelperView: View {
+    private let logger = Logger(subsystem: "Money", category: "AddDataHelperView")
     @Environment(AppRootManager.self) private var appRootManager
     @Environment(Preferences.self) private var preferences
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
@@ -75,7 +77,7 @@ struct AddDataHelperView: View {
                     appRootManager.currentRoot = .dashboard
                 }
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }
@@ -90,7 +92,7 @@ struct AddDataHelperView: View {
                 )
                 appRootManager.currentRoot = .dashboard
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }

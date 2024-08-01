@@ -8,9 +8,11 @@
 import SwiftUI
 import SwiftData
 import DataProvider
+import OSLog
 
 @MainActor
 struct NewIncomeView: View {
+    private let logger = Logger(subsystem: "Money", category: "NewIncomeView")
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
     
@@ -100,9 +102,9 @@ struct NewIncomeView: View {
         do {
             try await expensesService.calculateAccountsTotal()
         } catch let error as NetworkError {
-            print(error.description)
+            logger.error("\(error.description)")
         } catch {
-            print(error)
+            logger.error("\(error.localizedDescription)")
         }
     }
 }

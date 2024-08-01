@@ -7,35 +7,11 @@
 
 import SwiftUI
 import DataProvider
-
-private enum HistoryType: String, CaseIterable {
-    case all = "Show all"
-    case income = "Income"
-    case betweenAccounts = "Between accounts"
-    case spending = "Spendings"
-}
-
-private enum PaginationState: Equatable {
-    case idle
-    case isLoading
-    case error(error: Error)
-    
-    static func == (lhs: PaginationState, rhs: PaginationState) -> Bool {
-        switch (lhs, rhs) {
-        case (.idle, .idle):
-            return true
-        case (.isLoading, .isLoading):
-            return true
-        case (.error, .error):
-            return true
-        default:
-            return false
-        }
-    }
-}
+import OSLog
 
 @MainActor
 struct HistoryView: View {
+    private let logger = Logger(subsystem: "Money", category: #file)
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
     private let fetchChunkSize = 20
@@ -105,7 +81,6 @@ struct HistoryView: View {
                                 }
 //                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
 //                                    Button("Undo", systemImage: "arrow.uturn.backward") {
-//                                        print(transaction)
 //                                        deleteTransaction(at: transaction, date: group.date)
 //                                    }
 //                                }
@@ -185,7 +160,6 @@ struct HistoryView: View {
             return
         }
         paginationState = .isLoading
-        print("fetchTransactions", offset)
         do {
             if let dataHandler = await dataHandler() {
                 let predicate = getPredicateFor(type: type)
@@ -235,10 +209,10 @@ struct HistoryView: View {
                 groupedData = group(transactions: transactions)
                 try await expensesService.calculateSpentAndAccountsTotal()
             } catch let error as DataProviderError {
-                print("ERROR: ", error.rawValue)
+                logger.error("\(error.rawValue)")
                 assert(false)
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }
@@ -256,6 +230,34 @@ struct HistoryView: View {
         return Dictionary(grouping: transactions) { $0.date.omittedTime }
             .map { TransactionsByDate(date: $0.key, transactions: $0.value) }
             .sorted { $0.date > $1.date }
+    }
+}
+
+extension HistoryView {
+    private enum HistoryType: String, CaseIterable {
+        case all = "Show all"
+        case income = "Income"
+        case betweenAccounts = "Between accounts"
+        case spending = "Spendings"
+    }
+
+    private enum PaginationState: Equatable {
+        case idle
+        case isLoading
+        case error(error: Error)
+        
+        static func == (lhs: PaginationState, rhs: PaginationState) -> Bool {
+            switch (lhs, rhs) {
+            case (.idle, .idle):
+                return true
+            case (.isLoading, .isLoading):
+                return true
+            case (.error, .error):
+                return true
+            default:
+                return false
+            }
+        }
     }
 }
 

@@ -12,6 +12,7 @@ import DataProvider
 @main
 struct MoneyApp: App {
     @State private var appRootManager: AppRootManager
+    private let logger = Logger(subsystem: "Money", category: "MoneyApp")
     private let dataProvider = DataProvider.shared
     private let preferences: Preferences
     private let expensesService: ExpensesService
@@ -21,17 +22,17 @@ struct MoneyApp: App {
         preferences = Preferences()
         expensesService = ExpensesService(preferences: preferences)
         
-        Task { [expensesService] in
+        Task { [expensesService, logger] in
             do {
                 try await expensesService.calculateSpentAndAccountsTotal()
             } catch let error as NetworkError {
-                print(error.description)
+                logger.error("\(error.description)")
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
             }
         }
         
-        Task {
+        Task { [logger] in
             do {
                 let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
                 let count = try await dataHandler.getCurrenciesCount()
@@ -45,7 +46,7 @@ struct MoneyApp: App {
                     await dataHandler.newCurrency(name: name, code: code, symbol: symbol)
                 }
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }

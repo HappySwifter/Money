@@ -7,9 +7,11 @@
 
 import SwiftUI
 import DataProvider
+import OSLog
 
 @MainActor
 struct NewCategoryView: View {
+    private let logger = Logger(subsystem: "Money", category: "NewCategoryView")
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(Preferences.self) private var preferences
     
@@ -68,7 +70,6 @@ struct NewCategoryView: View {
     
     func saveCategory() {
         guard !category.name.isEmpty else {
-            print("name is empty")
             return
         }
         Task { @MainActor in
@@ -79,7 +80,7 @@ struct NewCategoryView: View {
                     await dataHandler.new(account: category)
                 }
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
             }
         }
     }

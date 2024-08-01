@@ -142,7 +142,6 @@ struct SymbolPickerView: View {
         if isFill && canBeFilled {
             appendUniqueModifier(name: &name, mod: Icon.Modifiers.fill.rawValue)
         }
-        print(name)
         return name
     }
     

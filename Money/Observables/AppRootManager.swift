@@ -7,9 +7,11 @@
 
 import Foundation
 import DataProvider
+import OSLog
 
 @MainActor
 @Observable final class AppRootManager {
+    private let logger = Logger(subsystem: "Money", category: "AppRootManager")
     var currentRoot: appRoots = .dashboard
     private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
     
@@ -34,7 +36,7 @@ import DataProvider
                     currentRoot = .dashboard
                 }
             } catch {
-                print(error)
+                logger.error("\(error.localizedDescription)")
                 currentRoot = .addDataHelper
             }
         }

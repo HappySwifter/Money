@@ -55,7 +55,13 @@ actor CalculateManager {
         
         let accountsTotalAmount = try await calculateAccountsTotal()
         
-        logger.warning("calculateSpent run time: \(Date().timeIntervalSince(logDate))")
+        let runTime = Date().timeIntervalSince(logDate)
+        if runTime > 1 {
+            logger.warning("calculateSpent run time: \(runTime)")
+        } else {
+            logger.info("calculateSpent run time: \(runTime)")
+        }
+        
         
         return Expenses(accountsTotalAmount: accountsTotalAmount,
                         spentToday: todayString,
@@ -72,7 +78,7 @@ actor CalculateManager {
             if let changeRate = rates.value(for: account.currency!.code) {
                 totalAmount += account.getAmountWith(changeRate: changeRate)
             } else {
-                print("No conversation rate for \(account.currency!.code)")
+                logger.error("No conversation rate for \(account.currency!.code)")
             }
         }
         return prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)
