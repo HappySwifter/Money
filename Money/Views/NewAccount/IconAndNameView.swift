@@ -23,6 +23,7 @@ struct IconAndNameView: View {
                     .padding(10)
                     .frame(maxHeight: .infinity)
                     .cornerRadiusWithBorder(radius: 15)
+                    
 
             }
             .accessibilityIdentifier(SymbolPickerViewLink)
@@ -45,5 +46,13 @@ struct IconAndNameView: View {
 }
 
 #Preview {
-    IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "banknote", color: .green, isMulticolor: true)))
+    VStack {
+        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "banknote", color: .green, isMulticolor: true)))
+        
+        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "shoe", color: .green, isMulticolor: true)))
+        
+        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "basket", color: .green, isMulticolor: true)))
+        
+        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "fork.knife", color: .green, isMulticolor: true)))
+    }
 }

@@ -9,13 +9,13 @@ import SwiftUI
 import DataProvider
 
 struct IconView: View {
-    @ScaledMetric(relativeTo: .largeTitle) var height: CGFloat = 50
+//    @ScaledMetric(relativeTo: .largeTitle) var height: CGFloat = 50
     var icon: Icon
     var font = Font.largeTitle
     
     var body: some View {
         Image(systemName: safeSystemImage(icon))
-            .frame(height: height)
+//            .frame(height: height)
             .symbolRenderingMode(icon.isMulticolor ? .multicolor : .monochrome)
             .font(font)
             .foregroundStyle(icon.color.value)

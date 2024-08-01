@@ -30,19 +30,18 @@ struct AccountView: View {
                         VStack {
                             if let icon = item.icon {
                                 IconView(icon: icon)
+                                    .frame(height: 40)
+                                    .padding(.bottom, 2)
+//                                    .padding(.horizontal)
+//                                    .background(Color.red.opacity(0.5))
                             } else {
                                 // TODO user image
                             }
+                            accountName
+                            
                             if isAccountNameInside {
-                                accountName
+                                amountView
                             }
-                            HStack(spacing: 3) {
-                                Text(prettify(val: item.amount))
-                                    .lineLimit(1)
-                                Text(currencySymbol ?? "")
-                            }
-                            .font(.caption2)
-                            .dynamicTypeSize(.xSmall ... .accessibility3)
                         }
                         .padding(10)
                     }
@@ -51,10 +50,11 @@ struct AccountView: View {
                     .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
                     
                     if !isAccountNameInside {
-                        accountName
-                            .frame(width: max(scaledMetric, minWidth))
+                        amountView
                     }
                 }
+                .frame(width: max(scaledMetric, minWidth))
+
                 
             }
         )
@@ -71,6 +71,19 @@ struct AccountView: View {
             .foregroundStyle(Color.gray)
             .lineLimit(1)
             .frame(width: max(scaledMetric, minWidth))
+            .padding(.bottom, 2)
+            .padding(.horizontal, 2)
+    }
+    
+    private var amountView: some View {
+        HStack(spacing: 3) {
+            Text(prettify(val: item.amount))
+                .lineLimit(1)
+            Text(currencySymbol ?? "")
+        }
+        .padding(.vertical, 5)
+        .font(.footnote)
+        .dynamicTypeSize(.xSmall ... .accessibility3)
     }
 }
 

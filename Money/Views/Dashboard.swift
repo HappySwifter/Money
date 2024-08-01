@@ -35,7 +35,7 @@ struct Dashboard: View {
     private var sheetBinding: Binding<Bool> {
         Binding(
             get: { return self.presentingType != .none },
-            set: { (newValue) in return self.presentingType = .none }
+            set: { _ in return self.presentingType = .none }
         )
     }
     
