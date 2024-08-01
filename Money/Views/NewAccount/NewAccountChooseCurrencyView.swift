@@ -22,11 +22,7 @@ struct NewAccountChooseCurrencyView: View {
         .clipShape(RoundedRectangle(cornerRadius: 15))
         .sheet(isPresented: $isCurrencyPickerPresented, content: {
             NavigationStack {
-                CurrencyPicker(selectedCurrency: Binding(get: {
-                    currency!
-                }, set: {
-                    currency = $0
-                }))
+                CurrencyPicker(selectedCurrency: Binding($currency)!)
             }
         })
     }

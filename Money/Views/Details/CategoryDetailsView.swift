@@ -14,7 +14,6 @@ struct CategoryDetailsView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(\.dismiss) private var dismiss
     @State var category: Account
-    @State private var icon: Icon?
     var isPresentedModally = true
         
     var body: some View {
@@ -25,12 +24,9 @@ struct CategoryDetailsView: View {
                         .frame(width: 100)
                     Spacer()
                 }
-                if let _ = icon {
-                    IconAndNameView(account: $category, icon: Binding($icon)!)
-                }
-//                AccountChooseColorView(account: $category, 
-//                                          isCategory: true)
-                
+                IconAndNameView(account: $category,
+                                icon: Binding($category.icon)!)
+
                 Button("Hide cattegory") {
                     withAnimation {
                         deleteCategory()
@@ -40,12 +36,6 @@ struct CategoryDetailsView: View {
                 .buttonStyle(DeleteButton())
             }
             .padding()
-        }
-        .onAppear(perform: {
-            self.icon = category.icon!
-        })
-        .onChange(of: icon) {
-            category.icon = icon
         }
         .toolbar {
             if isPresentedModally {
