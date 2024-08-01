@@ -23,7 +23,9 @@ struct NewAccountView: View {
                                          color: SwiftColor.green,
                                          isAccount: true,
                                          amount: 0)
-    @State private var icon = Icon(name: "banknote.fill", color: SwiftColor.blue, isMulticolor: true)
+    @State private var icon = Icon(name: "banknote.fill",
+                                   color: SwiftColor.blue,
+                                   isMulticolor: true)
     @State private var currency: MyCurrency?
     
     var body: some View {
@@ -82,6 +84,5 @@ struct NewAccountView: View {
                 logger.error("\(error.localizedDescription)")
             }
         }
-        
     }
 }

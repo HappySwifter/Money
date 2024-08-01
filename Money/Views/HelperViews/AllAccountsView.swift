@@ -31,6 +31,7 @@ struct AllAccountsView: View {
                             Spacer()
                             Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
                         }
+                        .padding(10)
                     }
                     .accessibilityIdentifier(AccountDetailsViewLink)
                 }
