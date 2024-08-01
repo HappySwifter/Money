@@ -30,8 +30,10 @@ struct TransferMoneyView: View {
     @Binding var isSheetPresented: Bool
     
     @State private var exchangeRate: Double?
-    @State private var sourceAmount = "0"
-    @State private var destinationAmount = "0"
+    @State private var sourceAmount = ""
+    @State private var destinationAmount = ""
+    @State private var comment = ""
+    private let useSystemKeyboard = true
     
     enum ItemType: Hashable {
         case source
@@ -115,7 +117,8 @@ struct TransferMoneyView: View {
                         EnterAmountView(
                             symbol: source.currency?.symbol ?? "",
                             isFocused: focusedField == .source,
-                            value: $sourceAmount)
+                            value: $sourceAmount,
+                            useTextField: useSystemKeyboard)
                         .onTapGesture {
                             focusedField = .source
                         }
@@ -143,8 +146,8 @@ struct TransferMoneyView: View {
                 Spacer()
                 
                 
-                HStack {
-                    Spacer()
+                HStack(alignment: .bottom) {
+                    TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
                     Button(" Done ") {
                         makeTransfer()
                     }
@@ -152,13 +155,12 @@ struct TransferMoneyView: View {
                     .buttonStyle(DoneButtonStyle())
                     .dynamicTypeSize(.xSmall ... .accessibility2)
                 }
-                .padding(.horizontal)
+                .padding()
                 
-                //                CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                //                               resultString: focusedField == .source ? $sourceAmount.onChange(updateDestinationAmount) : $destinationAmount.onChange(updateSourceAmount))
-                
-                CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                               resultString: focusedField == .source ? $sourceAmount : $destinationAmount)
+                if !useSystemKeyboard {
+                    CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
+                                   resultString: focusedField == .source ? $sourceAmount : $destinationAmount)
+                }
             }
             .navigationTitle(destination.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
@@ -185,11 +187,9 @@ struct TransferMoneyView: View {
     private func makeTransfer() {
         Task { @MainActor in
             guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
-                print("Enter source amount")
                 return
             }
             guard source.credit(amount: sourceAmount) else {
-                print("Not enough of money")
                 return
             }
             
@@ -207,13 +207,13 @@ struct TransferMoneyView: View {
                     destAmount = destinationAmount
                 }
             }
-            
+            let comment = comment.isEmpty ? nil : comment
             let transaction = MyTransaction(isIncome: false,
                                           sourceAmount: sourceAmount,
                                           source: source,
                                           destinationAmount: destAmount,
-                                          destination: destination)
-            print(transaction.id)
+                                            destination: destination, 
+                                            comment: comment)
             await dataHandler()?.new(transaction: transaction)
             isSheetPresented.toggle()
             await calculateSpent()
@@ -224,9 +224,9 @@ struct TransferMoneyView: View {
         do {
             try await expensesService.calculateSpentAndAccountsTotal()
         } catch let error as NetworkError {
-            print(error.description)
+            logger.error("\(error.description)")
         } catch {
-            print(error)
+            logger.error("\(error.localizedDescription)")
         }
     }
     
@@ -313,17 +313,17 @@ struct TransferMoneyView: View {
 //    }
 }
 
-private extension Binding {
-    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
-        Binding(
-            get: { self.wrappedValue },
-            set: { newValue in
-                self.wrappedValue = newValue
-                handler(newValue)
-            }
-        )
-    }
-}
+//private extension Binding {
+//    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+//        Binding(
+//            get: { self.wrappedValue },
+//            set: { newValue in
+//                self.wrappedValue = newValue
+//                handler(newValue)
+//            }
+//        )
+//    }
+//}
 
 //#Preview {
 //    

@@ -22,7 +22,10 @@ struct NewIncomeView: View {
     
     @State var destination: Account
     @Binding var isSheetPresented: Bool
-    @State private var destinationAmount = "0"
+    @State private var destinationAmount = ""
+    @State private var comment = ""
+    
+    private let useSystemKeyboard = true
     
     var body: some View {
         NavigationStack {
@@ -43,12 +46,13 @@ struct NewIncomeView: View {
                     EnterAmountView(
                         symbol: destination.currency?.symbol ?? "",
                         isFocused: true,
-                        value: $destinationAmount)
+                        value: $destinationAmount,
+                        useTextField: useSystemKeyboard)
                     
                     Spacer()
                     
-                    HStack {
-                        Spacer()
+                    HStack(alignment: .bottom) {
+                        TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
                         Button(" Done ") {
                             makeTransfer()
                         }
@@ -56,12 +60,14 @@ struct NewIncomeView: View {
                         .buttonStyle(DoneButtonStyle())
                         .dynamicTypeSize(.xSmall ... .accessibility2)
                     }
-                    .padding(.horizontal)
+                    .padding()
                 }
                 .padding(.horizontal)
                 
-                CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                               resultString: $destinationAmount)
+                if !useSystemKeyboard {
+                    CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
+                                   resultString: $destinationAmount)
+                }
             }
             .navigationTitle("New income")
             .navigationBarTitleDisplayMode(.inline)
@@ -86,12 +92,13 @@ struct NewIncomeView: View {
         }
         Task { @MainActor in
             destination.deposit(amount: amount)
-        
+            let comment = comment.isEmpty ? nil : comment
             let transaction = MyTransaction(isIncome: true,
                                             sourceAmount: amount,
                                             source: nil,
                                             destinationAmount: amount,
-                                            destination: destination)
+                                            destination: destination,
+                                            comment: comment)
             await dataHandler()?.new(transaction: transaction)
             isSheetPresented.toggle()
             await calculateTotal()
