@@ -16,7 +16,7 @@ struct AccountView: View {
     @State var item: Account
     let currencySymbol: String?
     @Binding var selected: Bool
-    var longPressHandler: ((Account) -> Void)?
+    @Binding var presentingType: PresentingType
     
     var body: some View {
         Button(
@@ -54,13 +54,12 @@ struct AccountView: View {
                     }
                 }
                 .frame(width: max(scaledMetric, minWidth))
-
-                
             }
         )
         .accessibilityIdentifier(AccountViewButton)
         .supportsLongPress {
-            longPressHandler?(item)
+            showImpact()
+            presentingType = .details(item: item)
         }
     }
     
@@ -113,7 +112,7 @@ struct AccountView: View {
                 AccountView(item: item,
                             currencySymbol: item.currency?.symbol,
                             selected: .constant(false),
-                            longPressHandler: nil)
+                            presentingType: .constant(.none))
             }
         }
     }

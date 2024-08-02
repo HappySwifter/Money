@@ -41,7 +41,7 @@ actor CurrenciesApi {
 //            logger.info("Using rates from cache")
             return try decodeRates(from: data)
         }
-        logger.info("Loading rates")
+        logger.info("Loading rates for code: \(currencyCode), date: \(date)")
         let url = urlType.getUrl(for: currencyCode)
         let (data, response) = try await URLSession.shared.data(from: url)
 

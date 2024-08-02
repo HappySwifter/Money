@@ -83,13 +83,13 @@ struct Dashboard: View {
                 
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(accounts) { item in
-                            AccountView(item: item,
-                                        currencySymbol: item.currency?.symbol,
+                        ForEach(accounts) { account in
+                            AccountView(item: account,
+                                        currencySymbol: account.currency?.symbol,
                                         selected: Binding(
-                                            get: { selectedAccount == item },
-                                            set: { _ in selectedAccount = item }),
-                                        longPressHandler: itemLongPressHandler(item:))
+                                            get: { selectedAccount == account },
+                                            set: { _ in selectedAccount = account }),
+                                        presentingType: $presentingType)
                         }
                     }
                 }
@@ -104,21 +104,16 @@ struct Dashboard: View {
                         HistoryView()
                     } label: {
                         VStack(alignment: .leading) {
-//                            if !expensesService.spentToday.isEmpty {
-                                Text("Spent today: \(expensesService.spentToday)")
-                                    .truncationMode(.head)
-//                            }
-//                            if !expensesService.spentThisMonth.isEmpty {
-                                Text("This month: \(expensesService.spentThisMonth)")
-                                    .truncationMode(.head)
-//                            }
+                            Text("Spent today: \(expensesService.spentToday)")
+                                .truncationMode(.head)
+                            Text("This month: \(expensesService.spentThisMonth)")
+                                .truncationMode(.head)
                         }
                         .lineLimit(1)
                         .foregroundStyle(Color.gray)
                         .font(.callout)
                     }
                     Spacer()
-//                    if !expensesService.availableYears.isEmpty {
                         NavigationLink {
                             ReportView()
                         } label: {
@@ -127,17 +122,16 @@ struct Dashboard: View {
                                 .frame(width: 35, height: 35)
                                 .opacity(0.5)
                         }
-//                    }
                 }
                 .buttonStyle(.plain)
                 .dynamicTypeSize(.xSmall ... .accessibility2)
                 
                 ScrollView {
                     LazyVGrid(columns: columns, alignment: .leading) {
-                        ForEach(categories) { item in
-                            CategoryView(item: item,
-                                         pressHandler: itemPressHandler(item:),
-                                         longPressHandler: itemLongPressHandler(item:))
+                        ForEach(categories) {
+                            CategoryView(item: $0,
+                                         selectedAccount: selectedAccount,
+                                         presentingType: $presentingType)
                         }
                     }
                 }
@@ -166,44 +160,4 @@ struct Dashboard: View {
             }
         }
     }
-    
-    private func itemPressHandler(item: Account) {
-        if let selectedAccount {
-            showImpact()
-            presentingType = .transfer(source: selectedAccount, destination: item)
-        }
-    }
-    
-    private func itemLongPressHandler(item: Account) {
-        showImpact()
-        presentingType = .details(item: item)
-    }
 }
-
-//#Preview {
-//    let pref = Preferences(userDefaults: UserDefaults.standard,
-//                           modelContext: previewContainer1.mainContext)
-//    let exp = ExpensesService(preferences: pref,
-//                              modelContext: previewContainer1.mainContext)
-//    
-//    return Dashboard()
-//        .modelContainer(DataProvider.shared.previewContainer)
-//        .environment(pref)
-//        .environment(exp)
-//}
-
-//@MainActor
-//private let previewContainer1: ModelContainer = {
-//    do {
-//        let icons = ["doc", "basket", "paperplane", "trash", "banknote"]
-//        for (index, name) in ["Food", "Clothes", "X", "Looooooooooooong cat", "Short"].enumerated() {
-//            let acc = Account(orderIndex: index + 4, name: name, color: .clear, isAccount: false, amount: 0)
-//            acc.icon = Icon(name: icons[index], color: SwiftColor.allCases.randomElement()!, isMulticolor: false)
-//            container.mainContext.insert(acc)
-//        }
-//
-//        return container
-//    } catch {
-//        fatalError("Failed to create container")
-//    }
-//}()

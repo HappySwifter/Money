@@ -9,13 +9,16 @@ import DataProvider
 
 struct CategoryView: View {
     @State var item: Account
-    var pressHandler: ((Account) -> Void)?
-    var longPressHandler: ((Account) -> Void)?
+    var selectedAccount: Account?
+    @Binding var presentingType: PresentingType
     
     var body: some View {
         Button(
             action: {
-                pressHandler?(item)
+                if let selectedAccount {
+                    showImpact()
+                    presentingType = .transfer(source: selectedAccount, destination: item)
+                }
             },
             label: {
                 VStack(spacing: 2) {
@@ -38,7 +41,8 @@ struct CategoryView: View {
         )
         .accessibilityIdentifier(CategoryViewButton)
         .supportsLongPress {
-            longPressHandler?(item)
+            showImpact()
+            presentingType = .details(item: item)
         }
     }
     

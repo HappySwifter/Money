@@ -24,7 +24,7 @@ struct AccountDetailsView: View {
                 AccountView(item: account,
                             currencySymbol: account.currency?.symbol,
                             selected: .constant(false),
-                            longPressHandler: nil)
+                            presentingType: .constant(.none))
                 IconAndNameView(account: $account,
                                 icon: Binding($account.icon)!)
                 AccountChooseColorView(account: $account)

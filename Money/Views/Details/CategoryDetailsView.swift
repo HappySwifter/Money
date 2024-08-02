@@ -20,7 +20,8 @@ struct CategoryDetailsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 30) {
                 HStack {
-                    CategoryView(item: category, pressHandler: {_ in}, longPressHandler: {_ in} )
+                    CategoryView(item: category, 
+                                 presentingType: .constant(.none))
                         .frame(width: 100)
                     Spacer()
                 }

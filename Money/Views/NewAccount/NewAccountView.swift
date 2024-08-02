@@ -35,7 +35,7 @@ struct NewAccountView: View {
                     AccountView(item: account,
                                 currencySymbol: currency?.symbol,
                                 selected: .constant(false),
-                                longPressHandler: nil)
+                                presentingType: .constant(.none))
                     IconAndNameView(focusNameField: true, account: $account, icon: $icon)
                     HStack {
                         NewAccountChooseCurrencyView(currency: $currency)

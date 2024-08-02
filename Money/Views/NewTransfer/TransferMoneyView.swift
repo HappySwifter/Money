@@ -72,10 +72,7 @@ struct TransferMoneyView: View {
                             Text("Accounts")
                             CurrencyMenuListView(selectedItem: $source, data: accounts)
                         } label: {
-                            TransactionAccountView(
-                                viewType: .source,
-                                item: source
-                            )
+                            TransactionAccountView(viewType: .source, item: source)
                         }
                         .buttonStyle(.plain)
                         .environment(\.menuOrder, .fixed)
@@ -95,10 +92,7 @@ struct TransferMoneyView: View {
                                 CurrencyMenuListView(selectedItem: $destination, data: accounts)
                             }
                         } label: {
-                            TransactionAccountView(
-                                viewType: .destination,
-                                item: destination
-                            )
+                            TransactionAccountView(viewType: .destination,item: destination)
                         }
                         .buttonStyle(.plain)
                         .environment(\.menuOrder, .fixed)
