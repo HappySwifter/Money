@@ -11,16 +11,13 @@ import DataProvider
 struct CurrencyMenuListView: View {
     @Binding var selectedItem: Account
     let data: [Account]
-    var changeHandler: ((_ oldValue: Account) -> Void)?
         
     var body: some View {
         ForEach(data) { acc in
             Button {
-                let oldValue = selectedItem
                 withAnimation {
                     selectedItem = acc
                 }
-                changeHandler?(oldValue)
             } label: {
                 HStack {
                     if selectedItem.name == acc.name && selectedItem.isSameType(with: acc) {
@@ -35,7 +32,3 @@ struct CurrencyMenuListView: View {
         }
     }
 }
-
-//#Preview {
-//    CurrencyView(item: <#Transactionable#>)
-//}

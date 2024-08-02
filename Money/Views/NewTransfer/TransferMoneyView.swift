@@ -70,9 +70,7 @@ struct TransferMoneyView: View {
                     HStack {
                         Menu {
                             Text("Accounts")
-                            CurrencyMenuListView(selectedItem: $source, data: accounts) {
-                                swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: ItemType.source)
-                            }
+                            CurrencyMenuListView(selectedItem: $source, data: accounts)
                         } label: {
                             TransactionAccountView(
                                 viewType: .source,
@@ -85,24 +83,16 @@ struct TransferMoneyView: View {
                         Menu {
                             if destination.isAccount {
                                 Text("Accounts")
-                                CurrencyMenuListView(selectedItem: $destination, data: accounts) {
-                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
-                                }
+                                CurrencyMenuListView(selectedItem: $destination, data: accounts)
                                 Divider()
                                 Text("Categories")
-                                CurrencyMenuListView(selectedItem: $destination, data: categories) {
-                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
-                                }
+                                CurrencyMenuListView(selectedItem: $destination, data: categories)
                             } else {
                                 Text("Categories")
-                                CurrencyMenuListView(selectedItem: $destination, data: categories) {
-                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
-                                }
+                                CurrencyMenuListView(selectedItem: $destination, data: categories)
                                 Divider()
                                 Text("Accounts")
-                                CurrencyMenuListView(selectedItem: $destination, data: accounts) {
-                                    swapItemsIfNeededAndUpdateRate(oldValue: $0, changedItemType: .destination)
-                                }
+                                CurrencyMenuListView(selectedItem: $destination, data: accounts)
                             }
                         } label: {
                             TransactionAccountView(
@@ -161,6 +151,18 @@ struct TransferMoneyView: View {
                     CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
                                    resultString: focusedField == .source ? $sourceAmount : $destinationAmount)
                 }
+            }
+            .onChange(of: source) { oldValue, _ in
+                withAnimation {
+                    swapItemsIfNeeded(oldValue: oldValue, changedItemType: .source)
+                }
+                
+            }
+            .onChange(of: destination) { oldValue, _ in
+                withAnimation {
+                    swapItemsIfNeeded(oldValue: oldValue, changedItemType: .destination)
+                }
+                
             }
             .navigationTitle(destination.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
@@ -230,7 +232,7 @@ struct TransferMoneyView: View {
         }
     }
     
-    private func swapItemsIfNeededAndUpdateRate(
+    private func swapItemsIfNeeded(
         oldValue: Account,
         changedItemType: ItemType)
     {
@@ -249,9 +251,7 @@ struct TransferMoneyView: View {
                 }
             }
         }
-        if destination.isAccount {
-//            updateRate()
-        } else {
+        if !destination.isAccount {
             focusedField = .source
             destinationAmount = "0"
             exchangeRate = nil
