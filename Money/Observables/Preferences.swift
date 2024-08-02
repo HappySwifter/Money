@@ -51,6 +51,14 @@ class Preferences {
         return userDefaults.data(forKey: "rate:\(date):\(currency)")
     }
     
+    func setCurrencyPopulated() {
+        userDefaults.setValue(true, forKey: "CurrencyPopulated")
+    }
+    
+    func isCurrencyPopulated() -> Bool {
+        return userDefaults.bool(forKey: "CurrencyPopulated")
+    }
+    
     private enum Keys: String {
         case userCurrency
     }

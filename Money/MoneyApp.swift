@@ -32,19 +32,22 @@ struct MoneyApp: App {
             }
         }
         
-        Task { [logger] in
+        Task { [logger, preferences] in
             do {
                 let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
-                let count = try await dataHandler.getCurrenciesCount()
-                guard count == 0 else { return }
+                guard !preferences.isCurrencyPopulated() else { return }
                 
                 let currenciesFromJson = try MyCurrency.loadFromJson()
                 let symbols = try CurrencySymbol.loadFromJson()
                 
                 for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
                     let symbol = symbols.findWith(code: code)?.symbol
-                    await dataHandler.newCurrency(name: name, code: code, symbol: symbol)
+                    await dataHandler.newCurrency(name: name,
+                                                  code: code,
+                                                  symbol: symbol)
                 }
+                logger.info("Populated \(currenciesFromJson.count) currencies")
+                preferences.setCurrencyPopulated()
             } catch {
                 logger.error("\(error.localizedDescription)")
             }
