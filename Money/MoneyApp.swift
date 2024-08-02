@@ -60,11 +60,15 @@ struct MoneyApp: App {
                 case .addAccount:
                     NewAccountView(isSheetPresented: .constant(true),
                                    isClosable: false,
-                                   completion: appRootManager.updateRoot)
+                                   completion: { [weak appRootManager] in
+                        appRootManager?.updateRoot()
+                    })
                 case .addCategory:
                     NewCategoryView(isSheetPresented: .constant(true), 
                                     isClosable: false,
-                                    completion: appRootManager.updateRoot)
+                                    completion: { [weak appRootManager] in
+                        appRootManager?.updateRoot()
+                    })
                 case .dashboard:
                     Dashboard()
                 }
