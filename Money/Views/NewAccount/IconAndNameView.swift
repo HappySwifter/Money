@@ -31,8 +31,6 @@ struct IconAndNameView: View {
             TextField("Name", text: $account.name)
                 .font(.title3)
                 .padding(15)
-                .keyboardType(.asciiCapable)
-                .autocorrectionDisabled()
                 .scrollDismissesKeyboard(.interactively)
                 .focused($nameFieldIsFocused)
                 .frame(maxHeight: .infinity)

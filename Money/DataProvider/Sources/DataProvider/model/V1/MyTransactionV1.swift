@@ -28,7 +28,7 @@ extension SchemaV1 {
         public var comment: String?
         
         public init(id: UUID = UUID(),
-                    date: Date = Date(),
+                    date: Date,
                     isIncome: Bool,
                     sourceAmount: Double,
                     source: Account?,

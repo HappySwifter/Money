@@ -9,7 +9,7 @@ import SwiftUI
 import DataProvider
 
 struct TransactionAccountView: View {
-    let viewType: TransferMoneyView.ItemType
+    let viewType: TransferMoneyView.FieldFocusType
     let item: Account
         
     var body: some View {

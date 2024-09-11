@@ -9,11 +9,12 @@ import SwiftUI
 
 struct EnterAmountView: View {
     enum FocusedField {
+        case none
         case amount
     }
     
     let symbol: String
-    let isFocused: Bool
+    @State var isFocused: Bool
     @Binding var value: String
     @FocusState private var focusedField: FocusedField?
 

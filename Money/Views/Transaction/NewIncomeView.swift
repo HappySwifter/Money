@@ -22,21 +22,27 @@ struct NewIncomeView: View {
     
     @State var destination: Account
     @Binding var isSheetPresented: Bool
+    @State private var targetDate = Date()
     @State private var destinationAmount = ""
     @State private var comment = ""
-    
+
     private let useSystemKeyboard = true
+    private var isDoneButtonDisabled: Bool {
+        destinationAmount.toDouble() == 0 ||
+        destinationAmount.toDouble() == nil ||
+        !destination.isAccount
+    }
     
     var body: some View {
         NavigationStack {
             VStack {
-                VStack {
+                VStack(spacing: 10) {
                     Menu {
                         Text("Accounts")
                         CurrencyMenuListView(selectedItem: $destination, data: accounts)
                     } label: {
                         TransactionAccountView(
-                            viewType: TransferMoneyView.ItemType.destination,
+                            viewType: TransferMoneyView.FieldFocusType.destination,
                             item: destination
                         )
                     }
@@ -49,18 +55,25 @@ struct NewIncomeView: View {
                         value: $destinationAmount,
                         useTextField: useSystemKeyboard)
                     
+//                    HStack {
+                        TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
+//                        Spacer()
+//                    }
+                    
                     Spacer()
                     
                     HStack(alignment: .bottom) {
-                        TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
+                        DatePicker("", selection: $targetDate, displayedComponents: .date)
+                            .labelsHidden()
+                        Spacer()
                         Button(" Done ") {
                             makeTransfer()
                         }
-                        .disabled(destinationAmount.toDouble() == 0)
+                        .disabled(isDoneButtonDisabled)
                         .buttonStyle(DoneButtonStyle())
                         .dynamicTypeSize(.xSmall ... .accessibility2)
                     }
-                    .padding()
+                    .padding(.bottom)
                 }
                 .padding(.horizontal)
                 
@@ -82,18 +95,12 @@ struct NewIncomeView: View {
     }
     
     private func makeTransfer() {
-        
-        guard let amount = destinationAmount.toDouble(),
-              amount > 0,
-              destination.isAccount
-        else {
-            assert(false)
-            return
-        }
         Task { @MainActor in
+            let amount = destinationAmount.toDouble()!
             destination.deposit(amount: amount)
             let comment = comment.isEmpty ? nil : comment
-            let transaction = MyTransaction(isIncome: true,
+            let transaction = MyTransaction(date: targetDate,
+                                            isIncome: true,
                                             sourceAmount: amount,
                                             source: nil,
                                             destinationAmount: amount,
@@ -115,37 +122,3 @@ struct NewIncomeView: View {
         }
     }
 }
-
-//#Preview {
-//    var desc = FetchDescriptor<Account>()
-//    desc.predicate = Account.accountPredicate()
-//    let accounts = try? previewContainer.mainContext.fetch(desc)
-//    
-//    return NewIncomeView(destination: accounts!.first!, isSheetPresented: .constant(true))
-//        .modelContainer(previewContainer)
-//}
-
-//@MainActor
-//let previewContainer: ModelContainer = {
-//    do {
-//        let container = try ModelContainer(for: Account.self,
-//                                           configurations: .init(isStoredInMemoryOnly: true))
-//        for name in ["Bank", "Cash", "X", "Loooooooooooon account"] {
-//            let acc = Account(orderIndex: 0, name: name, color: SwiftColor.allCases.randomElement()!, isAccount: true, amount: 1000)
-//            acc.currency = MyCurrency(code: "RUB", name: "Ruble", symbol: "R")
-//            acc.icon = Icon(name: "banknote", color: SwiftColor.allCases.randomElement()!, isMulticolor: false)
-//            container.mainContext.insert(acc)
-//        }
-//        
-//        for name in ["Food", "Clothes", "X", "Looooooooooooong cat"] {
-//            let acc = Account(orderIndex: 0, name: name, color: .clear, isAccount: false, amount: 0)
-//            acc.icon = Icon(name: "basket", color: SwiftColor.allCases.randomElement()!, isMulticolor: false)
-//            container.mainContext.insert(acc)
-//        }
-//
-//        return container
-//    } catch {
-//        fatalError("Failed to create container")
-//    }
-//}()
-

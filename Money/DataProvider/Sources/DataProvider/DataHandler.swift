@@ -217,7 +217,6 @@ extension DataHandler {
 extension DataHandler {
     public func clearDB() throws {
         try modelContext.delete(model: Account.self)
-        try modelContext.delete(model: MyCurrency.self)
         try modelContext.delete(model: MyTransaction.self)
     }
 }

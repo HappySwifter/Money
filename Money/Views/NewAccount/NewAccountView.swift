@@ -47,9 +47,7 @@ struct NewAccountView: View {
             }
             .task {
                 currency = try? await preferences.getUserCurrency()
-                await MainActor.run {
-                    account.icon = icon
-                }
+                account.icon = icon
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {

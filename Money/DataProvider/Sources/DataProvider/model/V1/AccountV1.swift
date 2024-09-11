@@ -116,9 +116,14 @@ extension Account {
         self.amount += amount
     }
     
+    public func canCredit(amount: Double) -> Bool {
+        guard isAccount else { return false }
+        return self.amount >= amount
+    }
+    
     public func credit(amount: Double) -> Bool {
         guard isAccount else { return false }
-        if self.amount >= amount {
+        if canCredit(amount: amount) {
             self.amount -= amount
             return true
         } else {

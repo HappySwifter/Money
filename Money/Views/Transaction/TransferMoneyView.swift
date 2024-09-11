@@ -10,9 +10,12 @@ import SwiftData
 import DataProvider
 import OSLog
 
+
 @MainActor
 struct TransferMoneyView: View {
     private let logger = Logger(subsystem: "Money", category: "TransferMoneyView")
+    private let useSystemKeyboard = true
+
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
 
@@ -24,42 +27,31 @@ struct TransferMoneyView: View {
         filter: Account.categoryPredicate(),
         sort: \Account.orderIndex)
     private var categories: [Account]
+        
+    @State private var focusedField = FieldFocusType.source
+    @State private var targetDate = Date()
+    @State private var sourceAmount = ""
+    @State private var destinationAmount = ""
+    @State private var comment = ""
     
     @State var source: Account
     @State var destination: Account
     @Binding var isSheetPresented: Bool
     
-    @State private var exchangeRate: Double?
-    @State private var sourceAmount = ""
-    @State private var destinationAmount = ""
-    @State private var comment = ""
-    private let useSystemKeyboard = true
-    
-    enum ItemType: Hashable {
-        case source
-        case destination
-        
-        var title: String {
-            switch self {
-            case .source:
-                return "From"
-            case .destination:
-                return "To"
-            }
-        }
+    private var transactionType: TransactionViewType {
+        TransactionViewType(source: source, destination: destination)
     }
-    @State private var focusedField = ItemType.source
     
-    var doneButtonIsDisabled: Bool {
-        if sourceAmount.toDouble() == 0 ||
-            destination.isAccount &&
-            source.currency?.code != destination.currency?.code &&
-            (destinationAmount.toDouble() ?? 0) == 0
-        {
+    private var doneButtonIsDisabled: Bool {
+        let sourceAmountDouble = sourceAmount.toDouble() ?? 0
+        if sourceAmountDouble == 0 || !source.canCredit(amount: sourceAmountDouble) {
             return true
         }
-        else {
+        switch transactionType {
+        case .accountToCategory, .accountToAccountSameCurrency:
             return false
+        case .accountToAccountDiffCurrency:
+            return destinationAmount.toDouble() ?? 0 == 0
         }
     }
     
@@ -107,23 +99,22 @@ struct TransferMoneyView: View {
                             focusedField = .source
                         }
                         
-                        if destination.isAccount,
-                           source.currency?.code != destination.currency?.code {
+                        if transactionType == .accountToAccountDiffCurrency {
                             Spacer()
                             EnterAmountView(
                                 symbol: destination.currency?.symbol ?? "",
                                 isFocused: focusedField == .destination,
-                                value: $destinationAmount)
+                                value: $destinationAmount,
+                                useTextField: useSystemKeyboard)
                             .onTapGesture {
                                 focusedField = .destination
                             }
                         }
                     }
                     
-                    if let exchangeRate, (source.currency?.code != destination.currency?.code) {
-                        Text("Exchange rate: \(normalizedString(rate: exchangeRate))")
-                            .font(.caption)
-                            .foregroundStyle(Color.gray)
+                    HStack {
+                        DatePicker("", selection: $targetDate, displayedComponents: .date)
+                        Spacer()
                     }
                 }
                 .padding()
@@ -182,34 +173,34 @@ struct TransferMoneyView: View {
     
     private func makeTransfer() {
         Task { @MainActor in
-            guard let sourceAmount = sourceAmount.toDouble(), sourceAmount > 0 else {
-                return
-            }
+            let sourceAmount = sourceAmount.toDouble()!
+            var destAmount: Double?
             guard source.credit(amount: sourceAmount) else {
                 return
             }
-            
-            var destAmount: Double?
-            if destination.isAccount {
-                if source.currency?.code == destination.currency?.code {
-                    destination.deposit(amount: sourceAmount)
-                    destAmount = sourceAmount
-                } else {
-                    guard let destinationAmount = destinationAmount.toDouble(), destinationAmount > 0 else {
-                        assert(false)
-                        return
-                    }
-                    destination.deposit(amount: destinationAmount)
-                    destAmount = destinationAmount
-                }
+           
+            switch transactionType {
+            case .accountToAccountDiffCurrency:
+                let destinationAmount = destinationAmount.toDouble()!
+                destination.deposit(amount: destinationAmount)
+                destAmount = destinationAmount
+                
+            case .accountToAccountSameCurrency:
+                destination.deposit(amount: sourceAmount)
+                destAmount = sourceAmount
+                
+            case .accountToCategory:
+                break
             }
-            let comment = comment.isEmpty ? nil : comment
-            let transaction = MyTransaction(isIncome: false,
-                                          sourceAmount: sourceAmount,
-                                          source: source,
-                                          destinationAmount: destAmount,
+
+            let transaction = MyTransaction(date: targetDate,
+                                            isIncome: false,
+                                            sourceAmount: sourceAmount,
+                                            source: source,
+                                            destinationAmount: destAmount,
                                             destination: destination, 
-                                            comment: comment)
+                                            comment: comment.isEmpty ? nil : comment)
+            
             await dataHandler()?.new(transaction: transaction)
             isSheetPresented.toggle()
             await calculateSpent()
@@ -228,7 +219,7 @@ struct TransferMoneyView: View {
     
     private func swapItemsIfNeeded(
         oldValue: Account,
-        changedItemType: ItemType)
+        changedItemType: FieldFocusType)
     {
         if source.id == destination.id {
             if oldValue.isAccount {
@@ -248,7 +239,7 @@ struct TransferMoneyView: View {
         if !destination.isAccount {
             focusedField = .source
             destinationAmount = "0"
-            exchangeRate = nil
+//            exchangeRate = nil
         }
     }
     
@@ -338,3 +329,19 @@ struct TransferMoneyView: View {
 //        .modelContainer(previewContainer)
 //        .environment(expensesService)
 //}
+
+extension TransferMoneyView {
+    enum FieldFocusType: Hashable {
+        case source
+        case destination
+        
+        var title: String {
+            switch self {
+            case .source:
+                return "From"
+            case .destination:
+                return "To"
+            }
+        }
+    }
+}

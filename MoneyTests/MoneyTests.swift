@@ -2,34 +2,38 @@
 //  MoneyTests.swift
 //  MoneyTests
 //
-//  Created by Artem on 27.02.2024.
+//  Created by Artem on 02.08.2024.
 //
 
-import XCTest
+import Testing
+import DataProvider
+import Foundation
 
-final class MoneyTests: XCTestCase {
+@testable import Money // testable helps to import targets whose access is internal
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+// #require
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+struct MoneyTests {
+    let prov = DataProvider.shared
+    
+//    func requireExample() throws {
+//        throw URLError(.unknown)
+//    }
+    
+    @Test func example() async throws {
+        
+        
+//        let method = try #require(requireExample())
+        
+        let cont = await prov.dataHandlerWithMainContextCreator()()
+        
+        let account = Account(orderIndex: 0, name: "Hello", color: .blue, isAccount: true, amount: 1000)
+        await cont.new(account: account)
+        
+        let count = try await cont.getAccountsCount()
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+        #expect(count == 1)
     }
 
 }
