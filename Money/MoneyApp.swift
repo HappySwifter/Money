@@ -76,6 +76,7 @@ struct MoneyApp: App {
                     Dashboard()
                 }
             }
+            .dynamicTypeSize(.xxxLarge ... .xxxLarge)
         }
         .modelContainer(dataProvider.sharedModelContainer)
         .environment(\.dataHandler, dataProvider.dataHandlerCreator())
