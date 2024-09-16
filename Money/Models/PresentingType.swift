@@ -22,6 +22,10 @@ enum PresentingType: Equatable {
             return true
         case (.addCategory, .addCategory):
             return true
+        case (.charts, .charts):
+            return true
+        case (.settings, .settings):
+            return true
         case (.none, .none):
             return true
         default:
@@ -34,5 +38,7 @@ enum PresentingType: Equatable {
     case details(item: Account)
     case addAccount
     case addCategory
+    case charts
+    case settings
     case none
 }

@@ -9,24 +9,23 @@ import SwiftUI
 import DataProvider
 
 struct IconView: View {
-//    @ScaledMetric(relativeTo: .largeTitle) var height: CGFloat = 50
     var icon: Icon
+    var isAccount = false
     var font = Font.largeTitle
     
     var body: some View {
         Image(systemName: safeSystemImage(icon))
-//            .frame(height: height)
-            .symbolRenderingMode(icon.isMulticolor ? .multicolor : .monochrome)
+            .symbolRenderingMode(.monochrome)
             .font(font)
-            .foregroundStyle(icon.color.value)
+            .foregroundStyle(isAccount ? Color("account_foreground") : icon.color.colorWithOpacity)
             .accessibilityIdentifier(IconViewImage)
             .dynamicTypeSize(.xSmall ... .accessibility3)
     }
     
     private func safeSystemImage(_ icon: Icon) -> String {
-        if let _ =  UIImage(systemName: icon.name) {
+        if let _ = UIImage(systemName: icon.name) {
             return icon.name
-        } else if let _ =  UIImage(systemName: icon.removed(modifiers: [.fill])) {
+        } else if let _ = UIImage(systemName: icon.removed(modifiers: [.fill])) {
             return icon.removed(modifiers: [.fill])
         } else {
             return icon.removed(modifiers: Icon.Modifiers.allCases)
@@ -35,5 +34,7 @@ struct IconView: View {
 }
 
 #Preview {
-    IconView(icon: Icon(name: "doc", color: .blue, isMulticolor: true), font: .largeTitle)
+    IconView(icon: Icon(name: "doc", color: .blue),
+             isAccount: true,
+             font: .largeTitle)
 }

@@ -14,6 +14,7 @@ extension DataHandler {
         
         let currenciesDesc = FetchDescriptor<MyCurrency>()
         let currencies = try getCurrencies()
+        assert(!currencies.isEmpty)
         var accountsCount = try getAccountsCount()
         var categoriesCount = try getCategoriesCount()
         
@@ -21,17 +22,17 @@ extension DataHandler {
         
         let categoryNames = ["Food", "Cafe", "Gifts", "Relatives", "Car", "Scootie service", "Fuel", "Home", "Bills", "Clothes", "My darling wife", "Fruits", "Home rent", "Relaxation", ""]
         
-        let nonClearColors = SwiftColor.allCases.filter({ $0 != .clear })
+        let accountColors = SwiftColor.accountColors
+        let nonClearColors = SwiftColor.categoryColors.filter({ $0 != .clear })
 
         var accounts = [Account]()
         for name in accountNames {
             let amount = Double((100...9999999).randomElement()!)
             let icon = Icon(name: iconNames.randomElement() ?? "",
-                            color: nonClearColors.randomElement()!,
-                            isMulticolor: true)
+                            color: nonClearColors.randomElement()!)
             let acc = Account(orderIndex: accountsCount,
                               name: name,
-                              color: nonClearColors.randomElement()!,
+                              color: accountColors.randomElement()!.rawValue,
                               isAccount: true,
                               amount: amount)
             acc.icon = icon
@@ -51,11 +52,10 @@ extension DataHandler {
         var categories = [Account]()
         for name in categoryNames {
             let icon = Icon(name: iconNames.randomElement() ?? "",
-                            color: nonClearColors.randomElement()!,
-                            isMulticolor: true)
+                            color: nonClearColors.randomElement()!)
             let category = Account(orderIndex: categoriesCount,
                               name: name,
-                              color: SwiftColor.clear,
+                                   color: SwiftColor.clear.rawValue,
                               isAccount: false,
                               amount: 0)
             category.icon = icon

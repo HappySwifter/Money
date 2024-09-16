@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public enum SwiftColor: String, CaseIterable {
+public enum SwiftColor: String {
     case green,
          mint,
          teal,
@@ -20,8 +20,14 @@ public enum SwiftColor: String, CaseIterable {
          red,
          brown,
          gray,
-//         black,
-         clear
+         black,
+         clear,
+    
+         lavender,
+         mintCream,
+         lightSand,
+         smokeBlue,
+         powderPink
     
     public var value: Color {
         switch self {
@@ -35,8 +41,6 @@ public enum SwiftColor: String, CaseIterable {
             return .gray
         case .green:
             return .green
-//        case .black:
-//            return .black
         case .brown:
             return .brown
         case .indigo:
@@ -49,12 +53,24 @@ public enum SwiftColor: String, CaseIterable {
             return .orange
         case .teal:
             return .teal
+        case .black:
+            return .black
         case .clear:
             return .clear
+        case .lavender, .mintCream, .lightSand, .smokeBlue, .powderPink:
+            return Color(rawValue)
         }
     }
     
     public var colorWithOpacity: Color {
         value.opacity(0.7)
+    }
+    
+    public static var accountColors: [SwiftColor] {
+        [.lavender, .mintCream, .lightSand, .smokeBlue, .powderPink]
+    }
+    
+    public static var categoryColors: [SwiftColor] {
+        [.green, .mint, .teal, .blue, .indigo, .purple, .yellow, .orange, .red, .brown, .gray, .clear]
     }
 }

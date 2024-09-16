@@ -37,6 +37,10 @@ struct ActionSheetView: View {
                 NewAccountView(isSheetPresented: $isPresented)
             case .addCategory:
                 NewCategoryView(isSheetPresented: $isPresented)
+            case .charts:
+                ReportView()
+            case .settings:
+                SettingsView()
             case .none:
                 Spacer()
             }

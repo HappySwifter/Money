@@ -178,37 +178,37 @@ extension DataHandler {
         
         let accountCash = Account(orderIndex: accountsCount,
                                   name: "Cash",
-                                  color: .blue,
+                                  color: SwiftColor.lavender.rawValue,
                                   isAccount: true,
                                   amount: 1000)
         
         let accountBank = Account(orderIndex: accountsCount + 1,
                                   name: "Bank",
-                                  color: .blue,
+                                  color: SwiftColor.mintCream.rawValue,
                                   isAccount: true,
                                   amount: 10000)
         
         let categoryFood = Account(orderIndex: catCount,
                                    name: "Food",
-                                   color: .clear,
+                                   color: SwiftColor.lightSand.rawValue,
                                    isAccount: false,
                                    amount: 0)
         
         let categoryClothes = Account(orderIndex: catCount + 1,
                                       name: "Clothes",
-                                      color: .clear,
+                                      color: SwiftColor.powderPink.rawValue,
                                       isAccount: false,
                                       amount: 0)
         
         
         accountCash.currency = userCurrency
-        accountCash.icon = Icon(name: "banknote", color: .green, isMulticolor: false)
+        accountCash.icon = Icon(name: "banknote", color: .green)
         
         accountBank.currency = userCurrency
-        accountBank.icon = Icon(name: "creditcard", color: .blue, isMulticolor: false)
+        accountBank.icon = Icon(name: "creditcard", color: .blue)
         
-        categoryFood.icon = Icon(name: "basket", color: .indigo, isMulticolor: false)
-        categoryClothes.icon = Icon(name: "tshirt", color: .orange, isMulticolor: false)
+        categoryFood.icon = Icon(name: "basket", color: .indigo)
+        categoryClothes.icon = Icon(name: "tshirt", color: .orange)
         modelContext.insert(categoryFood)
         modelContext.insert(categoryClothes)
     }

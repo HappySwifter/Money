@@ -75,10 +75,10 @@ actor CalculateManager {
         
         var totalAmount = 0.0
         for account in accounts {
-            if let changeRate = rates.value(for: account.currency!.code) {
+            if let cur = account.currency, let changeRate = rates.value(for: cur.code) {
                 totalAmount += account.getAmountWith(changeRate: changeRate)
             } else {
-                logger.error("No conversation rate for \(account.currency!.code)")
+                logger.error("No conversation rate for \(account.currency?.code ?? "")")
             }
         }
         return prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)

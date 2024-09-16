@@ -25,11 +25,10 @@ private enum CurrencyViewMode: String, CaseIterable {
 
 struct SymbolPickerView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showModifiersList = true
+    let canChooseColor: Bool
     @State private var isFill = false
     @State private var selectedName = ""
     @State private var selectedColor = SwiftColor.green
-    @State private var isMultiColor = false
     @State private var selectedType = IconType.all
     @State private var iconsToShow = IconType.all.getIcons()
     @State private var currencyViewMode = CurrencyViewMode.normal
@@ -48,11 +47,6 @@ struct SymbolPickerView: View {
     var body: some View {
         VStack(spacing: 20) {
             HStack {
-                Button {
-                    showModifiersList.toggle()
-                } label: {
-                    Text("Modifiers >")
-                }
                 Spacer()
                 Picker(selection: $selectedType) {
                     ForEach(IconType.allCases, id: \.self) { type in
@@ -61,30 +55,27 @@ struct SymbolPickerView: View {
                 } label: {}
             }
             
-            if showModifiersList {
-                ChooseColorView(color: $selectedColor)
-                
-                if selectedType == .currencies {
-                    Picker(selection: $currencyViewMode) {
-                        ForEach(CurrencyViewMode.allCases, id: \.self) { cur in
-                            Text(cur.rawValue.capitalized)
-                        }
-                    } label: {}
-                    .pickerStyle(.segmented)
-                } else {
-                    Toggle("Multicolor", isOn: $isMultiColor)
-                }
-                if canBeFilled {
-                    Toggle("Fill", isOn: $isFill)
-                }
+            if canChooseColor {
+                SymbolChooseColorView(color: $selectedColor)
+            }
+            
+            if selectedType == .currencies {
+                Picker(selection: $currencyViewMode) {
+                    ForEach(CurrencyViewMode.allCases, id: \.self) { cur in
+                        Text(cur.rawValue.capitalized)
+                    }
+                } label: {}
+                .pickerStyle(.segmented)
+            }
+            if canBeFilled {
+                Toggle("Fill", isOn: $isFill)
             }
             
             ScrollView {
                 LazyVGrid(columns: columns) {
                     ForEach(iconsToShow, id: \.self) { icon in
                         IconView(icon: Icon(name: getModifiedName(icon),
-                                            color: selectedColor,
-                                            isMulticolor: isMultiColor))
+                                            color: selectedColor))
                         .onTapGesture {
                             selectedName = icon
                         }
@@ -129,9 +120,7 @@ struct SymbolPickerView: View {
         } else if selectedIcon.contains(modifier: .square) {
             currencyViewMode = .square
         }
-        
         selectedColor = selectedIcon.color
-        isMultiColor = selectedIcon.isMulticolor
     }
         
     private func getModifiedName(_ name: String) -> String {
@@ -154,13 +143,12 @@ struct SymbolPickerView: View {
     private func saveIcon() {
         selectedIcon.name = getModifiedName(selectedName)
         selectedIcon.color = selectedColor
-        selectedIcon.isMulticolor = isMultiColor
     }
 }
 
 #Preview {
     NavigationStack {
-        SymbolPickerView(selectedIcon: .constant(Icon(name: "doc", color: .blue, isMulticolor: true)))
+        SymbolPickerView(canChooseColor: true, selectedIcon: .constant(Icon(name: "doc", color: .blue)))
     }
     
 }

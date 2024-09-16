@@ -21,12 +21,10 @@ public struct Icon: Equatable {
     
     public var name: String
     public var color: SwiftColor
-    public var isMulticolor: Bool
     
-    public init(name: String, color: SwiftColor, isMulticolor: Bool) {
+    public init(name: String, color: SwiftColor) {
         self.name = name
         self.color = color
-        self.isMulticolor = isMulticolor
     }
     
     public static func isBaseNameSame(lhs: String, rhs: String) -> Bool {

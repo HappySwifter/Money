@@ -17,7 +17,7 @@ struct IconAndNameView: View {
     var body: some View {
         HStack {
             NavigationLink {
-                SymbolPickerView(selectedIcon: $icon)
+                SymbolPickerView(canChooseColor: !account.isAccount, selectedIcon: $icon)
             } label: {
                 IconView(icon: icon, font: .title)
                     .padding(10)
@@ -40,17 +40,5 @@ struct IconAndNameView: View {
         .onAppear {
             nameFieldIsFocused = focusNameField
         }
-    }
-}
-
-#Preview {
-    VStack {
-        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "banknote", color: .green, isMulticolor: true)))
-        
-        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "shoe", color: .green, isMulticolor: true)))
-        
-        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "basket", color: .green, isMulticolor: true)))
-        
-        IconAndNameView(account: .constant(Account(orderIndex: 0, name: "Bank", color: .blue, isAccount: true, amount: 1000)), icon: .constant(Icon(name: "fork.knife", color: .green, isMulticolor: true)))
     }
 }

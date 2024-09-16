@@ -29,7 +29,7 @@ struct AddDataHelperView: View {
                     .fontWeight(.bold)
                     .padding(.vertical)
                 
-                IconView(icon: Icon(name: "tree.fill", color: .green, isMulticolor: true), font: .system(size: 100))
+                IconView(icon: Icon(name: "tree.fill", color: .green), font: .system(size: 100))
                 
                 Spacer()
                 

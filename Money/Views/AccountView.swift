@@ -10,8 +10,7 @@ import DataProvider
 
 struct AccountView: View {
     private let minWidth = 110.0
-    @ScaledMetric private var scaledMetric: CGFloat = 100
-    @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = false
+    @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = true
 
     @State var item: Account
     let currencySymbol: String?
@@ -29,7 +28,7 @@ struct AccountView: View {
                     VStack {
                         VStack {
                             if let icon = item.icon {
-                                IconView(icon: icon)
+                                IconView(icon: icon, isAccount: item.isAccount)
                                     .frame(height: 40)
                                     .padding(.bottom, 2)
 //                                    .padding(.horizontal)
@@ -45,15 +44,15 @@ struct AccountView: View {
                         }
                         .padding(10)
                     }
-                    .frame(width: max(scaledMetric, minWidth))
-                    .background(SwiftColor(rawValue: item.color)!.value.opacity(0.2))
-                    .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .cyan)
+                    .frame(width: 150)
+                    .background(SwiftColor(rawValue: item.color)!.value)
+                    .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .black)
                     
                     if !isAccountNameInside {
                         amountView
                     }
                 }
-                .frame(width: max(scaledMetric, minWidth))
+                .frame(width:150)
             }
         )
         .accessibilityIdentifier(AccountViewButton)
@@ -66,10 +65,10 @@ struct AccountView: View {
     private var accountName: some View {
         Text(item.name.isEmpty ? "Name" : item.name)
             .dynamicTypeSize(.xSmall ... .accessibility3)
-            .font(.subheadline)
-            .foregroundStyle(Color.gray)
+            .font(.title3)
+            .foregroundStyle(Color("account_foreground"))
             .lineLimit(1)
-            .frame(width: max(scaledMetric, minWidth))
+            .frame(width: 150)
             .padding(.bottom, 2)
             .padding(.horizontal, 2)
     }
@@ -81,7 +80,8 @@ struct AccountView: View {
             Text(currencySymbol ?? "")
         }
         .padding(.vertical, 5)
-        .font(.footnote)
+        .font(.title3)
+        .foregroundStyle(Color("account_foreground"))
         .dynamicTypeSize(.xSmall ... .accessibility3)
     }
 }
@@ -89,14 +89,26 @@ struct AccountView: View {
 #Preview(body: {
     let icons = ["trash", "banknote", "paperplane", "doc", "clipboard"]
 
-    let acc = Account(orderIndex: 0, name: "Super Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
-    acc.icon = Icon(name: icons[0], color: .green, isMulticolor: true)
+    let acc = Account(orderIndex: 0,
+                      name: "Super Bank",
+                      color: SwiftColor.lavender.rawValue,
+                      isAccount: true,
+                      amount: 999999999)
+    acc.icon = Icon(name: icons[0], color: .green)
     
-    let acc2 = Account(orderIndex: 0, name: "Bank", color: SwiftColor.blue, isAccount: true, amount: 999999999)
-    acc2.icon = Icon(name: icons[1], color: .green, isMulticolor: true)
+    let acc2 = Account(orderIndex: 0,
+                       name: "Bank",
+                       color: SwiftColor.lightSand.rawValue,
+                       isAccount: true,
+                       amount: 999999999)
+    acc2.icon = Icon(name: icons[1], color: .green)
     
-    let acc3 = Account(orderIndex: 0, name: "Tinkoff", color: SwiftColor.blue, isAccount: true, amount: 999)
-    acc3.icon = Icon(name: icons[2], color: .green, isMulticolor: true)
+    let acc3 = Account(orderIndex: 0,
+                       name: "Tinkoff",
+                       color: SwiftColor.mintCream.rawValue,
+                       isAccount: true,
+                       amount: 999)
+    acc3.icon = Icon(name: icons[2], color: .green)
         
     var accounts = [Account]()
     accounts.append(acc)
@@ -111,7 +123,7 @@ struct AccountView: View {
             ForEach(accounts) { item in
                 AccountView(item: item,
                             currencySymbol: item.currency?.symbol,
-                            selected: .constant(false),
+                            selected: .constant(true),
                             presentingType: .constant(.none))
             }
         }

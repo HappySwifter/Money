@@ -14,23 +14,20 @@ import DataProvider
 struct Dashboard: View {
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(Preferences.self) private var preferences
     @Environment(ExpensesService.self) private var expensesService
     
     @Query(filter: Account.accountPredicate(),
            sort: \Account.orderIndex)
     private var accounts: [Account]
     
-    @Query(
-        filter: Account.categoryPredicate(),
-        sort: \Account.orderIndex)
+    @Query(filter: Account.categoryPredicate(),
+           sort: \Account.orderIndex)
     private var categories: [Account]
     
     @State private var selectedAccount: Account?
+    @State private var presentingType = PresentingType.none
     @State private var createAccountPresented = false
     @State private var createCategoryPresented = false
-    @State private var settingsPresented = false
-    @State private var presentingType = PresentingType.none
     
     private var sheetBinding: Binding<Bool> {
         Binding(
@@ -90,10 +87,12 @@ struct Dashboard: View {
                                             get: { selectedAccount == account },
                                             set: { _ in selectedAccount = account }),
                                         presentingType: $presentingType)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
+                    .padding(.bottom, 10)
                 }
-                .scrollIndicators(.hidden)
+//                .scrollIndicators(.hidden)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Divider()
@@ -113,15 +112,7 @@ struct Dashboard: View {
                         .foregroundStyle(Color.gray)
                         .font(.callout)
                     }
-                    Spacer()
-                        NavigationLink {
-                            ReportView()
-                        } label: {
-                            Image("pie")
-                                .resizable()
-                                .frame(width: 35, height: 35)
-                                .opacity(0.5)
-                        }
+//                    Spacer()
                 }
                 .buttonStyle(.plain)
                 .dynamicTypeSize(.xSmall ... .accessibility2)
@@ -136,11 +127,6 @@ struct Dashboard: View {
                     }
                 }
                 .accessibilityIdentifier(CategoriesScrollView)
-                
-                Button("", systemImage: "gearshape") {
-                    settingsPresented.toggle()
-                }
-                .dynamicTypeSize(.xxLarge ... .accessibility1)
             }
             .padding()
             .onChange(of: accounts, initial: true) {
@@ -155,9 +141,62 @@ struct Dashboard: View {
             .sheet(isPresented: $createCategoryPresented) {
                 ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
             }
-            .sheet(isPresented: $settingsPresented) {
-                SettingsView()
-            }
+//            .sheet(isPresented: $settingsPresented) {
+//                SettingsView()
+//            }
         }
     }
+}
+
+@available(iOS 18.0, *)
+#Preview(traits: .sampleData) {
+    let preferences = Preferences()
+    let expensesService = ExpensesService(preferences: preferences)
+    let appRootManager = AppRootManager()
+    Dashboard()
+        .modelContainer(DataProvider.shared.sharedModelContainer)
+        .environment(\.dataHandler, DataProvider.shared.dataHandlerCreator())
+        .environment(\.dataHandlerWithMainContext, DataProvider.shared.dataHandlerWithMainContextCreator())
+        .environment(preferences)
+        .environment(expensesService)
+        .environment(appRootManager)
+}
+
+
+struct SampleData: PreviewModifier {
+    static func makeSharedContext() async throws -> ModelContainer {
+        let dataHandler = DataHandler(modelContainer: DataProvider.shared.previewContainer)
+
+        
+            do {
+                
+                let currenciesFromJson = try MyCurrency.loadFromJson()
+                let symbols = try CurrencySymbol.loadFromJson()
+                print(symbols)
+                for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
+                    let symbol = symbols.findWith(code: code)?.symbol
+                    await dataHandler.newCurrency(name: name,
+                                                  code: code,
+                                                  symbol: symbol)
+                }
+                
+                try await dataHandler.populateWithMockData(userCurrency: MyCurrency(code: "USD", name: "Dollar", symbol: "S"),
+                                                 iconNames: IconType.all.getIcons())
+                return DataProvider.shared.previewContainer
+
+                
+            } catch {
+                return DataProvider.shared.previewContainer
+
+            }
+    }
+    
+    func body(content: Content, context: ModelContainer) -> some View {
+        content.modelContainer(context)
+    }
+}
+
+extension PreviewTrait where T == Preview.ViewTraits {
+    @available(iOS 18.0, *)
+    @MainActor static var sampleData: Self = .modifier(SampleData())
 }

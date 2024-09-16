@@ -20,6 +20,8 @@ struct MenuView: View {
         case accountToAccount = "🏦 Account \u{2192} 🏦 Account"
         case newAccount = "🏦 Account"
         case newCategory = "🍔 Category"
+        case charts = "Charts"
+        case settings = "Settings"
     }
     
     var body: some View {
@@ -33,6 +35,9 @@ struct MenuView: View {
                     Divider()
                     Text("Create new")
                 }
+                if button == .newCategory {
+                    Divider()
+                }
                 Button {
                     press(type: button)
                 } label: {
@@ -43,7 +48,7 @@ struct MenuView: View {
                 .buttonStyle(MyButtonStyle())
             }
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: "line.3.horizontal")
                 .font(.title3)
                 .foregroundColor(.white)
                 .padding(15)
@@ -80,6 +85,10 @@ struct MenuView: View {
             presentingType = .addAccount
         case .newCategory:
             presentingType = .addCategory
+        case .charts:
+            presentingType = .charts
+        case .settings:
+            presentingType = .settings
         }
     }
 

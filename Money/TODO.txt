@@ -1,3 +1,5 @@
+CloudKit sync
+
 --- Bugs ---
 1. With scaled fonts looks not good
 

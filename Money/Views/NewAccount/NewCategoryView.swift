@@ -20,27 +20,25 @@ struct NewCategoryView: View {
     var completion: (() -> Void)?
     
     @State private var category = Account(orderIndex: 0,
-                                  name: "",
-                                  color: SwiftColor.clear,
-                                  isAccount: false,
-                                  amount: 0)
-    @State private var icon = Icon(name: "basket.fill", color: SwiftColor.green, isMulticolor: true)
-
+                                          name: "",
+                                          color: SwiftColor.clear.rawValue,
+                                          isAccount: false,
+                                          amount: 0)
+    @State private var icon = Icon(name: "basket.fill", color: SwiftColor.green)
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     HStack {
-                        CategoryView(item: category, 
+                        CategoryView(item: category,
                                      presentingType: .constant(.none))
-                            .frame(width: 100)
+                        .frame(width: 100)
                         Spacer()
                     }
                     IconAndNameView(focusNameField: true,
-                                               account: $category,
-                                               icon: $icon)
-//                    AccountChooseColorView(account: $category,
-//                                              isCategory: true)
+                                    account: $category,
+                                    icon: $icon)
                 }
                 .padding()
             }

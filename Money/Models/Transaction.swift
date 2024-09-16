@@ -18,7 +18,7 @@ extension MyTransaction {
     
     func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
         guard let sourceCurrency = source?.currency else {
-            assert(false)
+//            assert(false)
             return 0
         }
        
@@ -28,7 +28,7 @@ extension MyTransaction {
             if let exchRate = rates.value(for: sourceCurrency.code) {
                 return sourceAmount / exchRate
             } else {
-                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
+//                assert(false, "ERROR no rate for code \(sourceCurrency.code)")
                 return 0
             }
         }

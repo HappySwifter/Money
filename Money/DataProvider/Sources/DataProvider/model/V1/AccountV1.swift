@@ -25,36 +25,33 @@ extension SchemaV1 {
         public private(set) var amount: Double
         private var iconName: String?
         private var iconColor: String?
-        private var iconIsMulticolor: Bool
         public var currency: MyCurrency?
-      
+        
         public init(id: UUID = UUID(),
-             orderIndex: Int,
-             date: Date = Date(),
-             name: String,
-             color: SwiftColor,
-             isAccount: Bool,
-             amount: Double)
+                    orderIndex: Int,
+                    date: Date = Date(),
+                    name: String,
+                    color: String,
+                    isAccount: Bool,
+                    amount: Double)
         {
             self.id = id
             self.orderIndex = orderIndex
             self.date = date
             self.name = name
-            self.color = color.rawValue
+            self.color = color
             self.isAccount = isAccount
             self.hid = false
             self.amount = amount
             self.iconName = nil
             self.iconColor = nil
-            self.iconIsMulticolor = false
         }
         
         public var icon: Icon? {
             get {
                 if let iconName, let iconColor {
                     return Icon(name: iconName,
-                                color: SwiftColor(rawValue: iconColor) ?? .gray,
-                                isMulticolor: iconIsMulticolor)
+                                color: SwiftColor(rawValue: iconColor) ?? .gray)
                 } else {
                     return nil
                 }
@@ -62,7 +59,6 @@ extension SchemaV1 {
             set {
                 iconName = newValue?.name
                 iconColor = newValue?.color.rawValue
-                iconIsMulticolor = newValue?.isMulticolor ?? false
             }
         }
     }
@@ -81,20 +77,20 @@ extension Account {
     
     public static func accountPredicate() -> Predicate<Account> {
         return #Predicate<Account> {
-            $0.isAccount && 
+            $0.isAccount &&
             !$0.hid
         }
     }
     
     public static func categoryPredicate() -> Predicate<Account> {
         return #Predicate<Account> {
-            !$0.isAccount && 
+            !$0.isAccount &&
             !$0.hid
         }
     }
     
     public static func menuListDestinationAccountPredicate(isAccount: Bool, notId: UUID) -> Predicate<Account> {
-         #Predicate<Account> {
+        #Predicate<Account> {
             $0.isAccount == isAccount &&
             $0.id != notId &&
             !$0.hid
