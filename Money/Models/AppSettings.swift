@@ -8,5 +8,5 @@
 import Foundation
 
 enum AppSettings {
-    static let isAccountNameInside = "isAccountNameInside"
+//    static let isAccountNameInside = "isAccountNameInside"
 }

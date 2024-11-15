@@ -17,16 +17,16 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppRootManager.self) private var rootManager
     @Environment(Preferences.self) private var preferences
-    @State private var accountNameIsInside = true
+//    @State private var accountNameIsInside = true
     
     var body: some View {
         NavigationStack {
             Form {
-                Section("Account") {
-                    Toggle(isOn: $accountNameIsInside, label: {
-                        Text("Name is inside")
-                    })
-                }
+//                Section("Account") {
+//                    Toggle(isOn: $accountNameIsInside, label: {
+//                        Text("Name is inside")
+//                    })
+//                }
                 Section("App data") {
                     Button("Delete data") {
                         deleteAllData()
@@ -47,14 +47,14 @@ struct SettingsView: View {
                     }
                 }
             }
-            .onAppear {
-                accountNameIsInside = defaults.bool(forKey: AppSettings.isAccountNameInside)
-            }
+//            .onAppear {
+//                accountNameIsInside = defaults.bool(forKey: AppSettings.isAccountNameInside)
+//            }
         }
     }
         
     private func save() {
-        defaults.setValue(accountNameIsInside, forKey: AppSettings.isAccountNameInside)
+//        defaults.setValue(accountNameIsInside, forKey: AppSettings.isAccountNameInside)
     }
     
     private func deleteAllData() {

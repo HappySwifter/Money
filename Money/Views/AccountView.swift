@@ -10,12 +10,16 @@ import DataProvider
 
 struct AccountView: View {
     private let minWidth = 110.0
-    @AppStorage(AppSettings.isAccountNameInside) var isAccountNameInside: Bool = true
-
+    @Environment(\.colorScheme) var colorScheme
+    
     @State var item: Account
     let currencySymbol: String?
     @Binding var selected: Bool
     @Binding var presentingType: PresentingType
+    
+    var backgroundColor: Color {
+        colorScheme == .dark ? .white.opacity(0.2) : .white.opacity(0.5)
+    }
     
     var body: some View {
         Button(
@@ -24,37 +28,25 @@ struct AccountView: View {
                 showImpact()
             },
             label: {
-                VStack(spacing: 5) {
-                    VStack {
-                        VStack {
-                            if let icon = item.icon {
-                                IconView(icon: icon, isAccount: item.isAccount)
-                                    .frame(height: 40)
-                                    .padding(.bottom, 2)
-//                                    .padding(.horizontal)
-//                                    .background(Color.red.opacity(0.5))
-                            } else {
-                                // TODO user image
-                            }
-                            accountName
-                            
-                            if isAccountNameInside {
-                                amountView
-                            }
+                HStack {
+                    VStack(alignment: .leading) {
+                        if let icon = item.icon {
+                            IconView(icon: icon, isAccount: item.isAccount)
+                                .frame(height: 40)
+                        } else {
+                            // TODO user image
                         }
-                        .padding(10)
-                    }
-                    .frame(width: 150)
-                    .background(SwiftColor(rawValue: item.color)!.value)
-                    .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 3 : 0, borderColor: .black)
-                    
-                    if !isAccountNameInside {
+                        accountName
                         amountView
                     }
+                    Spacer()
                 }
-                .frame(width:150)
+                .padding()
+                .background(backgroundColor)
+                .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 1 : 0, borderColor: Color("account_foreground"))
             }
         )
+        .frame(width: 180)
         .accessibilityIdentifier(AccountViewButton)
         .supportsLongPress {
             showImpact()
@@ -64,13 +56,11 @@ struct AccountView: View {
     
     private var accountName: some View {
         Text(item.name.isEmpty ? "Name" : item.name)
-            .dynamicTypeSize(.xSmall ... .accessibility3)
-            .font(.title3)
+            .font(.title2)
+            .fontWeight(.light)
             .foregroundStyle(Color("account_foreground"))
+//            .foregroundStyle(Color.black)
             .lineLimit(1)
-            .frame(width: 150)
-            .padding(.bottom, 2)
-            .padding(.horizontal, 2)
     }
     
     private var amountView: some View {
@@ -79,21 +69,21 @@ struct AccountView: View {
                 .lineLimit(1)
             Text(currencySymbol ?? "")
         }
-        .padding(.vertical, 5)
-        .font(.title3)
+        .padding(.vertical, 1)
+        .font(.headline)
         .foregroundStyle(Color("account_foreground"))
-        .dynamicTypeSize(.xSmall ... .accessibility3)
+//        .foregroundStyle(Color.black)
     }
 }
 
 #Preview(body: {
     let icons = ["trash", "banknote", "paperplane", "doc", "clipboard"]
-
+    
     let acc = Account(orderIndex: 0,
-                      name: "Super Bank",
+                      name: "Bank",
                       color: SwiftColor.lavender.rawValue,
                       isAccount: true,
-                      amount: 999999999)
+                      amount: 999)
     acc.icon = Icon(name: icons[0], color: .green)
     
     let acc2 = Account(orderIndex: 0,
@@ -109,14 +99,14 @@ struct AccountView: View {
                        isAccount: true,
                        amount: 999)
     acc3.icon = Icon(name: icons[2], color: .green)
-        
+    
     var accounts = [Account]()
     accounts.append(acc)
     accounts.append(acc2)
     accounts.append(acc3)
     
-
-    UserDefaults.standard.setValue(false, forKey: AppSettings.isAccountNameInside)
+    
+    //    UserDefaults.standard.setValue(false, forKey: AppSettings.isAccountNameInside)
     
     return ScrollView(.horizontal) {
         HStack {
@@ -131,4 +121,6 @@ struct AccountView: View {
     .scrollIndicators(.hidden)
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding()
+    .background(Color("gradient_0"))
+    
 })

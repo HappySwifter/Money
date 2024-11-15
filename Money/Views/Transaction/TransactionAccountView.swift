@@ -36,8 +36,8 @@ struct TransactionAccountView: View {
         }
         .frame(height: 120)
         .padding()
-        .background(SwiftColor(rawValue: item.color)?.value.opacity(0.3))
-        .cornerRadiusWithBorder(radius: 10, borderColor: (SwiftColor(rawValue: item.color) == .clear) ? item.icon!.color.value : .clear)
+        .background(SwiftColor(rawValue: item.color)?.colorWithOpacity)
+        .cornerRadiusWithBorder(radius: 10, borderColor: item.isAccount ? .clear : item.icon!.color.colorWithOpacity)
         .dynamicTypeSize(.xSmall ... .xxLarge)
     }
 }

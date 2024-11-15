@@ -59,76 +59,84 @@ struct Dashboard: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 5) {
-                HStack {
-                    NavigationLink {
-                        AllAccountsView()
-                    } label: {
-                        Text("Accounts: \(expensesService.accountsTotalAmount)")
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color("gradient_0"), Color("gradient_1")]),
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
+                .ignoresSafeArea()
+                
+                VStack(alignment: .leading, spacing: 5) {
+                    HStack {
+                        NavigationLink {
+                            AllAccountsView()
+                        } label: {
+                            Text("Accounts: \(expensesService.accountsTotalAmount)")
+                                .foregroundStyle(Color.gray)
+                                .truncationMode(.head)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.vertical)
+                        .accessibilityIdentifier(AllAccountButton)
+                        
+                        Spacer()
+                        MenuView(selectedAccount: $selectedAccount,
+                                 presentingType: $presentingType)
+                    }
+                    .dynamicTypeSize(.xSmall ... .accessibility1)
+                    
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(accounts) { account in
+                                AccountView(item: account,
+                                            currencySymbol: account.currency?.symbol,
+                                            selected: Binding(
+                                                get: { selectedAccount == account },
+                                                set: { _ in selectedAccount = account }),
+                                            presentingType: $presentingType)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .padding(.bottom, 10)
+                    }
+    //                .scrollIndicators(.hidden)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Divider()
+                        .padding(.vertical, 5)
+                    
+                    HStack {
+                        NavigationLink {
+                            HistoryView()
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text("Spent today: \(expensesService.spentToday)")
+                                    .truncationMode(.head)
+                                Text("This month: \(expensesService.spentThisMonth)")
+                                    .truncationMode(.head)
+                            }
+                            .lineLimit(1)
                             .foregroundStyle(Color.gray)
-                            .truncationMode(.head)
+                            .font(.callout)
+                        }
+    //                    Spacer()
                     }
                     .buttonStyle(.plain)
-                    .padding(.vertical)
-                    .accessibilityIdentifier(AllAccountButton)
+                    .dynamicTypeSize(.xSmall ... .accessibility2)
                     
-                    Spacer()
-                    MenuView(selectedAccount: $selectedAccount,
-                             presentingType: $presentingType)
-                }
-                .dynamicTypeSize(.xSmall ... .accessibility1)
-                
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(accounts) { account in
-                            AccountView(item: account,
-                                        currencySymbol: account.currency?.symbol,
-                                        selected: Binding(
-                                            get: { selectedAccount == account },
-                                            set: { _ in selectedAccount = account }),
-                                        presentingType: $presentingType)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                    ScrollView {
+                        LazyVGrid(columns: columns, alignment: .leading) {
+                            ForEach(categories) {
+                                CategoryView(item: $0,
+                                             selectedAccount: selectedAccount,
+                                             presentingType: $presentingType)
+                            }
                         }
                     }
-                    .padding(.bottom, 10)
+                    .accessibilityIdentifier(CategoriesScrollView)
                 }
-//                .scrollIndicators(.hidden)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Divider()
-                    .padding(.vertical, 5)
-                
-                HStack {
-                    NavigationLink {
-                        HistoryView()
-                    } label: {
-                        VStack(alignment: .leading) {
-                            Text("Spent today: \(expensesService.spentToday)")
-                                .truncationMode(.head)
-                            Text("This month: \(expensesService.spentThisMonth)")
-                                .truncationMode(.head)
-                        }
-                        .lineLimit(1)
-                        .foregroundStyle(Color.gray)
-                        .font(.callout)
-                    }
-//                    Spacer()
-                }
-                .buttonStyle(.plain)
-                .dynamicTypeSize(.xSmall ... .accessibility2)
-                
-                ScrollView {
-                    LazyVGrid(columns: columns, alignment: .leading) {
-                        ForEach(categories) {
-                            CategoryView(item: $0,
-                                         selectedAccount: selectedAccount,
-                                         presentingType: $presentingType)
-                        }
-                    }
-                }
-                .accessibilityIdentifier(CategoriesScrollView)
+                .padding(.horizontal)
             }
-            .padding()
+
             .onChange(of: accounts, initial: true) {
                 selectedAccount = accounts.first
             }

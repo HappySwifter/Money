@@ -35,7 +35,7 @@ struct MenuView: View {
                     Divider()
                     Text("Create new")
                 }
-                if button == .newCategory {
+                if button == .charts {
                     Divider()
                 }
                 Button {

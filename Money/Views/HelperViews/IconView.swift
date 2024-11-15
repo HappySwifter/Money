@@ -17,7 +17,7 @@ struct IconView: View {
         Image(systemName: safeSystemImage(icon))
             .symbolRenderingMode(.monochrome)
             .font(font)
-            .foregroundStyle(isAccount ? Color("account_foreground") : icon.color.colorWithOpacity)
+            .foregroundStyle(icon.color.colorWithOpacity)
             .accessibilityIdentifier(IconViewImage)
             .dynamicTypeSize(.xSmall ... .accessibility3)
     }
