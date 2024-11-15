@@ -27,9 +27,7 @@ struct TransferView: View {
             }
             Spacer()
             HStack {
-                if let icon = destination.icon {
-                    IconView(icon: icon, font: .title2)
-                }
+                IconView(icon: destination.icon, font: .title2)
                 Text(destination.name)
                     .foregroundStyle(destination.nameColor)
                 Spacer()

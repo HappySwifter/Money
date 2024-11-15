@@ -28,14 +28,14 @@ extension DataHandler {
         var accounts = [Account]()
         for name in accountNames {
             let amount = Double((100...9999999).randomElement()!)
-            let icon = Icon(name: iconNames.randomElement() ?? "",
-                            color: nonClearColors.randomElement()!)
+
             let acc = Account(orderIndex: accountsCount,
                               name: name,
                               color: accountColors.randomElement()!.rawValue,
                               isAccount: true,
-                              amount: amount)
-            acc.icon = icon
+                              amount: amount,
+                              iconName: iconNames.randomElement() ?? "",
+                              iconColor: nonClearColors.randomElement()!.rawValue)
             
 //            if name == accountNames.first {
 //                acc.currency = userCurrency
@@ -51,14 +51,13 @@ extension DataHandler {
         
         var categories = [Account]()
         for name in categoryNames {
-            let icon = Icon(name: iconNames.randomElement() ?? "",
-                            color: nonClearColors.randomElement()!)
             let category = Account(orderIndex: categoriesCount,
                               name: name,
                                    color: SwiftColor.clear.rawValue,
                               isAccount: false,
-                              amount: 0)
-            category.icon = icon
+                              amount: 0,
+                                   iconName: iconNames.randomElement() ?? "",
+                                   iconColor: nonClearColors.randomElement()!.rawValue)
             modelContext.insert(category)
             categoriesCount += 1
             categories.append(category)

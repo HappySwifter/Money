@@ -23,8 +23,9 @@ struct NewCategoryView: View {
                                           name: "",
                                           color: SwiftColor.clear.rawValue,
                                           isAccount: false,
-                                          amount: 0)
-    @State private var icon = Icon(name: "basket.fill", color: SwiftColor.green)
+                                          amount: 0,
+                                          iconName: "basket.fill",
+                                          iconColor: SwiftColor.green.rawValue)
     
     var body: some View {
         NavigationView {
@@ -37,13 +38,9 @@ struct NewCategoryView: View {
                         Spacer()
                     }
                     IconAndNameView(focusNameField: true,
-                                    account: $category,
-                                    icon: $icon)
+                                    account: $category)
                 }
                 .padding()
-            }
-            .onAppear {
-                category.icon = icon
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {

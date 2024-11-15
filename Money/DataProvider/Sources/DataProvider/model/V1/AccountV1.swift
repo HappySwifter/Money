@@ -33,7 +33,9 @@ extension SchemaV1 {
                     name: String,
                     color: String,
                     isAccount: Bool,
-                    amount: Double)
+                    amount: Double,
+                    iconName: String,
+                    iconColor: String)
         {
             self.id = id
             self.orderIndex = orderIndex
@@ -43,8 +45,8 @@ extension SchemaV1 {
             self.isAccount = isAccount
             self.hid = false
             self.amount = amount
-            self.iconName = nil
-            self.iconColor = nil
+            self.iconName = iconName
+            self.iconColor = iconColor
         }
         
         public var icon: Icon? {

@@ -30,12 +30,9 @@ struct AccountView: View {
             label: {
                 HStack {
                     VStack(alignment: .leading) {
-                        if let icon = item.icon {
-                            IconView(icon: icon, isAccount: item.isAccount)
-                                .frame(height: 40)
-                        } else {
-                            // TODO user image
-                        }
+                        IconView(icon: item.icon, isAccount: item.isAccount)
+                            .frame(height: 40)
+
                         accountName
                         amountView
                     }
@@ -83,22 +80,25 @@ struct AccountView: View {
                       name: "Bank",
                       color: SwiftColor.lavender.rawValue,
                       isAccount: true,
-                      amount: 999)
-    acc.icon = Icon(name: icons[0], color: .green)
+                      amount: 999,
+                      iconName: icons[0],
+                      iconColor: SwiftColor.green.rawValue)
     
     let acc2 = Account(orderIndex: 0,
                        name: "Bank",
                        color: SwiftColor.lightSand.rawValue,
                        isAccount: true,
-                       amount: 999999999)
-    acc2.icon = Icon(name: icons[1], color: .green)
+                       amount: 999999999,
+                       iconName: icons[1],
+                       iconColor: SwiftColor.green.rawValue)
     
     let acc3 = Account(orderIndex: 0,
                        name: "Tinkoff",
                        color: SwiftColor.mintCream.rawValue,
                        isAccount: true,
-                       amount: 999)
-    acc3.icon = Icon(name: icons[2], color: .green)
+                       amount: 999,
+                       iconName: icons[2],
+                       iconColor: SwiftColor.green.rawValue)
     
     var accounts = [Account]()
     accounts.append(acc)

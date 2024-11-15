@@ -22,8 +22,9 @@ struct NewAccountView: View {
                                          name: "",
                                          color: SwiftColor.lavender.rawValue,
                                          isAccount: true,
-                                         amount: 0)
-    @State private var icon = Icon(name: "banknote.fill", color: SwiftColor.black)
+                                         amount: 0,
+                                         iconName: "banknote.fill",
+                                         iconColor: SwiftColor.accountColors.first!.rawValue)
     @State private var currency: MyCurrency?
     
     var body: some View {
@@ -34,7 +35,7 @@ struct NewAccountView: View {
                                 currencySymbol: currency?.symbol,
                                 selected: .constant(true),
                                 presentingType: .constant(.none))
-                    IconAndNameView(focusNameField: true, account: $account, icon: $icon)
+                    IconAndNameView(focusNameField: true, account: $account)
                     HStack {
                         NewAccountChooseCurrencyView(currency: $currency)
                         NewAccountAmountView(account: $account)
@@ -45,7 +46,6 @@ struct NewAccountView: View {
             }
             .task {
                 currency = try? await preferences.getUserCurrency()
-                account.icon = icon
             }
             .toolbarTitleDisplayMode(.inline)
             .toolbar {

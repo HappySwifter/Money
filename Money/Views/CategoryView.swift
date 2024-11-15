@@ -22,13 +22,11 @@ struct CategoryView: View {
             },
             label: {
                 VStack(spacing: 2) {
-                    if let icon = item.icon {
-                        IconView(icon: icon)
-                            .padding(10)
-                            .opacity(0.7)
-                    } else {
-                        // TODO user image
-                    }
+                    
+                    IconView(icon: item.icon)
+                        .padding(10)
+                        .opacity(0.7)
+
                     Text(item.name.isEmpty ? "Name" : item.name)
                         .font(.body)
                         .lineLimit(1)

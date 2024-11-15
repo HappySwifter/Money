@@ -23,11 +23,7 @@ struct AllCategoriesView: View {
                         CategoryDetailsView(category: cat, isPresentedModally: false)
                     } label: {
                         HStack {
-                            if let icon = cat.icon {
-                                IconView(icon: icon)
-                            } else {
-                                // TODO user image
-                            }
+                            IconView(icon: cat.icon)
                             Text(cat.name)
                             Spacer()
                         }

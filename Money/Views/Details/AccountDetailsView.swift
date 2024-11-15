@@ -25,8 +25,7 @@ struct AccountDetailsView: View {
                             currencySymbol: account.currency?.symbol,
                             selected: .constant(false),
                             presentingType: .constant(.none))
-                IconAndNameView(account: $account,
-                                icon: Binding($account.icon)!)
+                IconAndNameView(account: $account)
                 AccountChooseColorView(account: $account)
                 
                 Spacer()

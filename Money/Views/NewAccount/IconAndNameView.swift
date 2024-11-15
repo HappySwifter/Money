@@ -12,19 +12,16 @@ struct IconAndNameView: View {
     var focusNameField = false
     @FocusState private var nameFieldIsFocused: Bool
     @Binding var account: Account
-    @Binding var icon: Icon
-    
+        
     var body: some View {
         HStack {
             NavigationLink {
-                SymbolPickerView(canChooseColor: !account.isAccount, selectedIcon: $icon)
+                SymbolPickerView(canChooseColor: !account.isAccount, selectedIcon: Binding(projectedValue: $account.icon))
             } label: {
-                IconView(icon: icon, font: .title)
+                IconView(icon: account.icon, font: .title)
                     .padding(10)
                     .frame(maxHeight: .infinity)
                     .cornerRadiusWithBorder(radius: 15)
-                    
-
             }
             .accessibilityIdentifier(SymbolPickerViewLink)
             

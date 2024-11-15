@@ -23,3 +23,6 @@ CloudKit sync
 4. Upload custom icon?
 
 --- Icon picker ---
+
+
+Binding($account.icon)!

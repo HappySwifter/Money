@@ -17,11 +17,11 @@ struct AccountChooseColorView: View {
             LazyVGrid(columns: Array(repeating: .init(.flexible(minimum: 50)), count: 6), alignment: .center) {
                 ForEach(colorsArray, id: \.self) { color in
                     Circle()
-                        .stroke(.gray, lineWidth: account.icon?.color == color ? 3 : 0)
+                        .stroke(.gray, lineWidth: account.icon.color == color ? 3 : 0)
                         .fill(color.value)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
                         .onTapGesture {
-                            account.icon?.color = color
+                            account.icon.color = color
                         }
                 }
             }
@@ -56,6 +56,8 @@ struct SymbolChooseColorView: View {
                       name: "Super Bank",
                       color: SwiftColor.lavender.rawValue,
                       isAccount: true,
-                      amount: 999999999)
+                      amount: 999999999,
+                      iconName: "banknote.fill",
+                      iconColor: SwiftColor.green.rawValue)
     AccountChooseColorView(account: .constant(acc))
 }

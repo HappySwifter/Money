@@ -25,8 +25,7 @@ struct CategoryDetailsView: View {
                         .frame(width: 100)
                     Spacer()
                 }
-                IconAndNameView(account: $category,
-                                icon: Binding($category.icon)!)
+                IconAndNameView(account: $category)
 
                 Button("Hide cattegory") {
                     withAnimation {

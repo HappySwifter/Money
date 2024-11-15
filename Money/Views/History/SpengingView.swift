@@ -15,9 +15,7 @@ struct SpengingView: View {
     
     var body: some View {
         HStack {
-            if let icon = destination.icon {
-                IconView(icon: icon, font: .largeTitle)
-            }
+            IconView(icon: destination.icon, font: .largeTitle)
             Text(destination.name)
                 .font(.title3)
                 .foregroundStyle(destination.nameColor)

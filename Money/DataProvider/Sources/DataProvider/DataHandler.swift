@@ -180,35 +180,37 @@ extension DataHandler {
                                   name: "Cash",
                                   color: SwiftColor.lavender.rawValue,
                                   isAccount: true,
-                                  amount: 1000)
+                                  amount: 1000,
+                                  iconName: "banknote",
+                                  iconColor: SwiftColor.green.rawValue)
         
         let accountBank = Account(orderIndex: accountsCount + 1,
                                   name: "Bank",
                                   color: SwiftColor.mintCream.rawValue,
                                   isAccount: true,
-                                  amount: 10000)
+                                  amount: 10000,
+                                  iconName: "creditcard",
+                                  iconColor: SwiftColor.blue.rawValue)
         
         let categoryFood = Account(orderIndex: catCount,
                                    name: "Food",
                                    color: SwiftColor.lightSand.rawValue,
                                    isAccount: false,
-                                   amount: 0)
+                                   amount: 0,
+                                   iconName: "basket",
+                                   iconColor: SwiftColor.indigo.rawValue)
         
         let categoryClothes = Account(orderIndex: catCount + 1,
                                       name: "Clothes",
                                       color: SwiftColor.powderPink.rawValue,
                                       isAccount: false,
-                                      amount: 0)
+                                      amount: 0,
+                                      iconName: "tshirt",
+                                      iconColor: SwiftColor.orange.rawValue)
         
         
         accountCash.currency = userCurrency
-        accountCash.icon = Icon(name: "banknote", color: .green)
-        
         accountBank.currency = userCurrency
-        accountBank.icon = Icon(name: "creditcard", color: .blue)
-        
-        categoryFood.icon = Icon(name: "basket", color: .indigo)
-        categoryClothes.icon = Icon(name: "tshirt", color: .orange)
         modelContext.insert(categoryFood)
         modelContext.insert(categoryClothes)
     }

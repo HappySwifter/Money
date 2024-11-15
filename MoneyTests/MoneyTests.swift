@@ -28,7 +28,7 @@ struct MoneyTests {
         
         let cont = await prov.dataHandlerWithMainContextCreator()()
         
-        let account = Account(orderIndex: 0, name: "Hello", color: .blue, isAccount: true, amount: 1000)
+        let account = Account(orderIndex: 0, name: "Hello", color: AccountColor.lightSand.rawValue, isAccount: true, amount: 1000)
         await cont.new(account: account)
         
         let count = try await cont.getAccountsCount()

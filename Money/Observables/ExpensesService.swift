@@ -80,7 +80,7 @@ import DataProvider
             if totalForName > 0 {
                 retVal.append(PieChartValue(amount: Int(round(totalForName)),
                                             title: name,
-                                            color: trans.first?.destination.icon?.color.rawValue ?? "",
+                                            color: trans.first?.destination.icon.color.rawValue ?? "",
                                             data: trans))
             }
         }

@@ -23,9 +23,7 @@ struct CurrencyMenuListView: View {
                     if selectedItem.name == acc.name && selectedItem.isSameType(with: acc) {
                         Image(systemName: "checkmark")
                     }
-                    if let icon = acc.icon {
-                        IconView(icon: icon, font: .title3)
-                    }
+                    IconView(icon: acc.icon, font: .title3)
                     Text(acc.name)
                 }
             }

@@ -15,9 +15,7 @@ struct IncomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                if let icon = account.icon {
-                    IconView(icon: icon, font: .largeTitle)
-                }
+                IconView(icon: account.icon, font: .largeTitle)
                 Text(account.name)
                     .font(.title3)
                     .foregroundStyle(account.nameColor)

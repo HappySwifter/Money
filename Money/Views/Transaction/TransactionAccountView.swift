@@ -20,9 +20,7 @@ struct TransactionAccountView: View {
                 Text("\(item.name)")
                     .lineLimit(1)
                     .font(item.isAccount ? .title3 : .title2)
-                if let icon = item.icon {
-                    IconView(icon: icon, font: .title3)
-                }
+                IconView(icon: item.icon, font: .title3)
             }
             .opacity(item.isAccount ? 0.7 : 1)
             
@@ -37,7 +35,7 @@ struct TransactionAccountView: View {
         .frame(height: 120)
         .padding()
         .background(SwiftColor(rawValue: item.color)?.value)
-        .cornerRadiusWithBorder(radius: 10, borderColor: item.isAccount ? .clear : item.icon!.color.value)
+        .cornerRadiusWithBorder(radius: 10, borderColor: item.isAccount ? .clear : item.icon.color.value)
         .dynamicTypeSize(.xSmall ... .xxLarge)
     }
 }
