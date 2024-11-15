@@ -30,9 +30,9 @@ struct CategoryView: View {
                     Text(item.name.isEmpty ? "Name" : item.name)
                         .font(.body)
                         .lineLimit(1)
-                        .dynamicTypeSize(.xSmall ... .accessibility3)
+                        .dynamicTypeSize(.xLarge ... .xLarge)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+//                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }
         )
         .accessibilityIdentifier(CategoryViewButton)

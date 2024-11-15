@@ -26,6 +26,7 @@ struct CurrencyMenuListView: View {
                     IconView(icon: acc.icon, font: .title3)
                     Text(acc.name)
                 }
+                .dynamicTypeSize(.xLarge ... .xLarge)
             }
         }
     }

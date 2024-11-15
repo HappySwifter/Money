@@ -36,15 +36,17 @@ struct NewIncomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                VStack(spacing: 10) {
+                VStack(alignment: .leading, spacing: 10) {
                     Menu {
                         Text("Accounts")
                         CurrencyMenuListView(selectedItem: $destination, data: accounts)
                     } label: {
-                        TransactionAccountView(
-                            viewType: TransferMoneyView.FieldFocusType.destination,
-                            item: destination
-                        )
+                        HStack {
+                            AccountView(item: destination,
+                                        selected: .constant(true),
+                                        presentingType: .constant(.none))
+                            Spacer()
+                        }
                     }
                     .buttonStyle(.plain)
                     .environment(\.menuOrder, .fixed)
@@ -55,10 +57,7 @@ struct NewIncomeView: View {
                         value: $destinationAmount,
                         useTextField: useSystemKeyboard)
                     
-//                    HStack {
-                        TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
-//                        Spacer()
-//                    }
+                    TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
                     
                     Spacer()
                     
@@ -71,7 +70,7 @@ struct NewIncomeView: View {
                         }
                         .disabled(isDoneButtonDisabled)
                         .buttonStyle(DoneButtonStyle())
-                        .dynamicTypeSize(.xSmall ... .accessibility2)
+                        .dynamicTypeSize(.xLarge ... .xLarge)
                     }
                     .padding(.bottom)
                 }
@@ -84,6 +83,7 @@ struct NewIncomeView: View {
             }
             .navigationTitle("New income")
             .navigationBarTitleDisplayMode(.inline)
+            .dynamicTypeSize(.xLarge ... .xLarge)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") {

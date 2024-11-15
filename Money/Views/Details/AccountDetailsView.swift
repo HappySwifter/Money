@@ -21,14 +21,9 @@ struct AccountDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 30) {
-                AccountView(item: account,
-                            currencySymbol: account.currency?.symbol,
-                            selected: .constant(false),
-                            presentingType: .constant(.none))
                 IconAndNameView(account: $account)
-                AccountChooseColorView(account: $account)
+                ChooseColorView(account: $account)
                 
-                Spacer()
                 Button("Hide account") {
                     withAnimation {
                         deleteAccountAndUpdateTotalAmount()
@@ -39,6 +34,9 @@ struct AccountDetailsView: View {
             }
             .padding()
         }
+        .dynamicTypeSize(.xLarge ... .xLarge)
+        .navigationTitle(account.name)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if isPresentedModally {
                 ToolbarItem(placement: .cancellationAction) {

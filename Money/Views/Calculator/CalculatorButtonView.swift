@@ -18,7 +18,7 @@ struct CalculatorButtonView: View {
             .frame(minWidth: 0, maxWidth: size.width, minHeight: size.height, maxHeight: size.height)
             .background(button.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 8.0))
-            .dynamicTypeSize(.xSmall ... .accessibility3)
+            .dynamicTypeSize(.xLarge ... .xLarge)
     }
 }
 

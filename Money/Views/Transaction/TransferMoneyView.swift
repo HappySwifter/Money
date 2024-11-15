@@ -64,11 +64,16 @@ struct TransferMoneyView: View {
                             Text("Accounts")
                             CurrencyMenuListView(selectedItem: $source, data: accounts)
                         } label: {
-                            TransactionAccountView(viewType: .source, item: source)
+                            AccountView(item: source,
+                                        selected: .constant(true),
+                                        presentingType: .constant(.none))
                         }
                         .buttonStyle(.plain)
                         .environment(\.menuOrder, .fixed)
                         
+                        Spacer()
+                        Image(systemName: "arrowshape.forward")
+                        Spacer()
                         Menu {
                             if destination.isAccount {
                                 Text("Accounts")
@@ -84,7 +89,14 @@ struct TransferMoneyView: View {
                                 CurrencyMenuListView(selectedItem: $destination, data: accounts)
                             }
                         } label: {
-                            TransactionAccountView(viewType: .destination,item: destination)
+                            if destination.isAccount {
+                                AccountView(item: destination,
+                                            selected: .constant(true),
+                                            presentingType: .constant(.none))
+                            } else {
+                                CategoryView(item: destination, presentingType: .constant(.none))
+                                    .padding()
+                            }
                         }
                         .buttonStyle(.plain)
                         .environment(\.menuOrder, .fixed)
@@ -111,7 +123,6 @@ struct TransferMoneyView: View {
                             }
                         }
                     }
-                    
                     HStack {
                         DatePicker("", selection: $targetDate, displayedComponents: .date)
                         Spacer()
@@ -128,7 +139,7 @@ struct TransferMoneyView: View {
                     }
                     .disabled(doneButtonIsDisabled)
                     .buttonStyle(DoneButtonStyle())
-                    .dynamicTypeSize(.xSmall ... .accessibility2)
+                    .dynamicTypeSize(.xLarge ... .xLarge)
                 }
                 .padding()
                 
@@ -136,6 +147,7 @@ struct TransferMoneyView: View {
                     CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
                                    resultString: focusedField == .source ? $sourceAmount : $destinationAmount)
                 }
+//                Spacer()
             }
             .onChange(of: source) { oldValue, _ in
                 withAnimation {
@@ -151,6 +163,7 @@ struct TransferMoneyView: View {
             }
             .navigationTitle(destination.isAccount ? "New transaction" : "New expense")
             .navigationBarTitleDisplayMode(.inline)
+            .dynamicTypeSize(.xLarge ... .xLarge)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") {

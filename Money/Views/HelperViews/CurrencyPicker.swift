@@ -52,7 +52,7 @@ struct CurrencyPicker: View {
                 }
             }
         }
-
+        .dynamicTypeSize(.xLarge ... .xLarge)
     }
     
     var searchResults: [MyCurrency] {

@@ -82,18 +82,18 @@ struct Dashboard: View {
                         MenuView(selectedAccount: $selectedAccount,
                                  presentingType: $presentingType)
                     }
-                    .dynamicTypeSize(.xSmall ... .accessibility1)
+                    .dynamicTypeSize(.xLarge ... .xLarge)
                     
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach(accounts) { account in
                                 AccountView(item: account,
-                                            currencySymbol: account.currency?.symbol,
                                             selected: Binding(
                                                 get: { selectedAccount == account },
                                                 set: { _ in selectedAccount = account }),
                                             presentingType: $presentingType)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .frame(width: 180)
                             }
                         }
                         .padding(.bottom, 10)
@@ -121,7 +121,7 @@ struct Dashboard: View {
     //                    Spacer()
                     }
                     .buttonStyle(.plain)
-                    .dynamicTypeSize(.xSmall ... .accessibility2)
+                    .dynamicTypeSize(.xLarge ... .xLarge)
                     
                     ScrollView {
                         LazyVGrid(columns: columns, alignment: .leading) {

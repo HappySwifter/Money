@@ -70,7 +70,7 @@ struct ReportView: View {
                     }
                     
                 }
-                .dynamicTypeSize(.xSmall ... .accessibility1)
+                .dynamicTypeSize(.xLarge ... .xLarge)
                 .padding()
                 
                 switch selectedChartType {

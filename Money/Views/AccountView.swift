@@ -10,10 +10,9 @@ import DataProvider
 
 struct AccountView: View {
     private let minWidth = 110.0
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     
     @State var item: Account
-    let currencySymbol: String?
     @Binding var selected: Bool
     @Binding var presentingType: PresentingType
     
@@ -32,7 +31,7 @@ struct AccountView: View {
                     VStack(alignment: .leading) {
                         IconView(icon: item.icon, isAccount: item.isAccount)
                             .frame(height: 40)
-
+                        
                         accountName
                         amountView
                     }
@@ -43,7 +42,6 @@ struct AccountView: View {
                 .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 1 : 0, borderColor: Color("account_foreground"))
             }
         )
-        .frame(width: 180)
         .accessibilityIdentifier(AccountViewButton)
         .supportsLongPress {
             showImpact()
@@ -56,7 +54,7 @@ struct AccountView: View {
             .font(.title2)
             .fontWeight(.light)
             .foregroundStyle(Color("account_foreground"))
-//            .foregroundStyle(Color.black)
+        //            .foregroundStyle(Color.black)
             .lineLimit(1)
     }
     
@@ -64,12 +62,12 @@ struct AccountView: View {
         HStack(spacing: 3) {
             Text(prettify(val: item.amount))
                 .lineLimit(1)
-            Text(currencySymbol ?? "")
+            Text(item.currency?.symbol ?? "")
         }
         .padding(.vertical, 1)
         .font(.headline)
         .foregroundStyle(Color("account_foreground"))
-//        .foregroundStyle(Color.black)
+        //        .foregroundStyle(Color.black)
     }
 }
 
@@ -112,9 +110,9 @@ struct AccountView: View {
         HStack {
             ForEach(accounts) { item in
                 AccountView(item: item,
-                            currencySymbol: item.currency?.symbol,
                             selected: .constant(true),
                             presentingType: .constant(.none))
+                .frame(width: 180)
             }
         }
     }

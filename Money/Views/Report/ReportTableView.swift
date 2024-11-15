@@ -68,7 +68,7 @@ struct ReportTableView: View {
                 }
             }
         }
-        .dynamicTypeSize(.xSmall ... .accessibility1)
+        .dynamicTypeSize(.xLarge ... .xLarge)
         .task {
             self.userCurrencySymbol = (try? await preferences.getUserCurrency().symbol) ?? ""
         }

@@ -54,7 +54,7 @@
 		AC98AB762BF8673B00B15A2F /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = AC98AB752BF8673B00B15A2F /* TODO.txt */; };
 		AC98AB782BF8779100B15A2F /* ExpensesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB772BF8779100B15A2F /* ExpensesService.swift */; };
 		AC98AB7D2BF8D67300B15A2F /* IconAndNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB7C2BF8D67300B15A2F /* IconAndNameView.swift */; };
-		AC98AB7F2BF8D6EF00B15A2F /* AccountChooseColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB7E2BF8D6EF00B15A2F /* AccountChooseColorView.swift */; };
+		AC98AB7F2BF8D6EF00B15A2F /* ChooseColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB7E2BF8D6EF00B15A2F /* ChooseColorView.swift */; };
 		AC98AB812BF8D76F00B15A2F /* NewAccountAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */; };
 		AC98AB832BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB822BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift */; };
 		AC98AB852BF8E69500B15A2F /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98AB842BF8E69500B15A2F /* ReportView.swift */; };
@@ -78,7 +78,6 @@
 		ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */; };
 		ACCD11022B9C2278000EF710 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11012B9C2278000EF710 /* HistoryView.swift */; };
 		ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */; };
-		ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */; };
 		ACCD110B2B9D9EEF000EF710 /* GetHeightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */; };
 		ACCD110D2B9E06E8000EF710 /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD110C2B9E06E8000EF710 /* EnterAmountView.swift */; };
 		ACD4C93F2B8F09F00087F632 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD4C93E2B8F09F00087F632 /* Dashboard.swift */; };
@@ -183,7 +182,7 @@
 		AC98AB752BF8673B00B15A2F /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AC98AB772BF8779100B15A2F /* ExpensesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesService.swift; sourceTree = "<group>"; };
 		AC98AB7C2BF8D67300B15A2F /* IconAndNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAndNameView.swift; sourceTree = "<group>"; };
-		AC98AB7E2BF8D6EF00B15A2F /* AccountChooseColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountChooseColorView.swift; sourceTree = "<group>"; };
+		AC98AB7E2BF8D6EF00B15A2F /* ChooseColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorView.swift; sourceTree = "<group>"; };
 		AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountAmountView.swift; sourceTree = "<group>"; };
 		AC98AB822BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountChooseCurrencyView.swift; sourceTree = "<group>"; };
 		AC98AB842BF8E69500B15A2F /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
@@ -207,7 +206,6 @@
 		ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsView.swift; sourceTree = "<group>"; };
 		ACCD11012B9C2278000EF710 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyMenuListView.swift; sourceTree = "<group>"; };
-		ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAccountView.swift; sourceTree = "<group>"; };
 		ACCD110A2B9D9EEF000EF710 /* GetHeightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHeightModifier.swift; sourceTree = "<group>"; };
 		ACCD110C2B9E06E8000EF710 /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
 		ACD4C93E2B8F09F00087F632 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
@@ -484,7 +482,7 @@
 				AC98AB7C2BF8D67300B15A2F /* IconAndNameView.swift */,
 				AC98AB822BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift */,
 				AC98AB802BF8D76F00B15A2F /* NewAccountAmountView.swift */,
-				AC98AB7E2BF8D6EF00B15A2F /* AccountChooseColorView.swift */,
+				AC98AB7E2BF8D6EF00B15A2F /* ChooseColorView.swift */,
 			);
 			path = NewAccount;
 			sourceTree = "<group>";
@@ -519,7 +517,6 @@
 			children = (
 				AC872B0F2BA846400034E147 /* NewIncomeView.swift */,
 				ACA3AF452B933DAA00403538 /* TransferMoneyView.swift */,
-				ACCD11052B9C7695000EF710 /* TransactionAccountView.swift */,
 				ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */,
 				ACCD110C2B9E06E8000EF710 /* EnterAmountView.swift */,
 				AC1374D82C60670000DA49E3 /* TransactionViewType.swift */,
@@ -724,13 +721,12 @@
 				AC98AB812BF8D76F00B15A2F /* NewAccountAmountView.swift in Sources */,
 				ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */,
 				AC20CC5C2C4FF1C000BCED90 /* ErrorView.swift in Sources */,
-				AC98AB7F2BF8D6EF00B15A2F /* AccountChooseColorView.swift in Sources */,
+				AC98AB7F2BF8D6EF00B15A2F /* ChooseColorView.swift in Sources */,
 				ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */,
 				AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */,
 				ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */,
 				AC711D3C2C465C6600C04828 /* TransactionsByDate.swift in Sources */,
 				AC619D732BFC5E9F00B28E16 /* ReportTableView.swift in Sources */,
-				ACCD11062B9C7695000EF710 /* TransactionAccountView.swift in Sources */,
 				ACE15CF72C3FFE5D003340B8 /* SettingsView.swift in Sources */,
 				AC98AB832BF8D7D200B15A2F /* NewAccountChooseCurrencyView.swift in Sources */,
 				AC5A16ED2B99E75400B07D1A /* CurrencyError.swift in Sources */,

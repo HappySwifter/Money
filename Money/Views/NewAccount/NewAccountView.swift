@@ -29,25 +29,20 @@ struct NewAccountView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 30) {
-                    AccountView(item: account,
-                                currencySymbol: currency?.symbol,
-                                selected: .constant(true),
-                                presentingType: .constant(.none))
-                    IconAndNameView(focusNameField: true, account: $account)
-                    HStack {
-                        NewAccountChooseCurrencyView(currency: $currency)
-                        NewAccountAmountView(account: $account)
-                    }
-                    AccountChooseColorView(account: $account)
+            VStack(alignment: .leading, spacing: 30) {
+                IconAndNameView(focusNameField: true, account: $account)
+                HStack {
+                    NewAccountChooseCurrencyView(currency: $currency)
+                    NewAccountAmountView(account: $account)
                 }
-                .padding()
+                ChooseColorView(account: $account)
+                Spacer()
             }
+            .padding()
             .task {
                 currency = try? await preferences.getUserCurrency()
             }
-            .toolbarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if isClosable {
                     ToolbarItem(placement: .cancellationAction) {
@@ -65,7 +60,9 @@ struct NewAccountView: View {
             }
             .navigationTitle("New account")
         }
+        .dynamicTypeSize(.xLarge ... .xLarge)
     }
+    
     
     func saveAccountAndClose() {
         Task { @MainActor in

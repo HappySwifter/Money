@@ -19,7 +19,7 @@ struct IconView: View {
             .font(font)
             .foregroundStyle(icon.color.value)
             .accessibilityIdentifier(IconViewImage)
-            .dynamicTypeSize(.xSmall ... .accessibility3)
+            .dynamicTypeSize(.xLarge ... .xLarge)
     }
     
     private func safeSystemImage(_ icon: Icon) -> String {

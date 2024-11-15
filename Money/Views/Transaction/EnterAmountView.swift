@@ -42,7 +42,7 @@ struct EnterAmountView: View {
         .onAppear {
             focusedField = .amount
         }
-        .dynamicTypeSize(.xSmall ... .accessibility3)
+        .dynamicTypeSize(.xLarge ... .xLarge)
         .padding()
         .frame(maxHeight: 50)
         .background(Color.gray.opacity(0.1))

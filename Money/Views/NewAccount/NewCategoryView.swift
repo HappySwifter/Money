@@ -25,24 +25,19 @@ struct NewCategoryView: View {
                                           isAccount: false,
                                           amount: 0,
                                           iconName: "basket.fill",
-                                          iconColor: SwiftColor.green.rawValue)
+                                          iconColor: SwiftColor.categoryColors.first!.rawValue)
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 30) {
-                    HStack {
-                        CategoryView(item: category,
-                                     presentingType: .constant(.none))
-                        .frame(width: 100)
-                        Spacer()
-                    }
-                    IconAndNameView(focusNameField: true,
-                                    account: $category)
-                }
-                .padding()
+            VStack(alignment: .leading, spacing: 30) {
+                IconAndNameView(focusNameField: true,
+                                account: $category)
+                ChooseColorView(account: $category)
+                Spacer()
             }
-            .toolbarTitleDisplayMode(.inline)
+            .padding()
+            .navigationTitle("New category")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if isClosable {
                     ToolbarItem(placement: .cancellationAction) {
@@ -60,8 +55,8 @@ struct NewCategoryView: View {
                     .disabled(category.name.isEmpty)
                 }
             }
-            .navigationTitle("New category")
         }
+        .dynamicTypeSize(.xLarge ... .xLarge)
     }
     
     func saveCategory() {

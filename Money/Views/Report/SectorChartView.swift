@@ -38,7 +38,7 @@ struct SectorChartView: View {
             .annotation(position: .overlay) {
                 Text(element.title)
                     .font(.caption)
-                    .dynamicTypeSize(.xSmall ... .medium)
+                    .dynamicTypeSize(.xLarge ... .xLarge)
                     .foregroundStyle(Color.white)
             }
         }
@@ -63,7 +63,7 @@ struct SectorChartView: View {
                             Text("No data")
                         }
                     }
-                    .dynamicTypeSize(.xSmall ... .accessibility1)
+                    .dynamicTypeSize(.xLarge ... .xLarge)
                     .position(x: frame.midX, y: frame.midY)
                 }
             }

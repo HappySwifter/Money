@@ -23,8 +23,8 @@ extension SchemaV1 {
         public var isAccount: Bool
         public var hid: Bool
         public private(set) var amount: Double
-        private var iconName: String?
-        private var iconColor: String?
+        private var iconName: String
+        private var iconColor: String
         public var currency: MyCurrency?
         
         public init(id: UUID = UUID(),
@@ -49,18 +49,13 @@ extension SchemaV1 {
             self.iconColor = iconColor
         }
         
-        public var icon: Icon? {
+        public var icon: Icon {
             get {
-                if let iconName, let iconColor {
-                    return Icon(name: iconName,
-                                color: SwiftColor(rawValue: iconColor) ?? .gray)
-                } else {
-                    return nil
-                }
+                return Icon(name: iconName, color: SwiftColor(rawValue: iconColor) ?? .gray)
             }
             set {
-                iconName = newValue?.name
-                iconColor = newValue?.color.rawValue
+                iconName = newValue.name
+                iconColor = newValue.color.rawValue
             }
         }
     }

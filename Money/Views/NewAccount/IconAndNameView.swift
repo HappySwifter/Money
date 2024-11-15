@@ -16,7 +16,7 @@ struct IconAndNameView: View {
     var body: some View {
         HStack {
             NavigationLink {
-                SymbolPickerView(canChooseColor: !account.isAccount, selectedIcon: Binding(projectedValue: $account.icon))
+                SymbolPickerView(selectedIcon: Binding(projectedValue: $account.icon))
             } label: {
                 IconView(icon: account.icon, font: .title)
                     .padding(10)

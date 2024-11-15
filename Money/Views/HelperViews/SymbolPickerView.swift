@@ -25,7 +25,6 @@ private enum CurrencyViewMode: String, CaseIterable {
 
 struct SymbolPickerView: View {
     @Environment(\.dismiss) private var dismiss
-    let canChooseColor: Bool
     @State private var isFill = false
     @State private var selectedName = ""
     @State private var selectedColor = SwiftColor.green
@@ -54,11 +53,7 @@ struct SymbolPickerView: View {
                     }
                 } label: {}
             }
-            
-            if canChooseColor {
-                SymbolChooseColorView(color: $selectedColor)
-            }
-            
+
             if selectedType == .currencies {
                 Picker(selection: $currencyViewMode) {
                     ForEach(CurrencyViewMode.allCases, id: \.self) { cur in
@@ -148,7 +143,7 @@ struct SymbolPickerView: View {
 
 #Preview {
     NavigationStack {
-        SymbolPickerView(canChooseColor: true, selectedIcon: .constant(Icon(name: "doc", color: .blue)))
+        SymbolPickerView(selectedIcon: .constant(Icon(name: "doc", color: .blue)))
     }
     
 }

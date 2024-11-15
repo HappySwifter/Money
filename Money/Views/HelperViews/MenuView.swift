@@ -57,6 +57,7 @@ struct MenuView: View {
         }
         .menuOrder(.fixed)
         .menuStyle(RedBorderMenuStyle())
+        .dynamicTypeSize(.xLarge ... .xLarge)
     }
     
     private func press(type: ButtonType) {

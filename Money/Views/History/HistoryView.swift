@@ -108,7 +108,7 @@ struct HistoryView: View {
                     .padding()
             }
         }
-        .dynamicTypeSize(.xSmall ... .accessibility1)
+        .dynamicTypeSize(.xLarge ... .xLarge)
         .navigationTitle("History")
         .task {
             await fetchCount(type: selectedTransType)

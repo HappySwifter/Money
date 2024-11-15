@@ -19,13 +19,8 @@ struct CategoryDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 30) {
-                HStack {
-                    CategoryView(item: category, 
-                                 presentingType: .constant(.none))
-                        .frame(width: 100)
-                    Spacer()
-                }
                 IconAndNameView(account: $category)
+                ChooseColorView(account: $category)
 
                 Button("Hide cattegory") {
                     withAnimation {
@@ -37,6 +32,9 @@ struct CategoryDetailsView: View {
             }
             .padding()
         }
+        .dynamicTypeSize(.xLarge ... .xLarge)
+        .navigationTitle(category.name)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if isPresentedModally {
                 ToolbarItem(placement: .cancellationAction) {
