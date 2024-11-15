@@ -93,7 +93,7 @@ struct Dashboard: View {
                                                 set: { _ in selectedAccount = account }),
                                             presentingType: $presentingType)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .frame(width: 180)
+                                .frame(width: Constants.Account.viewWidth)
                             }
                         }
                         .padding(.bottom, 10)
@@ -149,9 +149,6 @@ struct Dashboard: View {
             .sheet(isPresented: $createCategoryPresented) {
                 ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
             }
-//            .sheet(isPresented: $settingsPresented) {
-//                SettingsView()
-//            }
         }
     }
 }

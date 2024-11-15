@@ -1,7 +1,5 @@
 import SwiftUI
 
-struct Constants {
-}
 
 func prettify(size: CGSize?) -> String {
     guard let size = size else { return "" }

@@ -21,7 +21,7 @@ struct IconAndNameView: View {
                 IconView(icon: account.icon, font: .title)
                     .padding(10)
                     .frame(maxHeight: .infinity)
-                    .cornerRadiusWithBorder(radius: 15)
+                    .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
             }
             .accessibilityIdentifier(SymbolPickerViewLink)
             
@@ -31,7 +31,7 @@ struct IconAndNameView: View {
                 .scrollDismissesKeyboard(.interactively)
                 .focused($nameFieldIsFocused)
                 .frame(maxHeight: .infinity)
-                .cornerRadiusWithBorder(radius: 15)
+                .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
         }
         .fixedSize(horizontal: false, vertical: true)
         .onAppear {

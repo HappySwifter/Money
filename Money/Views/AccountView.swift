@@ -17,7 +17,7 @@ struct AccountView: View {
     @Binding var presentingType: PresentingType
     
     var backgroundColor: Color {
-        colorScheme == .dark ? .white.opacity(0.2) : .white.opacity(0.5)
+        colorScheme == .dark ? Constants.Account.darkBackColor : Constants.Account.lightBackColor
     }
     
     var body: some View {
@@ -33,13 +33,15 @@ struct AccountView: View {
                             .frame(height: 40)
                         
                         accountName
-                        amountView
+                        AccountAmountView(account: item)
                     }
                     Spacer()
                 }
                 .padding()
                 .background(backgroundColor)
-                .cornerRadiusWithBorder(radius: 20, borderLineWidth: selected ? 1 : 0, borderColor: Color("account_foreground"))
+                .cornerRadiusWithBorder(radius: 20,
+                                        borderLineWidth: selected ? 1 : 0,
+                                        borderColor: Constants.Account.primaryColor)
             }
         )
         .accessibilityIdentifier(AccountViewButton)
@@ -53,21 +55,8 @@ struct AccountView: View {
         Text(item.name.isEmpty ? "Name" : item.name)
             .font(.title2)
             .fontWeight(.light)
-            .foregroundStyle(Color("account_foreground"))
-        //            .foregroundStyle(Color.black)
+            .foregroundStyle(Constants.Account.primaryColor)
             .lineLimit(1)
-    }
-    
-    private var amountView: some View {
-        HStack(spacing: 3) {
-            Text(prettify(val: item.amount))
-                .lineLimit(1)
-            Text(item.currency?.symbol ?? "")
-        }
-        .padding(.vertical, 1)
-        .font(.headline)
-        .foregroundStyle(Color("account_foreground"))
-        //        .foregroundStyle(Color.black)
     }
 }
 

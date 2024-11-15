@@ -17,9 +17,9 @@ struct NewAccountChooseCurrencyView: View {
             isCurrencyPickerPresented = true
         }
         .font(.title)
-        .padding(10)
-        .background(Color(red: 0.98, green: 0.96, blue: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .padding(.vertical, 10)
+        .padding(.horizontal, 20)
+        .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
         .sheet(isPresented: $isCurrencyPickerPresented, content: {
             NavigationStack {
                 CurrencyPicker(selectedCurrency: Binding($currency)!)

@@ -38,7 +38,9 @@ struct ActionSheetView: View {
             case .addCategory:
                 NewCategoryView(isSheetPresented: $isPresented)
             case .charts:
-                ReportView()
+                NavigationStack {
+                    ReportView()
+                }
             case .settings:
                 SettingsView()
             case .none:

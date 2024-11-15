@@ -13,6 +13,7 @@ import OSLog
 struct ReportView: View {
     private let logger = Logger(subsystem: "Money", category: "ReportView")
     @Environment(ExpensesService.self) private var expensesService
+    @Environment(\.dismiss) private var dismiss
     @State private var selectedChartType = ChartType.expenses
     @State private var selectedPeriodType = PeriodType.day
     @State private var selectedDate = Date()
@@ -109,6 +110,14 @@ struct ReportView: View {
             updateChart()
         }
         .navigationTitle("Report")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button("Close") {
+                    dismiss()
+                }
+            }
+        }
     }
     
     func updateChart() {

@@ -22,6 +22,10 @@ struct AccountDetailsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 30) {
                 IconAndNameView(account: $account)
+                HStack {
+                    Text("Balance:")
+                    AccountAmountView(account: account)
+                }
                 ChooseColorView(account: $account)
                 
                 Button("Hide account") {

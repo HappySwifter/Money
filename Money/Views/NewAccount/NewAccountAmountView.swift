@@ -25,8 +25,7 @@ struct NewAccountAmountView: View {
 
         .font(.title3)
         .padding(15)
-        .background(Color(red: 0.98, green: 0.96, blue: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 15.0))
+        .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
         .keyboardType(.decimalPad)
         .scrollDismissesKeyboard(.interactively)
     }

@@ -61,7 +61,8 @@ struct EnterAmountView: View {
                 }
             }
         }
-        .cornerRadiusWithBorder(radius: 10, borderLineWidth: isFocused ? 1 : 0)
+        .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius,
+                                borderLineWidth: isFocused ? 1 : 0)
 
     }
 }
