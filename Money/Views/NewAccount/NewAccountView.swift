@@ -32,7 +32,7 @@ struct NewAccountView: View {
                 VStack(alignment: .leading, spacing: 30) {
                     AccountView(item: account,
                                 currencySymbol: currency?.symbol,
-                                selected: .constant(false),
+                                selected: .constant(true),
                                 presentingType: .constant(.none))
                     IconAndNameView(focusNameField: true, account: $account, icon: $icon)
                     HStack {

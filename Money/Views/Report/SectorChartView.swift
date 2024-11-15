@@ -33,7 +33,7 @@ struct SectorChartView: View {
                 angularInset: 2
             )
             .opacity(selectedSector == nil ? 1.0 : (selectedSector == element ? 1.0 : 0.5))
-            .foregroundStyle(SwiftColor(rawValue: element.color)!.colorWithOpacity)
+            .foregroundStyle(SwiftColor(rawValue: element.color)!.value)
             .cornerRadius(10)
             .annotation(position: .overlay) {
                 Text(element.title)

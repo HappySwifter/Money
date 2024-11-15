@@ -62,10 +62,6 @@ public enum SwiftColor: String {
         }
     }
     
-    public var colorWithOpacity: Color {
-        value.opacity(0.7)
-    }
-    
     public static var accountColors: [SwiftColor] {
         [.lavender, .mintCream, .lightSand, .smokeBlue, .powderPink]
     }

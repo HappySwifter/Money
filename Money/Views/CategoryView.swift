@@ -25,6 +25,7 @@ struct CategoryView: View {
                     if let icon = item.icon {
                         IconView(icon: icon)
                             .padding(10)
+                            .opacity(0.7)
                     } else {
                         // TODO user image
                     }

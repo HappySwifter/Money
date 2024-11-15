@@ -17,11 +17,11 @@ struct AccountChooseColorView: View {
             LazyVGrid(columns: Array(repeating: .init(.flexible(minimum: 50)), count: 6), alignment: .center) {
                 ForEach(colorsArray, id: \.self) { color in
                     Circle()
-                        .stroke(.gray, lineWidth: account.color == color.rawValue ? 3 : 0)
+                        .stroke(.gray, lineWidth: account.icon?.color == color ? 3 : 0)
                         .fill(color.value)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
                         .onTapGesture {
-                            account.color = color.rawValue
+                            account.icon?.color = color
                         }
                 }
             }
