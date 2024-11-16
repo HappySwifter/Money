@@ -55,7 +55,7 @@ public enum TransactionType {
 extension MyTransaction {
     public var type: TransactionType {
         if isIncome { return .income }
-        return destination!.isAccount ? .betweenAccounts : .spending
+        return (destination?.isAccount ?? false) ? .betweenAccounts : .spending
     }
 }
 

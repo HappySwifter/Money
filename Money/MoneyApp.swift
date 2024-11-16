@@ -22,6 +22,10 @@ struct MoneyApp: App {
         preferences = Preferences()
         expensesService = ExpensesService(preferences: preferences)
         
+        checkCloudKitSyncStatus()
+    }
+    
+    private func calculateTotal() {
         Task { [expensesService, logger] in
             do {
                 try await expensesService.calculateSpentAndAccountsTotal()
@@ -31,7 +35,9 @@ struct MoneyApp: App {
                 logger.error("\(error.localizedDescription)")
             }
         }
-        
+    }
+    
+    private func populateCurrencies() {
         Task { [logger, preferences] in
             do {
                 let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
@@ -54,6 +60,34 @@ struct MoneyApp: App {
         }
     }
     
+    private func checkCloudKitSyncStatus() {
+        Task {
+            let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
+            let accountsCount = try await dataHandler.getAccountsCount()
+            let categoriesCount = try await dataHandler.getCategoriesCount()
+            
+            if accountsCount == 0 || categoriesCount == 0 {
+                CloudKitManager.getCloudKitSyncStatus { status in
+                    switch status {
+                    case .still:
+                        break
+                    case .importing:
+                        appRootManager.currentRoot = .loadingView
+                    case .finishImporting:
+                        calculateTotal()
+                        populateCurrencies()
+                        appRootManager.updateRoot()
+                        CloudKitManager.stopObservingChanges()
+                    }
+                }
+            } else {
+                populateCurrencies()
+                calculateTotal()
+            }
+        }
+    }
+
+    
     var body: some Scene {
         WindowGroup {
             Group {
@@ -74,6 +108,8 @@ struct MoneyApp: App {
                     })
                 case .dashboard:
                     Dashboard()
+                case .loadingView:
+                    LoadingView()
                 }
             }
             .dynamicTypeSize(.xLarge ... .xLarge)

@@ -12,7 +12,7 @@ import OSLog
 @MainActor
 @Observable final class AppRootManager {
     private let logger = Logger(subsystem: "Money", category: "AppRootManager")
-    var currentRoot: appRoots = .dashboard
+    var currentRoot: AppRoots = .dashboard
     private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
     
     init() {
@@ -25,8 +25,7 @@ import OSLog
                 let accountsCount = try await dataHandler.getAccountsCount()
                 let categoriesCount = try await dataHandler.getCategoriesCount()
                 
-                if accountsCount == 0 &&
-                    categoriesCount == 0 {
+                if accountsCount == 0 && categoriesCount == 0 {
                     currentRoot = .addDataHelper
                 } else if accountsCount == 0  {
                     currentRoot = .addAccount
@@ -42,9 +41,10 @@ import OSLog
         }
     }
     
-    enum appRoots {
+    enum AppRoots {
         case dashboard
         case addDataHelper
+        case loadingView
         case addAccount
         case addCategory
     }
