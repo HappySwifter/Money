@@ -76,6 +76,5 @@ class CalculatorViewModel {
 }
 
 #Preview {
-    @State var res = "324560"
     return CalculatorView(viewModel: CalculatorViewModel(showCalculator: false), resultString: .constant("0"))
 }

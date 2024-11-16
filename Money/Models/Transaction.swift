@@ -13,7 +13,7 @@ extension MyTransaction {
         prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source?.currency?.symbol)
     }
     var destinationAmountText: String {
-        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination.currency?.symbol)
+        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.currency?.symbol)
     }
     
     func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {

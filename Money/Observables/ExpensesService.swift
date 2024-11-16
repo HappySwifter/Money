@@ -65,7 +65,7 @@ import DataProvider
         let transactions = try await dataHandler.getTransaction(for: period)
         
         let userCur = try await preferences.getUserCurrency()
-        let groupedByName = Dictionary(grouping: transactions, by: { $0.destination.name })
+        let groupedByName = Dictionary(grouping: transactions, by: { $0.destination?.name ?? "" })
         var retVal = [PieChartValue]()
         
         for (name, trans) in groupedByName {
@@ -80,7 +80,7 @@ import DataProvider
             if totalForName > 0 {
                 retVal.append(PieChartValue(amount: Int(round(totalForName)),
                                             title: name,
-                                            color: trans.first?.destination.icon.color.rawValue ?? "",
+                                            color: trans.first?.destination?.icon.color.rawValue ?? "",
                                             data: trans))
             }
         }

@@ -15,17 +15,24 @@ public typealias Account = SchemaV1.Account
 extension SchemaV1 {
     @Model
     public final class Account: Sendable {
-        public let id: UUID
-        public private(set) var orderIndex: Int
-        public let date: Date
-        public var name: String
-        public var color: String
-        public var isAccount: Bool
-        public var hid: Bool
-        public private(set) var amount: Double
-        private var iconName: String
-        private var iconColor: String
+        public let id: UUID = UUID()
+        public private(set) var orderIndex = 0
+        public let date = Date()
+        public var name = ""
+        public var color = ""
+        public var isAccount = true
+        public var hid = false
+        public private(set) var amount = 0.0
+        private var iconName = ""
+        private var iconColor = ""
+        
         public var currency: MyCurrency?
+        
+        @Relationship(inverse: \MyTransaction.source)
+        private var sources: [MyTransaction]?
+        
+        @Relationship(inverse: \MyTransaction.destination)
+        private var destinations: [MyTransaction]?
         
         public init(id: UUID = UUID(),
                     orderIndex: Int,

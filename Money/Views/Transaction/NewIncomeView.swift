@@ -42,7 +42,7 @@ struct NewIncomeView: View {
                         CurrencyMenuListView(selectedItem: $destination, data: accounts)
                     } label: {
                         HStack {
-                            AccountView(item: destination,
+                            AccountView(item: $destination,
                                         selected: .constant(true),
                                         presentingType: .constant(.none))
                             Spacer()

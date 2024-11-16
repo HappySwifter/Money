@@ -67,7 +67,7 @@ struct MoneyApp: App {
                         appRootManager?.updateRoot()
                     })
                 case .addCategory:
-                    NewCategoryView(isSheetPresented: .constant(true), 
+                    NewCategoryView(isSheetPresented: .constant(true),
                                     isClosable: false,
                                     completion: { [weak appRootManager] in
                         appRootManager?.updateRoot()

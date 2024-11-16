@@ -87,7 +87,7 @@ struct Dashboard: View {
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach(accounts) { account in
-                                AccountView(item: account,
+                                AccountView(item: .constant(account),
                                             selected: Binding(
                                                 get: { selectedAccount == account },
                                                 set: { _ in selectedAccount = account }),
@@ -126,7 +126,7 @@ struct Dashboard: View {
                     ScrollView {
                         LazyVGrid(columns: columns, alignment: .leading) {
                             ForEach(categories) {
-                                CategoryView(item: $0,
+                                CategoryView(item: .constant($0),
                                              selectedAccount: selectedAccount,
                                              presentingType: $presentingType)
                             }

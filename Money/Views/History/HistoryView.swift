@@ -49,27 +49,30 @@ struct HistoryView: View {
                         Section {
                             ForEach(group.transactions) { transaction in
                                 VStack(alignment: .leading) {
-                                    switch transaction.type {
-                                    case .income:
-                                        if let amount = transaction.destinationAmount {
-                                            IncomeView(amount: amount,
-                                                       account: transaction.destination)
+                                    if let dest = transaction.destination {
+                                        switch transaction.type {
+                                        case .income:
+                                            if let amount = transaction.destinationAmount {
+                                                IncomeView(amount: amount,
+                                                           account: dest)
+                                            }
+                                        case .betweenAccounts:
+                                            if let source = transaction.source {
+                                                TransferView(transaction: transaction,
+                                                             source: source,
+                                                             destination: dest)
+                                            }
+                                        case .spending:
+                                            if let source = transaction.source {
+                                                SpengingView(transaction: transaction,
+                                                             source: source,
+                                                             destination: dest)
+                                            }
+                                        case .unknown:
+                                            Color.white
                                         }
-                                    case .betweenAccounts:
-                                        if let source = transaction.source {
-                                            TransferView(transaction: transaction,
-                                                         source: source,
-                                                         destination: transaction.destination)
-                                        }
-                                    case .spending:
-                                        if let source = transaction.source {
-                                            SpengingView(transaction: transaction,
-                                                         source: source,
-                                                         destination: transaction.destination)
-                                        }
-                                    case .unknown:
-                                        Color.white
                                     }
+
                                     if let comment = transaction.comment {
                                         HStack(alignment: .top) {
                                             Image(systemName: "note")
@@ -185,9 +188,9 @@ struct HistoryView: View {
         case .income:
             return #Predicate<MyTransaction> { $0.isIncome }
         case .betweenAccounts:
-            return #Predicate<MyTransaction> { $0.destination.isAccount && !$0.isIncome }
+            return #Predicate<MyTransaction> { ($0.destination?.isAccount ?? false) && !$0.isIncome }
         case .spending:
-            return #Predicate<MyTransaction> { !$0.destination.isAccount }
+            return #Predicate<MyTransaction> { !($0.destination?.isAccount ?? false) }
         }
     }
     

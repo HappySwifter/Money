@@ -19,6 +19,6 @@ struct AccountAmountView: View {
         }
         .padding(.vertical, 1)
         .font(.headline)
-        .foregroundStyle(Constants.Account.primaryColor)
+        .foregroundStyle(Constants.blackWhiteColor)
     }
 }

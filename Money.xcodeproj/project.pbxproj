@@ -650,7 +650,6 @@
 			);
 			mainGroup = AC4080A92B8E34AB004D7575;
 			packageReferences = (
-				AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				AC5C0E412C4C055500BF90E1 /* XCLocalSwiftPackageReference "Money/DataProvider" */,
 				AC6C7F682C5CCE020007462A /* XCRemoteSwiftPackageReference "swift-testing" */,
 			);
@@ -1255,14 +1254,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.11.0;
-			};
-		};
-		AC715A8D2C3D529A007EB2E5 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

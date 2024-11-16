@@ -40,9 +40,8 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .toolbar {
-                ToolbarItem {
-                    Button("Save") {
-                        save()
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Close") {
                         dismiss()
                     }
                 }
@@ -51,10 +50,6 @@ struct SettingsView: View {
 //                accountNameIsInside = defaults.bool(forKey: AppSettings.isAccountNameInside)
 //            }
         }
-    }
-        
-    private func save() {
-//        defaults.setValue(accountNameIsInside, forKey: AppSettings.isAccountNameInside)
     }
     
     private func deleteAllData() {

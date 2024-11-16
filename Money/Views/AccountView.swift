@@ -12,7 +12,7 @@ struct AccountView: View {
     private let minWidth = 110.0
     @Environment(\.colorScheme) private var colorScheme
     
-    @State var item: Account
+    @Binding var item: Account
     @Binding var selected: Bool
     @Binding var presentingType: PresentingType
     
@@ -41,7 +41,7 @@ struct AccountView: View {
                 .background(backgroundColor)
                 .cornerRadiusWithBorder(radius: 20,
                                         borderLineWidth: selected ? 1 : 0,
-                                        borderColor: Constants.Account.primaryColor)
+                                        borderColor: Constants.blackWhiteColor)
             }
         )
         .accessibilityIdentifier(AccountViewButton)
@@ -55,7 +55,7 @@ struct AccountView: View {
         Text(item.name.isEmpty ? "Name" : item.name)
             .font(.title2)
             .fontWeight(.light)
-            .foregroundStyle(Constants.Account.primaryColor)
+            .foregroundStyle(Constants.blackWhiteColor)
             .lineLimit(1)
     }
 }
@@ -98,7 +98,7 @@ struct AccountView: View {
     return ScrollView(.horizontal) {
         HStack {
             ForEach(accounts) { item in
-                AccountView(item: item,
+                AccountView(item: .constant(item),
                             selected: .constant(true),
                             presentingType: .constant(.none))
                 .frame(width: 180)

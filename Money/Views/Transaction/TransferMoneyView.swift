@@ -64,7 +64,7 @@ struct TransferMoneyView: View {
                             Text("Accounts")
                             CurrencyMenuListView(selectedItem: $source, data: accounts)
                         } label: {
-                            AccountView(item: source,
+                            AccountView(item: $source,
                                         selected: .constant(true),
                                         presentingType: .constant(.none))
                         }
@@ -90,11 +90,11 @@ struct TransferMoneyView: View {
                             }
                         } label: {
                             if destination.isAccount {
-                                AccountView(item: destination,
+                                AccountView(item: $destination,
                                             selected: .constant(true),
                                             presentingType: .constant(.none))
                             } else {
-                                CategoryView(item: destination, presentingType: .constant(.none))
+                                CategoryView(item: $destination, presentingType: .constant(.none))
                                     .padding()
                             }
                         }

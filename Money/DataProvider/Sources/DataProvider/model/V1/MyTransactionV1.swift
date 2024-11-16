@@ -4,7 +4,6 @@
 //
 //  Created by Artem on 06.03.2024.
 //
-
 import Foundation
 import SwiftData
 
@@ -14,16 +13,16 @@ public typealias MyTransaction = SchemaV1.MyTransaction
 extension SchemaV1 {
     @Model
     public final class MyTransaction: Sendable {
-        @Attribute(.unique) public let id: UUID
-        public var date: Date
-        public var isIncome: Bool
+        public let id: UUID = UUID()
+        public var date = Date()
+        public var isIncome = false
         
         @Relationship(deleteRule: .noAction)
         public var source: Account?
         
         @Relationship(deleteRule: .noAction)
-        public var destination: Account
-        public var sourceAmount: Double
+        public var destination: Account?
+        public var sourceAmount = 0.0
         public var destinationAmount: Double?
         public var comment: String?
         
@@ -56,7 +55,7 @@ public enum TransactionType {
 extension MyTransaction {
     public var type: TransactionType {
         if isIncome { return .income }
-        return destination.isAccount ? .betweenAccounts : .spending
+        return destination!.isAccount ? .betweenAccounts : .spending
     }
 }
 
@@ -68,7 +67,7 @@ extension MyTransaction {
             tran.date >= strart &&
             tran.date < end &&
             !tran.isIncome &&
-            !tran.destination.isAccount
+            !(tran.destination?.isAccount ?? false)
         }
     }
 }

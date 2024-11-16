@@ -61,6 +61,7 @@ struct AllAccountsView: View {
         .toolbar {
             EditButton()
         }
+        .navigationTitle("Accounts")
     }
     
     private func getAccounts() async -> [Account] {

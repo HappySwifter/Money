@@ -120,7 +120,7 @@ extension DataHandler {
         switch transaction.type {
         case .income:
             let destination = transaction.destination
-            destination.credit(amount: transaction.sourceAmount)
+            destination?.credit(amount: transaction.sourceAmount)
         case .betweenAccounts:
             guard let source = transaction.source else {
                 throw DataProviderError.transactionSourceMissing
@@ -130,7 +130,7 @@ extension DataHandler {
                 throw DataProviderError.transactionDestinationAmountMissing
             }
             source.deposit(amount: transaction.sourceAmount)
-            destination.credit(amount: destinationAmount)
+            destination?.credit(amount: destinationAmount)
         case .spending:
             guard let source = transaction.source else {
                 throw DataProviderError.transactionSourceMissing

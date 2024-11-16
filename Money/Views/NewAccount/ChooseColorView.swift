@@ -22,7 +22,7 @@ struct ChooseColorView: View {
         LazyVGrid(columns: Array(repeating: .init(.flexible(minimum: 50)), count: 6), alignment: .center) {
             ForEach(colorsArray, id: \.self) { color in
                 Circle()
-                    .stroke(.gray, lineWidth: account.icon.color == color ? 3 : 0)
+                    .stroke(Constants.blackWhiteColor, lineWidth: account.icon.color == color ? 2 : 0)
                     .fill(color.value)
                     .opacity(0.6)
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)

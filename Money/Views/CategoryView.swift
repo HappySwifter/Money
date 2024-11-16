@@ -8,7 +8,7 @@ import SwiftUI
 import DataProvider
 
 struct CategoryView: View {
-    @State var item: Account
+    @Binding var item: Account
     var selectedAccount: Account?
     @Binding var presentingType: PresentingType
     
