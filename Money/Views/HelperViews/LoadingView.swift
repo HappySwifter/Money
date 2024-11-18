@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct LoadingView: View {
+    let title: String
+
     var body: some View {
         ProgressView()
             .progressViewStyle(.circular)
             .padding(.bottom)
-        Text("Loading data from iCloud...")
+        Text(title)
     }
 }
 
 #Preview {
-    LoadingView()
+    LoadingView(title: "Hello world")
 }

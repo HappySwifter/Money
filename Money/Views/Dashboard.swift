@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 import DataProvider
+import TipKit
 
 @MainActor
 struct Dashboard: View {
@@ -28,6 +29,12 @@ struct Dashboard: View {
     @State private var presentingType = PresentingType.none
     @State private var createAccountPresented = false
     @State private var createCategoryPresented = false
+    
+    @State private var dashboardTips = TipGroup(.ordered) {
+        AccountTapTip()
+        CategoryTapTip()
+        CategoryLongPressTip()
+    }
     
     private var sheetBinding: Binding<Bool> {
         Binding(
@@ -83,14 +90,23 @@ struct Dashboard: View {
                                  presentingType: $presentingType)
                     }
                     .dynamicTypeSize(.xLarge ... .xLarge)
+
                     
+                    TipView(dashboardTips.currentTip as? AccountTapTip, arrowEdge: .bottom) { action in
+                        print(action)
+                    }
                     ScrollView(.horizontal) {
+
                         HStack {
                             ForEach(accounts) { account in
                                 AccountView(item: .constant(account),
                                             selected: Binding(
                                                 get: { selectedAccount == account },
-                                                set: { _ in selectedAccount = account }),
+                                                set: { _ in
+                                                    selectedAccount = account
+                                                    let tip = dashboardTips.currentTip as? AccountTapTip
+                                                    tip?.invalidate(reason: .actionPerformed)
+                                                }),
                                             presentingType: $presentingType)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .frame(width: Constants.Account.viewWidth)
@@ -100,7 +116,6 @@ struct Dashboard: View {
                     }
     //                .scrollIndicators(.hidden)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
                     Divider()
                         .padding(.vertical, 5)
                     
@@ -123,14 +138,16 @@ struct Dashboard: View {
                     .buttonStyle(.plain)
                     .dynamicTypeSize(.xLarge ... .xLarge)
                     
+                    TipView(dashboardTips.currentTip as? CategoryTapTip, arrowEdge: .bottom)
                     ScrollView {
                         LazyVGrid(columns: columns, alignment: .leading) {
-                            ForEach(categories) {
-                                CategoryView(item: .constant($0),
-                                             selectedAccount: selectedAccount,
-                                             presentingType: $presentingType)
+                            ForEach(categories) { category in
+                                CategoryView(item: .constant(category),
+                                             tapHandler: categorySelectHandler(cat:),
+                                             longPressHandler: categoryLongPressHandler(cat:))
                             }
                         }
+                        TipView(dashboardTips.currentTip as? CategoryLongPressTip, arrowEdge: .top)
                     }
                     .accessibilityIdentifier(CategoriesScrollView)
                 }
@@ -150,6 +167,22 @@ struct Dashboard: View {
                 ActionSheetView(isPresented: $createCategoryPresented, presentingType: .addCategory)
             }
         }
+    }
+    
+    private func categorySelectHandler(cat: Account) {
+        showImpact()
+        let tip = dashboardTips.currentTip as? CategoryTapTip
+        tip?.invalidate(reason: .actionPerformed)
+        if let selectedAccount {
+            presentingType = .transfer(source: selectedAccount, destination: cat)
+        }
+    }
+    
+    private func categoryLongPressHandler(cat: Account) {
+        showImpact()
+        let tip = dashboardTips.currentTip as? CategoryLongPressTip
+        tip?.invalidate(reason: .actionPerformed)
+        presentingType = .details(item: cat)
     }
 }
 

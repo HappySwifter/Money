@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AC029FA82CE86A14005DF149 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC029FA72CE86A14005DF149 /* LoadingView.swift */; };
 		AC029FAA2CE87C5E005DF149 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC029FA92CE87C5E005DF149 /* CloudKitManager.swift */; };
+		AC029FAE2CE8B7A8005DF149 /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC029FAD2CE8B7A8005DF149 /* Tips.swift */; };
 		AC031EE12B918684006A3A8C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC031EE02B918684006A3A8C /* Account.swift */; };
 		AC04B76F2C3CF51800B02078 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04B76E2C3CF51800B02078 /* Symbols.swift */; };
 		AC04B7712C3CF5F800B02078 /* SymbolPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */; };
@@ -139,6 +140,7 @@
 /* Begin PBXFileReference section */
 		AC029FA72CE86A14005DF149 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		AC029FA92CE87C5E005DF149 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		AC029FAD2CE8B7A8005DF149 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		AC031EE02B918684006A3A8C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		AC04B76E2C3CF51800B02078 /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
 		AC04B7702C3CF5F800B02078 /* SymbolPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPickerView.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				AC98AB752BF8673B00B15A2F /* TODO.txt */,
 				ACDD4CE12CE73E4C005D8D55 /* Constants.swift */,
 				AC4080B52B8E34AB004D7575 /* MoneyApp.swift */,
+				AC029FAD2CE8B7A8005DF149 /* Tips.swift */,
 				AC8ECADF2C4234330079F806 /* AccessibilityIDs.swift */,
 				AC8ECAEA2C426B360079F806 /* Observables */,
 				ACC3EFAE2B958FE60069C2D1 /* API */,
@@ -725,6 +728,7 @@
 				AC1374D92C60670000DA49E3 /* TransactionViewType.swift in Sources */,
 				AC98AB782BF8779100B15A2F /* ExpensesService.swift in Sources */,
 				AC5A16EB2B99E09D00B07D1A /* Preferences.swift in Sources */,
+				AC029FAE2CE8B7A8005DF149 /* Tips.swift in Sources */,
 				AC8ECAEC2C426DF20079F806 /* PreviewData.swift in Sources */,
 				AC8ECAE02C4234330079F806 /* AccessibilityIDs.swift in Sources */,
 				ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */,
@@ -980,7 +984,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 17;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -1026,7 +1030,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 17;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;

@@ -12,7 +12,7 @@ import OSLog
 @MainActor
 @Observable final class AppRootManager {
     private let logger = Logger(subsystem: "Money", category: "AppRootManager")
-    var currentRoot: AppRoots = .dashboard
+    var currentRoot: AppRoots = .loadingView(title: "")
     private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
     
     init() {
@@ -44,7 +44,7 @@ import OSLog
     enum AppRoots {
         case dashboard
         case addDataHelper
-        case loadingView
+        case loadingView(title: String)
         case addAccount
         case addCategory
     }

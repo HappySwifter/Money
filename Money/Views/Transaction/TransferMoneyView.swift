@@ -94,7 +94,7 @@ struct TransferMoneyView: View {
                                             selected: .constant(true),
                                             presentingType: .constant(.none))
                             } else {
-                                CategoryView(item: $destination, presentingType: .constant(.none))
+                                CategoryView(item: $destination)
                                     .padding()
                             }
                         }

@@ -8,6 +8,7 @@
 import SwiftUI
 import OSLog
 import DataProvider
+import TipKit
 
 @main
 struct MoneyApp: App {
@@ -18,6 +19,8 @@ struct MoneyApp: App {
     private let expensesService: ExpensesService
     
     init() {
+        try? Tips.configure()
+        
         appRootManager = AppRootManager()
         preferences = Preferences()
         expensesService = ExpensesService(preferences: preferences)
@@ -72,7 +75,7 @@ struct MoneyApp: App {
                     case .still:
                         break
                     case .importing:
-                        appRootManager.currentRoot = .loadingView
+                        appRootManager.currentRoot = .loadingView(title: "Loading data from iCloud...")
                     case .finishImporting:
                         calculateTotal()
                         populateCurrencies()
@@ -108,8 +111,8 @@ struct MoneyApp: App {
                     })
                 case .dashboard:
                     Dashboard()
-                case .loadingView:
-                    LoadingView()
+                case .loadingView(let title):
+                    LoadingView(title: title)
                 }
             }
             .dynamicTypeSize(.xLarge ... .xLarge)
