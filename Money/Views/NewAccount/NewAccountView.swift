@@ -40,7 +40,7 @@ struct NewAccountView: View {
             }
             .padding()
             .task {
-                currency = try? await preferences.getUserCurrency()
+                currency = preferences.getUserCurrency()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -67,12 +67,14 @@ struct NewAccountView: View {
     func saveAccountAndClose() {
         Task { @MainActor in
             do {
-                if let accountsCount = try await dataHandlerMainContext()?.getAccountsCount() {
+                if let dataHandler = await dataHandlerMainContext() {
+                    let accountsCount = try await dataHandler.getAccountsCount()
                     account.updateOrder(index: accountsCount)
+                    account.currency = currency
+                    await dataHandler.new(account: account)
+                    completion?()
+                    isSheetPresented.toggle()
                 }
-                account.currency = currency
-                completion?()
-                isSheetPresented.toggle()
             } catch {
                 logger.error("\(error.localizedDescription)")
             }

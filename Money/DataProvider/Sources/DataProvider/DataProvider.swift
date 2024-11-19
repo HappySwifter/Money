@@ -32,14 +32,6 @@ public final class DataProvider: Sendable {
     }()
     
     public init() {}
-
-//    public func test() -> ((Int) -> Int) {
-//        return { int in
-//            return 0
-//        }
-//    }
-//    let x = test()(0)
-
     
     public func dataHandlerCreator() -> @Sendable () async -> DataHandler {
         let container = sharedModelContainer

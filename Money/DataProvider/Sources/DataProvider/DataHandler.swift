@@ -147,34 +147,6 @@ extension DataHandler {
     }
 }
 
-//MARK: Currency
-extension DataHandler {
-    
-    @discardableResult
-    public func newCurrency(name: String, code: String, symbol: String?) -> MyCurrency {
-        let currency = MyCurrency(code: code, name: name, symbol: symbol)
-        modelContext.insert(currency)
-        save()
-        return currency
-    }
-    
-    public func getCurrencies() throws -> [MyCurrency] {
-        return try modelContext.fetch(FetchDescriptor<MyCurrency>())
-    }
-    
-    public func getCurrenciesCount() throws -> Int {
-        return try modelContext.fetchCount(FetchDescriptor<MyCurrency>())
-    }
-        
-    public func getCurrencyWith(code: String) throws -> MyCurrency? {
-        var desc = FetchDescriptor<MyCurrency>()
-        let pred = #Predicate<MyCurrency> { $0.code == code }
-        desc.fetchLimit = 1
-        desc.predicate = pred
-        return try modelContext.fetch(desc).first
-    }
-}
-
 //MARK: Test data
 extension DataHandler {
     public func addTestData(userCurrency: MyCurrency) throws {

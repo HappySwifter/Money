@@ -17,6 +17,7 @@ struct MoneyApp: App {
     private let dataProvider = DataProvider.shared
     private let preferences: Preferences
     private let expensesService: ExpensesService
+    private let currenciesManager: CurrenciesManager
     
     init() {
         do {
@@ -29,7 +30,8 @@ struct MoneyApp: App {
         }
         
         appRootManager = AppRootManager()
-        preferences = Preferences()
+        currenciesManager = CurrenciesManager()
+        preferences = Preferences(currenciesManager: currenciesManager)
         expensesService = ExpensesService(preferences: preferences)
         
         checkCloudKitSyncStatus()
@@ -46,30 +48,7 @@ struct MoneyApp: App {
             }
         }
     }
-    
-    private func populateCurrencies() {
-        Task { [logger, preferences] in
-            do {
-                let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
-                guard !preferences.isCurrencyPopulated() else { return }
-                
-                let currenciesFromJson = try MyCurrency.loadFromJson()
-                let symbols = try CurrencySymbol.loadFromJson()
-                
-                for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
-                    let symbol = symbols.findWith(code: code)?.symbol
-                    await dataHandler.newCurrency(name: name,
-                                                  code: code,
-                                                  symbol: symbol)
-                }
-                logger.info("Populated \(currenciesFromJson.count) currencies")
-                preferences.setCurrencyPopulated()
-            } catch {
-                logger.error("\(error.localizedDescription)")
-            }
-        }
-    }
-    
+        
     private func checkCloudKitSyncStatus() {
         Task {
             let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
@@ -85,13 +64,11 @@ struct MoneyApp: App {
                         appRootManager.currentRoot = .loadingView(title: "Loading data from iCloud...")
                     case .finishImporting:
                         calculateTotal()
-                        populateCurrencies()
                         appRootManager.updateRoot()
                         CloudKitManager.stopObservingChanges()
                     }
                 }
             } else {
-                populateCurrencies()
                 calculateTotal()
             }
         }

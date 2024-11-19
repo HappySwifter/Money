@@ -26,8 +26,10 @@ extension SchemaV1 {
         private var iconName = ""
         private var iconColor = ""
         
-        public var currency: MyCurrency?
-        
+        private var currencyCode: String? = ""
+        private var currencyName: String? = ""
+        private var currencySymbol: String? = ""
+                
         @Relationship(inverse: \MyTransaction.source)
         private var sources: [MyTransaction]?
         
@@ -63,6 +65,21 @@ extension SchemaV1 {
             set {
                 iconName = newValue.name
                 iconColor = newValue.color.rawValue
+            }
+        }
+        
+        public var currency: MyCurrency? {
+            get {
+                if let currencyCode, let currencyName {
+                    return MyCurrency(code: currencyCode, name: currencyName, symbol: currencySymbol)
+                } else {
+                    return nil
+                }
+            }
+            set {
+                currencyCode = currency?.code
+                currencyName = currency?.name
+                currencySymbol = currency?.symbol
             }
         }
     }

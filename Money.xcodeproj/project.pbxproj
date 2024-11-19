@@ -19,6 +19,7 @@
 		AC213FE22B9865A00095846E /* LongPressSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE12B9865A00095846E /* LongPressSupport.swift */; };
 		AC213FE52B986C2A0095846E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FE42B986C2A0095846E /* Transaction.swift */; };
 		AC213FEB2B987E0D0095846E /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */; };
+		AC28BD4D2CEC49AF00E33D16 /* CurrenciesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC28BD4C2CEC49AF00E33D16 /* CurrenciesManager.swift */; };
 		AC4080B62B8E34AB004D7575 /* MoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4080B52B8E34AB004D7575 /* MoneyApp.swift */; };
 		AC4080BC2B8E34AD004D7575 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4080BB2B8E34AD004D7575 /* Assets.xcassets */; };
 		AC4080C02B8E34AD004D7575 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4080BF2B8E34AD004D7575 /* Preview Assets.xcassets */; };
@@ -150,6 +151,7 @@
 		AC213FE12B9865A00095846E /* LongPressSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressSupport.swift; sourceTree = "<group>"; };
 		AC213FE42B986C2A0095846E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		AC213FEA2B987E0D0095846E /* CurrencyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
+		AC28BD4C2CEC49AF00E33D16 /* CurrenciesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesManager.swift; sourceTree = "<group>"; };
 		AC4080B22B8E34AB004D7575 /* Money.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Money.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4080B52B8E34AB004D7575 /* MoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyApp.swift; sourceTree = "<group>"; };
 		AC4080BB2B8E34AD004D7575 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				AC5C0E342C4BDD0400BF90E1 /* CalculateManager.swift */,
 				AC98AB772BF8779100B15A2F /* ExpensesService.swift */,
 				AC029FA92CE87C5E005DF149 /* CloudKitManager.swift */,
+				AC28BD4C2CEC49AF00E33D16 /* CurrenciesManager.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -781,6 +784,7 @@
 				ACF62B0B2B9225BB002CB75D /* CalculatorView.swift in Sources */,
 				ACF62B022B91EB09002CB75D /* ActionSheetView.swift in Sources */,
 				AC9AF85B2B944402005E9657 /* AccountDetailsView.swift in Sources */,
+				AC28BD4D2CEC49AF00E33D16 /* CurrenciesManager.swift in Sources */,
 				ACE15CF12C3FBD29003340B8 /* AppRootManager.swift in Sources */,
 				AC9AF8592B9443D3005E9657 /* CategoryDetailsView.swift in Sources */,
 				AC98AB852BF8E69500B15A2F /* ReportView.swift in Sources */,

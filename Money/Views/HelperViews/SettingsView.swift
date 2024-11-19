@@ -17,6 +17,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppRootManager.self) private var rootManager
     @Environment(Preferences.self) private var preferences
+    @Environment(CurrenciesManager.self) private var currenciesManager
     
     var body: some View {
         NavigationStack {
@@ -67,9 +68,9 @@ struct SettingsView: View {
     private func populateWithMockRandomData() {
         Task {
             do {
-                let userCurrency = try await preferences.getUserCurrency()
                 try await dataHandler()?.populateWithMockData(
-                    userCurrency: userCurrency,
+                    userCurrency: preferences.getUserCurrency(),
+                    currencies: currenciesManager.currencies,
                     iconNames: IconType.all.getIcons()
                 )
                 dismiss()

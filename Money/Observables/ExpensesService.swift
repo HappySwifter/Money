@@ -64,7 +64,7 @@ import DataProvider
         let logDate = Date()
         let transactions = try await dataHandler.getTransaction(for: period)
         
-        let userCur = try await preferences.getUserCurrency()
+        let userCur = preferences.getUserCurrency()
         let groupedByName = Dictionary(grouping: transactions, by: { $0.destination?.name ?? "" })
         var retVal = [PieChartValue]()
         

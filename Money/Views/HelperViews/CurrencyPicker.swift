@@ -11,6 +11,7 @@ import DataProvider
 struct CurrencyPicker: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
+    @Environment(CurrenciesManager.self) private var currenciesManager
     
     @Binding var selectedCurrency: MyCurrency
     @State private var searchText = ""
@@ -39,7 +40,7 @@ struct CurrencyPicker: View {
             .searchable(text: $searchText, prompt: "Search")
             .task {
                 searchText = ""
-                currencies = (try? await dataHandlerMainContext()?.getCurrencies()) ?? []
+                currencies = currenciesManager.currencies
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

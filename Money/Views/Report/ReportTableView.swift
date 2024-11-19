@@ -70,7 +70,7 @@ struct ReportTableView: View {
         }
         .dynamicTypeSize(.xLarge ... .xLarge)
         .task {
-            self.userCurrencySymbol = (try? await preferences.getUserCurrency().symbol) ?? ""
+            self.userCurrencySymbol = preferences.getUserCurrency().symbol
         }
     }
     

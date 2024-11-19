@@ -13,33 +13,34 @@ import DataProvider
 class Preferences {
     private let userDefaults = UserDefaults.standard
     private let handler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
-
+    private let currenciesManager: CurrenciesManager
+    
+    init(currenciesManager: CurrenciesManager) {
+        self.currenciesManager = currenciesManager
+    }
+    
     func updateUser(currencyCode: String) {
         userDefaults.setValue(currencyCode, forKey: Keys.userCurrency.rawValue)
     }
-    
-    private func findUserCurrency() async -> MyCurrency? {
-        if let code = userDefaults.string(forKey: Keys.userCurrency.rawValue) {
-            return try? await handler.getCurrencyWith(code: code)
+        
+    func getUserCurrency() -> MyCurrency {
+        if let userCurrency = findUserCurrency() {
+            return userCurrency
+        } else if let currencyId = Locale.current.currency?.identifier, let currency = currenciesManager.getCurrencyWith(code: currencyId) {
+            updateUser(currencyCode: currency.code)
+            return currency
         } else {
-            return nil
+            let usd = currenciesManager.getCurrencyWith(code: "usd")!
+            updateUser(currencyCode: usd.code)
+            return usd
         }
     }
     
-    func getUserCurrency() async throws -> MyCurrency {        
-        if let userCurrency = await findUserCurrency() {
-            return userCurrency
-        } else if let currencyId = Locale.current.currency?.identifier,
-                  let currency = try await handler.getCurrencyWith(code: currencyId)  {
-            updateUser(currencyCode: currency.code)
-            return currency
-        } else if let usd = try await handler.getCurrencyWith(code: "usd") {
-            updateUser(currencyCode: usd.code)
-            return usd
+    private func findUserCurrency() -> MyCurrency? {
+        if let code = userDefaults.string(forKey: Keys.userCurrency.rawValue) {
+            return currenciesManager.getCurrencyWith(code: code)
         } else {
-            let currency = await handler.newCurrency(name: "US Dollar", code: "usd", symbol: "$")
-            updateUser(currencyCode: currency.code)
-            return currency
+            return nil
         }
     }
     
@@ -49,14 +50,6 @@ class Preferences {
     
     func getRates(date: String, currency: String) -> Data? {
         return userDefaults.data(forKey: "rate:\(date):\(currency)")
-    }
-    
-    func setCurrencyPopulated() {
-        userDefaults.setValue(true, forKey: "CurrencyPopulated")
-    }
-    
-    func isCurrencyPopulated() -> Bool {
-        return userDefaults.bool(forKey: "CurrencyPopulated")
     }
     
     private enum Keys: String {

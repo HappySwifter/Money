@@ -1,4 +1,5 @@
 {
+    "usd": "US Dollar",
     "$myro": "",
     "$wen": "",
     "00": "00 Token",
@@ -617,7 +618,6 @@
     "uos": "Ultra",
     "upi": "Pawtocol",
     "uqc": "Uquid Coin",
-    "usd": "US Dollar",
     "usdc": "USDC",
     "usdd": "",
     "usde": "UnitaryStatus Dollar",

@@ -47,9 +47,7 @@ struct AllAccountsView: View {
         }
         .task {
             self.accounts = await getAccounts()
-            if let cur = try? await preferences.getUserCurrency() {
-                selectedCurrency = cur
-            }
+            self.selectedCurrency = preferences.getUserCurrency()
             self.userCurrencies = getUserCurrencies()
         }
         .onChange(of: selectedCurrency) {

@@ -33,7 +33,7 @@ actor CalculateManager {
         // fetching only this month transactions that is isExpenses
         let thisMonthPeriod = TransactionPeriodType.month(value: Date())
         let transactions = try await dataHandler.getTransaction(for: thisMonthPeriod)
-        let userCurrency = try await preferences.getUserCurrency()
+        let userCurrency = await preferences.getUserCurrency()
         var thisMonthTotal = 0.0
         var todayTotal = 0.0
         
@@ -70,7 +70,7 @@ actor CalculateManager {
     
     func calculateAccountsTotal() async throws -> String {
         let accounts = try await dataHandler.getAccounts()
-        let userCur = try await preferences.getUserCurrency()
+        let userCur = await preferences.getUserCurrency()
         let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCur.code, date: Date())
         
         var totalAmount = 0.0

@@ -9,6 +9,6 @@ public enum SchemaV1: VersionedSchema {
     }
     
     public static var models: [any PersistentModel.Type] {
-        [Account.self, MyCurrency.self, MyTransaction.self]
+        [Account.self, MyTransaction.self]
     }
 }

@@ -9,11 +9,9 @@ import Foundation
 import SwiftData
 
 extension DataHandler {
-    public func populateWithMockData(userCurrency: MyCurrency, iconNames: [String]) throws {
+    public func populateWithMockData(userCurrency: MyCurrency, currencies: [MyCurrency], iconNames: [String]) throws {
         modelContext.autosaveEnabled = false
         
-        let currenciesDesc = FetchDescriptor<MyCurrency>()
-        let currencies = try getCurrencies()
         assert(!currencies.isEmpty)
         var accountsCount = try getAccountsCount()
         var categoriesCount = try getCategoriesCount()

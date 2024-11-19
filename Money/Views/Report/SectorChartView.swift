@@ -81,7 +81,7 @@ struct SectorChartView: View {
             }
         }
         .task {
-            userCurrencySymbol = (try? await preferences.getUserCurrency().symbol) ?? ""
+            userCurrencySymbol = preferences.getUserCurrency().symbol
         }
     }
     

@@ -14,6 +14,7 @@ struct AddDataHelperView: View {
     private let logger = Logger(subsystem: "Money", category: "AddDataHelperView")
     @Environment(AppRootManager.self) private var appRootManager
     @Environment(Preferences.self) private var preferences
+    @Environment(CurrenciesManager.self) private var currenciesManager
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     
     var body: some View {
@@ -72,7 +73,7 @@ struct AddDataHelperView: View {
         Task { @MainActor in
             do {
                 if let dataHandler = await dataHandler() {
-                    let userCurrency = try await preferences.getUserCurrency()
+                    let userCurrency = preferences.getUserCurrency()
                     try await dataHandler.addTestData(userCurrency: userCurrency)
                     appRootManager.currentRoot = .dashboard
                 }
@@ -85,9 +86,10 @@ struct AddDataHelperView: View {
     private func populateWithMockRandomData() {
         Task {
             do {
-                let userCurrency = try await preferences.getUserCurrency()
+                let userCurrency = preferences.getUserCurrency()
                 try await dataHandler()?.populateWithMockData(
                     userCurrency: userCurrency,
+                    currencies: currenciesManager.currencies,
                     iconNames: IconType.all.getIcons()
                 )
                 appRootManager.currentRoot = .dashboard

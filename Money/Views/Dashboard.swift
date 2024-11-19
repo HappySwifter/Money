@@ -188,7 +188,8 @@ struct Dashboard: View {
 
 @available(iOS 18.0, *)
 #Preview(traits: .sampleData) {
-    let preferences = Preferences()
+    let currenciesManager = CurrenciesManager()
+    let preferences = Preferences(currenciesManager: currenciesManager)
     let expensesService = ExpensesService(preferences: preferences)
     let appRootManager = AppRootManager()
     Dashboard()
@@ -204,28 +205,16 @@ struct Dashboard: View {
 struct SampleData: PreviewModifier {
     static func makeSharedContext() async throws -> ModelContainer {
         let dataHandler = DataHandler(modelContainer: DataProvider.shared.previewContainer)
-
-        
-            do {
-                
-                let currenciesFromJson = try MyCurrency.loadFromJson()
-                let symbols = try CurrencySymbol.loadFromJson()
-                print(symbols)
-                for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
-                    let symbol = symbols.findWith(code: code)?.symbol
-                    await dataHandler.newCurrency(name: name,
-                                                  code: code,
-                                                  symbol: symbol)
-                }
-                
-                try await dataHandler.populateWithMockData(userCurrency: MyCurrency(code: "USD", name: "Dollar", symbol: "S"),
-                                                 iconNames: IconType.all.getIcons())
-                return DataProvider.shared.previewContainer
-
-                
-            } catch {
-                return DataProvider.shared.previewContainer
-            }
+        let currenciesManager = CurrenciesManager()
+        do {
+            let myCur = MyCurrency(code: "USD", name: "Dollar", symbol: "S")
+            try await dataHandler.populateWithMockData(userCurrency: myCur,
+                                                       currencies: currenciesManager.currencies,
+                                             iconNames: IconType.all.getIcons())
+            return DataProvider.shared.previewContainer
+        } catch {
+            return DataProvider.shared.previewContainer
+        }
     }
     
     func body(content: Content, context: ModelContainer) -> some View {
