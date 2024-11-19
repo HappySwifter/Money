@@ -19,7 +19,14 @@ struct MoneyApp: App {
     private let expensesService: ExpensesService
     
     init() {
-        try? Tips.configure()
+        do {
+            #if DEBUG
+            try Tips.resetDatastore()
+            #endif
+            try Tips.configure()
+        } catch {
+            logger.error("Error initializing TipKit: \(error)")
+        }
         
         appRootManager = AppRootManager()
         preferences = Preferences()
