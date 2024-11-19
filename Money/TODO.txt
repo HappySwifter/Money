@@ -1,5 +1,9 @@
 CloudKit sync
 
+
+in case of conversion API unavailable
+ - after adding an account force to enter conversation rate manualy
+
 --- Bugs ---
 1. With scaled fonts looks not good
 

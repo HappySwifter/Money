@@ -33,7 +33,7 @@ struct CloudKitManager {
                 print("Finish import")
                 completion(.finishImporting)
             default:
-                print("Unknown event \(event.description)")
+//                print("Unknown event \(event.description)")
                 completion(.still)
             }
         }

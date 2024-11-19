@@ -21,6 +21,7 @@ public actor DataHandler {
     @discardableResult
     public func new(account: Account) -> PersistentIdentifier {
         modelContext.insert(account)
+        save()
         return account.persistentModelID
     }
     
@@ -65,6 +66,7 @@ public actor DataHandler {
     public func hide(account: Account) {
         //guard let item = self[id, as: Account.self] else { return }
         account.hid = true
+        save()
     }
     
 
@@ -74,6 +76,7 @@ public actor DataHandler {
 extension DataHandler {
     public func new(transaction: MyTransaction) {
         modelContext.insert(transaction)
+        save()
     }
     
     public func getTransactionsCount(with predicate: Predicate<MyTransaction>?) throws -> Int {
@@ -140,6 +143,7 @@ extension DataHandler {
             throw DataProviderError.unknownTransactionType
         }
         modelContext.delete(transaction)
+        save()
     }
 }
 
@@ -150,6 +154,7 @@ extension DataHandler {
     public func newCurrency(name: String, code: String, symbol: String?) -> MyCurrency {
         let currency = MyCurrency(code: code, name: name, symbol: symbol)
         modelContext.insert(currency)
+        save()
         return currency
     }
     
@@ -213,6 +218,7 @@ extension DataHandler {
         accountBank.currency = userCurrency
         modelContext.insert(categoryFood)
         modelContext.insert(categoryClothes)
+        save()
     }
 }
 
@@ -220,5 +226,18 @@ extension DataHandler {
     public func clearDB() throws {
         try modelContext.delete(model: Account.self)
         try modelContext.delete(model: MyTransaction.self)
+        save()
+    }
+    
+    public func save() {
+        Task {
+            do {
+                if modelContext.hasChanges {
+                    try await modelContext.save()
+                }
+            } catch {
+                print("Error on saving context: \(error.localizedDescription)")
+            }
+        }
     }
 }

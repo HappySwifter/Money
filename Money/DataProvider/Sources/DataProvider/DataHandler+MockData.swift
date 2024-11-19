@@ -146,5 +146,6 @@ extension DataHandler {
             print(">>>>> autosaveEnabled = true")
             modelContext.autosaveEnabled = true
         }
+        save()
     }
 }

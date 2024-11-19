@@ -225,7 +225,6 @@ struct SampleData: PreviewModifier {
                 
             } catch {
                 return DataProvider.shared.previewContainer
-
             }
     }
     

@@ -17,15 +17,19 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppRootManager.self) private var rootManager
     @Environment(Preferences.self) private var preferences
-//    @State private var accountNameIsInside = true
     
     var body: some View {
         NavigationStack {
             Form {
-//                Section("Account") {
-//                    Toggle(isOn: $accountNameIsInside, label: {
-//                        Text("Name is inside")
-//                    })
+//                Section("Tips") {
+//                    Button("Reset tips") {
+//                        do {
+//                            try Tips.resetDatastore()
+//                            try Tips.configure()
+//                        } catch {
+//                            logger.error("Failed to reset tips: \(error)")
+//                        }
+//                    }
 //                }
                 Section("App data") {
                     Button("Delete data") {
@@ -46,9 +50,6 @@ struct SettingsView: View {
                     }
                 }
             }
-//            .onAppear {
-//                accountNameIsInside = defaults.bool(forKey: AppSettings.isAccountNameInside)
-//            }
         }
     }
     
