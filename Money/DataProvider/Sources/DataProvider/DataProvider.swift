@@ -11,6 +11,10 @@ import SwiftUI
 public final class DataProvider: Sendable {
     public static let shared = DataProvider()
     
+    deinit {
+        print(">> DataProvider deinit >>")
+    }
+    
     public let sharedModelContainer: ModelContainer = {
         let schema = Schema(CurrentScheme.models)
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -32,34 +36,19 @@ public final class DataProvider: Sendable {
     }()
     
     public init() {}
-    
-    public func dataHandlerCreator() -> @Sendable () async -> DataHandler {
-        let container = sharedModelContainer
-        return { DataHandler(modelContainer: container) }
-    }
-    
+        
     public func dataHandlerWithMainContextCreator() -> @Sendable @MainActor () async -> DataHandler {
         let container = sharedModelContainer
         return { DataHandler(modelContainer: container, mainActor: true) }
     }
 }
 
-public struct DataHandlerKey: EnvironmentKey {
-    public static let defaultValue: @Sendable () async -> DataHandler? = { nil }
-}
-
 public struct MainActorDataHandlerKey: EnvironmentKey {
-    public static let defaultValue: @Sendable @MainActor () async -> DataHandler? = { nil }
+    public static let defaultValue: DataHandler? = nil
 }
 
 extension EnvironmentValues {
-    
-    public var dataHandler: @Sendable () async -> DataHandler? {
-        get { self[DataHandlerKey.self] }
-        set { self[DataHandlerKey.self] = newValue }
-    }
-    
-    public var dataHandlerWithMainContext: @Sendable @MainActor () async -> DataHandler? {
+    @MainActor public var dataHandlerWithMainContext: DataHandler? {
         get { self[MainActorDataHandlerKey.self] }
         set { self[MainActorDataHandlerKey.self] = newValue }
     }

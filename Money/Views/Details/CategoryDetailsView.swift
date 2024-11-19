@@ -49,7 +49,7 @@ struct CategoryDetailsView: View {
     private func deleteCategory() {
         let dataHandler = dataHandlerMainContext
         Task { @MainActor in
-            await dataHandler()?.hide(account: category)
+            await dataHandler?.hide(account: category)
         }
     }
 }

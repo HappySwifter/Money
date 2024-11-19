@@ -68,18 +68,18 @@ extension SchemaV1 {
             }
         }
         
-        public var currency: MyCurrency? {
-            get {
-                if let currencyCode, let currencyName {
-                    return MyCurrency(code: currencyCode, name: currencyName, symbol: currencySymbol)
-                } else {
-                    return nil
-                }
-            }
-            set {
-                currencyCode = currency?.code
-                currencyName = currency?.name
-                currencySymbol = currency?.symbol
+        public func set(currency: MyCurrency) {
+            print("setting cur", currency)
+            currencyCode = currency.code
+            currencyName = currency.name
+            currencySymbol = currency.symbol
+        }
+        
+        public func getCurrency() -> MyCurrency? {
+            if let currencyCode, let currencyName {
+                return MyCurrency(code: currencyCode, name: currencyName, symbol: currencySymbol)
+            } else {
+                return nil
             }
         }
     }

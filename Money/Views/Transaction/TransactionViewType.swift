@@ -15,7 +15,7 @@ enum TransactionViewType {
     
     init(source: Account, destination: Account) {
         if destination.isAccount {
-            if source.currency?.code == destination.currency?.code {
+            if source.getCurrency()?.code == destination.getCurrency()?.code {
                 self = .accountToAccountSameCurrency
             } else {
                 self = .accountToAccountDiffCurrency

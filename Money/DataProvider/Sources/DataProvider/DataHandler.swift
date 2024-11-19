@@ -11,6 +11,10 @@ import SwiftData
 @ModelActor
 public actor DataHandler {
     
+    deinit {
+        print(">> DataHandler deinit >>")
+    }
+    
     @MainActor
     public init(modelContainer: ModelContainer, mainActor _: Bool) {
         let modelContext = modelContainer.mainContext
@@ -186,8 +190,10 @@ extension DataHandler {
                                       iconColor: SwiftColor.orange.rawValue)
         
         
-        accountCash.currency = userCurrency
-        accountBank.currency = userCurrency
+        accountCash.set(currency: userCurrency)
+        accountBank.set(currency: userCurrency)
+        modelContext.insert(accountCash)
+        modelContext.insert(accountBank)
         modelContext.insert(categoryFood)
         modelContext.insert(categoryClothes)
         save()

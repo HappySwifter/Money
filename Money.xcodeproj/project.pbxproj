@@ -78,7 +78,6 @@
 		ACC3EFB02B958FF70069C2D1 /* CurrenciesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */; };
 		ACC3EFB22B95900C0069C2D1 /* MyCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3EFB12B95900C0069C2D1 /* MyCurrency.swift */; };
 		ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */; };
-		ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */; };
 		ACCD10FE2B9C20E2000EF710 /* AllAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */; };
 		ACCD11022B9C2278000EF710 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11012B9C2278000EF710 /* HistoryView.swift */; };
 		ACCD11042B9C6307000EF710 /* CurrencyMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */; };
@@ -212,7 +211,6 @@
 		ACC3EFAF2B958FF70069C2D1 /* CurrenciesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesApi.swift; sourceTree = "<group>"; };
 		ACC3EFB12B95900C0069C2D1 /* MyCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCurrency.swift; sourceTree = "<group>"; };
 		ACCD10F82B9C0EA5000EF710 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
-		ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertible.swift; sourceTree = "<group>"; };
 		ACCD10FD2B9C20E2000EF710 /* AllAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsView.swift; sourceTree = "<group>"; };
 		ACCD11012B9C2278000EF710 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		ACCD11032B9C6307000EF710 /* CurrencyMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyMenuListView.swift; sourceTree = "<group>"; };
@@ -525,7 +523,6 @@
 		ACCD10FA2B9C1CDF000EF710 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				ACCD10FB2B9C1D01000EF710 /* CurrencyConvertible.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -734,7 +731,6 @@
 				AC029FAE2CE8B7A8005DF149 /* Tips.swift in Sources */,
 				AC8ECAEC2C426DF20079F806 /* PreviewData.swift in Sources */,
 				AC8ECAE02C4234330079F806 /* AccessibilityIDs.swift in Sources */,
-				ACCD10FC2B9C1D01000EF710 /* CurrencyConvertible.swift in Sources */,
 				ACCD10F92B9C0EA5000EF710 /* ExchangeRate.swift in Sources */,
 				AC6308A52C416EAA002C40D0 /* AppSettings.swift in Sources */,
 				AC98AB812BF8D76F00B15A2F /* NewAccountAmountView.swift in Sources */,

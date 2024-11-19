@@ -46,14 +46,14 @@ struct AllCategoriesView: View {
     }
     
     private func getCategories() async -> [Account] {
-        (try? await dataHandlerMainContext()?.getCategories()) ?? []
+        (try? await dataHandlerMainContext?.getCategories()) ?? []
 
     }
     
     private func deleteCategory(at offsets: IndexSet) {
         let dataHandler = dataHandlerMainContext
         Task { @MainActor in
-            if let dataHandler = await dataHandler() {
+            if let dataHandler = dataHandler {
                 for i in offsets {
                     await dataHandler.hide(account: categories[i])
                 }

@@ -3,7 +3,7 @@ import Foundation
 //public typealias MyCurrency = SchemaV1.MyCurrency
 
 
-public final class MyCurrency: Sendable, Equatable, Hashable {
+public final class MyCurrency: Sendable, Equatable, Hashable, CustomStringConvertible {
     public let code: String
     public let name: String
     public let symbol: String
@@ -20,6 +20,10 @@ public final class MyCurrency: Sendable, Equatable, Hashable {
         self.code = code
         self.name = name
         self.symbol = symbol ?? String(code.prefix(2))
+    }
+    
+    public var description: String {
+        "\(code) \(name) \(symbol)"
     }
 }
 

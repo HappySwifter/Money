@@ -23,7 +23,7 @@ struct IncomeView: View {
                 Group {
                     Text("+")
                     Text(amount.getString())
-                    Text(account.currency?.symbol ?? "")
+                    Text(account.getCurrency()?.symbol ?? "")
                 }
                 .foregroundStyle(Color.green)
             }

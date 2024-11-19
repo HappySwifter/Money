@@ -65,7 +65,7 @@ struct NewCategoryView: View {
         }
         Task { @MainActor in
             do {
-                if let dataHandler = await dataHandlerMainContext() {
+                if let dataHandler = dataHandlerMainContext {
                     let catCount = try await dataHandler.getCategoriesCount()
                     category.updateOrder(index: catCount)
                     await dataHandler.new(account: category)

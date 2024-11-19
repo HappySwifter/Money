@@ -75,12 +75,20 @@ actor CalculateManager {
         
         var totalAmount = 0.0
         for account in accounts {
-            if let cur = account.currency, let changeRate = rates.value(for: cur.code) {
-                totalAmount += account.getAmountWith(changeRate: changeRate)
+            if let cur = account.getCurrency(), let changeRate = rates.value(for: cur.code) {
+                totalAmount += getAmountWith(changeRate: changeRate, for: account)
             } else {
-                logger.error("No conversation rate for \(account.currency?.code ?? "")")
+                logger.error("No conversation rate for \(account.getCurrency()?.code ?? "")")
             }
         }
         return prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)
     }
+    
+    private func getAmountWith(changeRate: Double, for account: Account) -> Double {
+        guard changeRate != 0.0 else {
+            return 0
+        }
+        return account.amount / changeRate
+    }
+    
 }

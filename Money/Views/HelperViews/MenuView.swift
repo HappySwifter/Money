@@ -94,7 +94,7 @@ struct MenuView: View {
     }
 
     private func getDestination(isAccount: Bool, notId: UUID) async throws -> Account? {
-        guard let dataHandler = await dataHandler() else {
+        guard let dataHandler = dataHandler else {
             return nil
         }
         let pred = Account.menuListDestinationAccountPredicate(

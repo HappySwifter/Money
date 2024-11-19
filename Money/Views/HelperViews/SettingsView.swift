@@ -57,7 +57,7 @@ struct SettingsView: View {
     private func deleteAllData() {
         Task { @MainActor in
             do {
-                try await dataHandler()?.clearDB()
+                try await dataHandler?.clearDB()
                 rootManager.updateRoot()
             } catch {
                 logger.error("\(error.localizedDescription)")
@@ -68,7 +68,7 @@ struct SettingsView: View {
     private func populateWithMockRandomData() {
         Task {
             do {
-                try await dataHandler()?.populateWithMockData(
+                try await dataHandler?.populateWithMockData(
                     userCurrency: preferences.getUserCurrency(),
                     currencies: currenciesManager.currencies,
                     iconNames: IconType.all.getIcons()

@@ -27,9 +27,9 @@ struct AllAccountsView: View {
                     } label: {
                         HStack {
                             Text(acc.name)
-                            Text(acc.currency?.symbol ?? "")
+                            Text(acc.getCurrency()?.symbol ?? "")
                             Spacer()
-                            Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
+                            Text(getAmountStringWith(code: acc.getCurrency()?.code ?? "", val: acc.amount))
                         }
                         .padding(10)
                     }
@@ -63,14 +63,14 @@ struct AllAccountsView: View {
     }
     
     private func getAccounts() async -> [Account] {
-        (try? await dataHandlerMainContext()?.getAccounts()) ?? []
+        (try? await dataHandlerMainContext?.getAccounts()) ?? []
 
     }
 
     private func getUserCurrencies() -> [MyCurrency] {
         var set = Set<MyCurrency>()
         accounts.forEach {
-            if let cur = $0.currency {
+            if let cur = $0.getCurrency() {
                 set.insert(cur)
             }
         }
@@ -81,7 +81,7 @@ struct AllAccountsView: View {
     private func deleteAccount(at offsets: IndexSet) {
         let dataHandler = dataHandlerMainContext
         Task { @MainActor in
-            if let dataHandler = await dataHandler() {
+            if let dataHandler = dataHandler {
                 for i in offsets {
                     await dataHandler.hide(account: accounts[i])
                 }

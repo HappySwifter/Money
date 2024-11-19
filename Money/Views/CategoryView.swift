@@ -28,6 +28,10 @@ struct CategoryView: View {
                         .font(.body)
                         .lineLimit(1)
                         .dynamicTypeSize(.xLarge ... .xLarge)
+#if DEBUG
+                    Text("\(item.orderIndex)")
+                        .foregroundStyle(Color.gray)
+#endif
                 }
 //                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             }

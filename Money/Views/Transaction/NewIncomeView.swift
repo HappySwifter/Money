@@ -52,7 +52,7 @@ struct NewIncomeView: View {
                     .environment(\.menuOrder, .fixed)
                     
                     EnterAmountView(
-                        symbol: destination.currency?.symbol ?? "",
+                        symbol: destination.getCurrency()?.symbol ?? "",
                         isFocused: true,
                         value: $destinationAmount,
                         useTextField: useSystemKeyboard)
@@ -106,7 +106,7 @@ struct NewIncomeView: View {
                                             destinationAmount: amount,
                                             destination: destination,
                                             comment: comment)
-            await dataHandler()?.new(transaction: transaction)
+            await dataHandler?.new(transaction: transaction)
             isSheetPresented.toggle()
             await calculateTotal()
         }

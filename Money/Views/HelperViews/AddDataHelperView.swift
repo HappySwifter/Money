@@ -15,6 +15,7 @@ struct AddDataHelperView: View {
     @Environment(AppRootManager.self) private var appRootManager
     @Environment(Preferences.self) private var preferences
     @Environment(CurrenciesManager.self) private var currenciesManager
+    @Environment(ExpensesService.self) private var expensesService
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     
     var body: some View {
@@ -72,9 +73,10 @@ struct AddDataHelperView: View {
         let dataHandler = dataHandler
         Task { @MainActor in
             do {
-                if let dataHandler = await dataHandler() {
+                if let dataHandler = dataHandler {
                     let userCurrency = preferences.getUserCurrency()
                     try await dataHandler.addTestData(userCurrency: userCurrency)
+                    try await expensesService.calculateAccountsTotal()
                     appRootManager.currentRoot = .dashboard
                 }
             } catch {
@@ -87,11 +89,12 @@ struct AddDataHelperView: View {
         Task {
             do {
                 let userCurrency = preferences.getUserCurrency()
-                try await dataHandler()?.populateWithMockData(
+                try await dataHandler?.populateWithMockData(
                     userCurrency: userCurrency,
                     currencies: currenciesManager.currencies,
                     iconNames: IconType.all.getIcons()
                 )
+                try await expensesService.calculateAccountsTotal()
                 appRootManager.currentRoot = .dashboard
             } catch {
                 logger.error("\(error.localizedDescription)")

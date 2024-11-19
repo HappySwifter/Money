@@ -19,6 +19,11 @@ struct MoneyApp: App {
     private let expensesService: ExpensesService
     private let currenciesManager: CurrenciesManager
     
+    @MainActor private let dataHandler: DataHandler
+
+    
+
+    
     init() {
         do {
             #if DEBUG
@@ -33,6 +38,8 @@ struct MoneyApp: App {
         currenciesManager = CurrenciesManager()
         preferences = Preferences(currenciesManager: currenciesManager)
         expensesService = ExpensesService(preferences: preferences)
+        
+        dataHandler = DataHandler(modelContainer: dataProvider.sharedModelContainer, mainActor: true)
         
         checkCloudKitSyncStatus()
     }
@@ -102,10 +109,10 @@ struct MoneyApp: App {
             .dynamicTypeSize(.xLarge ... .xLarge)
         }
         .modelContainer(dataProvider.sharedModelContainer)
-        .environment(\.dataHandler, dataProvider.dataHandlerCreator())
-        .environment(\.dataHandlerWithMainContext, dataProvider.dataHandlerWithMainContextCreator())
+        .environment(\.dataHandlerWithMainContext, dataHandler)
         .environment(preferences)
         .environment(expensesService)
+        .environment(currenciesManager)
         .environment(appRootManager)
     }
 }

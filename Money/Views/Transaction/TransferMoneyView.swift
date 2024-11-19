@@ -103,7 +103,7 @@ struct TransferMoneyView: View {
                     }
                     HStack {
                         EnterAmountView(
-                            symbol: source.currency?.symbol ?? "",
+                            symbol: source.getCurrency()?.symbol ?? "",
                             isFocused: focusedField == .source,
                             value: $sourceAmount,
                             useTextField: useSystemKeyboard)
@@ -114,7 +114,7 @@ struct TransferMoneyView: View {
                         if transactionType == .accountToAccountDiffCurrency {
                             Spacer()
                             EnterAmountView(
-                                symbol: destination.currency?.symbol ?? "",
+                                symbol: destination.getCurrency()?.symbol ?? "",
                                 isFocused: focusedField == .destination,
                                 value: $destinationAmount,
                                 useTextField: useSystemKeyboard)
@@ -175,8 +175,8 @@ struct TransferMoneyView: View {
     }
     
     private func normalizedString(rate: Double) -> String {
-        let sourceSymbol = source.currency?.symbol ?? ""
-        let destinationSymbol = destination.currency?.symbol ?? ""
+        let sourceSymbol = source.getCurrency()?.symbol ?? ""
+        let destinationSymbol = destination.getCurrency()?.symbol ?? ""
         if rate > 1 {
             return rate.getString() + " " + destinationSymbol
         } else {
@@ -214,7 +214,7 @@ struct TransferMoneyView: View {
                                             destination: destination, 
                                             comment: comment.isEmpty ? nil : comment)
             
-            await dataHandler()?.new(transaction: transaction)
+            await dataHandler?.new(transaction: transaction)
             isSheetPresented.toggle()
             await calculateSpent()
         }

@@ -13,6 +13,7 @@ import OSLog
 struct NewAccountView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(Preferences.self) private var preferences
+    @Environment(ExpensesService.self) private var expensesService
     private let logger = Logger(subsystem: "Money", category: "NewAccountView")
     @Binding var isSheetPresented: Bool
     var isClosable = true
@@ -67,11 +68,14 @@ struct NewAccountView: View {
     func saveAccountAndClose() {
         Task { @MainActor in
             do {
-                if let dataHandler = await dataHandlerMainContext() {
+                if let dataHandler = dataHandlerMainContext {
                     let accountsCount = try await dataHandler.getAccountsCount()
                     account.updateOrder(index: accountsCount)
-                    account.currency = currency
+                    if let currency {
+                        account.set(currency: currency)
+                    }
                     await dataHandler.new(account: account)
+                    try await expensesService.calculateAccountsTotal()
                     completion?()
                     isSheetPresented.toggle()
                 }

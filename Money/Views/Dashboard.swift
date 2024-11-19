@@ -186,20 +186,20 @@ struct Dashboard: View {
     }
 }
 
-@available(iOS 18.0, *)
-#Preview(traits: .sampleData) {
-    let currenciesManager = CurrenciesManager()
-    let preferences = Preferences(currenciesManager: currenciesManager)
-    let expensesService = ExpensesService(preferences: preferences)
-    let appRootManager = AppRootManager()
-    Dashboard()
-        .modelContainer(DataProvider.shared.sharedModelContainer)
-        .environment(\.dataHandler, DataProvider.shared.dataHandlerCreator())
-        .environment(\.dataHandlerWithMainContext, DataProvider.shared.dataHandlerWithMainContextCreator())
-        .environment(preferences)
-        .environment(expensesService)
-        .environment(appRootManager)
-}
+//@available(iOS 18.0, *)
+//#Preview(traits: .sampleData) {
+//    let currenciesManager = CurrenciesManager()
+//    let preferences = Preferences(currenciesManager: currenciesManager)
+//    let expensesService = ExpensesService(preferences: preferences)
+//    let appRootManager = AppRootManager()
+//    Dashboard()
+//        .modelContainer(DataProvider.shared.sharedModelContainer)
+////        .environment(\.dataHandler, DataProvider.shared.dataHandlerCreator())
+//        .environment(\.dataHandlerWithMainContext, DataProvider.shared.dataHandlerWithMainContextCreator())
+//        .environment(preferences)
+//        .environment(expensesService)
+//        .environment(appRootManager)
+//}
 
 
 struct SampleData: PreviewModifier {

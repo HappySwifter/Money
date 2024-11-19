@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import DataProvider
 
-extension Account : CurrencyConvertible {}
+//extension Account : CurrencyConvertible {}
 
 //MARK: for views
 extension Account {

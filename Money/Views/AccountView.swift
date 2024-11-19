@@ -36,6 +36,10 @@ struct AccountView: View {
                         AccountAmountView(account: item)
                     }
                     Spacer()
+#if DEBUG
+                    Text("\(item.orderIndex)")
+                        .foregroundStyle(Color.gray)
+#endif
                 }
                 .padding()
                 .background(backgroundColor)

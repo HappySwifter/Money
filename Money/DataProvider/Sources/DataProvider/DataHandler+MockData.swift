@@ -34,13 +34,11 @@ extension DataHandler {
                               amount: amount,
                               iconName: iconNames.randomElement() ?? "",
                               iconColor: nonClearColors.randomElement()!.rawValue)
-            
-//            if name == accountNames.first {
-//                acc.currency = userCurrency
-//            } else {
-                acc.currency = currencies.randomElement()
-//            }
-            
+
+            if let cur = currencies.randomElement() {
+                acc.set(currency: cur)
+            }
+            modelContext.insert(acc)
             accountsCount += 1
             accounts.append(acc)
             

@@ -55,7 +55,7 @@ struct AccountDetailsView: View {
     private func deleteAccountAndUpdateTotalAmount() {
         let dataHandler = dataHandlerMainContext
         Task { @MainActor in
-            if let dataHandler = await dataHandler() {
+            if let dataHandler = dataHandler {
                 await dataHandler.hide(account: account)
                 do {
                     try await expensesService.calculateAccountsTotal()

@@ -150,7 +150,7 @@ struct HistoryView: View {
     private func fetchCount(type: HistoryType) async {
         do {
             let predicate = getPredicateFor(type: type)
-            if let dataHandler = await dataHandler() {
+            if let dataHandler = dataHandler {
                 self.allDataCount = try await dataHandler.getTransactionsCount(with: predicate)
             }
         } catch {
@@ -164,7 +164,7 @@ struct HistoryView: View {
         }
         paginationState = .isLoading
         do {
-            if let dataHandler = await dataHandler() {
+            if let dataHandler = dataHandler {
                 let predicate = getPredicateFor(type: type)
                 let sortBy = [SortDescriptor(\MyTransaction.date, order: .reverse)]
                 let newChunk = try await dataHandler.getTransactions(
@@ -206,7 +206,7 @@ struct HistoryView: View {
         Task { @MainActor in
             do {
 
-                try await dataHandler()?.undo(transaction: transaction)
+                try await dataHandler?.undo(transaction: transaction)
                 await fetchCount(type: selectedTransType)
                 transactions.removeAll(where: { $0.id == transaction.id })
                 groupedData = group(transactions: transactions)
