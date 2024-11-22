@@ -16,13 +16,17 @@ extension SchemaV1 {
     public final class MyCurrency: Sendable {
         public let id: UUID = UUID()
         public let name = ""
+        public let code = ""
+        public let symbol = ""
         public var rateToBaseCurrency = 0.0
         public var isBase = false
         
         
-        public init(name: String, rateToBaseCurrency: Double, isBase: Bool)
+        public init(name: String, code: String, symbol: String, rateToBaseCurrency: Double, isBase: Bool)
         {
             self.name = name
+            self.code = code
+            self.symbol = symbol
             self.rateToBaseCurrency = rateToBaseCurrency
             self.isBase = isBase
         }

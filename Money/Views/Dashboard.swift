@@ -67,10 +67,7 @@ struct Dashboard: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color("gradient_0"), Color("gradient_1")]),
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+                BackGradientView()
                 
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
@@ -233,7 +230,7 @@ struct SampleData: PreviewModifier {
         let dataHandler = DataHandler(modelContainer: DataProvider.shared.previewContainer)
         let currenciesManager = CurrenciesManager()
         do {
-            let myCur = AccountCurrency(code: "USD", name: "Dollar", symbol: "S")
+            let myCur = AccountCurrency(code: "usd", name: "Dollar", symbol: "S")
             try await dataHandler.populateWithMockData(userCurrency: myCur,
                                                        currencies: currenciesManager.currencies,
                                              iconNames: IconType.all.getIcons())

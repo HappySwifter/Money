@@ -12,4 +12,7 @@ public enum DataProviderError: String, Error {
     case transactionSourceMissing = "transactionSourceMissing"
     case transactionDestinationMissing = "transactionDestinationMissing"
     case transactionDestinationAmountMissing = "transactionDestinationAmountMissing"
+    case baseCurrencyIsMissing = "baseCurrencyIsMissing"
+    case baseCurrencyIsMoreThanOne = "baseCurrencyIsMoreThanOne"
+
 }

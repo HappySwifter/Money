@@ -23,14 +23,7 @@ struct BaseCurrencyView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(
-                    gradient: Gradient(
-                        colors: [.green.opacity(0.2), .blue.opacity(0.2)]
-                    ),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
+                BackGradientView()
                 
                 VStack(alignment: .center) {
                     Text("Select base currency")
@@ -42,7 +35,7 @@ struct BaseCurrencyView: View {
                         .padding(.bottom)
                     HStack {
                         if let currency {
-                            Text(currency.code)
+                            Text(currency.code.uppercased())
                                 .fontWeight(.bold)
                             Text("- \(currency.name)")
                         } else {
@@ -80,7 +73,11 @@ struct BaseCurrencyView: View {
             currency = preferences.getUserLocalCurrency()
         }
         .popover(isPresented: $isCurrencySelectorPresented) {
-            CurrencyPicker(selectedCurrency: $currency)
+            NavigationStack {
+                CurrencyPicker(initiallySelectedCurrency: currency) { selected in
+                    currency = selected
+                }
+            }
         }
     }
 }

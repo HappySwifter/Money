@@ -26,7 +26,6 @@ struct NewIncomeView: View {
     @State private var destinationAmount = ""
     @State private var comment = ""
 
-    private let useSystemKeyboard = true
     private var isDoneButtonDisabled: Bool {
         destinationAmount.toDouble() == 0 ||
         destinationAmount.toDouble() == nil ||
@@ -54,8 +53,7 @@ struct NewIncomeView: View {
                     EnterAmountView(
                         symbol: destination.getCurrency()?.symbol ?? "",
                         isFocused: true,
-                        value: $destinationAmount,
-                        useTextField: useSystemKeyboard)
+                        value: $destinationAmount)
                     
                     TextField("", text: $comment, prompt: Text("Comment"), axis: .vertical)
                     
@@ -74,12 +72,7 @@ struct NewIncomeView: View {
                     }
                     .padding(.bottom)
                 }
-                .padding(.horizontal)
-                
-                if !useSystemKeyboard {
-                    CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                                   resultString: $destinationAmount)
-                }
+                .padding(.horizontal)                
             }
             .navigationTitle("New income")
             .navigationBarTitleDisplayMode(.inline)

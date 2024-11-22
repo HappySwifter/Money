@@ -40,7 +40,7 @@ struct AllAccountsView: View {
             }
             Spacer()
 //            NavigationLink {
-//                CurrencyPicker(selectedCurrency: $selectedCurrency, currenciesToShow: userCurrencies)
+//                MyCurrenciesView()
 //            } label: {
 //                Text("Selected currency: \(selectedCurrency.name)")
 //            }

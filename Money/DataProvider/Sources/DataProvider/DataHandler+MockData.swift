@@ -126,6 +126,8 @@ extension DataHandler {
         print("spendinds finished")
         
         
+        let myCurrency = MyCurrency(name: "Dollar", code: "USD", symbol: "USD", rateToBaseCurrency: 0, isBase: true)
+        
         try modelContext.transaction {
             for obj in incomes {
                 modelContext.insert(obj)
@@ -136,6 +138,9 @@ extension DataHandler {
             for obj in spendinds {
                 modelContext.insert(obj)
             }
+            
+            modelContext.insert(myCurrency)
+
             print("Done instering")
             try modelContext.save()
             

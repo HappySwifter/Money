@@ -8,61 +8,33 @@
 import SwiftUI
 
 struct EnterAmountView: View {
-    enum FocusedField {
-        case none
-        case amount
-    }
-    
     let symbol: String
     @State var isFocused: Bool
     @Binding var value: String
-    @FocusState private var focusedField: FocusedField?
-
-    var useTextField = false //TODO: do we really need this?
-    
+    @FocusState var isFocusedField: Bool
+        
     var body: some View {
         HStack {
             Group {
-                if useTextField {
-                    Text(symbol)
-                        .opacity(0.5)
-                    TextField("", text: $value)
-                        .keyboardType(.decimalPad)
-                        .focused($focusedField, equals: .amount)
-                        .onChange(of: value, {
-                            value = CurrencyStringModifier.formatAmount(value)
-                        })
-                } else {
-                    Text(value)
-                    Text(symbol)
-                        .opacity(0.5)
-                }
+                Text(symbol)
+                    .opacity(0.5)
+                TextField("", text: $value)
+                    .keyboardType(.decimalPad)
+                    .focused($isFocusedField)
+                    .onChange(of: value, {
+                        value = CurrencyStringModifier.formatAmount(value)
+                    })
             }
             .font(.title2).monospaced()
             Spacer()
         }
         .onAppear {
-            focusedField = .amount
+            isFocusedField = true
         }
         .dynamicTypeSize(.xLarge ... .xLarge)
         .padding()
         .frame(maxHeight: 50)
         .background(Color.gray.opacity(0.1))
-        .contextMenu {
-            if !useTextField {
-                Button("Paste") {
-                    let pasteString = UIPasteboard.general.string ?? ""
-                    if let double = Double(pasteString), double > 0 {
-                        value = pasteString
-                    } else if let double = pasteString.toDouble(), double > 0 {
-                        value = pasteString
-                    }
-                }
-                Button("Copy") {
-                    UIPasteboard.general.string = value
-                }
-            }
-        }
         .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius,
                                 borderLineWidth: isFocused ? 1 : 0)
 

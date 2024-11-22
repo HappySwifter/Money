@@ -30,7 +30,7 @@ class Preferences {
             updateUser(currencyCode: currency.code)
             return currency
         } else {
-            let usd = currenciesManager.getCurrencyWith(code: "USD")!
+            let usd = currenciesManager.getCurrencyWith(code: "usd")!
             updateUser(currencyCode: usd.code)
             return usd
         }

@@ -95,6 +95,15 @@ struct MoneyApp: App {
                     })
                 case .dashboard:
                     Dashboard()
+                    
+//                    ExchangeRateView(newCurrency: AccountCurrency(code: "rub", name: "Russian Rubble", symbol: "R"))
+                    
+                    
+//                    NewAccountView(isSheetPresented: .constant(true),
+//                                   isClosable: false,
+//                                   completion: { [weak appRootManager] in
+//                        appRootManager?.updateRoot()
+//                    })
                 case .loadingView(let title):
                     LoadingView(title: title)
                 }

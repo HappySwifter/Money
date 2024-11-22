@@ -12,50 +12,50 @@ struct CurrencyPicker: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(CurrenciesManager.self) private var currenciesManager
-    
-    @Binding var selectedCurrency: AccountCurrency?
-    @State var currencies = [AccountCurrency]()
-    var currenciesToShow = [AccountCurrency]()
-    
+    @State private var currencies = [AccountCurrency]()
     @State private var searchText = ""
     
+    var initiallySelectedCurrency: AccountCurrency?
+    var selectHandler: (AccountCurrency) -> Void
+    var currenciesToShow = [AccountCurrency]()
+    var isPresentedModally = true
+    
     var body: some View {
-        NavigationStack {
-            Form {
-                ForEach(searchResults, id: \.code) { item in
-                    HStack {
-                        Text(item.name)
-                        Spacer()
-                        Text(item.code)
-                        if selectedCurrency == item {
-                            Image(systemName: "checkmark")
-                        }
-                    }
-                    .padding(10)
-                    .background(Color.gray.opacity(0.01))
-                    .onTapGesture {
-                        selectedCurrency = item
-                        presentationMode.wrappedValue.dismiss()
+        Form {
+            ForEach(searchResults, id: \.code) { item in
+                HStack {
+                    Text(item.name)
+                    Spacer()
+                    Text(item.code.uppercased())
+                    if initiallySelectedCurrency == item {
+                        Image(systemName: "checkmark")
                     }
                 }
+                .padding(10)
+                .background(Color.gray.opacity(0.01))
+                .onTapGesture {
+                    selectHandler(item)
+                    presentationMode.wrappedValue.dismiss()
+                }
             }
-            .searchable(text: $searchText, prompt: "Search")
-            .task {
-                searchText = ""
-                currencies = currenciesManager.currencies
-            }
-            .toolbar {
+        }
+        .searchable(text: $searchText, prompt: "Search")
+        .task {
+            searchText = ""
+            currencies = currenciesManager.currencies
+        }
+        .toolbar {
+            if isPresentedModally {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("Close")
                     }
-
                 }
             }
-            .navigationTitle("Select currency")
         }
+        .navigationTitle("Select currency")
         .dynamicTypeSize(.xLarge ... .xLarge)
     }
     

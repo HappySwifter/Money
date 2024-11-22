@@ -38,7 +38,7 @@ actor CurrenciesApi {
     
     func getExchangeRateFor(currencyCode: String, date: Date, urlType: ExchangeRateUrlType = .main) async throws -> ExchangeRate {
         if let data = await preferences.getRates(date: date.ratesDateString, currency: currencyCode) {
-//            logger.info("Using rates from cache")
+            logger.info("Using rates from cache")
             return try decodeRates(from: data)
         }
         logger.info("Loading rates for code: \(currencyCode), date: \(date)")

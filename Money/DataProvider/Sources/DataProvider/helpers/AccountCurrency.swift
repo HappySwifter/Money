@@ -1,6 +1,6 @@
 import Foundation
 
-public final class AccountCurrency: Sendable, Hashable, CustomStringConvertible {
+public final class AccountCurrency: Codable, Sendable, Hashable, CustomStringConvertible {
     public let code: String
     public let name: String
     public let symbol: String

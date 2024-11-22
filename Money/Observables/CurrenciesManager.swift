@@ -19,27 +19,14 @@ import DataProvider
     }
     
     private func loadCurrencies() {
-//        Task { [logger] in
-            do {
-                let d = Date()
-                currencies.removeAll()
-                
-                let currenciesFromJson = try AccountCurrency.loadFromJson()
-                let symbols = try CurrencySymbol.loadFromJson()
-                
-                for (code, name) in currenciesFromJson where !code.isEmpty && !name.isEmpty {
-                    let symbol = symbols.findWith(code: code)?.symbol
-                    let currency = AccountCurrency(code: code, name: name, symbol: symbol)
-                    currencies.append(currency)
-                }
-                currencies.sort(by: { $0.name < $1.name })
-                logger.info("Finish loading currencies in \(Date().timeIntervalSince(d)) seconds")
-            } catch {
-                logger.error("\(error.localizedDescription)")
-            }
-//        }
+        do {
+            currencies = try AccountCurrency.loadFromJson()
+            currencies.sort(by: { $0.name < $1.name })
+        } catch {
+            logger.error("\(error.localizedDescription)")
+        }
     }
-        
+    
     public func getCurrencyWith(code: String) -> AccountCurrency? {
         currencies.first(where: { $0.code == code })
     }

@@ -24,43 +24,50 @@ struct InitalCashView: View {
                                   iconColor: SwiftColor.mintCream.rawValue)
     
     var body: some View {
-        VStack {
-            Text("Set up your cash balance")
-                .fontWeight(.bold)
-                .font(.title2)
-                .padding(.vertical)
-            Text("How much you do you have in your wallet")
-                .font(.footnote)
-                .padding(.bottom)
-                
-            EnterAmountView(symbol: currency.symbol,
-                            isFocused: true, value: $value,
-                            useTextField: true)
-
-            Spacer()
+        ZStack {
+            BackGradientView()
             
-            Button {
-                saveCurrency()
-                saveAccount()
-                isNextScreenPresented.toggle()
-            } label: {
-                Text("Next")
+            VStack {
+                Text("Set up your cash balance")
+                    .fontWeight(.bold)
+                    .font(.title2)
+                    .padding(.vertical)
+                Text("How much you do you have in your wallet")
+                    .font(.footnote)
+                    .padding(.bottom)
+                    
+                EnterAmountView(symbol: currency.symbol,
+                                isFocused: true, value: $value)
+
+                Spacer()
+                
+                Button {
+                    saveCurrency()
+                    saveAccount()
+                    isNextScreenPresented.toggle()
+                } label: {
+                    Text("Next")
+                }
+                .navigationDestination(isPresented: $isNextScreenPresented) {
+                    EnableFaceIdView()
+                }
+                .buttonStyle(StretchedRoundedButtonStyle(
+                    enabledColor: .green,
+                    disabledColor: .gray)
+                )
             }
-            .navigationDestination(isPresented: $isNextScreenPresented) {
-                EnableFaceIdView()
-            }
-            .buttonStyle(StretchedRoundedButtonStyle(
-                enabledColor: .green,
-                disabledColor: .gray)
-            )
+            .padding()
         }
-        .padding()
     }
     
     private func saveCurrency() {
-        let cur = MyCurrency(name: currency.name, rateToBaseCurrency: 0, isBase: true)
+        let cur = MyCurrency(name: currency.name,
+                             code: currency.code,
+                             symbol: currency.symbol,
+                             rateToBaseCurrency: 0,
+                             isBase: true)
         Task {
-            await dataHandler?.new(currency: cur)
+            try await dataHandler?.new(currency: cur)
         }
     }
     

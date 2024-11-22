@@ -88,6 +88,13 @@ import DataProvider
         logger.info("getExpenses run time: \(Date().timeIntervalSince(logDate))")
         return sorted
     }
+    
+    func getTodayExchangeRateFor(currencyCode: String) async throws -> ExchangeRate {
+        try await currenciesApi.getExchangeRateFor(
+            currencyCode: currencyCode,
+            date: Date()
+        )
+    }
 }
 
 private extension Collection where Element: Hashable {

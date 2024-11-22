@@ -1,0 +1,21 @@
+{
+    "btc": "Bitcoin",
+    "eth": "Ethereum",
+    "xrp": "XRP (Ripple)",
+    "ltc": "Litecoin",
+    "bnb": "BNB (Binance Coin)",
+    "usdt": "Tether",
+    "usdc": "USD Coin",
+    "ada": "Cardano",
+    "doge": "Dogecoin",
+    "sol": "Solana",
+    "dot": "Polkadot",
+    "trx": "TRON",
+    "matic": "Polygon (MATIC)",
+    "avax": "Avalanche",
+    "fil": "Filecoin",
+    "xlm": "Stellar Lumens",
+    "link": "Chainlink",
+    "theta": "Theta Network",
+    "algo": "Algorand"
+}

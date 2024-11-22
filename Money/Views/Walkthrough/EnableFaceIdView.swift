@@ -11,19 +11,25 @@ struct EnableFaceIdView: View {
     @Environment(AppRootManager.self) private var appRootManager
     
     var body: some View {
-        VStack {
-            Text("Coming soon")
-            Spacer()
+        ZStack {
+            BackGradientView()
             
-            Button {
-                appRootManager.currentRoot = .dashboard
-            } label: {
-                Text("Finish")
+            VStack {
+                Text("Coming soon")
+                Spacer()
+                
+                Button {
+                    appRootManager.currentRoot = .dashboard
+                } label: {
+                    Text("Finish")
+                }
+                .buttonStyle(StretchedRoundedButtonStyle(
+                    enabledColor: .green,
+                    disabledColor: .gray)
+                )
             }
-            .buttonStyle(StretchedRoundedButtonStyle(
-                enabledColor: .green,
-                disabledColor: .gray)
-            )
+            .padding()
+            .navigationBarBackButtonHidden(true)
         }
     }
 }

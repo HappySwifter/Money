@@ -14,7 +14,6 @@ import OSLog
 @MainActor
 struct TransferMoneyView: View {
     private let logger = Logger(subsystem: "Money", category: "TransferMoneyView")
-    private let useSystemKeyboard = true
 
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Environment(ExpensesService.self) private var expensesService
@@ -105,8 +104,7 @@ struct TransferMoneyView: View {
                         EnterAmountView(
                             symbol: source.getCurrency()?.symbol ?? "",
                             isFocused: focusedField == .source,
-                            value: $sourceAmount,
-                            useTextField: useSystemKeyboard)
+                            value: $sourceAmount)
                         .onTapGesture {
                             focusedField = .source
                         }
@@ -116,8 +114,7 @@ struct TransferMoneyView: View {
                             EnterAmountView(
                                 symbol: destination.getCurrency()?.symbol ?? "",
                                 isFocused: focusedField == .destination,
-                                value: $destinationAmount,
-                                useTextField: useSystemKeyboard)
+                                value: $destinationAmount)
                             .onTapGesture {
                                 focusedField = .destination
                             }
@@ -142,12 +139,6 @@ struct TransferMoneyView: View {
                     .dynamicTypeSize(.xLarge ... .xLarge)
                 }
                 .padding()
-                
-                if !useSystemKeyboard {
-                    CalculatorView(viewModel: CalculatorViewModel(showCalculator: false),
-                                   resultString: focusedField == .source ? $sourceAmount : $destinationAmount)
-                }
-//                Spacer()
             }
             .onChange(of: source) { oldValue, _ in
                 withAnimation {

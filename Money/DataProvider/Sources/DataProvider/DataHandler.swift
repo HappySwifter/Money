@@ -152,9 +152,33 @@ extension DataHandler {
 }
 
 extension DataHandler {
-    public func new(currency: MyCurrency) {
+    public func new(currency: MyCurrency) throws {
+        if currency.isBase {
+            // if save new base currency, make sure that there is no more base currencies
+            let baseCurrencies = try getBaseCurrencies()
+            baseCurrencies.forEach { $0.isBase = false }
+        }
         modelContext.insert(currency)
         save()
+    }
+    
+    public func getBaseCurrency() throws -> MyCurrency {
+        let baseCurrencies = try getBaseCurrencies()
+        if  baseCurrencies.count > 1 {
+            throw DataProviderError.baseCurrencyIsMoreThanOne
+        } else if let first = baseCurrencies.first {
+            return first
+        } else {
+            throw DataProviderError.baseCurrencyIsMissing
+        }
+    }
+    
+    private func getBaseCurrencies() throws -> [MyCurrency] {
+        var desc = FetchDescriptor<MyCurrency>()
+        desc.predicate = #Predicate<MyCurrency> {
+            $0.isBase == true
+        }
+        return try modelContext.fetch(desc)
     }
 }
 
@@ -211,6 +235,7 @@ extension DataHandler {
     public func clearDB() throws {
         try modelContext.delete(model: Account.self)
         try modelContext.delete(model: MyTransaction.self)
+        try modelContext.delete(model: MyCurrency.self)
         save()
     }
     
