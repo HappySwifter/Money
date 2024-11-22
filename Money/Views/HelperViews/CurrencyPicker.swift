@@ -13,10 +13,11 @@ struct CurrencyPicker: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(CurrenciesManager.self) private var currenciesManager
     
-    @Binding var selectedCurrency: MyCurrency
+    @Binding var selectedCurrency: AccountCurrency?
+    @State var currencies = [AccountCurrency]()
+    var currenciesToShow = [AccountCurrency]()
+    
     @State private var searchText = ""
-    @State var currencies = [MyCurrency]()
-    var currenciesToShow = [MyCurrency]()
     
     var body: some View {
         NavigationStack {
@@ -25,6 +26,7 @@ struct CurrencyPicker: View {
                     HStack {
                         Text(item.name)
                         Spacer()
+                        Text(item.code)
                         if selectedCurrency == item {
                             Image(systemName: "checkmark")
                         }
@@ -52,11 +54,12 @@ struct CurrencyPicker: View {
 
                 }
             }
+            .navigationTitle("Select currency")
         }
         .dynamicTypeSize(.xLarge ... .xLarge)
     }
     
-    var searchResults: [MyCurrency] {
+    var searchResults: [AccountCurrency] {
         if searchText.isEmpty {
             return currenciesToShow.isEmpty ? currencies : currenciesToShow
         } else {

@@ -90,10 +90,11 @@ struct Dashboard: View {
                                  presentingType: $presentingType)
                     }
                     .dynamicTypeSize(.xLarge ... .xLarge)
-
                     
-                    TipView(dashboardTips.currentTip as? AccountTapTip, arrowEdge: .bottom) { action in
-                        print(action)
+                    if accounts.count > 1 {
+                        TipView(dashboardTips.currentTip as? AccountTapTip, arrowEdge: .bottom) { action in
+                            print(action)
+                        }
                     }
                     ScrollView(.horizontal) {
 
@@ -119,37 +120,62 @@ struct Dashboard: View {
                     Divider()
                         .padding(.vertical, 5)
                     
-                    HStack {
-                        NavigationLink {
-                            HistoryView()
-                        } label: {
-                            VStack(alignment: .leading) {
-                                Text("Spent today: \(expensesService.spentToday)")
-                                    .truncationMode(.head)
-                                Text("This month: \(expensesService.spentThisMonth)")
-                                    .truncationMode(.head)
-                            }
-                            .lineLimit(1)
-                            .foregroundStyle(Color.gray)
-                            .font(.callout)
-                        }
-    //                    Spacer()
-                    }
-                    .buttonStyle(.plain)
-                    .dynamicTypeSize(.xLarge ... .xLarge)
                     
-                    TipView(dashboardTips.currentTip as? CategoryTapTip, arrowEdge: .bottom)
-                    ScrollView {
-                        LazyVGrid(columns: columns, alignment: .leading) {
-                            ForEach(categories) { category in
-                                CategoryView(item: .constant(category),
-                                             tapHandler: categorySelectHandler(cat:),
-                                             longPressHandler: categoryLongPressHandler(cat:))
+                    if categories.isEmpty {
+                        Button {
+                            presentingType = .addCategory
+                        } label: {
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    Image(systemName: "plus.circle")
+                                        .font(.system(size: 40))
+                                        .foregroundStyle(Color.blue.opacity(0.3))
+                                    Text("Add new categoty to start spending")
+                                        .font(.title2)
+                                        .foregroundStyle(Color.gray)
+                                }
+                                Spacer()
+                            }
+                            .padding(.vertical)
+                        }
+                        Spacer()
+                    } else {
+                        HStack {
+                            NavigationLink {
+                                HistoryView()
+                            } label: {
+                                VStack(alignment: .leading) {
+                                    Text("Spent today: \(expensesService.spentToday)")
+                                        .truncationMode(.head)
+                                    Text("This month: \(expensesService.spentThisMonth)")
+                                        .truncationMode(.head)
+                                }
+                                .lineLimit(1)
+                                .foregroundStyle(Color.gray)
+                                .font(.callout)
+                            }
+        //                    Spacer()
+                        }
+                        .buttonStyle(.plain)
+                        .dynamicTypeSize(.xLarge ... .xLarge)
+                        
+                        TipView(dashboardTips.currentTip as? CategoryTapTip, arrowEdge: .bottom)
+                        ScrollView {
+                            LazyVGrid(columns: columns, alignment: .leading) {
+                                ForEach(categories) { category in
+                                    CategoryView(item: .constant(category),
+                                                 tapHandler: categorySelectHandler(cat:),
+                                                 longPressHandler: categoryLongPressHandler(cat:))
+                                }
+                            }
+                            if !categories.isEmpty {
+                                TipView(dashboardTips.currentTip as? CategoryLongPressTip, arrowEdge: .top)
                             }
                         }
-                        TipView(dashboardTips.currentTip as? CategoryLongPressTip, arrowEdge: .top)
+                        .accessibilityIdentifier(CategoriesScrollView)
                     }
-                    .accessibilityIdentifier(CategoriesScrollView)
+
                 }
                 .padding(.horizontal)
             }
@@ -207,7 +233,7 @@ struct SampleData: PreviewModifier {
         let dataHandler = DataHandler(modelContainer: DataProvider.shared.previewContainer)
         let currenciesManager = CurrenciesManager()
         do {
-            let myCur = MyCurrency(code: "USD", name: "Dollar", symbol: "S")
+            let myCur = AccountCurrency(code: "USD", name: "Dollar", symbol: "S")
             try await dataHandler.populateWithMockData(userCurrency: myCur,
                                                        currencies: currenciesManager.currencies,
                                              iconNames: IconType.all.getIcons())

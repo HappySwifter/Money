@@ -1,14 +1,11 @@
 import Foundation
 
-//public typealias MyCurrency = SchemaV1.MyCurrency
-
-
-public final class MyCurrency: Sendable, Equatable, Hashable, CustomStringConvertible {
+public final class AccountCurrency: Sendable, Hashable, CustomStringConvertible {
     public let code: String
     public let name: String
     public let symbol: String
     
-    public static func == (lhs: MyCurrency, rhs: MyCurrency) -> Bool {
+    public static func == (lhs: AccountCurrency, rhs: AccountCurrency) -> Bool {
         lhs.code == rhs.code
     }
     

@@ -68,16 +68,15 @@ extension SchemaV1 {
             }
         }
         
-        public func set(currency: MyCurrency) {
-            print("setting cur", currency)
+        public func set(currency: AccountCurrency) {
             currencyCode = currency.code
             currencyName = currency.name
             currencySymbol = currency.symbol
         }
         
-        public func getCurrency() -> MyCurrency? {
+        public func getCurrency() -> AccountCurrency? {
             if let currencyCode, let currencyName {
-                return MyCurrency(code: currencyCode, name: currencyName, symbol: currencySymbol)
+                return AccountCurrency(code: currencyCode, name: currencyName, symbol: currencySymbol)
             } else {
                 return nil
             }
@@ -124,10 +123,14 @@ extension Account {
         orderIndex = index
     }
     
-    public func setInitial(amount: Double) {
-        self.amount = amount
+    public func setInitial(amount: String) {
+        var formatted = amount
+        if formatted.last == "." || formatted.last == "," {
+            formatted = String(formatted.dropLast())
+        }
+        self.amount = Double(formatted.replacingOccurrences(of: ",", with: ".")) ?? 0
     }
-    
+        
     public func deposit(amount: Double) {
         guard isAccount else { return }
         self.amount += amount

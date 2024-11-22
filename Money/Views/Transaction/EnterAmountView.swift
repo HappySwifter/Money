@@ -29,14 +29,16 @@ struct EnterAmountView: View {
                     TextField("", text: $value)
                         .keyboardType(.decimalPad)
                         .focused($focusedField, equals: .amount)
-                    
+                        .onChange(of: value, {
+                            value = CurrencyStringModifier.formatAmount(value)
+                        })
                 } else {
                     Text(value)
                     Text(symbol)
                         .opacity(0.5)
                 }
             }
-            .font(.title2)
+            .font(.title2).monospaced()
             Spacer()
         }
         .onAppear {

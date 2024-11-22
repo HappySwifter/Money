@@ -60,9 +60,8 @@ struct MoneyApp: App {
         Task {
             let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
             let accountsCount = try await dataHandler.getAccountsCount()
-            let categoriesCount = try await dataHandler.getCategoriesCount()
             
-            if accountsCount == 0 || categoriesCount == 0 {
+            if accountsCount == 0 {
                 CloudKitManager.getCloudKitSyncStatus { status in
                     switch status {
                     case .still:
@@ -87,17 +86,11 @@ struct MoneyApp: App {
             Group {
                 switch appRootManager.currentRoot {
                 case .addDataHelper:
-                    AddDataHelperView()
+                    BaseCurrencyView()
                 case .addAccount:
                     NewAccountView(isSheetPresented: .constant(true),
                                    isClosable: false,
                                    completion: { [weak appRootManager] in
-                        appRootManager?.updateRoot()
-                    })
-                case .addCategory:
-                    NewCategoryView(isSheetPresented: .constant(true),
-                                    isClosable: false,
-                                    completion: { [weak appRootManager] in
                         appRootManager?.updateRoot()
                     })
                 case .dashboard:

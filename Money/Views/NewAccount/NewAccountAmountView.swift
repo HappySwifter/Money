@@ -15,12 +15,8 @@ struct NewAccountAmountView: View {
     var body: some View {
         TextField("placeholder", text: $amount)
         .onChange(of: amount, {
-            var formatted = formatCardNumber(amount)
-            amount = formatted
-            if formatted.last == "." || formatted.last == "," {
-                formatted = String(formatted.dropLast())
-            }
-            account.setInitial(amount: Double(formatted.replacingOccurrences(of: ",", with: ".")) ?? 0)
+            amount = CurrencyStringModifier.formatAmount(amount)
+            account.setInitial(amount: amount)
         })
 
         .font(.title3)
@@ -28,15 +24,5 @@ struct NewAccountAmountView: View {
         .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
         .keyboardType(.decimalPad)
         .scrollDismissesKeyboard(.interactively)
-    }
-    
-    private func formatCardNumber(_ number: String) -> String {
-        if number == "00" {
-            return "0"
-        } else if number.count > 1, !number.contains("."), !number.contains(","), number.first == "0" {
-            return String(number.dropFirst())
-        } else {
-            return number
-        }
     }
 }

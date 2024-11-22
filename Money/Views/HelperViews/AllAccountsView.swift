@@ -15,8 +15,8 @@ struct AllAccountsView: View {
     @Environment(ExpensesService.self) private var expensesService
     
     @State private var accounts = [Account]()
-    @State private var userCurrencies = [MyCurrency]()
-    @State var selectedCurrency = MyCurrency(code: "", name: "", symbol: nil)
+    @State private var userCurrencies = [AccountCurrency]()
+    @State var selectedCurrency = AccountCurrency(code: "", name: "", symbol: nil)
     
     var body: some View {
         VStack {
@@ -39,11 +39,11 @@ struct AllAccountsView: View {
                 .onDelete(perform: deleteAccount)
             }
             Spacer()
-            NavigationLink {
-                CurrencyPicker(selectedCurrency: $selectedCurrency, currenciesToShow: userCurrencies)
-            } label: {
-                Text("Selected currency: \(selectedCurrency.name)")
-            }
+//            NavigationLink {
+//                CurrencyPicker(selectedCurrency: $selectedCurrency, currenciesToShow: userCurrencies)
+//            } label: {
+//                Text("Selected currency: \(selectedCurrency.name)")
+//            }
         }
         .task {
             self.accounts = await getAccounts()
@@ -67,8 +67,8 @@ struct AllAccountsView: View {
 
     }
 
-    private func getUserCurrencies() -> [MyCurrency] {
-        var set = Set<MyCurrency>()
+    private func getUserCurrencies() -> [AccountCurrency] {
+        var set = Set<AccountCurrency>()
         accounts.forEach {
             if let cur = $0.getCurrency() {
                 set.insert(cur)

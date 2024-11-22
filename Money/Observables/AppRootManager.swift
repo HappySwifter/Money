@@ -23,14 +23,11 @@ import OSLog
         Task { @MainActor in
             do {
                 let accountsCount = try await dataHandler.getAccountsCount()
-                let categoriesCount = try await dataHandler.getCategoriesCount()
                 
-                if accountsCount == 0 && categoriesCount == 0 {
+                if accountsCount == 0 {
                     currentRoot = .addDataHelper
                 } else if accountsCount == 0  {
                     currentRoot = .addAccount
-                } else if categoriesCount == 0 {
-                    currentRoot = .addCategory
                 } else {
                     currentRoot = .dashboard
                 }
@@ -46,6 +43,5 @@ import OSLog
         case addDataHelper
         case loadingView(title: String)
         case addAccount
-        case addCategory
     }
 }

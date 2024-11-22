@@ -22,16 +22,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-//                Section("Tips") {
-//                    Button("Reset tips") {
-//                        do {
-//                            try Tips.resetDatastore()
-//                            try Tips.configure()
-//                        } catch {
-//                            logger.error("Failed to reset tips: \(error)")
-//                        }
-//                    }
-//                }
+                Section("Walkthrough") {
+                    Button("Show walkthrough") {
+                        rootManager.currentRoot = .addDataHelper
+                    }
+                }
                 Section("App data") {
                     Button("Delete data") {
                         deleteAllData()

@@ -16,7 +16,7 @@ extension MyTransaction {
         prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.getCurrency()?.symbol)
     }
     
-    func convertAmount(to currency: MyCurrency, rates: ExchangeRate) -> Double {
+    func convertAmount(to currency: AccountCurrency, rates: ExchangeRate) -> Double {
         guard let sourceCurrency = source?.getCurrency() else {
 //            assert(false)
             return 0

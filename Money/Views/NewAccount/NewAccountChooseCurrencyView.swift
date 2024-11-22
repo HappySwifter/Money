@@ -10,7 +10,7 @@ import DataProvider
 
 struct NewAccountChooseCurrencyView: View {
     @State private var isCurrencyPickerPresented = false
-    @Binding var currency: MyCurrency?
+    @Binding var currency: AccountCurrency?
     
     var body: some View {
         Button(currency?.symbol ?? "") {
@@ -22,7 +22,7 @@ struct NewAccountChooseCurrencyView: View {
         .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
         .sheet(isPresented: $isCurrencyPickerPresented, content: {
             NavigationStack {
-                CurrencyPicker(selectedCurrency: Binding($currency)!)
+                CurrencyPicker(selectedCurrency: Binding(projectedValue: $currency))
             }
         })
     }

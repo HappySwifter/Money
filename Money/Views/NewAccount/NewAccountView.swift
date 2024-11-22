@@ -21,12 +21,12 @@ struct NewAccountView: View {
     
     @State private var account = Account(orderIndex: 0,
                                          name: "",
-                                         color: SwiftColor.lavender.rawValue,
+                                         color: "",
                                          isAccount: true,
                                          amount: 0,
                                          iconName: "banknote.fill",
                                          iconColor: SwiftColor.accountColors.first!.rawValue)
-    @State private var currency: MyCurrency?
+    @State private var currency: AccountCurrency?
     
     var body: some View {
         NavigationView {

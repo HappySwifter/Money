@@ -8,7 +8,7 @@
 import Foundation
 import DataProvider
 
-extension MyCurrency {
+extension AccountCurrency {
     static func loadFromJson() throws -> [String: String] {
         guard let url = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
             throw CurrencyError.jsonFileIsMissing

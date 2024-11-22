@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 extension DataHandler {
-    public func populateWithMockData(userCurrency: MyCurrency, currencies: [MyCurrency], iconNames: [String]) throws {
+    public func populateWithMockData(userCurrency: AccountCurrency, currencies: [AccountCurrency], iconNames: [String]) throws {
         modelContext.autosaveEnabled = false
         
         assert(!currencies.isEmpty)

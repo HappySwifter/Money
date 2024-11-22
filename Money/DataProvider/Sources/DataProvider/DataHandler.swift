@@ -151,53 +151,60 @@ extension DataHandler {
     }
 }
 
-//MARK: Test data
 extension DataHandler {
-    public func addTestData(userCurrency: MyCurrency) throws {
-        let accountsCount = try getAccountsCount()
-        let catCount = try getCategoriesCount()
-        
-        let accountCash = Account(orderIndex: accountsCount,
-                                  name: "Cash",
-                                  color: SwiftColor.lavender.rawValue,
-                                  isAccount: true,
-                                  amount: 1000,
-                                  iconName: "banknote",
-                                  iconColor: SwiftColor.green.rawValue)
-        
-        let accountBank = Account(orderIndex: accountsCount + 1,
-                                  name: "Bank",
-                                  color: SwiftColor.mintCream.rawValue,
-                                  isAccount: true,
-                                  amount: 10000,
-                                  iconName: "creditcard",
-                                  iconColor: SwiftColor.blue.rawValue)
-        
-        let categoryFood = Account(orderIndex: catCount,
-                                   name: "Food",
-                                   color: SwiftColor.lightSand.rawValue,
-                                   isAccount: false,
-                                   amount: 0,
-                                   iconName: "basket",
-                                   iconColor: SwiftColor.indigo.rawValue)
-        
-        let categoryClothes = Account(orderIndex: catCount + 1,
-                                      name: "Clothes",
-                                      color: SwiftColor.powderPink.rawValue,
-                                      isAccount: false,
-                                      amount: 0,
-                                      iconName: "tshirt",
-                                      iconColor: SwiftColor.orange.rawValue)
-        
-        
-        accountCash.set(currency: userCurrency)
-        accountBank.set(currency: userCurrency)
-        modelContext.insert(accountCash)
-        modelContext.insert(accountBank)
-        modelContext.insert(categoryFood)
-        modelContext.insert(categoryClothes)
+    public func new(currency: MyCurrency) {
+        modelContext.insert(currency)
         save()
     }
+}
+
+//MARK: Test data
+extension DataHandler {
+//    public func addTestData(userCurrency: AccountCurrency) throws {
+//        let accountsCount = try getAccountsCount()
+//        let catCount = try getCategoriesCount()
+//        
+//        let accountCash = Account(orderIndex: accountsCount,
+//                                  name: "Cash",
+//                                  color: SwiftColor.lavender.rawValue,
+//                                  isAccount: true,
+//                                  amount: 1000,
+//                                  iconName: "banknote",
+//                                  iconColor: SwiftColor.green.rawValue)
+//        
+//        let accountBank = Account(orderIndex: accountsCount + 1,
+//                                  name: "Bank",
+//                                  color: SwiftColor.mintCream.rawValue,
+//                                  isAccount: true,
+//                                  amount: 10000,
+//                                  iconName: "creditcard",
+//                                  iconColor: SwiftColor.blue.rawValue)
+//        
+//        let categoryFood = Account(orderIndex: catCount,
+//                                   name: "Food",
+//                                   color: SwiftColor.lightSand.rawValue,
+//                                   isAccount: false,
+//                                   amount: 0,
+//                                   iconName: "basket",
+//                                   iconColor: SwiftColor.indigo.rawValue)
+//        
+//        let categoryClothes = Account(orderIndex: catCount + 1,
+//                                      name: "Clothes",
+//                                      color: SwiftColor.powderPink.rawValue,
+//                                      isAccount: false,
+//                                      amount: 0,
+//                                      iconName: "tshirt",
+//                                      iconColor: SwiftColor.orange.rawValue)
+//        
+//        
+//        accountCash.set(currency: userCurrency)
+//        accountBank.set(currency: userCurrency)
+//        modelContext.insert(accountCash)
+//        modelContext.insert(accountBank)
+//        modelContext.insert(categoryFood)
+//        modelContext.insert(categoryClothes)
+//        save()
+//    }
 }
 
 extension DataHandler {

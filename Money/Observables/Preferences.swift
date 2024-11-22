@@ -22,21 +22,26 @@ class Preferences {
     func updateUser(currencyCode: String) {
         userDefaults.setValue(currencyCode, forKey: Keys.userCurrency.rawValue)
     }
-        
-    func getUserCurrency() -> MyCurrency {
+            
+    func getUserCurrency() -> AccountCurrency {
         if let userCurrency = findUserCurrency() {
             return userCurrency
-        } else if let currencyId = Locale.current.currency?.identifier, let currency = currenciesManager.getCurrencyWith(code: currencyId) {
+        } else if let currency = getUserLocalCurrency() {
             updateUser(currencyCode: currency.code)
             return currency
         } else {
-            let usd = currenciesManager.getCurrencyWith(code: "usd")!
+            let usd = currenciesManager.getCurrencyWith(code: "USD")!
             updateUser(currencyCode: usd.code)
             return usd
         }
     }
     
-    private func findUserCurrency() -> MyCurrency? {
+    func getUserLocalCurrency() -> AccountCurrency? {
+        guard let currencyId = Locale.current.currency?.identifier else { return nil }
+        return currenciesManager.getCurrencyWith(code: currencyId)
+    }
+    
+    private func findUserCurrency() -> AccountCurrency? {
         if let code = userDefaults.string(forKey: Keys.userCurrency.rawValue) {
             return currenciesManager.getCurrencyWith(code: code)
         } else {
