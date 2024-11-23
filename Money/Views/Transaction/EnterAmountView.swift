@@ -29,14 +29,14 @@ struct EnterAmountView: View {
             Spacer()
         }
         .onAppear {
-            isFocusedField = true
+            isFocusedField = isFocused
         }
         .dynamicTypeSize(.xLarge ... .xLarge)
         .padding()
         .frame(maxHeight: 50)
-        .background(Color.gray.opacity(0.1))
+//        .background(Color.gray.opacity(0.1))
         .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius,
-                                borderLineWidth: isFocused ? 1 : 0)
+                                borderLineWidth: 1)
 
     }
 }

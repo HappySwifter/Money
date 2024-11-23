@@ -15,7 +15,7 @@ struct CurrencyPicker: View {
     @State private var currencies = [CurrencyStruct]()
     @State private var searchText = ""
     
-    var initiallySelectedCurrencyCode: String?
+    var initiallySelectedCurrency: CurrencyStruct?
     var selectHandler: (CurrencyStruct) -> Void
     var isPresentedModally = true
     
@@ -26,7 +26,7 @@ struct CurrencyPicker: View {
                     Text(item.name)
                     Spacer()
                     Text(item.code.uppercased())
-                    if initiallySelectedCurrencyCode == item.code {
+                    if initiallySelectedCurrency == item {
                         Image(systemName: "checkmark")
                     }
                 }

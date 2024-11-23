@@ -106,7 +106,7 @@ struct SymbolPickerView: View {
     
     private func fillDefailtValues() {
         let baseIconName = selectedIcon.removed(modifiers: Icon.Modifiers.allCases)
-        selectedType = IconType.findTypeBy(baseIconName: baseIconName)
+//        selectedType = IconType.findTypeBy(baseIconName: baseIconName)
         selectedName = baseIconName
 
         isFill = selectedIcon.contains(modifier: .fill)

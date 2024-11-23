@@ -16,7 +16,7 @@ struct MyCurrenciesView: View {
     @State private var isExchangeRateViewPresented = false
     @State private var newCurrencyToAdd: CurrencyStruct?
     
-    @Binding var selectedCurrencyCode: String?
+    @Binding var selectedCurrency: CurrencyStruct?
     
     var body: some View {
         VStack {
@@ -36,7 +36,7 @@ struct MyCurrenciesView: View {
                 }
                 .background(Color.gray.opacity(0.01))
                 .onTapGesture {
-                    selectedCurrencyCode = currency.code
+                    selectedCurrency = CurrencyStruct(from: currency)
                     dismiss()
                 }
             }
@@ -46,7 +46,7 @@ struct MyCurrenciesView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(
                     destination: CurrencyPicker(
-                        initiallySelectedCurrencyCode: selectedCurrencyCode,
+                        initiallySelectedCurrency: selectedCurrency,
                         selectHandler: currencyPickerSelectHandler,
                         isPresentedModally: false)) {
                     Image(systemName: "plus.circle.fill")
@@ -63,7 +63,7 @@ struct MyCurrenciesView: View {
     }
     
     private func currencyPickerSelectHandler(currency: CurrencyStruct) {
-        selectedCurrencyCode = currency.code
+        selectedCurrency = currency
         if !currencies.contains(where: { $0.code == currency.code }) {
             newCurrencyToAdd = currency
             isExchangeRateViewPresented = true
@@ -84,6 +84,6 @@ struct MyCurrenciesView: View {
     }
 }
 
-#Preview {
-    MyCurrenciesView(selectedCurrencyCode: .constant(""))
-}
+//#Preview {
+//    MyCurrenciesView(selectedCurrency: .constant(""))
+//}

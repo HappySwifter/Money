@@ -13,6 +13,12 @@ public final class CurrencyStruct: Codable, Sendable, Hashable, CustomStringConv
         hasher.combine(code)
     }
     
+    public init(from myCurrency: MyCurrency) {
+        code = myCurrency.code
+        name = myCurrency.name
+        symbol = myCurrency.symbol
+    }
+    
     public init(code: String, name: String, symbol: String?) {
         self.code = code
         self.name = name

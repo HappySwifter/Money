@@ -29,8 +29,8 @@ struct TransferMoneyView: View {
         
     @State private var focusedField = FieldFocusType.source
     @State private var targetDate = Date()
-    @State private var sourceAmount = ""
-    @State private var destinationAmount = ""
+    @State private var sourceAmount = "0"
+    @State private var destinationAmount = "0"
     @State private var comment = ""
     
     @State var source: Account

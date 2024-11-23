@@ -27,8 +27,7 @@ struct MenuView: View {
     var body: some View {
         Menu {
             ForEach(ButtonType.allCases, id: \.self) { button in
-                if button == .accountToCategory {
-                    Divider()
+                if button == .newIncome {
                     Text("Transfer")
                 }
                 if button == .newAccount {

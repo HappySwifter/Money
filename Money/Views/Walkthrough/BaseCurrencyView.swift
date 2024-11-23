@@ -33,20 +33,8 @@ struct BaseCurrencyView: View {
                     Text("Start by selecting your base currency")
                         .font(.footnote)
                         .padding(.bottom)
-                    HStack {
-                        if let currency {
-                            Text(currency.code.uppercased())
-                                .fontWeight(.bold)
-                            Text("- \(currency.name)")
-                        } else {
-                            Text("Select currency")
-                        }
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
+                    
+                    CurrencyNameView(currency: currency)
                     .onTapGesture {
                         isCurrencySelectorPresented.toggle()
                     }
@@ -74,7 +62,7 @@ struct BaseCurrencyView: View {
         }
         .popover(isPresented: $isCurrencySelectorPresented) {
             NavigationStack {
-                CurrencyPicker(initiallySelectedCurrencyCode: currency?.code) { selected in
+                CurrencyPicker(initiallySelectedCurrency: currency) { selected in
                     currency = selected
                 }
             }

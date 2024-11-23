@@ -28,30 +28,33 @@ struct NewAccountView: View {
         iconName: "banknote.fill",
         iconColor: SwiftColor.accountColors.first!.rawValue
     )
-    @State private var currencyCode: String?
+    @State private var currency: CurrencyStruct?
+    @State private var initialAmount = "0"
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 30) {
                 IconAndNameView(focusNameField: true, account: $account)
-                HStack {
-                    NavigationLink(destination: MyCurrenciesView(selectedCurrencyCode: $currencyCode)) {
-                        Text(currencyCode ?? "")
-                            .font(.title)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                            .cornerRadiusWithBorder(radius: Constants.fieldCornerRadius)
-                    }
-                    NewAccountAmountView(account: $account)
+               
+                EnterAmountView(
+                    symbol: currency?.symbol ?? "",
+                    isFocused: false,
+                    value: $initialAmount
+                )
+                
+                NavigationLink(destination: MyCurrenciesView(selectedCurrency: $currency)) {
+                    CurrencyNameView(currency: currency)
                 }
+                .buttonStyle(.plain)
+                
                 ChooseColorView(account: $account)
                 Spacer()
             }
             .padding()
             .task {
                 do {
-                    if currencyCode == nil {
-                        currencyCode = try await dataHandler?.getBaseCurrency().code
+                    if currency == nil, let currencyModel = try await dataHandler?.getBaseCurrency() {
+                        currency = CurrencyStruct(from: currencyModel)
                     }
                 } catch {
                     print(error.localizedDescription)
@@ -80,12 +83,13 @@ struct NewAccountView: View {
     
     
     func saveAccountAndClose() {
-        guard let currencyCode else { return }
+        guard let currency else { return }
         Task { @MainActor in
             do {
                 if let accountsCount = try await dataHandler?.getAccountsCount() {
                     account.updateOrder(index: accountsCount)
-                    let selectedCurrency = await dataHandler?.getCurrencyBy(code: currencyCode)
+                    account.setInitial(amount: initialAmount)
+                    let selectedCurrency = await dataHandler?.getCurrencyBy(code: currency.code)
                     account.currency = selectedCurrency
                     await dataHandler?.save()
                     
