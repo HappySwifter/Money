@@ -63,10 +63,7 @@ struct SettingsView: View {
     private func populateWithMockRandomData() {
         Task {
             do {
-                try await dataHandler?.populateWithMockData(
-                    userCurrency: preferences.getUserCurrency(),
-                    currencies: currenciesManager.currencies,
-                    iconNames: IconType.all.getIcons()
+                try await dataHandler?.populateWithMockData(iconNames: IconType.all.getIcons()
                 )
                 dismiss()
             } catch {

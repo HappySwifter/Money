@@ -13,9 +13,10 @@ import OSLog
 @Observable final class AppRootManager {
     private let logger = Logger(subsystem: "Money", category: "AppRootManager")
     var currentRoot: AppRoots = .loadingView(title: "")
-    private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
+    let dataHandler: DataHandler
     
-    init() {
+    init(dataHandler: DataHandler) {
+        self.dataHandler = dataHandler
         updateRoot()
     }
     

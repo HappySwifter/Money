@@ -25,16 +25,19 @@ extension SchemaV1 {
         public private(set) var amount = 0.0
         private var iconName = ""
         private var iconColor = ""
-        
-        private var currencyCode: String? = ""
-        private var currencyName: String? = ""
-        private var currencySymbol: String? = ""
                 
         @Relationship(inverse: \MyTransaction.source)
         private var sources: [MyTransaction]?
         
         @Relationship(inverse: \MyTransaction.destination)
         private var destinations: [MyTransaction]?
+        
+        @Relationship(deleteRule: .noAction)
+        public var currency: MyCurrency?
+            
+        public var currencySymbol: String? {
+            currency?.symbol
+        }
         
         public init(id: UUID = UUID(),
                     orderIndex: Int,
@@ -65,20 +68,6 @@ extension SchemaV1 {
             set {
                 iconName = newValue.name
                 iconColor = newValue.color.rawValue
-            }
-        }
-        
-        public func set(currency: AccountCurrency) {
-            currencyCode = currency.code
-            currencyName = currency.name
-            currencySymbol = currency.symbol
-        }
-        
-        public func getCurrency() -> AccountCurrency? {
-            if let currencyCode, let currencyName {
-                return AccountCurrency(code: currencyCode, name: currencyName, symbol: currencySymbol)
-            } else {
-                return nil
             }
         }
     }

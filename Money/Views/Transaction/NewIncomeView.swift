@@ -51,7 +51,7 @@ struct NewIncomeView: View {
                     .environment(\.menuOrder, .fixed)
                     
                     EnterAmountView(
-                        symbol: destination.getCurrency()?.symbol ?? "",
+                        symbol: destination.currencySymbol ?? "",
                         isFocused: true,
                         value: $destinationAmount)
                     

@@ -19,7 +19,8 @@ struct ExchangeRateView: View {
     @State private var newCurrencyRate = 0.0
     @State private var isInverted = false
     
-    let newCurrency: AccountCurrency
+    let newCurrency: CurrencyStruct
+    var completion: (_ rate: Double) -> Void
     
     private var rateBinding: Binding<String> {
         Binding(get: {
@@ -56,7 +57,6 @@ struct ExchangeRateView: View {
                             .padding()
                             .font(.title)
                     }
-                    
                     EnterAmountView(symbol: isInverted ? baseCurrency.symbol : newCurrency.symbol,
                                     isFocused: true,
                                     value: rateBinding)
@@ -80,11 +80,11 @@ struct ExchangeRateView: View {
             .toolbar {
                 ToolbarItem {
                     Button {
-                        saveMyCurrencyAndClose()
+                        completion(newCurrencyRate)
+                        dismiss()
                     } label: {
                         Text("Create")
                     }
-                    
                 }
             }
         }
@@ -96,28 +96,16 @@ struct ExchangeRateView: View {
             do {
                 let rates = try await expensesService.getTodayExchangeRateFor(currencyCode: baseCurrency.code)
                 newCurrencyRate = rates.value(for: newCurrency.code) ?? 1
+                print("rate is", newCurrencyRate)
             } catch {
                 print(error.localizedDescription)
             }
         }
-        
-    }
-    
-    private func saveMyCurrencyAndClose() {
-        let newCurrency = MyCurrency(name: newCurrency.name,
-                                     code: newCurrency.code,
-                                     symbol: newCurrency.symbol,
-                                     rateToBaseCurrency: newCurrencyRate,
-                                     isBase: false)
-        Task {
-            try await dataHandler?.new(currency: newCurrency)
-        }
-        dismiss()
     }
 }
 
 #Preview(traits: .sampleData) {
-    let new = AccountCurrency(code: "usd", name: "US Dollar", symbol: "$")
-    ExchangeRateView(newCurrency: new)
+    let new = CurrencyStruct(code: "usd", name: "US Dollar", symbol: "$")
+    ExchangeRateView(newCurrency: new, completion: { _ in })
         .environment(\.dataHandlerWithMainContext, DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true))
 }

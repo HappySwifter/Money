@@ -8,12 +8,12 @@
 import Foundation
 import DataProvider
 
-extension AccountCurrency {
-    static func loadFromJson() throws -> [AccountCurrency] {
+extension CurrencyStruct {
+    static func loadFromJson() throws -> [CurrencyStruct] {
         guard let url = Bundle.main.url(forResource: "Currencies", withExtension: "json") else {
             throw CurrencyError.jsonFileIsMissing
         }
         let data = try Data(contentsOf: url)
-        return try JSONDecoder().decode([AccountCurrency].self, from: data)
+        return try JSONDecoder().decode([CurrencyStruct].self, from: data)
     }
 }

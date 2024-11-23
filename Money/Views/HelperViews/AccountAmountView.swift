@@ -15,7 +15,7 @@ struct AccountAmountView: View {
         HStack(spacing: 3) {
             Text(prettify(val: account.amount))
                 .lineLimit(1)
-            Text(account.getCurrency()?.symbol ?? "")
+            Text(account.currencySymbol ?? "")
         }
         .padding(.vertical, 1)
         .font(.headline)

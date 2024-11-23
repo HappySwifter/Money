@@ -14,13 +14,14 @@ public typealias MyCurrency = SchemaV1.MyCurrency
 extension SchemaV1 {
     @Model
     public final class MyCurrency: Sendable {
-        public let id: UUID = UUID()
         public let name = ""
         public let code = ""
         public let symbol = ""
         public var rateToBaseCurrency = 0.0
         public var isBase = false
-        
+                
+        @Relationship(inverse: \Account.currency)
+        private var accounts: [Account]?
         
         public init(name: String, code: String, symbol: String, rateToBaseCurrency: Double, isBase: Bool)
         {

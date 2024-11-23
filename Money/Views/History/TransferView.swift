@@ -23,7 +23,7 @@ struct TransferView: View {
                     .foregroundStyle(source.nameColor)
                 Spacer()
                 Text(transaction.sourceAmount.getString())
-                Text(source.getCurrency()?.symbol ?? "")
+                Text(source.currencySymbol ?? "")
             }
             Spacer()
             HStack {
@@ -31,9 +31,9 @@ struct TransferView: View {
                 Text(destination.name)
                     .foregroundStyle(destination.nameColor)
                 Spacer()
-                if source.getCurrency() != destination.getCurrency() {
+                if source.currency != destination.currency {
                     Text(transaction.destinationAmount?.getString() ?? "")
-                    Text(destination.getCurrency()?.symbol ?? "")
+                    Text(destination.currencySymbol ?? "")
                 }
             }
             Text("Between accounts")

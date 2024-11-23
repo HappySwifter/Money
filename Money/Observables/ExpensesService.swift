@@ -13,7 +13,7 @@ import DataProvider
 @MainActor
 @Observable final class ExpensesService {
     private let logger = Logger(subsystem: "Money", category: #file)
-    private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
+    private let dataHandler: DataHandler
     private let preferences: Preferences
     private let currenciesApi: CurrenciesApi
     private let calculateManager: CalculateManager
@@ -23,10 +23,12 @@ import DataProvider
     private(set) var spentToday = ""
     private(set) var spentThisMonth = ""
     
-    init(preferences: Preferences) {
+    init(preferences: Preferences, dataHandler: DataHandler) {
         self.preferences = preferences
+        self.dataHandler = dataHandler
         currenciesApi = CurrenciesApi(preferences: preferences)
-        calculateManager = CalculateManager(preferences: preferences, currenciesApi: currenciesApi)
+        calculateManager = CalculateManager(currenciesApi: currenciesApi,
+                                            dataHandler: dataHandler)
     }
     
     func calculateSpentAndAccountsTotal() async throws {
@@ -64,7 +66,7 @@ import DataProvider
         let logDate = Date()
         let transactions = try await dataHandler.getTransaction(for: period)
         
-        let userCur = preferences.getUserCurrency()
+        let userCur = try await dataHandler.getBaseCurrency()
         let groupedByName = Dictionary(grouping: transactions, by: { $0.destination?.name ?? "" })
         var retVal = [PieChartValue]()
         
@@ -75,7 +77,7 @@ import DataProvider
                     currencyCode: userCur.code,
                     date: tran.date
                 )
-                totalForName += tran.convertAmount(to: userCur, rates: rates)
+                totalForName += tran.convertAmount(to: userCur.code, rates: rates)
             }
             if totalForName > 0 {
                 retVal.append(PieChartValue(amount: Int(round(totalForName)),

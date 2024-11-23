@@ -10,8 +10,9 @@ import DataProvider
 
 struct InitalCashView: View {
     @Environment(\.dataHandlerWithMainContext) private var dataHandler
-
-    let currency: AccountCurrency
+    @Environment(ExpensesService.self) private var expensesService
+    
+    let currency: CurrencyStruct
    
     @State private var value = "0"
     @State private var isNextScreenPresented = false
@@ -42,8 +43,7 @@ struct InitalCashView: View {
                 Spacer()
                 
                 Button {
-                    saveCurrency()
-                    saveAccount()
+                    save()
                     isNextScreenPresented.toggle()
                 } label: {
                     Text("Next")
@@ -60,22 +60,24 @@ struct InitalCashView: View {
         }
     }
     
-    private func saveCurrency() {
+    private func save() {
         let cur = MyCurrency(name: currency.name,
                              code: currency.code,
                              symbol: currency.symbol,
                              rateToBaseCurrency: 0,
                              isBase: true)
         Task {
+            account.currency = cur
+            account.setInitial(amount: value)
             try await dataHandler?.new(currency: cur)
+            try await expensesService.calculateAccountsTotal()
         }
     }
     
-    private func saveAccount() {
-        account.setInitial(amount: value)
-        account.set(currency: currency)
-        Task {
-            await dataHandler?.new(account: account)
-        }
-    }
+//    private func saveAccount() {
+//        account.set(currency: currency)
+//        Task {
+//            await dataHandler?.new(account: account)
+//        }
+//    }
 }

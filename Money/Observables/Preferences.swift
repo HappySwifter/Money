@@ -12,41 +12,15 @@ import DataProvider
 @Observable
 class Preferences {
     private let userDefaults = UserDefaults.standard
-    private let handler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true)
     private let currenciesManager: CurrenciesManager
     
     init(currenciesManager: CurrenciesManager) {
         self.currenciesManager = currenciesManager
     }
-    
-    func updateUser(currencyCode: String) {
-        userDefaults.setValue(currencyCode, forKey: Keys.userCurrency.rawValue)
-    }
             
-    func getUserCurrency() -> AccountCurrency {
-        if let userCurrency = findUserCurrency() {
-            return userCurrency
-        } else if let currency = getUserLocalCurrency() {
-            updateUser(currencyCode: currency.code)
-            return currency
-        } else {
-            let usd = currenciesManager.getCurrencyWith(code: "usd")!
-            updateUser(currencyCode: usd.code)
-            return usd
-        }
-    }
-    
-    func getUserLocalCurrency() -> AccountCurrency? {
+    func getUserLocalCurrency() -> CurrencyStruct? {
         guard let currencyId = Locale.current.currency?.identifier else { return nil }
-        return currenciesManager.getCurrencyWith(code: currencyId)
-    }
-    
-    private func findUserCurrency() -> AccountCurrency? {
-        if let code = userDefaults.string(forKey: Keys.userCurrency.rawValue) {
-            return currenciesManager.getCurrencyWith(code: code)
-        } else {
-            return nil
-        }
+        return currenciesManager.getCurrencyWith(code: currencyId.lowercased())
     }
     
     func setRates(data: Data, date: String, currency: String) {
@@ -55,9 +29,5 @@ class Preferences {
     
     func getRates(date: String, currency: String) -> Data? {
         return userDefaults.data(forKey: "rate:\(date):\(currency)")
-    }
-    
-    private enum Keys: String {
-        case userCurrency
     }
 }

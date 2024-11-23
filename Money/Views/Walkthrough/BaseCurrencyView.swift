@@ -17,7 +17,7 @@ struct BaseCurrencyView: View {
         subsystem: "Money",
         category: "AddDataHelperView"
     )
-    @State var currency: AccountCurrency?
+    @State var currency: CurrencyStruct?
     @State var isCurrencySelectorPresented = false
     
     var body: some View {
@@ -74,7 +74,7 @@ struct BaseCurrencyView: View {
         }
         .popover(isPresented: $isCurrencySelectorPresented) {
             NavigationStack {
-                CurrencyPicker(initiallySelectedCurrency: currency) { selected in
+                CurrencyPicker(initiallySelectedCurrencyCode: currency?.code) { selected in
                     currency = selected
                 }
             }

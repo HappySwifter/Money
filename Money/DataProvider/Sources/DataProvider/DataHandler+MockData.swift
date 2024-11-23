@@ -9,10 +9,10 @@ import Foundation
 import SwiftData
 
 extension DataHandler {
-    public func populateWithMockData(userCurrency: AccountCurrency, currencies: [AccountCurrency], iconNames: [String]) throws {
+    public func populateWithMockData(iconNames: [String]) throws {
         modelContext.autosaveEnabled = false
         
-        assert(!currencies.isEmpty)
+        
         var accountsCount = try getAccountsCount()
         var categoriesCount = try getCategoriesCount()
         
@@ -23,6 +23,26 @@ extension DataHandler {
         let accountColors = SwiftColor.accountColors
         let nonClearColors = SwiftColor.categoryColors.filter({ $0 != .clear })
 
+        
+        var currencyStructs = [
+            CurrencyStruct(code: "usd", name: "US Dollar", symbol: "$"),
+            CurrencyStruct(code: "afn", name: "Afghan Afghani", symbol: "afn"),
+            CurrencyStruct(code: "rub", name: "Russian Ruble", symbol: "₽")
+        ]
+        var currencies = [MyCurrency]()
+        for cur in currencyStructs {
+            let isBase = currencyStructs.first == cur
+            let myCur = MyCurrency(name: cur.name,
+                       code: cur.code,
+                       symbol: cur.symbol,
+                       rateToBaseCurrency: [0.5, 1.5, 0.7].randomElement()!,
+                       isBase: isBase)
+            modelContext.insert(myCur)
+            currencies.append(myCur)
+        }
+        
+        
+        
         var accounts = [Account]()
         for name in accountNames {
             let amount = Double((100...9999999).randomElement()!)
@@ -36,9 +56,9 @@ extension DataHandler {
                               iconColor: nonClearColors.randomElement()!.rawValue)
 
             if let cur = currencies.randomElement() {
-                acc.set(currency: cur)
+                acc.currency = cur
             }
-            modelContext.insert(acc)
+//            modelContext.insert(acc)
             accountsCount += 1
             accounts.append(acc)
             

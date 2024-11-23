@@ -88,7 +88,7 @@ struct Dashboard: View {
                     }
                     .dynamicTypeSize(.xLarge ... .xLarge)
                     
-                    if accounts.count > 1 {
+                    if accounts.count > 1, !categories.isEmpty {
                         TipView(dashboardTips.currentTip as? AccountTapTip, arrowEdge: .bottom) { action in
                             print(action)
                         }
@@ -230,10 +230,8 @@ struct SampleData: PreviewModifier {
         let dataHandler = DataHandler(modelContainer: DataProvider.shared.previewContainer)
         let currenciesManager = CurrenciesManager()
         do {
-            let myCur = AccountCurrency(code: "usd", name: "Dollar", symbol: "S")
-            try await dataHandler.populateWithMockData(userCurrency: myCur,
-                                                       currencies: currenciesManager.currencies,
-                                             iconNames: IconType.all.getIcons())
+            let myCur = CurrencyStruct(code: "usd", name: "Dollar", symbol: "S")
+            try await dataHandler.populateWithMockData(iconNames: IconType.all.getIcons())
             return DataProvider.shared.previewContainer
         } catch {
             return DataProvider.shared.previewContainer

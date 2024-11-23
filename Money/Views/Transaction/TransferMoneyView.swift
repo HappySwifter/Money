@@ -102,7 +102,7 @@ struct TransferMoneyView: View {
                     }
                     HStack {
                         EnterAmountView(
-                            symbol: source.getCurrency()?.symbol ?? "",
+                            symbol: source.currencySymbol ?? "",
                             isFocused: focusedField == .source,
                             value: $sourceAmount)
                         .onTapGesture {
@@ -112,7 +112,7 @@ struct TransferMoneyView: View {
                         if transactionType == .accountToAccountDiffCurrency {
                             Spacer()
                             EnterAmountView(
-                                symbol: destination.getCurrency()?.symbol ?? "",
+                                symbol: destination.currencySymbol ?? "",
                                 isFocused: focusedField == .destination,
                                 value: $destinationAmount)
                             .onTapGesture {
@@ -166,8 +166,8 @@ struct TransferMoneyView: View {
     }
     
     private func normalizedString(rate: Double) -> String {
-        let sourceSymbol = source.getCurrency()?.symbol ?? ""
-        let destinationSymbol = destination.getCurrency()?.symbol ?? ""
+        let sourceSymbol = source.currencySymbol ?? ""
+        let destinationSymbol = destination.currencySymbol ?? ""
         if rate > 1 {
             return rate.getString() + " " + destinationSymbol
         } else {

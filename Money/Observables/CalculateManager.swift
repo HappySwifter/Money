@@ -10,15 +10,14 @@ import OSLog
 import DataProvider
 
 actor CalculateManager {
-    private let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
+    private let dataHandler: DataHandler
     private let logger = Logger(subsystem: "Money", category: "CurrenciesApi")
-    private let preferences: Preferences
     private let currenciesApi: CurrenciesApi
     private let calendar = Calendar.current
     
-    init(preferences: Preferences, currenciesApi: CurrenciesApi) {
-        self.preferences = preferences
+    init(currenciesApi: CurrenciesApi, dataHandler: DataHandler) {
         self.currenciesApi = currenciesApi
+        self.dataHandler = dataHandler
     }
     
     struct Expenses {
@@ -33,7 +32,7 @@ actor CalculateManager {
         // fetching only this month transactions that is isExpenses
         let thisMonthPeriod = TransactionPeriodType.month(value: Date())
         let transactions = try await dataHandler.getTransaction(for: thisMonthPeriod)
-        let userCurrency = await preferences.getUserCurrency()
+        let userCurrency = try await dataHandler.getBaseCurrency()
         var thisMonthTotal = 0.0
         var todayTotal = 0.0
         
@@ -42,7 +41,7 @@ actor CalculateManager {
                 currencyCode: userCurrency.code,
                 date: tran.date
             )
-            let amount = tran.convertAmount(to: userCurrency, rates: rates)
+            let amount = tran.convertAmount(to: userCurrency.code, rates: rates)
             thisMonthTotal += amount
             if calendar.isDateInToday(tran.date) { todayTotal += amount }
         }
@@ -70,15 +69,15 @@ actor CalculateManager {
     
     func calculateAccountsTotal() async throws -> String {
         let accounts = try await dataHandler.getAccounts()
-        let userCur = await preferences.getUserCurrency()
+        let userCur = try await dataHandler.getBaseCurrency()
         let rates = try await currenciesApi.getExchangeRateFor(currencyCode: userCur.code, date: Date())
         
         var totalAmount = 0.0
         for account in accounts {
-            if let cur = account.getCurrency(), let changeRate = rates.value(for: cur.code) {
+            if let cur = account.currency, let changeRate = rates.value(for: cur.code) {
                 totalAmount += getAmountWith(changeRate: changeRate, for: account)
             } else {
-                logger.error("No conversation rate for \(account.getCurrency()?.code ?? "")")
+                logger.error("No conversation rate for \(account.currency?.code ?? "")")
             }
         }
         return prettify(val: totalAmount, fractionLength: 2, currencySymbol: userCur.symbol)

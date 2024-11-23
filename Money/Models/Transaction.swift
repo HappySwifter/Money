@@ -10,19 +10,19 @@ import DataProvider
 
 extension MyTransaction {
     var sourceAmountText: String {
-        prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source?.getCurrency()?.symbol)
+        prettify(val: sourceAmount, fractionLength: 2, currencySymbol: source?.currencySymbol)
     }
     var destinationAmountText: String {
-        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.getCurrency()?.symbol)
+        prettify(val: destinationAmount, fractionLength: 2, currencySymbol: destination?.currencySymbol)
     }
     
-    func convertAmount(to currency: AccountCurrency, rates: ExchangeRate) -> Double {
-        guard let sourceCurrency = source?.getCurrency() else {
+    func convertAmount(to currencyCode: String, rates: ExchangeRate) -> Double {
+        guard let sourceCurrency = source?.currency else {
 //            assert(false)
             return 0
         }
        
-        if currency.code == sourceCurrency.code {
+        if currencyCode == sourceCurrency.code {
             return sourceAmount
         } else {
             if let exchRate = rates.value(for: sourceCurrency.code) {

@@ -24,9 +24,15 @@ public actor DataHandler {
     
     @discardableResult
     public func new(account: Account) -> PersistentIdentifier {
-        modelContext.insert(account)
         save()
         return account.persistentModelID
+    }
+    
+    @discardableResult
+    public func new(category: Account) -> PersistentIdentifier {
+        modelContext.insert(category)
+        save()
+        return category.persistentModelID
     }
     
     public func getAccounts(with predicate: Predicate<Account>, fetchLimit: Int? = nil) throws -> [Account] {
@@ -173,6 +179,14 @@ extension DataHandler {
         }
     }
     
+    public func getCurrencyBy(code: String) -> MyCurrency? {
+        var desc = FetchDescriptor<MyCurrency>()
+        desc.predicate = #Predicate<MyCurrency> {
+            $0.code == code
+        }
+        return try? modelContext.fetch(desc).first
+    }
+    
     private func getBaseCurrencies() throws -> [MyCurrency] {
         var desc = FetchDescriptor<MyCurrency>()
         desc.predicate = #Predicate<MyCurrency> {
@@ -184,7 +198,7 @@ extension DataHandler {
 
 //MARK: Test data
 extension DataHandler {
-//    public func addTestData(userCurrency: AccountCurrency) throws {
+//    public func addTestData(userCurrency: CurrencyStruct) throws {
 //        let accountsCount = try getAccountsCount()
 //        let catCount = try getCategoriesCount()
 //        

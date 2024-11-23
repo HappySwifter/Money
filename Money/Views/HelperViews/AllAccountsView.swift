@@ -15,8 +15,7 @@ struct AllAccountsView: View {
     @Environment(ExpensesService.self) private var expensesService
     
     @State private var accounts = [Account]()
-    @State private var userCurrencies = [AccountCurrency]()
-    @State var selectedCurrency = AccountCurrency(code: "", name: "", symbol: nil)
+//    @State var selectedCurrency = CurrencyStruct(code: "", name: "", symbol: nil)
     
     var body: some View {
         VStack {
@@ -27,9 +26,9 @@ struct AllAccountsView: View {
                     } label: {
                         HStack {
                             Text(acc.name)
-                            Text(acc.getCurrency()?.symbol ?? "")
+                            Text(acc.currencySymbol ?? "")
                             Spacer()
-                            Text(getAmountStringWith(code: acc.getCurrency()?.code ?? "", val: acc.amount))
+                            Text(getAmountStringWith(code: acc.currency?.code ?? "", val: acc.amount))
                         }
                         .padding(10)
                     }
@@ -47,15 +46,14 @@ struct AllAccountsView: View {
         }
         .task {
             self.accounts = await getAccounts()
-            self.selectedCurrency = preferences.getUserCurrency()
-            self.userCurrencies = getUserCurrencies()
+//            self.selectedCurrency = preferences.getUserCurrency()
         }
-        .onChange(of: selectedCurrency) {
-            preferences.updateUser(currencyCode: selectedCurrency.code)
-            Task {
-                try? await expensesService.calculateSpentAndAccountsTotal()
-            }
-        }
+//        .onChange(of: selectedCurrency) {
+//            preferences.updateUser(currencyCode: selectedCurrency.code)
+//            Task {
+//                try? await expensesService.calculateSpentAndAccountsTotal()
+//            }
+//        }
         .toolbar {
             EditButton()
         }
@@ -65,17 +63,6 @@ struct AllAccountsView: View {
     private func getAccounts() async -> [Account] {
         (try? await dataHandlerMainContext?.getAccounts()) ?? []
 
-    }
-
-    private func getUserCurrencies() -> [AccountCurrency] {
-        var set = Set<AccountCurrency>()
-        accounts.forEach {
-            if let cur = $0.getCurrency() {
-                set.insert(cur)
-            }
-        }
-        set.insert(selectedCurrency)
-        return Array(set)
     }
     
     private func deleteAccount(at offsets: IndexSet) {

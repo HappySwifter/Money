@@ -13,17 +13,12 @@ import TipKit
 @main
 struct MoneyApp: App {
     @State private var appRootManager: AppRootManager
+    @MainActor private let dataHandler: DataHandler
     private let logger = Logger(subsystem: "Money", category: "MoneyApp")
-    private let dataProvider = DataProvider.shared
     private let preferences: Preferences
     private let expensesService: ExpensesService
     private let currenciesManager: CurrenciesManager
-    
-    @MainActor private let dataHandler: DataHandler
 
-    
-
-    
     init() {
         do {
             #if DEBUG
@@ -34,12 +29,15 @@ struct MoneyApp: App {
             logger.error("Error initializing TipKit: \(error)")
         }
         
-        appRootManager = AppRootManager()
+        dataHandler = DataHandler(
+            modelContainer: DataProvider.shared.sharedModelContainer, mainActor: true
+        )
+        
+        appRootManager = AppRootManager(dataHandler: dataHandler)
         currenciesManager = CurrenciesManager()
         preferences = Preferences(currenciesManager: currenciesManager)
-        expensesService = ExpensesService(preferences: preferences)
-        
-        dataHandler = DataHandler(modelContainer: dataProvider.sharedModelContainer, mainActor: true)
+        expensesService = ExpensesService(preferences: preferences,
+                                          dataHandler: dataHandler)
         
         checkCloudKitSyncStatus()
     }
@@ -58,7 +56,6 @@ struct MoneyApp: App {
         
     private func checkCloudKitSyncStatus() {
         Task {
-            let dataHandler = DataHandler(modelContainer: DataProvider.shared.sharedModelContainer)
             let accountsCount = try await dataHandler.getAccountsCount()
             
             if accountsCount == 0 {
@@ -95,22 +92,13 @@ struct MoneyApp: App {
                     })
                 case .dashboard:
                     Dashboard()
-                    
-//                    ExchangeRateView(newCurrency: AccountCurrency(code: "rub", name: "Russian Rubble", symbol: "R"))
-                    
-                    
-//                    NewAccountView(isSheetPresented: .constant(true),
-//                                   isClosable: false,
-//                                   completion: { [weak appRootManager] in
-//                        appRootManager?.updateRoot()
-//                    })
                 case .loadingView(let title):
                     LoadingView(title: title)
                 }
             }
             .dynamicTypeSize(.xLarge ... .xLarge)
         }
-        .modelContainer(dataProvider.sharedModelContainer)
+        .modelContainer(DataProvider.shared.sharedModelContainer)
         .environment(\.dataHandlerWithMainContext, dataHandler)
         .environment(preferences)
         .environment(expensesService)

@@ -12,7 +12,7 @@ import DataProvider
 @MainActor
 @Observable final class CurrenciesManager {
     private let logger = Logger(subsystem: "Money", category: #file)
-    private(set) var currencies: [AccountCurrency] = []
+    private(set) var currencies: [CurrencyStruct] = []
     
     init() {
         loadCurrencies()
@@ -20,14 +20,14 @@ import DataProvider
     
     private func loadCurrencies() {
         do {
-            currencies = try AccountCurrency.loadFromJson()
+            currencies = try CurrencyStruct.loadFromJson()
             currencies.sort(by: { $0.name < $1.name })
         } catch {
             logger.error("\(error.localizedDescription)")
         }
     }
     
-    public func getCurrencyWith(code: String) -> AccountCurrency? {
+    public func getCurrencyWith(code: String) -> CurrencyStruct? {
         currencies.first(where: { $0.code == code })
     }
 }

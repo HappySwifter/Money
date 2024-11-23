@@ -12,12 +12,11 @@ struct CurrencyPicker: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.dataHandlerWithMainContext) private var dataHandlerMainContext
     @Environment(CurrenciesManager.self) private var currenciesManager
-    @State private var currencies = [AccountCurrency]()
+    @State private var currencies = [CurrencyStruct]()
     @State private var searchText = ""
     
-    var initiallySelectedCurrency: AccountCurrency?
-    var selectHandler: (AccountCurrency) -> Void
-    var currenciesToShow = [AccountCurrency]()
+    var initiallySelectedCurrencyCode: String?
+    var selectHandler: (CurrencyStruct) -> Void
     var isPresentedModally = true
     
     var body: some View {
@@ -27,7 +26,7 @@ struct CurrencyPicker: View {
                     Text(item.name)
                     Spacer()
                     Text(item.code.uppercased())
-                    if initiallySelectedCurrency == item {
+                    if initiallySelectedCurrencyCode == item.code {
                         Image(systemName: "checkmark")
                     }
                 }
@@ -59,12 +58,11 @@ struct CurrencyPicker: View {
         .dynamicTypeSize(.xLarge ... .xLarge)
     }
     
-    var searchResults: [AccountCurrency] {
+    var searchResults: [CurrencyStruct] {
         if searchText.isEmpty {
-            return currenciesToShow.isEmpty ? currencies : currenciesToShow
+            return currencies
         } else {
-            let temp = currenciesToShow.isEmpty ? currencies : currenciesToShow
-            return temp.filter {
+            return currencies.filter {
                 $0.name.lowercased().contains(searchText.lowercased()) ||
                 $0.code.lowercased().contains(searchText.lowercased())
             }

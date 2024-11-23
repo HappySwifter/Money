@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import DataProvider
 
 struct ReportTableView: View {
-    @Environment(Preferences.self) private var preferences
+    @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @Binding var data: [PieChartValue]
     @Binding var selectedSector: PieChartValue?
     @State private var userCurrencySymbol = ""
@@ -70,7 +71,11 @@ struct ReportTableView: View {
         }
         .dynamicTypeSize(.xLarge ... .xLarge)
         .task {
-            self.userCurrencySymbol = preferences.getUserCurrency().symbol
+            do {
+                userCurrencySymbol = try await dataHandler?.getBaseCurrency().symbol ?? ""
+            } catch {
+                print(error)
+            }
         }
     }
     

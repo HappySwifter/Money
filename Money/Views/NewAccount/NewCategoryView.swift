@@ -68,7 +68,7 @@ struct NewCategoryView: View {
                 if let dataHandler = dataHandlerMainContext {
                     let catCount = try await dataHandler.getCategoriesCount()
                     category.updateOrder(index: catCount)
-                    await dataHandler.new(account: category)
+                    await dataHandler.new(category: category)
                 }
             } catch {
                 logger.error("\(error.localizedDescription)")

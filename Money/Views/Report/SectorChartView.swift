@@ -19,7 +19,7 @@ struct PieChartValue: Equatable, Hashable {
 
 @MainActor
 struct SectorChartView: View {
-    @Environment(Preferences.self) private var preferences
+    @Environment(\.dataHandlerWithMainContext) private var dataHandler
     @State private var pieChartSelectedAngle: Int?
     @Binding var data: [PieChartValue]
     @Binding var selectedSector: PieChartValue?
@@ -81,7 +81,11 @@ struct SectorChartView: View {
             }
         }
         .task {
-            userCurrencySymbol = preferences.getUserCurrency().symbol
+            do {
+                userCurrencySymbol = try await dataHandler?.getBaseCurrency().symbol ?? ""
+            } catch {
+                print(error)
+            }
         }
     }
     

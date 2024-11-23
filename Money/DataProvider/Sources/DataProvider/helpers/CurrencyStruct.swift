@@ -1,11 +1,11 @@
 import Foundation
 
-public final class AccountCurrency: Codable, Sendable, Hashable, CustomStringConvertible {
+public final class CurrencyStruct: Codable, Sendable, Hashable, CustomStringConvertible {
     public let code: String
     public let name: String
     public let symbol: String
     
-    public static func == (lhs: AccountCurrency, rhs: AccountCurrency) -> Bool {
+    public static func == (lhs: CurrencyStruct, rhs: CurrencyStruct) -> Bool {
         lhs.code == rhs.code
     }
     
